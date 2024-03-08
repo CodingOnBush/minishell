@@ -139,7 +139,7 @@ If I want to see the direct effect of rl_clear_history() I can print the history
 - ```rl_replace_line``` canbe useful in custom readline functions or when you need to modify the line that the user is currently editing. It takes 2 arguments :
 
     - a ```const char *text``` which is the new content for the line
-    - and an ```int clear_undo``` which if non-zero, clears the undo list associated with the current line. The undo list associated with the current line in           the GNU Readline library is essentially a history of changes made to the text of the line. When you modify the text in the line, Readline can keep track           of these modifications, allowing you to undo them one by one. This feature is particularly useful for correcting mistakes or changing your mind about a            line of input without having to start over from scratch.
+    - and an ```int clear_undo``` which if non-zero, clears the undo list associated with the current line. The undo list associated with the current line in           the GNU Readline library is essentially a history of changes made to the text of the line. When you modify the text in the line, Readline can keep track           of these modifications, allowing you to undo them one by one. This feature is particularly useful for correcting mistakes or changing your mind about a            line of input without having to start over from scratch. The undo list can be modified or cleared using various Readline functions.
 
   Here is an example of how the function can be used :
 
@@ -168,9 +168,7 @@ If I want to see the direct effect of rl_clear_history() I can print the history
     }
 ```
 
-
-The undo list can be modified or cleared using various Readline functions.
-
+- ```rl_redisplay()``` is designed to refresh the display on the screen to reflect the current content of ```rl_line_buffer```. This function is crucial for ensuring that the user's view of the command line input matches the actual state of the input buffer. It forces the line to be updated and redisplayed, regardless of whether Readline thinks the screen display is correct. ```rl_redisplay``` does not take any arguments.
 
 Specific cases :
 
