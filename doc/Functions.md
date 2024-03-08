@@ -141,6 +141,34 @@ If I want to see the direct effect of rl_clear_history() I can print the history
     - a ```const char *text``` which is the new content for the line
     - and an ```int clear_undo``` which if non-zero, clears the undo list associated with the current line. The undo list associated with the current line in           the GNU Readline library is essentially a history of changes made to the text of the line. When you modify the text in the line, Readline can keep track           of these modifications, allowing you to undo them one by one. This feature is particularly useful for correcting mistakes or changing your mind about a            line of input without having to start over from scratch.
 
+  Here is an example of how the function can be used :
+
+```c
+    #include <readline/readline.h>
+    #include <readline/history.h>
+    
+    /* Custom Readline function that replaces the current line with "Hello, World!" */
+    void my_custom_function (int count, int key) {
+        rl_replace_line("Hello, World!", 1);
+        rl_end_undo_group();
+    }
+    
+    int main() {
+    /* Bind the custom function to a key, e.g., Ctrl-x */
+      rl_bind_key('\030', my_custom_function);
+    
+    /* Start Readline */
+      char *line = readline("Enter a command: ");
+      if (line) 
+      {
+        printf("You entered: %s\n", line);
+        free(line);
+      }
+        return 0;
+    }
+```
+
+
 The undo list can be modified or cleared using various Readline functions.
 
 
