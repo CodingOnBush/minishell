@@ -1,5 +1,16 @@
 # Minishell important concepts
 
+## Table of contents :
+
+- [Shell Syntax](#Shell-Syntax)
+- [Concepts](#Concepts)
+- [Specific cases](#Specific-cases)
+- [Git training](#Git-training)
+- [Sources](#Sources)
+
+
+## Shell Syntax
+
 ## Concepts:
 
 **Export and Unset** : 
@@ -19,6 +30,7 @@
 
 * **the ```$``` sign --> handles environment variables** : When the ```$``` character is placed between double quotes in Bash, it retains its special meaning and is used for parameter expansion. This means that within double quotes, the $ character is used to reference the value of a variable. For example, if you have a variable var="world", and you use echo "$var", Bash will replace $var with the value of var, which is "world". This behavior is a core part of Bash's string manipulation capabilities and allows for dynamic content to be inserted into strings.
 
+* **the ```#``` sign** :  If the input indicates the beginning of a comment, the shell ignores the comment symbol (‘#’), and the rest of that line. 
 
 ## Git training:
 
