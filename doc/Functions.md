@@ -202,7 +202,43 @@ If I want to see the direct effect of rl_clear_history() I can print the history
 - ```wait3()```: This system call is similar to wait(), but it additionally returns resource usage information about the terminated child process. The resource usage information is stored in a struct rusage that is passed as an argument to wait3(). This allows the parent process to get detailed information about the resources used by the child process, such as CPU time, memory usage, and more. However, wait3() is considered legacy and is not part of the POSIX standard. It is implemented on top of the wait4() system call in Linux 5.
 
 - ```wait4()```: This system call is similar to wait3(), but it allows the parent process to specify a particular child process to wait for by using its process ID (PID). This makes wait4() more flexible than wait3() and wait(), as it can be used to wait for a specific child process or any child process, depending on the PID argument. Like wait3(), wait4() also returns resource usage information about the terminated child process in a struct rusage. The wait4() system call is part of the BSD style of system calls and is not standardized across all Unix-like operating systems
-    
+
+- ```dup()``` : The ```dup()``` function is used to duplicate an existing file descriptor, returning a new file descriptor that points to the same open file description as the original. The new file descriptor is guaranteed to have the lowest integer value available among the unused file descriptors. This feature is crucial for I/O redirection, as it allows processes to redirect their standard input, output, or error streams to different files or devices without affecting the original file descriptor.
+
+Here's a basic example of how ```dup()``` can be used for redirection:
+```c
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd_redirect_to = open("file", O_CREAT);
+    close(1); // Close stdout
+    int fd_to_redirect = dup(fd_redirect_to); // Duplicate fd_redirect_to, now stdout
+    close(fd_redirect_to); // Close the original file descriptor
+    // Now, anything written to stdout (file descriptor 1) goes into "file"
+    return 0;
+}
+```
+On the other hand, ```dup2()``` is similar to ```dup()``` but allows specifying the new file descriptor number. If the specified new file descriptor is already open, it is silently closed before being reused. This makes ```dup2()``` more flexible than ```dup()``` for certain redirection tasks, especially when you need to redirect to a specific file descriptor number.
+
+- ```strerror()``` : The ```strerror()``` function in C is used to map an error number to a human-readable error message string. It takes an integer error number as an argument and returns a pointer to a string that describes the error. This function is part of the C standard library and is defined in the ```<string.h>``` header file. The error strings produced by strerror() depend on the developing platform and compiler. 
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+int main() {
+    FILE *fp;
+
+    fp = fopen("file.txt", "r");
+    if (fp == NULL) {
+        printf("Error: %s\n", strerror(errno));
+    }
+
+    return 0;
+}
+```
 
 ## Specific cases :
 
