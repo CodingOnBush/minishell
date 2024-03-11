@@ -168,7 +168,10 @@ If I want to see the direct effect of rl_clear_history() I can print the history
     }
 ```
 
-- ```rl_redisplay()``` is designed to refresh the display on the screen to reflect the current content of ```rl_line_buffer```. This function is crucial for ensuring that the user's view of the command line input matches the actual state of the input buffer. It forces the line to be updated and redisplayed, regardless of whether Readline thinks the screen display is correct. ```rl_redisplay``` does not take any arguments.
+- ```rl_redisplay()``` is designed to refresh the display on the screen to reflect the current content of ```rl_line_buffer```. This function is crucial for ensuring that the user's view of the command line input matches the actual state of the input buffer. It forces the line to be updated and redisplayed, regardless of whether Readline thinks the screen display is correct. ```rl_redisplay``` does not take any arguments. An example of how rl_redisplay works:
+
+
+    
 
 Specific cases :
 
@@ -181,3 +184,8 @@ I decided to work on my understanding of git commands, so as to avoid mistakes w
 
 I then moved on to work with [githug](https://github.com/Gazler/githug) which I found more practical to learn. Indeed it is less graphical but provides on hand experience of git throughtout the problems it offers to solve in the terminal. I used online ressources to find out about the commands that could help me find solutions to the offered problems:
 - [Common git commands](http://guides.beanstalkapp.com/version-control/common-git-commands.html)
+
+## Concepts:
+
+**Export and Unset** : local variables can be opened within a shell but if you leave this shell, let's say for a subshell, they won't be defined anymore. The ```export``` command allows us to make the local variable global by adding it to the list of existing global variables (which we get when typing ```env``` in the terminal). If when then try to print this variable in a subshell, it'll be defined and have the value that we set it to.
+The unset command will do the opposite and remove the variable it is given from the list of global variables. It will remove the variable from any shell (including the ine we are in) litteraly unseting its value.

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
+#    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/03/11 08:23:54 by momrane          ###   ########.fr        #
+#    Updated: 2024/03/11 12:01:49 by vvaudain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ all: $(NAME)
 
 # Compilation
 $(NAME): $(OBJ)
-	$(CC) $(HEADER) $(OBJ) -o $(NAME)
+	$(CC) $(HEADER) $(OBJ) -o $(NAME) -lreadline
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
 
 val: $(NAME)
