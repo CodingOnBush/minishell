@@ -1,7 +1,7 @@
 # Mostafa's functions
 Here are some of the functions that we need to understand and use in the project minishell.
 
-## Table of Contents
+# Table of Contents
 1. [signals](#signals)
 2. [tty](#tty)
 3. [getenv](#getenv)
@@ -9,6 +9,8 @@ Here are some of the functions that we need to understand and use in the project
 5. [get file status](#get-file-status)
 6. [directory manipulation](#directory-manipulation)
 7. [terminal handling](#terminal-handling)
+8. [get current working directory](#get-current-working-directory)
+9. [change the current working directory](#change-the-current-working-directory)
 
 ## signals
 *Functions : signal - sigaction - kill*
@@ -525,3 +527,57 @@ int	main(void)
 	return (0);
 }
 ```
+
+## Get current working directory
+*Function : getcwd*
+
+**What is getcwd ?**\
+It is a function used to get the current working directory.
+
+**Prototype**
+```c
+char *getcwd(char *buf, size_t size);
+```
+- buf : a pointer to a buffer that will contain the current working directory
+- size : the size of the buffer
+- returns a pointer to the buffer, NULL on error
+
+**Example**
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int	main(void)
+{
+	char	buf[1024];
+
+	getcwd(buf, 1024);
+	printf("cwd: %s\n", buf);
+	return (0);
+}
+```
+## Change the current working directory
+*Function : chdir*
+
+**What is chdir ?**\
+It is a function used to change the current working directory.
+
+**Prototype**
+```c
+int chdir(const char *path);
+```
+- path : the path of the new current working directory
+- returns 0 on success, -1 on error
+
+**Example**
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int	main(void)
+{
+	chdir("/Users/mostafa");
+	return (0);
+}
+```
+
