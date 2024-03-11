@@ -170,10 +170,41 @@ If I want to see the direct effect of rl_clear_history() I can print the history
 
 - ```rl_redisplay()``` is designed to refresh the display on the screen to reflect the current content of ```rl_line_buffer```. This function is crucial for ensuring that the user's view of the command line input matches the actual state of the input buffer. It forces the line to be updated and redisplayed, regardless of whether Readline thinks the screen display is correct. ```rl_redisplay``` does not take any arguments. An example of how rl_redisplay works:
 
+- ```add_history()``` adds a line to history list maintained by readline. The line is added to the end of the list. If the history list is full, the first element is removed. The line is added to the history list without any modification. The history list is a circular list, so when the end is reached, the next element is the first one. The history list is not saved to disk until the application exits. When ```add_history()``` is called, it adds the provided line to the history list, making it available for later recall. The function returns 0 on success and -1 on error. Here is an example of how to use add_history:
 
+```c
+    #include <stdio.h>
+    #include <readline/readline.h>
+    #include <readline/history.h>
+    
+    int main() {
+        // Readline setup
+        using_history(); // Enable history
+    
+        // Read and add to history
+        char *input1 = readline("Enter command 1: ");
+        add_history(input1);
+    
+        char *input2 = readline("Enter command 2: ");
+        add_history(input2);
+    
+        // Display entered commands
+        printf("You entered:\n1. %s\n2. %s\n", input1, input2);
+    
+        // Free allocated memory
+        free(input1);
+        free(input2);
+    
+        return 0;
+    }
+```
+
+- ```wait3()```: This system call is similar to wait(), but it additionally returns resource usage information about the terminated child process. The resource usage information is stored in a struct rusage that is passed as an argument to wait3(). This allows the parent process to get detailed information about the resources used by the child process, such as CPU time, memory usage, and more. However, wait3() is considered legacy and is not part of the POSIX standard. It is implemented on top of the wait4() system call in Linux 5.
+
+- ```wait4()```: This system call is similar to wait3(), but it allows the parent process to specify a particular child process to wait for by using its process ID (PID). This makes wait4() more flexible than wait3() and wait(), as it can be used to wait for a specific child process or any child process, depending on the PID argument. Like wait3(), wait4() also returns resource usage information about the terminated child process in a struct rusage. The wait4() system call is part of the BSD style of system calls and is not standardized across all Unix-like operating systems
     
 
-Specific cases :
+## Specific cases :
 
 * **the ```$``` sign --> handles environment variables** : When the ```$``` character is placed between double quotes in Bash, it retains its special meaning and is used for parameter expansion. This means that within double quotes, the $ character is used to reference the value of a variable. For example, if you have a variable var="world", and you use echo "$var", Bash will replace $var with the value of var, which is "world". This behavior is a core part of Bash's string manipulation capabilities and allows for dynamic content to be inserted into strings.
 
