@@ -2,10 +2,12 @@
 Here are some of the functions that we need to understand and use in the project minishell.
 
 ## Table of Contents
-1. [Signals](#Signals)
+1. [signals](#signals)
 2. [tty](#tty)
+3. [getenv](#getenv)
+4. [ioctl](#ioctl)
 
-## Signals
+## signals
 *Functions : signal - sigaction - kill*
 
 Unix signals are a inter-process communication mechanism used in Unix-like operating systems, including Linux.
@@ -155,7 +157,7 @@ In this example, we can see that the standard input, output and error are associ
 We can also see that the name of the terminal associated with the standard input, output and error is /dev/ttys000.\
 And we can also see that the number of the terminal associated with the standard input is 0.
 
-## input, output and error
+### input, output and error
 
 The **standard input** is a file descriptor that is associated with the terminal :
 - When we use the scanf function, it reads from the standard input
@@ -174,3 +176,252 @@ The **standard error** is a file descriptor that is associated with the terminal
 - We can use the < and > operators to redirect the standard input and output.\
 - We can use the 2> operator to redirect the standard error.\
 - We can use the | operator to pipe the standard output to the standard input of another command.
+
+## getenv
+*Function : getenv*
+
+**What is getenv ?**\
+The getenv function searches the environment list to find the environment variable name, and returns a pointer to the corresponding value string.
+
+**How to use it ?**\
+```c
+char *getenv(const char *name);
+```
+- name : the name of the environment variable
+- returns a pointer to the value of the environment variable, NULL if the environment variable does not exist.
+
+**Example**
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int	main(void)
+{
+	printf("HOME: %s\n", getenv("HOME"));
+	printf("PATH: %s\n", getenv("PATH"));
+	printf("PWD: %s\n", getenv("PWD"));
+	printf("USER: %s\n", getenv("USER"));
+	printf("SHELL: %s\n", getenv("SHELL"));
+	return (0);
+}
+```
+## ioctl
+*Function : ioctl*
+
+**What is ioctl ?**\
+The ioctl function manipulates the underlying device parameters of special files. For example, we can use it to get the size of the terminal.
+
+**What are the underlying device parameters of special files ?**\
+It is the parameters of the device that is associated with the file descriptor.\
+For example, the terminal is a device that is associated with the file descriptor 0, 1 and 2.\
+And we can use ioctl to get the size of the terminal or to set the size of the terminal.
+
+**Is it only for the terminal ?**\
+No, we can use ioctl to manipulate the underlying device parameters of any special file.\
+For example, we can use it to get the size of a window, to set the baud rate of a serial port, to set the IP address of a network interface, etc.
+
+**How to use it ?**
+```c
+int ioctl(int d, unsigned long request, ...);
+```
+- d : the file descriptor of the device
+- request : the request code
+- ... : the arguments of the request
+
+**Example**
+```c
+#include <stdio.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+
+int	main(void)
+{
+	struct winsize	ws;
+
+	ioctl(0, TIOCGWINSZ, &ws);
+	printf("rows: %d\n", ws.ws_row);
+	printf("columns: %d\n", ws.ws_col);
+	return (0);
+}
+```
+
+## get file status
+*Function : stat, lstat and fstat*
+
+**What is stat ?**\
+The stat function returns information about a file, in the buffer pointed to by the buf argument. No permissions are required on the file itself, but-in the case of stat()-execute (search) permission is required on all of the directories in pathname that lead to the file.
+
+**What is lstat ?**\
+The lstat function is identical to stat(), except that if pathname is a symbolic link, then it returns information about the link itself, not the file that it refers to.
+
+**What is fstat ?**\
+The fstat function is identical to stat(), except that the file about which information is to be retrieved is specified by the file descriptor fd.
+
+**How to use it ?**
+```c
+int stat(const char *pathname, struct stat *buf);
+int lstat(const char *pathname, struct stat *buf);
+int fstat(int fd, struct stat *buf);
+```
+- pathname : the path of the file
+- fd : the file descriptor of the file
+- buf : a pointer to a struct stat that will contain the information about the file
+- returns 0 on success, -1 on error
+
+**this is the structure stat**
+```c
+struct stat {
+	dev_t     st_dev;         /* ID of device containing file */
+	ino_t     st_ino;         /* inode number */
+	mode_t    st_mode;        /* protection */
+	nlink_t   st_nlink;       /* number of hard links */
+	uid_t     st_uid;         /* user ID of owner */
+	gid_t     st_gid;         /* group ID of owner */
+	dev_t     st_rdev;        /* device ID (if special file) */
+	off_t     st_size;        /* total size, in bytes */
+	blksize_t st_blksize;     /* blocksize for file system I/O */
+	blkcnt_t  st_blocks;      /* number of 512B blocks allocated */
+	time_t    st_atime;       /* time of last access */
+	time_t    st_mtime;       /* time of last modification */
+	time_t    st_ctime;       /* time of last status change */
+};
+```
+
+**An example with stat :**
+```c
+#include <stdio.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int	main(void)
+{
+	struct stat	buf;
+
+	stat("file", &buf);
+	printf("st_dev: %d\n", buf.st_dev);
+	printf("st_ino: %d\n", buf.st_ino);
+	printf("st_mode: %d\n", buf.st_mode);
+	printf("st_nlink: %d\n", buf.st_nlink);
+	printf("st_uid: %d\n", buf.st_uid);
+	printf("st_gid: %d\n", buf.st_gid);
+	printf("st_rdev: %d\n", buf.st_rdev);
+	printf("st_size: %d\n", buf.st_size);
+	printf("st_blksize: %d\n", buf.st_blksize);
+	printf("st_blocks: %d\n", buf.st_blocks);
+	printf("st_atime: %d\n", buf.st_atime);
+	printf("st_mtime: %d\n", buf.st_mtime);
+	printf("st_ctime: %d\n", buf.st_ctime);
+	return (0);
+}
+```
+**An example with fstat :**
+```c
+#include <stdio.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int	main(void)
+{
+	int		fd;
+	struct stat	buf;
+
+	fd = open("file", O_RDONLY);
+	fstat(fd, &buf);
+	printf("st_dev: %d\n", buf.st_dev);
+	printf("st_ino: %d\n", buf.st_ino);
+	printf("st_mode: %d\n", buf.st_mode);
+	printf("st_nlink: %d\n", buf.st_nlink);
+	printf("st_uid: %d\n", buf.st_uid);
+	printf("st_gid: %d\n", buf.st_gid);
+	printf("st_rdev: %d\n", buf.st_rdev);
+	printf("st_size: %d\n", buf.st_size);
+	printf("st_blksize: %d\n", buf.st_blksize);
+	printf("st_blocks: %d\n", buf.st_blocks);
+	printf("st_atime: %d\n", buf.st_atime);
+	printf("st_mtime: %d\n", buf.st_mtime);
+	printf("st_ctime: %d\n", buf.st_ctime);
+	close(fd);
+	return (0);
+}
+```
+**An example with lstat :**
+```c
+#include <stdio.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int	main(void)
+{
+	struct stat	buf;
+
+	lstat("file", &buf);
+	printf("st_dev: %d\n", buf.st_dev);
+	printf("st_ino: %d\n", buf.st_ino);
+	printf("st_mode: %d\n", buf.st_mode);
+	printf("st_nlink: %d\n", buf.st_nlink);
+	printf("st_uid: %d\n", buf.st_uid);
+	printf("st_gid: %d\n", buf.st_gid);
+	printf("st_rdev: %d\n", buf.st_rdev);
+	printf("st_size: %d\n", buf.st_size);
+	printf("st_blksize: %d\n", buf.st_blksize);
+	printf("st_blocks: %d\n", buf.st_blocks);
+	printf("st_atime: %d\n", buf.st_atime);
+	printf("st_mtime: %d\n", buf.st_mtime);
+	printf("st_ctime: %d\n", buf.st_ctime);
+	return (0);
+}
+```
+
+## directory manipulation
+*Functions : opendir, readdir, closedir*
+
+**What is opendir ?**\
+The opendir function opens a directory stream corresponding to the directory name, and returns a pointer to the directory stream. The stream is positioned at the first entry in the directory and the next call to readdir will read the first entry in the directory.
+
+**What is readdir ?**\
+The readdir function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp. It returns NULL on reaching the end of the directory or on error.
+
+**What is closedir ?**\
+The closedir function closes the directory stream associated with dirp. A successful call to closedir also closes the underlying file descriptor associated with dirp.
+
+**How to use it ?**
+```c
+DIR *opendir(const char *name);
+struct dirent *readdir(DIR *dirp);
+int closedir(DIR *dirp);
+```
+- name : the name of the directory
+- dirp : a pointer to a DIR structure that represents the directory stream
+- returns a pointer to the directory stream, NULL on error
+
+**this is the structure dirent**
+```c
+struct dirent {
+	ino_t          d_ino;       /* inode number */
+	off_t          d_off;       /* offset to the next dirent */
+	unsigned short d_reclen;    /* length of this record */
+	unsigned char  d_type;      /* type of file; not supported by all file system types */
+	char           d_name[256]; /* filename */
+};
+```
+
+**Example**
+```c
+#include <stdio.h>
+#include <dirent.h>
+
+int	main(void)
+{
+	DIR				*dir;
+	struct dirent	*entry;
+
+	dir = opendir(".");
+	while ((entry = readdir(dir)) != NULL)
+		printf("%s\n", entry->d_name);
+	closedir(dir);
+	return (0);
+}
+```
