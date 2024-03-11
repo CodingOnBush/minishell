@@ -4,12 +4,20 @@
 
 - [Shell Syntax](#Shell-Syntax)
 - [Concepts](#Concepts)
+	- [Export and Unset](#Export-and-Unset)
+	- [Builtins](#Builtins)
+	- [Exit status](#Exit-status)
+	- [Tokenization](#Tokenization)
 - [Specific cases](#Specific-cases)
+	- [the ```$``` sign](#the-$-sign----handles-environment-variables)
+	- [the ```#``` sign](#the-#-sign)
 - [Git training](#Git-training)
 - [Sources](#Sources)
 
 
 ## Shell Syntax
+
+First, the Shell is going to read the input (except if it detects a ```#``` command symbol). It will divide it into ```words``` and ```operators``` employing the quoting rules to select which meanings to assign various words and characters. . 
 
 ## Concepts:
 
@@ -25,6 +33,23 @@
 **Exit status** : 
 
 - The value returned by a command to its caller. The value is restricted to eight bits, so the maximum value is 255. 
+
+**Tokenization** : 
+
+- Tokenization in the context of a shell refers to the ```process of breaking down a command or input into smaller, manageable parts, known as tokens```. These tokens can be as simple as individual words or more complex, including quoted strings and escape sequences. The shell uses tokenization to understand and execute commands by identifying the command itself, its arguments, and any redirection or piping operations.
+
+Here's a simplified explanation of how tokenization works in a shell:
+
+- ```Whitespace Separation```: *By default, the shell splits input into tokens based on whitespace characters (spaces, tabs, and newlines). For example, in the command ls -l, ls is one token, -l is another, and they are separated by a space.*
+
+- ```*Quoting and Escape Sequences```: *The shell recognizes single quotes (') and double quotes (") to group words together, treating them as a single token even if they contain spaces. For example, echo 'hello world' treats hello world as a single token. Double quotes allow for [escape sequences](https://www.techopedia.com/definition/822/escape-sequence-c) (e.g., echo "hello\tworld"), which are interpreted by the shell.*
+
+- ```Special Characters```: *Certain characters have special meanings in the shell and are used to control the flow of commands. These include | (pipe), & (background), ; (command separator), ( and ) (subshell), < and > (input/output redirection). The shell splits tokens at these characters when they are not quoted.*
+
+- ```Complex Tokenization```: *For more complex scenarios, such as handling input like echo 'hello world' | awk '{print $1}', the shell tokenizes the command by recognizing the pipe character | as a separator between two commands, even though there is no whitespace around it.*
+
+In summary, tokenization in a shell is the process of parsing input into tokens that the shell can understand and execute. It involves recognizing whitespace, quotes, escape sequences, and special characters to correctly interpret and execute commands.
+
 
 ## Specific cases :
 
