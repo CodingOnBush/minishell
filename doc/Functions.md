@@ -172,7 +172,7 @@ If I want to see the direct effect of rl_clear_history() I can print the history
 
 Specific cases :
 
-* **the ```$``` sign --> handles environment variables** : When the $ character is placed between double quotes in Bash, it retains its special meaning and is used for parameter expansion. This means that within double quotes, the $ character is used to reference the value of a variable. For example, if you have a variable var="world", and you use echo "$var", Bash will replace $var with the value of var, which is "world". This behavior is a core part of Bash's string manipulation capabilities and allows for dynamic content to be inserted into strings.
+* **the ```$``` sign --> handles environment variables** : When the ```$``` character is placed between double quotes in Bash, it retains its special meaning and is used for parameter expansion. This means that within double quotes, the $ character is used to reference the value of a variable. For example, if you have a variable var="world", and you use echo "$var", Bash will replace $var with the value of var, which is "world". This behavior is a core part of Bash's string manipulation capabilities and allows for dynamic content to be inserted into strings.
 
 
 ## Git training:
