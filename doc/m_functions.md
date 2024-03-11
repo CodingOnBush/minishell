@@ -6,6 +6,9 @@ Here are some of the functions that we need to understand and use in the project
 2. [tty](#tty)
 3. [getenv](#getenv)
 4. [ioctl](#ioctl)
+5. [get file status](#get-file-status)
+6. [directory manipulation](#directory-manipulation)
+7. [terminal handling](#terminal-handling)
 
 ## signals
 *Functions : signal - sigaction - kill*
@@ -422,6 +425,109 @@ int	main(void)
 	while ((entry = readdir(dir)) != NULL)
 		printf("%s\n", entry->d_name);
 	closedir(dir);
+	return (0);
+}
+```
+## Terminal handling
+*Functions : tcsetattr, tcgetattr, tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs*
+
+A terminal has attributes to define and control different aspects of its operation. These attributes allow you to configure behaviors such as input mode, output mode, signal control, etc.\
+Theses functions are used to manipulate the terminal attributes.
+
+**What is tcgetattr ?**\
+The tcgetattr function gets the parameters associated with the terminal referred to by fd and stores them in the termios structure referenced by termios_p.
+
+**What is the termios structure ?**\
+The termios structure is a data structure that contains the terminal attributes.\
+It is defined in the termios.h header file and it contains the following members :
+```c
+struct termios {
+	tcflag_t c_iflag;	/* input modes */
+	tcflag_t c_oflag;	/* output modes */
+	tcflag_t c_cflag;	/* control modes */
+	tcflag_t c_lflag;	/* local modes */
+	cc_t c_cc[NCCS];	/* control characters */
+	speed_t c_ispeed;	/* input speed */
+	speed_t c_ospeed;	/* output speed */
+};
+```
+
+**What is tcsetattr ?**\
+The tcsetattr function sets the parameters associated with the terminal referred to by fd from the termios structure referenced by termios_p.
+
+**What is tgetent ?**\
+The tgetent function loads the termcap database and returns the number of bytes in the buffer area. The buffer area is used by the other tget functions to store the data that they retrieve from the termcap database.
+
+**Why do we have a termcap database ?**\
+The termcap database is a library of capabilities that are used to control the terminal.\
+For example, it contains the capabilities to move the cursor, to clear the screen, to change the color, etc.
+
+**What is tgetflag ?**\
+The tgetflag function gets the boolean value of the capability name from the termcap database.
+
+**What is tgetnum ?**\
+The tgetnum function gets the numeric value of the capability name from the termcap database.
+
+**What is tgetstr ?**\
+The tgetstr function gets the string value of the capability name from the termcap database.
+
+**What is tgoto ?**\
+The tgoto function returns a string that is the result of expanding the string cap with the parameters given by the varargs list.
+
+**What is tputs ?**\
+The tputs function writes the string cp to the terminal.
+
+**How to use it ?**
+```c
+int tcgetattr(int fd, struct termios *termios_p);
+int tcsetattr(int fd, int optional_actions, const struct termios *termios_p);
+int tgetent(char *bp, const char *name);
+int tgetflag(const char *id);
+int tgetnum(const char *id);
+char *tgetstr(const char *id, char **area);
+char *tgoto(const char *cap, int col, int row);
+int tputs(const char *str, int affcnt, int (*putc)(int));
+```
+- fd : the file descriptor of the terminal
+- termios_p : a pointer to a termios structure that contains the terminal attributes
+- optional_actions : the actions to be taken
+- bp : a pointer to a buffer area
+- name : the name of the terminal
+- id : the name of the capability
+- area : a pointer to a pointer to a buffer area
+- cap : the string cap
+- col : the column
+- row : the row
+- str : the string cp
+- affcnt : the affcnt
+- putc : a pointer to a function that puts a character
+
+**Example**
+```c
+#include <stdio.h>
+#include <termios.h>
+#include <curses.h>
+#include <term.h>
+
+int	main(void)
+{
+	struct termios	term;
+	char			*bp;
+	int				ret;
+
+	tcgetattr(0, &term);// get the current attributes
+	term.c_lflag &= ~(ICANON);// disable canonical mode
+	term.c_lflag &= ~(ECHO);// disable echo
+	tcsetattr(0, 0, &term);// set the new attributes
+	bp = (char *)malloc(2048);
+	ret = tgetent(bp, getenv("TERM"));// load the termcap database
+	printf("ret: %d\n", ret);
+	printf("tgetflag: %d\n", tgetflag("am"));// auto margins
+	printf("tgetnum: %d\n", tgetnum("co"));// number of columns
+	printf("tgetstr: %s\n", tgetstr("cl", &bp));// clear the screen
+	printf("tgoto: %s\n", tgoto("cm", 1, 1));// move the cursor to the position (1, 1)
+	tputs(tgetstr("cl", &bp), 1, putchar);// clear the screen using tputs and putchar as putc function
+	tcsetattr(0, 0, &term);// restore the old attributes
 	return (0);
 }
 ```
