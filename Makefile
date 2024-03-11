@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/03/08 14:36:44 by momrane          ###   ########.fr        #
+#    Updated: 2024/03/11 08:23:54 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,10 @@ NAME 		= minishell
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -g3
 HEADER		= -I $(INC_DIR)
+
+#Valgrind
+VAL_SUPP	= readline.supp
+VAL_FLAGS	= --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=$(VAL_SUPP)
 
 #Directories
 SRC_DIR		= ./src
@@ -38,6 +42,9 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(CC) $(HEADER) $(OBJ) -o $(NAME)
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
+
+val: $(NAME)
+	valgrind $(VAL_FLAGS) ./$(NAME)
 
 # Linking
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c
