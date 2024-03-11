@@ -434,7 +434,10 @@ int	main(void)
 A terminal has attributes to define and control different aspects of its operation. These attributes allow you to configure behaviors such as input mode, output mode, signal control, etc.\
 Theses functions are used to manipulate the terminal attributes.
 
-**What is tcgetattr ?**\
+**What is tcgetattr ?**
+```c
+int tcgetattr(int fd, struct termios *termios_p);
+```
 The tcgetattr function gets the parameters associated with the terminal referred to by fd and stores them in the termios structure referenced by termios_p.
 
 **What is the termios structure ?**\
@@ -452,55 +455,44 @@ struct termios {
 };
 ```
 
-**What is tcsetattr ?**\
+**What is tcsetattr ?**
+```c
+int tcsetattr(int fd, int optional_actions, const struct termios *termios_p);
+```
 The tcsetattr function sets the parameters associated with the terminal referred to by fd from the termios structure referenced by termios_p.
 
 **What is tgetent ?**\
+```c
+int tgetent(char *bp, const char *name);
+```
 The tgetent function loads the termcap database and returns the number of bytes in the buffer area. The buffer area is used by the other tget functions to store the data that they retrieve from the termcap database.
 
 **Why do we have a termcap database ?**\
 The termcap database is a library of capabilities that are used to control the terminal.\
-For example, it contains the capabilities to move the cursor, to clear the screen, to change the color, etc.
-
-**What is tgetflag ?**\
-The tgetflag function gets the boolean value of the capability name from the termcap database.
-
-**What is tgetnum ?**\
-The tgetnum function gets the numeric value of the capability name from the termcap database.
-
-**What is tgetstr ?**\
-The tgetstr function gets the string value of the capability name from the termcap database.
-
-**What is tgoto ?**\
-The tgoto function returns a string that is the result of expanding the string cap with the parameters given by the varargs list.
-
-**What is tputs ?**\
-The tputs function writes the string cp to the terminal.
-
-**How to use it ?**
+For example, it contains the capabilities to move the cursor, to clear the screen, to change the color, etc.\
+And then we can use these functions :
 ```c
-int tcgetattr(int fd, struct termios *termios_p);
-int tcsetattr(int fd, int optional_actions, const struct termios *termios_p);
-int tgetent(char *bp, const char *name);
 int tgetflag(const char *id);
 int tgetnum(const char *id);
 char *tgetstr(const char *id, char **area);
 char *tgoto(const char *cap, int col, int row);
 int tputs(const char *str, int affcnt, int (*putc)(int));
 ```
-- fd : the file descriptor of the terminal
-- termios_p : a pointer to a termios structure that contains the terminal attributes
-- optional_actions : the actions to be taken
-- bp : a pointer to a buffer area
-- name : the name of the terminal
-- id : the name of the capability
-- area : a pointer to a pointer to a buffer area
-- cap : the string cap
-- col : the column
-- row : the row
-- str : the string cp
-- affcnt : the affcnt
-- putc : a pointer to a function that puts a character
+
+**What is tgetflag ?**\
+The tgetflag function gets the boolean value of the capability name (id) from the termcap database.
+
+**What is tgetnum ?**\
+The tgetnum function gets the numeric value of the capability name (id) from the termcap database.
+
+**What is tgetstr ?**\
+The tgetstr function gets the string value of the capability name (id) from the termcap database and the area is a buffer.
+
+**What is tgoto ?**\
+The tgoto function returns a string that is the result of expanding the string cap with the parameters given by the varargs list.
+
+**What is tputs ?**\
+The tputs function writes the string cp to the terminal.
 
 **Example**
 ```c
@@ -520,6 +512,8 @@ int	main(void)
 	term.c_lflag &= ~(ECHO);// disable echo
 	tcsetattr(0, 0, &term);// set the new attributes
 	bp = (char *)malloc(2048);
+	if (!bp)
+		return (1);
 	ret = tgetent(bp, getenv("TERM"));// load the termcap database
 	printf("ret: %d\n", ret);
 	printf("tgetflag: %d\n", tgetflag("am"));// auto margins
