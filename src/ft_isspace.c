@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/12 16:36:15 by momrane          ###   ########.fr       */
+/*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
+/*   Updated: 2024/03/12 16:33:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main(void)
+int	ft_isspace(char c)
 {
-	char *line;
-
-	printf("Welcome to minispell \\o_o/\n");
-	while (1)
-	{
-		line = readline("minispell > ");
-		if (!line)
-			break ;
-		printf("%s\n", line);
-		free(line);
-	}
-	return (0);
+	if ((c >= 9 && c <= 13) || c == ' ')
+		return (YES);
+	return (NO);
 }

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/12 16:10:42 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/12 16:30:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "../lib/libft/inc/libft.h"
+
+# define YES 1
+# define NO 0
 
 #endif
