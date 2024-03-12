@@ -24,7 +24,7 @@ SRC_DIR		:= ./src
 BIN_DIR 	:= ./bin
 INC_DIR 	:= ./inc
 LIBS_DIR 	:= ./lib
-LIBFT_DIR	:= $(LIBS_DIR)/libft
+LIBFT_DIR	:= ./libft
 
 # Lib
 LIBFT		:= $(LIBFT_DIR)/libft.a
@@ -60,17 +60,17 @@ $(BIN_DIR)/%.o: $(SRC_DIR)/%.c
 
 # libft
 $(LIBFT):
-	@make -C $(LIBS_DIR)/libft
+	@make -C ./libft
 
 # Clean Objects
 clean:
-	@make -C $(LIBS_DIR)/libft clean
+	@make -C ./libft clean
 	rm -rf $(BIN_DIR)
 	@echo "$(CYAN)binary files cleaned !$(DEF_COLOR)"
 
 # Full Clean, Objects and Binaries
 fclean: clean
-	@make -C $(LIBS_DIR)/libft fclean
+	@make -C ./libft fclean
 	rm -f $(NAME)
 	@echo "$(CYAN)exec files cleaned !$(DEF_COLOR)"
 

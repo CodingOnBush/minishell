@@ -17,7 +17,7 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include "../lib/libft/inc/libft.h"
+# include "../libft/inc/libft.h"
 
 # define YES 1
 # define NO 0

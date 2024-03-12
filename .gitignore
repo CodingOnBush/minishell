@@ -1,5 +1,4 @@
-// object files are created by the compiler and are not needed in the final executable
-*.o
 .vscode
-// executables are created by the linker and are not needed in the final executable
+*.o
 minishell
+libft.a
