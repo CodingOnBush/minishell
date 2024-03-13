@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/13 15:04:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/13 15:22:41 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ typedef struct s_data
 	char			*line;
 	t_token			*token_list;
 }					t_data;
+
+/*		FREE		*/
+void				ft_free_tokens(t_token **list);
 
 /*		UTILS		*/
 int					ft_isspace(char c);

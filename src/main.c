@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/13 15:06:08 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/13 15:29:46 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,12 @@ t_token	*ft_create_token_list(char *line)
 			if (line[i] == DQ)
 			{
 				if (ft_strchr(&line[i + 1], DQ))
-				
+				{
 					printf("second double quote found !\n");
+					return (token_list);
+				}
+				else
+					return (ft_free_tokens(&token_list), NULL);
 			}
 			else if (line[i] == '|')
 				ft_add_token(&token_list, "|");
