@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/13 14:51:48 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:06:08 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,13 @@ t_token	*ft_create_token_list(char *line)
 			i++;
 		else
 		{
-			if (line[i] == '|')
+			if (line[i] == DQ)
+			{
+				if (ft_strchr(&line[i + 1], DQ))
+				
+					printf("second double quote found !\n");
+			}
+			else if (line[i] == '|')
 				ft_add_token(&token_list, "|");
 			else if (line[i] == '>' && line[i + 1] == '>')
 				ft_add_token(&token_list, ">>");
@@ -102,7 +108,6 @@ t_token	*ft_create_token_list(char *line)
 			i++;
 		}
 	}
-	printf("%p\n", token_list);
 	return (token_list);
 }
 
@@ -121,6 +126,8 @@ int	main(void)
 		data.token_list = ft_create_token_list(data.line);
 		if (data.token_list)
 			print_list(data.token_list);
+		else
+			printf("no token list\n");
 		free(data.line);
 	}
 	return (0);
