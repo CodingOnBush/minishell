@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/13 10:21:41 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/13 14:50:48 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,21 @@
 # define YES 1
 # define NO 0
 
+typedef struct s_token
+{
+	char			*value;
+	char			*type;
+	struct s_token	*next;
+}					t_token;
+
+typedef struct s_data
+{
+	char			*line;
+	t_token			*token_list;
+}					t_data;
+
 /*		UTILS		*/
-int	ft_isspace(char c);
+int					ft_isspace(char c);
+int					ft_isoperator(char *str);
 
 #endif
