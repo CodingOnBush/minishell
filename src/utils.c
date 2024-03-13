@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/13 14:50:37 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:13:58 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,36 @@ int	ft_isspace(char c)
 
 int	ft_isoperator(char *str)
 {
-	if (ft_strchr("|><", *str) != NULL || ft_strncmp(str, "<<", 2) || ft_strncmp(str, ">>", 2))
-		return (YES);
-	return (NO);
+	// printf("str : %s\n", str);
+	if (ft_strchr("|><", *str) != NULL)
+	{
+		// printf("|>< found !\n");
+		return (1);
+	}
+	if (ft_strncmp(str, "<<", 2) == 1 || ft_strncmp(str, ">>", 2) == 1)
+	{
+		// printf("<< or >> found\n");
+		return (2);
+	}
+	return (0);
+}
+
+char	*ft_strndup(const char *s, int n)
+{
+	char	*res;
+	int		len;
+	int		i;
+
+	len = ft_strlen(s);
+	res = (char *)malloc(sizeof(char) * (len + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (i < len && i < n)
+	{
+		res[i] = s[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 }

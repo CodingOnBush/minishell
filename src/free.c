@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/13 15:22:03 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:53:48 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_free_tokens(t_token **list)
 	while (cur_token != NULL)
 	{
 		temp_token = cur_token->next;
+		free(cur_token->value);
 		free(cur_token);
 		cur_token = temp_token;
 	}
