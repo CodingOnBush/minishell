@@ -3,16 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/14 11:43:44 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/14 12:28:16 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_token	*ft_create_token(char *value, char *type)
+char	*ft_get_op_type(char *value)
+{
+	if (ft_strncmp(value, "|", 1))
+		return (PIPE)
+}
+
+t_token	*ft_create_token(char *value, int type)
 {
 	t_token	*new_token;
 
@@ -55,18 +61,17 @@ int	ft_add_new_token(t_token **token_list, char *line)
 	c = *line;
 	new_value = NULL;
 	printf("c = %c\n", c);
-	if (c == DOUBLE_QUTOES || c == SINGLE_QUOTE)
+	if (c == DOUBLE_QUOTES || c == SINGLE_QUOTE)
 	{
-		line++;
-		if (ft_strchr(line, c) == NULL)
+		if (ft_strchr(line + 1, c) == NULL)
 			return (FAIL);
-		step = ft_strchr(line, c) - line;// is 0 if "" or '' and is 6 if "coucou" or 'coucou'
+		step = ft_strchr(line + 1, c) - line + 1;// is 0 if "" or '' and is 6 if "coucou" or 'coucou'
 		printf("step = %d\n", step);
 		new_value = ft_strndup(line, step);
 		if (!new_value)
 			return (FAIL);
 		ft_add_token(token_list, new_value);
-		return (step + 2);
+		return (step);
 	}
 	else if (ft_isword(c) == YES)
 	{

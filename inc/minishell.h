@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/14 11:44:20 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/14 12:30:02 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,19 @@
 # define SUCCESS 1
 # define FAIL 0
 
-# define DOUBLE_QUTOES '\"'
+# define DOUBLE_QUOTES '\"'
 # define SINGLE_QUOTE '\''
+
+# define HERE_DOC 1
+# define APPEND 2
+# define PIPE 3
+# define LEFT_TRUNC 4
+# define RIGHT_TRUNC 5
 
 typedef struct s_token
 {
 	char			*value;
-	char			*type;
+	int				type;
 	struct s_token	*next;
 }					t_token;
 
@@ -53,7 +59,7 @@ void				print_list(t_token *list);
 t_token				*ft_findlast(t_token *lst);
 
 /*		TOKEN		*/
-t_token				*ft_create_token(char *value, char *type);
+t_token				*ft_create_token(char *value, int type);
 void				ft_add_token(t_token **token_list, char *value);
 int					ft_add_new_token(t_token **token_list, char *line);
 t_token				*ft_create_token_list(char *line);

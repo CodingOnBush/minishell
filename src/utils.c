@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/14 11:43:22 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/14 12:28:05 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	print_list(t_token *list)
 	{
 		printf("address: %p\n", cur_token);
 		printf("value : %s\n", cur_token->value);
-		printf("type : %s\n", cur_token->type);
+		printf("type : %d\n", cur_token->type);
 		printf("next-> %p\n", cur_token->next);
 		printf("\n");
 		cur_token = cur_token->next;
