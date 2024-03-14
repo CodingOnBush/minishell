@@ -6,19 +6,28 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/14 12:28:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/14 14:27:36 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*ft_get_op_type(char *value)
+int	ft_get_op_type(char *value)
 {
-	if (ft_strncmp(value, "|", 1))
-		return (PIPE)
+	if (value[0] == '|')
+		return (PIPE);
+	if (ft_isheredoc(value) == YES)
+		return (HERE_DOC);
+	if (ft_isappend(value) == YES)
+		return (APPEND);
+	if (value[0] == '<')
+		return (LEFT_TRUNC);
+	if (value[0] == '>')
+		return (RIGHT_TRUNC);
+	return (FAIL);
 }
 
-t_token	*ft_create_token(char *value, int type)
+t_token	*ft_create_token(char *value)
 {
 	t_token	*new_token;
 
@@ -26,7 +35,14 @@ t_token	*ft_create_token(char *value, int type)
 	if (!new_token)
 		return (NULL);
 	new_token->value = value;
-	new_token->type = type;
+	if (ft_isoperator(value))
+	{
+		new_token->type = ft_get_op_type(value);
+		if (new_token->type == FAIL)
+			return (NULL);
+	}
+	else
+		new_token->type = WORD;
 	new_token->next = NULL;
 	return (new_token);
 }
@@ -38,10 +54,7 @@ void	ft_add_token(t_token **token_list, char *value)
 
 	if (value == NULL)
 		return ;
-	if (ft_isoperator(value))
-		new_token = ft_create_token(value, "operator");
-	else
-		new_token = ft_create_token(value, "wip");
+	new_token = ft_create_token(value);
 	if (!new_token)
 		return ;
 	cur_token = ft_findlast(*token_list);
@@ -65,7 +78,7 @@ int	ft_add_new_token(t_token **token_list, char *line)
 	{
 		if (ft_strchr(line + 1, c) == NULL)
 			return (FAIL);
-		step = ft_strchr(line + 1, c) - line + 1;// is 0 if "" or '' and is 6 if "coucou" or 'coucou'
+		step = ft_strchr(line + 1, c) - line + 1;
 		printf("step = %d\n", step);
 		new_value = ft_strndup(line, step);
 		if (!new_value)
@@ -89,6 +102,7 @@ int	ft_add_new_token(t_token **token_list, char *line)
 		step = ft_isoperator(line);
 		if (step == 0)
 			return (FAIL);
+		printf("step : %d\n", step);
 		new_value = ft_strndup(line, step);
 		if (!new_value)
 			return (FAIL);

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/14 12:28:05 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/14 14:29:02 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,26 @@ int	ft_isspace(char c)
 	return (NO);
 }
 
+int	ft_isappend(char *str)
+{
+	if (str[0] == '>' && str[1] == '>')
+		return (YES);
+	return (NO);
+}
+
+int	ft_isheredoc(char *str)
+{
+	if (str[0] == '<' && str[1] == '<')
+		return (YES);
+	return (NO);
+}
+
 int	ft_isoperator(char *str)
 {
+	if (ft_isappend(str) || ft_isheredoc(str))
+		return (2);
 	if (ft_strchr("|><", *str) != NULL)
 		return (1);
-	if (ft_strncmp(str, "<<", 2) == 1 || ft_strncmp(str, ">>", 2) == 1)
-		return (2);
 	return (0);
 }
 
@@ -42,7 +56,7 @@ char	*ft_strndup(const char *s, int n)
 	int		i;
 
 	len = ft_strlen(s);
-	res = (char *)malloc(sizeof(char) * (len + 1));
+	res = (char *)malloc(sizeof(char) * (n + 1));
 	if (!res)
 		return (NULL);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/14 12:30:02 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/14 14:28:18 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define PIPE 3
 # define LEFT_TRUNC 4
 # define RIGHT_TRUNC 5
+# define WORD 6
 
 typedef struct s_token
 {
@@ -57,9 +58,11 @@ int					ft_isword(char c);
 char				*ft_strndup(const char *s, int n);
 void				print_list(t_token *list);
 t_token				*ft_findlast(t_token *lst);
+int					ft_isappend(char *str);
+int					ft_isheredoc(char *str);
 
 /*		TOKEN		*/
-t_token				*ft_create_token(char *value, int type);
+t_token				*ft_create_token(char *value);
 void				ft_add_token(t_token **token_list, char *value);
 int					ft_add_new_token(t_token **token_list, char *line);
 t_token				*ft_create_token_list(char *line);
