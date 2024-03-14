@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/14 14:28:18 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/14 16:34:05 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 # define SUCCESS 1
 # define FAIL 0
+# define ERROR -1
 
 # define DOUBLE_QUOTES '\"'
 # define SINGLE_QUOTE '\''
@@ -49,22 +50,26 @@ typedef struct s_data
 }					t_data;
 
 /*		FREE		*/
-void				ft_free_tokens(t_token **list);
+void		ft_free_tokens(t_token **list);
 
 /*		UTILS		*/
-int					ft_isspace(char c);
-int					ft_isoperator(char *str);
-int					ft_isword(char c);
-char				*ft_strndup(const char *s, int n);
-void				print_list(t_token *list);
-t_token				*ft_findlast(t_token *lst);
-int					ft_isappend(char *str);
-int					ft_isheredoc(char *str);
+int			ft_isspace(char c);
+int			ft_isoperator(char *str);
+int			ft_isword(char c);
+char		*ft_strndup(const char *s, int n);
+void		print_list(t_token *list);
+t_token		*ft_findlast(t_token *lst);
+int			ft_isappend(char *str);
+int			ft_isheredoc(char *str);
 
-/*		TOKEN		*/
-t_token				*ft_create_token(char *value);
-void				ft_add_token(t_token **token_list, char *value);
-int					ft_add_new_token(t_token **token_list, char *line);
-t_token				*ft_create_token_list(char *line);
+/*		TOKENS		*/
+t_token		*ft_create_token(char *value);
+void		ft_add_token(t_token **token_list, char *value);
+int			ft_add_new_token(t_token **token_list, char *line);
+t_token		*ft_create_token_list(char *line);
+
+/*		TOKEN CHECK		*/
+int			check_mutiple_op(t_token *list, int cur_type, int next_type);
+int			check_token_list(t_token *list);
 
 #endif

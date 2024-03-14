@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/14 14:27:36 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/14 17:31:10 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ int	ft_add_new_token(t_token **token_list, char *line)
 	if (c == DOUBLE_QUOTES || c == SINGLE_QUOTE)
 	{
 		if (ft_strchr(line + 1, c) == NULL)
+		{
+			ft_putstr_fd("Unclosed single or double quote\n", 2);
 			return (FAIL);
+		}
 		step = ft_strchr(line + 1, c) - line + 1;
 		printf("step = %d\n", step);
 		new_value = ft_strndup(line, step);
@@ -130,7 +133,7 @@ t_token	*ft_create_token_list(char *line)
 			line += step;
 		}
 	}
+	if (check_token_list(token_list) == ERROR)
+		token_list = NULL;
 	return (token_list);
 }
-
-
