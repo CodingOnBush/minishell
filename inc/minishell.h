@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/13 16:05:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/14 10:13:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # define YES 1
 # define NO 0
 
-# define DQ '\"'
+# define DOUBLE_QUTOES '\"'
+# define SINGLE_QUOTE '\''
 
 typedef struct s_token
 {
