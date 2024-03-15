@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/14 17:31:10 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/15 10:45:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ t_token	*ft_create_token_list(char *line)
 			line += step;
 		}
 	}
-	if (check_token_list(token_list) == ERROR)
+	if (check_token_list(token_list) == FAIL)
 		token_list = NULL;
 	return (token_list);
 }

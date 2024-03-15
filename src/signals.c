@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/15 12:56:09 by momrane          ###   ########.fr       */
+/*   Created: 2024/03/15 12:45:26 by momrane           #+#    #+#             */
+/*   Updated: 2024/03/15 12:53:09 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main(void)
+static void	ft_handler(int signum, siginfo_t *info, void *context)
 {
-	t_data	data;
+	(void)info;
+	(void)context;
+	printf("a signal has been caught : %d\n", signum);
+}
 
-	printf("Welcome to minispell \\o_o/\n");
-	ft_init_sigaction(&data);
-	while (1)
-	{
-		data.line = readline("minispell > ");
-		if (!data.line)
-			break ;
-		data.token_list = ft_create_token_list(data.line);
-		if (data.token_list)
-			print_list(data.token_list);
-		else
-			printf("no token list\n");
-		free(data.line);
-	}
-	return (0);
+void	ft_init_sigaction(t_data *data)
+{
+	data->action.sa_handler = ft_handler;
+	data->action.sa_flags = SA_SIGINFO;
+	sigemptyset(&data->action.sa_mask);
+	sigaction(SIGINT, &data->action, NULL);
 }

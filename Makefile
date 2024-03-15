@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/03/14 15:27:30 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/03/15 12:56:36 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ GREEN 		:= \033[0;92m
 CYAN 		:= \033[0;96m
 
 #Sources
-SRC_FILES 	:= main utils free token token_check
+SRC_FILES 	:= main utils free token token_check signals
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 
