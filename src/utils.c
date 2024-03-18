@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/14 14:29:02 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/18 22:42:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,26 @@ t_token		*ft_findlast(t_token *lst)
 	while (lst->next != NULL)
 		lst = lst->next;
 	return (lst);
+}
+
+void	ft_set_path(t_data *data)
+{
+	int		i;
+	char	*path;
+	char	**tmp;
+
+	i = 0;
+	while (data->env[i])
+	{
+		if (ft_strncmp(data->env[i], "PATH=", 5) == 0)
+		{
+			path = ft_strdup(data->env[i] + 5);
+			tmp = ft_split(path, ':');
+			free(path);
+			data->path = tmp;
+			return ;
+		}
+		i++;
+	}
+	data->path = NULL;
 }

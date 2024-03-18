@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/18 22:37:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/18 22:54:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ typedef struct s_token
 
 typedef struct s_data
 {
+	int					ac;
+	char				**av;
+	char				**env;
+	char				**path;
 	char				*line;
 	t_token				*token_list;
 	struct sigaction	sigint_action;
@@ -59,6 +63,7 @@ void					ft_setup_signals(t_data *data);
 
 /*		FREE		*/
 void					ft_free_tokens(t_token **list);
+void					ft_free_path(char **path);
 
 /*		UTILS		*/
 int						ft_isspace(char c);
@@ -69,6 +74,7 @@ void					print_list(t_token *list);
 t_token					*ft_findlast(t_token *lst);
 int						ft_isappend(char *str);
 int						ft_isheredoc(char *str);
+void					ft_set_path(t_data *data);
 
 /*		TOKENS		*/
 t_token					*ft_create_token(char *value);
