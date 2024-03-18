@@ -6,23 +6,45 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 12:45:26 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/15 12:53:09 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/18 22:37:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static void	ft_handler(int signum, siginfo_t *info, void *context)
+static void	ft_handler(int signum)
 {
-	(void)info;
-	(void)context;
-	printf("a signal has been caught : %d\n", signum);
+	if (signum == SIGINT)
+	{
+		printf("\n");
+		rl_replace_line("", STDIN_FILENO);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
-void	ft_init_sigaction(t_data *data)
+static void	ft_setup_sigint(t_data *data)
 {
-	data->action.sa_handler = ft_handler;
-	data->action.sa_flags = SA_SIGINFO;
-	sigemptyset(&data->action.sa_mask);
-	sigaction(SIGINT, &data->action, NULL);
+	data->sigint_action.sa_handler = ft_handler;
+	sigemptyset(&data->sigint_action.sa_mask);
+	data->sigint_action.sa_flags = 0;
+	sigaction(SIGINT, &data->sigint_action, NULL);
+	data->sigquit_action.sa_handler = SIG_IGN;
+	sigemptyset(&data->sigquit_action.sa_mask);
+	data->sigquit_action.sa_flags = 0;
+	sigaction(SIGQUIT, &data->sigquit_action, NULL);
+}
+
+static void	ft_setup_sigquit(t_data *data)
+{
+	data->sigquit_action.sa_handler = SIG_IGN;
+	sigemptyset(&data->sigquit_action.sa_mask);
+	data->sigquit_action.sa_flags = 0;
+	sigaction(SIGQUIT, &data->sigquit_action, NULL);
+}
+
+void	ft_setup_signals(t_data *data)
+{
+	ft_setup_sigint(data);
+	ft_setup_sigquit(data);
 }

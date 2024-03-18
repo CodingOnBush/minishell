@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/15 12:53:59 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/18 22:37:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+# define PS1 "minispell > "
 # define YES 1
 # define NO 0
 
@@ -49,11 +50,12 @@ typedef struct s_data
 {
 	char				*line;
 	t_token				*token_list;
-	struct sigaction	action;
+	struct sigaction	sigint_action;
+	struct sigaction	sigquit_action;
 }						t_data;
 
 /*		SIGNALS		*/
-void					ft_init_sigaction(t_data *data);
+void					ft_setup_signals(t_data *data);
 
 /*		FREE		*/
 void					ft_free_tokens(t_token **list);
