@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 12:45:26 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/19 11:19:12 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/19 14:30:20 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_handler(int signum)
 	if (signum == SIGINT)
 	{
 		printf("\n");
-		rl_replace_line("", STDIN_FILENO);
+		rl_replace_line("", STDIN_FILENO);// "ls |\n>"
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -27,7 +27,7 @@ static void	ft_setup_sigint(t_data *data)
 {
 	data->sigint_action.sa_handler = ft_handler;
 	sigemptyset(&data->sigint_action.sa_mask);
-	data->sigint_action.sa_flags = 0;// to have a ft_handler with only one arg (signum)
+	data->sigint_action.sa_flags = 0;//to have a ft_handler with only one arg (signum)
 	sigaction(SIGINT, &data->sigint_action, NULL);
 }
 

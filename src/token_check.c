@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/19 13:53:04 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:06:47 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	check_token_list(t_token *list)
 	if (!list)
 		return (FAIL);
 	cur_token = list;
+	if (cur_token->value[0] == '|')
+		return (ft_error_messages("|"), ft_free_tokens(&list), FAIL);
 	while (cur_token != NULL)
 	{
 		check = check_mutiple_op(list, cur_token);

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/19 13:55:11 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/19 17:05:56 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int	main(int ac, char **av, char **env)
 		}
 		data.token_list = ft_create_token_list(data.line);
 		if (data.token_list)
+		{
+			// ft_parse_commands(&data);
 			print_list(data.token_list);
+		}
 		else
 			printf("no token list\n");
 		free(data.line);

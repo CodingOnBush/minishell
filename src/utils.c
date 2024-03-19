@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/18 22:42:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/19 17:10:05 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@ int	ft_isheredoc(char *str)
 	if (str[0] == '<' && str[1] == '<')
 		return (YES);
 	return (NO);
+}
+
+int	ft_isredirection(char *str)
+{
+	if (ft_isappend(str))
+		return (2);
+	if (ft_strchr("><", *str) != NULL)
+		return (1);
+	return (0);
 }
 
 int	ft_isoperator(char *str)
