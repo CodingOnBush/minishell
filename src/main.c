@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/19 11:27:41 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:55:11 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	(void)env;
-	// ft_setup_signals(&data);// to handle ctrl + c (SIGINT) and ctrl + \ (SIGQUIT)
-	// data.ac = ac;
-	// data.av = av;
-	// data.env = env;
-	// data.path = NULL;
-	// ft_set_path(&data);
+	ft_setup_signals(&data);// to handle ctrl + c (SIGINT) and ctrl + \ (SIGQUIT)
+	data.ac = ac;
+	data.av = av;
+	data.env = env;
+	data.path = NULL;
+	ft_set_path(&data);
 	while (1)
 	{
 		data.line = readline(MINISPELL);
@@ -40,9 +40,8 @@ int	main(int ac, char **av, char **env)
 		else
 			printf("no token list\n");
 		free(data.line);
-		// rl_clear_history();
 		ft_free_tokens(&data.token_list);
 	}
-	// ft_free_path(data.path);
+	ft_free_path(data.path);
 	return (0);
 }
