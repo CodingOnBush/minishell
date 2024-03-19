@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/18 22:54:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/19 11:14:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define PS1 "minispell > "
+# define MINISPELL "minispell > "
+
 # define YES 1
 # define NO 0
 

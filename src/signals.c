@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 12:45:26 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/18 22:37:10 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/19 11:19:12 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,8 @@ static void	ft_setup_sigint(t_data *data)
 {
 	data->sigint_action.sa_handler = ft_handler;
 	sigemptyset(&data->sigint_action.sa_mask);
-	data->sigint_action.sa_flags = 0;
+	data->sigint_action.sa_flags = 0;// to have a ft_handler with only one arg (signum)
 	sigaction(SIGINT, &data->sigint_action, NULL);
-	data->sigquit_action.sa_handler = SIG_IGN;
-	sigemptyset(&data->sigquit_action.sa_mask);
-	data->sigquit_action.sa_flags = 0;
-	sigaction(SIGQUIT, &data->sigquit_action, NULL);
 }
 
 static void	ft_setup_sigquit(t_data *data)
