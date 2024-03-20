@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/20 13:05:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/20 15:24:21 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ void	print_args(t_cmd *cmds)
 	j = 0;
 	while (cmds)
 	{
-		printf("cmd %d\n", i);
-		printf("cmds->args : %p\n", cmds->words);
-		while (cmds->words)
-		{
-			printf("arg %d : %s\n", j, cmds->words->value);
-			j++;
-			cmds->words = cmds->words->next;
-		}
+		printf("============\ncmd %d\n", i);
+		// printf("cmds->args : %p\n", cmds->arg_list);
+		printf("delimiter : %s\n", cmds->delimiter);
+		// while (cmds->arg_list)
+		// {
+		// 	printf("arg %d : %s\n", j, cmds->arg_list->value);
+		// 	j++;
+		// 	cmds->arg_list = cmds->arg_list->next;
+		// }
 		i++;
 		cmds = cmds->next;
 	}
@@ -44,9 +45,6 @@ int	main(int ac, char **av, char **env)
 	t_data	data;
 
 	printf("Welcome to minispell \\o_o/\n");
-	(void)ac;
-	(void)av;
-	(void)env;
 	ft_setup_signals(&data);// to handle ctrl + c (SIGINT) and ctrl + \ (SIGQUIT)
 	data.ac = ac;
 	data.av = av;
@@ -70,11 +68,11 @@ int	main(int ac, char **av, char **env)
 			printf("no token list\n");
 			break;
 		}
-		print_list(data.token_list);
+		// print_list(data.token_list);
 		
 		// create cmd list
 		data.cmd_list = ft_create_cmd_list(data.token_list);
-		if (data.cmd_list)
+		if (!data.cmd_list)
 		{
 			printf("parse commands failed !\n");
 			break;

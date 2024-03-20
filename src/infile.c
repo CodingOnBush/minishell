@@ -1,43 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.c                                             :+:      :+:    :+:   */
+/*   infile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/20 13:49:42 by momrane          ###   ########.fr       */
+/*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
+/*   Updated: 2024/03/20 14:45:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static t_arg	*create_new_arg(char *value)
+t_infile	*ft_create_new_infile(char *filename)
 {
-	t_arg	*new_arg;
+	t_infile	*new_infile;
 
-	new_arg = malloc(sizeof(t_arg));
-	if (!new_arg)
+	new_infile = malloc(sizeof(t_infile));
+	if (!new_infile)
 		return (NULL);
-	new_arg->value = value;
-	new_arg->next = NULL;
-	return (new_arg);
+	new_infile->filename = filename;
+	new_infile->next = NULL;
+	return (new_infile);
 }
 
-int	add_new_arg(t_arg **head, char *value)
+void	ft_add_infile(t_infile **infile_list, t_infile *new_infile)
 {
-	t_arg	*new_arg;
+	t_infile	*lst;
 
-	new_arg = create_new_arg(value);
-	if (new_arg == NULL)
-		return (FAIL);
-	if (*head == NULL)
-		*head = new_arg;
+	if (*infile_list == NULL)
+		*infile_list = new_infile;
 	else
 	{
-		while ((*head)->next != NULL)
-			*head = (*head)->next;
-		(*head)->next = new_arg;
+		lst = *infile_list;
+		while (lst->next != NULL)
+			lst = lst->next;
+		lst->next = new_infile;	
 	}
-	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/20 13:05:24 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/20 14:49:04 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,30 +43,30 @@
 
 typedef struct s_infile
 {
-	char				*infile;
-	bool				here_doc;
-	char				*delimiter; //null si pas de here_doc
+	char				*filename;
 	struct s_infile		*next;
 }						t_infile;
 
 typedef struct s_outfile
 {
-	char				*outfile;
+	char				*filename;
 	bool				append;
 	struct s_outfile	*next;
 }						t_outfile;
 
-typedef struct s_word
+typedef struct s_arg
 {
 	char			*value;
-	struct s_word	*next;
-}					t_word;
+	struct s_arg	*next;
+}					t_arg;
 
 typedef struct s_cmd
 {
-	t_word				*words;
-	t_infile			*infile;
-	t_outfile			*outfile;
+	t_arg				*arg_list;
+	bool				here_doc;
+	char				*delimiter; //null si pas de here_doc
+	t_infile			*infile_list;
+	t_outfile			*outfile_list;
 	struct s_cmd		*next;
 }						t_cmd;
 
@@ -89,6 +89,14 @@ typedef struct s_data
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
 }						t_data;
+
+/*		INFILE		*/
+t_infile	*ft_create_new_infile(char *filename);
+void	ft_add_infile(t_infile **infile_list, t_infile *new_infile);
+
+/*		OUTFILE		*/
+t_outfile	*ft_create_new_outfile(char *filename);
+void	ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
 
 /*		SIGNALS		*/
 void					ft_setup_signals(t_data *data);
@@ -119,7 +127,7 @@ t_token					*ft_create_token_list(char *line);
 int						check_token_list(t_token *list);
 
 /*		ARGS		*/
-int						add_new_word(t_word **head, char *value);
+int						add_new_arg(t_arg **head, char *value);
 
 /*		PARSING		*/
 int						ft_parse_commands(t_data *data);
