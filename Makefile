@@ -6,7 +6,7 @@
 #    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/03/19 17:05:33 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/03/20 11:39:59 by vvaudain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ GREEN 		:= \033[0;92m
 CYAN 		:= \033[0;96m
 
 #Sources
-SRC_FILES 	:= main utils free token token_check signals parser
+SRC_FILES 	:= main utils free token token_check signals parser args
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 

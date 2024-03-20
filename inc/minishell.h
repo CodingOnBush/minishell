@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/19 17:10:38 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/20 11:32:18 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,15 @@ typedef struct s_outfile
 	struct s_outfile	*next;
 }						t_outfile;
 
+typedef struct s_arg
+{
+	char			*value;
+	struct s_arg	*next;
+}					t_arg;
+
 typedef struct s_cmd
 {
-	char				**args;
+	t_arg				*args;
 	t_infile			*infile;
 	t_outfile			*outfile;
 	struct s_cmd		*next;
@@ -78,6 +84,7 @@ typedef struct s_data
 	char				**env;
 	char				**path;
 	char				*line;
+	t_cmd				*cmd_list;
 	t_token				*token_list;
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
@@ -110,6 +117,9 @@ t_token					*ft_create_token_list(char *line);
 
 /*		TOKEN CHECK		*/
 int						check_token_list(t_token *list);
+
+/*		ARGS		*/
+int						add_new_arg(t_arg *head, char *value);
 
 /*		PARSING		*/
 int						ft_parse_commands(t_data *data);
