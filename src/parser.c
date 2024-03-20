@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/20 15:20:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:35:05 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,16 @@ t_cmd	*ft_create_cmd(t_token *cur_token)
 	{
 		if (cur_token->type == HERE_DOC && cur_token->next != NULL && cur_token->next->type == WORD)
 			new_cmd->delimiter = cur_token->next->value;
+		else if (cur_token->type == LEFT_TRUNC)
+			set_infile_list(new_cmd, cur_token); //on pacourt tout les tokens avant le pipe pour stocker ttes les redir d'input
+		else if (cur_token->type == RIGHT_TRUNC)
+			set_outfile_list(new_cmd, cur_token);
+		// else if (cur_token->type == WORD)
+		// {
+		// 	add_new_arg(&new_cmd->arg_list, cur_token);
+		// }
 		cur_token = cur_token->next;
+		
 	}
 	return (new_cmd);
 }

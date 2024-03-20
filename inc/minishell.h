@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/20 14:49:04 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:19:25 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,14 @@ typedef struct s_data
 }						t_data;
 
 /*		INFILE		*/
-t_infile	*ft_create_new_infile(char *filename);
-void	ft_add_infile(t_infile **infile_list, t_infile *new_infile);
+t_infile				*ft_create_new_infile(char *filename);
+void					ft_add_infile(t_infile **infile_list, t_infile *new_infile);
+void					set_infile_list(t_cmd *cmd, t_token *token);
 
 /*		OUTFILE		*/
-t_outfile	*ft_create_new_outfile(char *filename);
-void	ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
+t_outfile				*ft_create_new_outfile(char *filename);
+void					ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
+void	set_outfile_list(t_cmd *cmd, t_token *token);
 
 /*		SIGNALS		*/
 void					ft_setup_signals(t_data *data);
@@ -124,13 +126,14 @@ int						ft_add_new_token(t_token **token_list, char *line);
 t_token					*ft_create_token_list(char *line);
 
 /*		TOKEN CHECK		*/
+void					ft_error_messages(char *value);
 int						check_token_list(t_token *list);
 
 /*		ARGS		*/
 int						add_new_arg(t_arg **head, char *value);
 
 /*		PARSING		*/
-int						ft_parse_commands(t_data *data);
-t_cmd	*ft_create_cmd_list(t_token *token_list);
+// int						ft_parse_commands(t_data *data);
+t_cmd					*ft_create_cmd_list(t_token *token_list);
 
 #endif

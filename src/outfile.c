@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outfile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/20 14:48:48 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:20:47 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,29 @@ void	ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile)
 		while (lst->next != NULL)
 			lst = lst->next;
 		lst->next = new_outfile;
+	}
+}
+
+void	set_outfile_list(t_cmd *cmd, t_token *token)
+{
+	t_outfile	*new_outfile;
+
+	new_outfile = NULL;
+	while (token != NULL && token->type != PIPE)
+	{
+		if (token->type == RIGHT_TRUNC)
+		{
+			if (token->next != NULL && token->next->type == WORD)
+			{
+				new_outfile = ft_create_new_outfile(token->next->value);
+				if (new_outfile == NULL)
+					return ;
+				ft_add_outfile(&cmd->outfile_list, new_outfile);
+			}
+			else if (token->next != NULL && ft_isoperator(token->next->value) != 0)
+				return (ft_error_messages(token->next->value));
+			else if (token->next == NULL)
+				return (ft_error_messages("`newline'"));
+		}
 	}
 }

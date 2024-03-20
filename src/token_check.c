@@ -6,13 +6,13 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/19 17:06:47 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/20 16:48:54 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static void	ft_error_messages(char *value)
+void	ft_error_messages(char *value)
 {
 	if (ft_isappend(value))
 		ft_putstr_fd("syntax error near unexpected token `>>'\n", 2);
