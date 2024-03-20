@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/20 11:41:54 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/20 13:05:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	print_args(t_cmd *cmds)
+{
+	int	i;
+	int	j;
+
+	if (cmds == NULL)
+	{
+		printf("args empty\n");
+		return ;
+	}
+	i = 0;
+	j = 0;
+	while (cmds)
+	{
+		printf("cmd %d\n", i);
+		printf("cmds->args : %p\n", cmds->words);
+		while (cmds->words)
+		{
+			printf("arg %d : %s\n", j, cmds->words->value);
+			j++;
+			cmds->words = cmds->words->next;
+		}
+		i++;
+		cmds = cmds->next;
+	}
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -35,14 +62,25 @@ int	main(int ac, char **av, char **env)
 			printf("exit\n");
 			break ;
 		}
+		
+		// create token list
 		data.token_list = ft_create_token_list(data.line);
-		if (data.token_list)
+		if (!data.token_list)
 		{
-			ft_parse_commands(&data);
-			print_list(data.token_list);
-		}
-		else
 			printf("no token list\n");
+			break;
+		}
+		print_list(data.token_list);
+		
+		// create cmd list
+		data.cmd_list = ft_create_cmd_list(data.token_list);
+		if (data.cmd_list)
+		{
+			printf("parse commands failed !\n");
+			break;
+		}
+		print_args(data.cmd_list);
+	
 		free(data.line);
 		ft_free_tokens(&data.token_list);
 	}

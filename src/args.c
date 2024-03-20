@@ -3,41 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/20 11:31:46 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/20 12:51:11 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static t_arg	*create_new_arg(char *value)
+static t_word	*create_new_arg(char *value)
 {
-	t_arg	*new;
+	t_word	*new_word;
 
-	new = malloc(sizeof(t_arg));
-	if (!new)
+	new_word = malloc(sizeof(t_word));
+	if (!new_word)
 		return (NULL);
-	new->value = value;
-	new->next = NULL;
-	return (new);
+	new_word->value = value;
+	new_word->next = NULL;
+	return (new_word);
 }
 
-int	add_new_arg(t_arg *head, char *value)
+int	add_new_word(t_word **head, char *value)
 {
-	t_arg	*new;
-	
-	new = create_new_arg(value);
-	if (!new)
+	t_word	*new_word;
+
+	new_word = create_new_arg(value);
+	if (new_word == NULL)
 		return (FAIL);
-	if (!head)
-		head = new;
+	if (*head == NULL)
+		*head = new_word;
 	else
 	{
-		while (head->next)
-			head = head->next;
-		head->next = new;
+		while ((*head)->next != NULL)
+			*head = (*head)->next;
+		(*head)->next = new_word;
 	}
 	return (SUCCESS);
 }
