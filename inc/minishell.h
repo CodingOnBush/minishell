@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 10:58:13 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:16:25 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 typedef struct s_infile
 {
 	char				*filename;
+	char				*delimiter;// null si pas de here_doc
 	struct s_infile		*next;
 }						t_infile;
 
@@ -64,8 +65,6 @@ typedef struct s_arg
 typedef struct s_cmd
 {
 	t_arg				*arg_list;
-	bool				here_doc;
-	char				*delimiter; //null si pas de here_doc
 	t_infile			*infile_list;
 	t_outfile			*outfile_list;
 	struct s_cmd		*next;
@@ -92,12 +91,12 @@ typedef struct s_data
 }						t_data;
 
 /*		INFILE		*/
-t_infile				*ft_create_new_infile(char *filename);
+t_infile				*ft_create_new_infile(char *str, int type);
 void					ft_add_infile(t_infile **infile_list, t_infile *new_infile);
 int						set_infile_list(t_cmd *cmd, t_token *token);
 
 /*		OUTFILE		*/
-t_outfile				*ft_create_new_outfile(char *filename);
+t_outfile				*ft_create_new_outfile(char *filename, int type);
 void					ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
 int						set_outfile_list(t_cmd *cmd, t_token *token);
 
