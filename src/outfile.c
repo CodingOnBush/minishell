@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 12:17:43 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/21 16:12:23 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,3 @@ void	ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile)
 		lst->next = new_outfile;
 	}
 }
-
-// int	set_outfile_list(t_cmd *cmd, t_token *token)
-// {
-// 	t_outfile	*new_outfile;
-
-// 	new_outfile = NULL;
-// 	while (token != NULL && token->type != PIPE)
-// 	{
-// 		if (token->type == RIGHT_TRUNC)
-// 		{
-// 			if (token->next != NULL && token->next->type == WORD)
-// 			{
-// 				new_outfile = ft_create_new_outfile(token->next->value);
-// 				if (new_outfile == NULL)
-// 					return (FAIL);
-// 				ft_add_outfile(&cmd->outfile_list, new_outfile);
-// 			}
-// 			else if (token->next != NULL && ft_isoperator(token->next->value) != 0)
-// 				return (ft_error_messages(token->next->type), FAIL);
-// 			else if (token->next == NULL)
-// 				return (ft_error_messages(NEWLINE_ERROR), FAIL);
-// 		}
-// 		token = token->next;
-// 	}
-// 	return (SUCCESS);
-// }

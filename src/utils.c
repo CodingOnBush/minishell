@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/20 11:51:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/21 17:18:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	ft_isoperator(char *str)
 		return (2);
 	if (ft_strchr("|><", *str) != NULL)
 		return (1);
-	return (0);
+	return (FAIL);
 }
 
-int	ft_isword(char c)
+int	ft_is_in_word(char c)
 {
 	if (c != '|' && c != '>' && c != '<' && ft_isspace(c) == NO)
 		return (YES);
@@ -91,7 +91,7 @@ void	print_list(t_token *list)
 	while (cur_token != NULL)
 	{
 		printf("address: %p\n", cur_token);
-		printf("value : %s\n", cur_token->value);
+		printf("str : %s\n", cur_token->str);
 		printf("type : %d\n", cur_token->type);
 		printf("next-> %p\n", cur_token->next);
 		printf("\n");
@@ -128,4 +128,63 @@ void	ft_set_path(t_data *data)
 		i++;
 	}
 	data->path = NULL;
+}
+
+int	ft_get_op_type(char *value)
+{
+	if (value[0] == '|')
+		return (PIPE);
+	if (ft_isheredoc(value) == YES)
+		return (HEREDOC);
+	if (ft_isappend(value) == YES)
+		return (APPEND);
+	if (value[0] == '<')
+		return (LTRUNC);
+	if (value[0] == '>')
+		return (RTRUNC);
+	return (FAIL);
+}
+
+int	ft_get_type(char *str)
+{
+	if (*str == '|')
+		return (PIPE);
+	if (ft_isheredoc(str) == YES)
+		return (HEREDOC);
+	if (ft_isappend(str) == YES)
+		return (APPEND);
+	if (*str == '<')
+		return (LTRUNC);
+	if (*str == '>')
+		return (RTRUNC);
+	if (*str == DOUBLE_QUOTES || *str == SINGLE_QUOTE)
+		return (QWORD);
+	return (WORD);
+}
+
+char	*ft_type_to_str(int type)
+{
+	if (type == PIPE)
+		return ("PIPE");
+	if (type == HEREDOC)
+		return ("HEREDOC");
+	if (type == APPEND)
+		return ("APPEND");
+	if (type == LTRUNC)
+		return ("LTRUNC");
+	if (type == RTRUNC)
+		return ("RTRUNC");
+	if (type == WORD)
+		return ("WORD");
+	if (type == NEWLINE_ERROR)
+		return ("NEWLINE_ERROR");
+	if (type == QUOTES_ERROR)
+		return ("QUOTES_ERROR");
+	if (type == SINGLE_QUOTE_ERROR)
+		return ("SINGLE_QUOTE_ERROR");
+	if (type == DOUBLE_QUOTE_ERROR)
+		return ("DOUBLE_QUOTE_ERROR");
+	if (type == QWORD)
+		return ("QWORD");
+	return ("UNKNOWN");
 }

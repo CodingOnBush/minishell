@@ -6,114 +6,85 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 13:49:10 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/21 17:22:52 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_get_op_type(char *value)
-{
-	if (value[0] == '|')
-		return (PIPE);
-	if (ft_isheredoc(value) == YES)
-		return (HERE_DOC);
-	if (ft_isappend(value) == YES)
-		return (APPEND);
-	if (value[0] == '<')
-		return (LEFT_TRUNC);
-	if (value[0] == '>')
-		return (RIGHT_TRUNC);
-	return (FAIL);
-}
-
-t_token	*ft_create_token(char *value)
+static t_token	*ft_create_new_token(char *new_str)
 {
 	t_token	*new_token;
 
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
-	new_token->value = value;
-	if (ft_isoperator(value))
-	{
-		new_token->type = ft_get_op_type(value);
-		if (new_token->type == FAIL)
-			return (NULL);
-	}
-	else
-		new_token->type = WORD;
+	new_token->str = new_str;
+	new_token->type = ft_get_type(new_str);
 	new_token->attributed = false;
 	new_token->next = NULL;
 	return (new_token);
 }
 
-void	ft_add_token(t_token **token_list, char *value)
+static void	ft_addlast_token(t_token **token_list, t_token *new_token)
 {
-	t_token	*cur_token;
-	t_token	*new_token;
+	t_token	*lst;
 
-	if (value == NULL)
-		return ;
-	new_token = ft_create_token(value);
 	if (!new_token)
 		return ;
-	cur_token = ft_findlast(*token_list);
-	if (cur_token == NULL)
+	if (*token_list == NULL)
 		*token_list = new_token;
 	else
-		cur_token->next = new_token;
+	{
+		lst = *token_list;
+		while (lst->next != NULL)
+			lst = lst->next;
+		lst->next = new_token;
+	}
 }
 
-int	ft_add_new_token(t_token **token_list, char *line)
+static char	*ft_get_new_str(char *line, int type)
 {
-	int		step;
-	char	*new_value;
-	char	c;
+	char	*new_str;
+	int		len;
 
-	step = -1;
-	c = *line;
-	new_value = NULL;
-	printf("c = %c\n", c);
-	if (c == DOUBLE_QUOTES || c == SINGLE_QUOTE)
+	if (type == PIPE || type == RTRUNC || type == LTRUNC)
+		len = 1;
+	else if (type == HEREDOC || type == APPEND)
+		len = 2;
+	else if (type == QWORD)
 	{
-		if (ft_strchr(line + 1, c) == NULL)
-		{
-			ft_putstr_fd("Unclosed single or double quote\n", 2);
-			return (FAIL);
-		}
-		step = ft_strchr(line + 1, c) - line + 1;
-		printf("step = %d\n", step);
-		new_value = ft_strndup(line, step);
-		if (!new_value)
-			return (FAIL);
-		ft_add_token(token_list, new_value);
-		return (step);
+		if (ft_strchr(line + 1, *line) == NULL)
+			return (ft_error_messages(QUOTES_ERROR), NULL);
+		len = ft_strchr(line + 1, *line) - line + 1;
 	}
-	else if (ft_isword(c) == YES)
+	else if (type == WORD)
 	{
-		step = 0;
-		while (line[step] != '\0' && ft_isword(line[step]))
-			step++;
-		new_value = ft_strndup(line, step);
-		if (!new_value)
-			return (FAIL);
-		ft_add_token(token_list, new_value);
-		return (step);
+		len = 0;
+		while (line[len] != '\0' && ft_is_in_word(line[len]) == YES)
+			len++;
 	}
 	else
-	{
-		step = ft_isoperator(line);
-		if (step == 0)
-			return (FAIL);
-		printf("step : %d\n", step);
-		new_value = ft_strndup(line, step);
-		if (!new_value)
-			return (FAIL);
-		ft_add_token(token_list, new_value);
-		return (step);
-	}
-	return (FAIL);
+		return (NULL);
+	new_str = ft_strndup(line, len);
+	if (!new_str)
+		return (NULL);
+	return (new_str);
+}
+
+static int	ft_handle_token(t_token **token_list, char *line)
+{
+	t_token	*new_token;
+	char	*new_str;
+
+	new_str = ft_get_new_str(line, ft_get_type(line));
+	if (!new_str)
+		return (FAIL);
+	new_token = ft_create_new_token(new_str);
+	if (!new_token)
+		return (free(new_str), FAIL);
+	ft_addlast_token(token_list, new_token);
+	return (ft_strlen(new_str));
 }
 
 t_token	*ft_create_token_list(char *line)
@@ -128,13 +99,13 @@ t_token	*ft_create_token_list(char *line)
 			line++;
 		else
 		{
-			step = ft_add_new_token(&token_list, line);
+			step = ft_handle_token(&token_list, line);
 			if (step == FAIL)
-				return (ft_free_tokens(&token_list), NULL);
+				return (NULL);
 			line += step;
 		}
 	}
 	if (check_token_list(token_list) == FAIL)
-		token_list = NULL;
+		return (ft_free_tokens(&token_list), NULL);
 	return (token_list);
 }

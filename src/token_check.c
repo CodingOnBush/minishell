@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/21 10:55:50 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/21 17:23:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,26 @@ void	ft_error_messages(int errno)
 {
 	if (errno == APPEND)
 		ft_putstr_fd("syntax error near unexpected token `>>'\n", 2);
-	else if (errno == HERE_DOC)
+	else if (errno == HEREDOC)
 		ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
-	else if (errno == RIGHT_TRUNC)
+	else if (errno == RTRUNC)
 		ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
-	else if (errno == LEFT_TRUNC)
+	else if (errno == LTRUNC)
 		ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
 	else if (errno == PIPE)
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 	else if (errno == NEWLINE_ERROR)
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+	else if (errno == QUOTES_ERROR)
+		ft_putstr_fd("Unclosed single or double quote\n", 2);
 }
 
-static int	is_double_pipe(t_token *list, int next_type)
+static int	is_double_pipe(int next_type)
 {
 	if (next_type == PIPE)
 	{
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
-		return (ft_free_tokens(&list), FAIL);
+		return (FAIL);
 	}
 	else
 		return (SUCCESS);
@@ -47,16 +49,16 @@ static int	check_mutiple_op(t_token *list, t_token *token)
 		return (SUCCESS);
 	if (token->type == PIPE)
 	{
-		if (is_double_pipe(list, token->next->type) == FAIL)
+		if (is_double_pipe(token->next->type) == FAIL)
 			return (FAIL);
-		if ((token->next->type == APPEND || token->next->type == LEFT_TRUNC
-				|| token->next->type == RIGHT_TRUNC
-				|| token->next->type == RIGHT_TRUNC) && token->next->next)
+		if ((token->next->type == APPEND || token->next->type == LTRUNC
+				|| token->next->type == RTRUNC
+				|| token->next->type == RTRUNC) && token->next->next)
 		{
-			if (ft_isoperator(token->next->next->value) != 0)
+			if (ft_isoperator(token->next->next->str) != 0)
 			{
 				ft_error_messages(token->next->next->type);
-				return (ft_free_tokens(&list), FAIL);
+				return (FAIL);
 			}
 		}
 	}
@@ -71,8 +73,8 @@ int	check_token_list(t_token *list)
 	if (!list)
 		return (FAIL);
 	cur_token = list;
-	if (cur_token->value[0] == '|')
-		return (ft_error_messages(PIPE), ft_free_tokens(&list), FAIL);
+	if (cur_token->str[0] == '|')
+		return (ft_error_messages(PIPE), FAIL);
 	while (cur_token != NULL)
 	{
 		check = check_mutiple_op(list, cur_token);

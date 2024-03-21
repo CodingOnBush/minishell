@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 14:44:22 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/21 17:19:18 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,22 @@
 # define DOUBLE_QUOTES '\"'
 # define SINGLE_QUOTE '\''
 
-# define HERE_DOC 1
+# define HEREDOC 1
 # define APPEND 2
 # define PIPE 3
-# define LEFT_TRUNC 4
-# define RIGHT_TRUNC 5
+# define LTRUNC 4
+# define RTRUNC 5
 # define WORD 6
 # define NEWLINE_ERROR 7
+# define QUOTES_ERROR 8
+# define SINGLE_QUOTE_ERROR 9
+# define DOUBLE_QUOTE_ERROR 10
+# define QWORD 11
 
 typedef struct s_infile
 {
 	char				*filename;
-	char				*delimiter;// null : pas here_doc donc LEFT_TRUNC
+	char				*delimiter;// null : pas HEREDOCdonc LC
 	struct s_infile		*next;
 }						t_infile;
 
@@ -72,7 +76,7 @@ typedef struct s_cmd
 
 typedef struct s_token
 {
-	char				*value;
+	char				*str;
 	int					type;
 	bool				attributed;
 	struct s_token		*next;
@@ -94,12 +98,10 @@ typedef struct s_data
 /*		INFILE		*/
 t_infile				*ft_create_new_infile(char *str, int type);
 void					ft_add_infile(t_infile **infile_list, t_infile *new_infile);
-int						set_infile_list(t_cmd *cmd, t_token *token);
 
 /*		OUTFILE		*/
 t_outfile				*ft_create_new_outfile(char *filename, int type);
 void					ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
-int						set_outfile_list(t_cmd *cmd, t_token *token);
 
 /*		SIGNALS		*/
 void					ft_setup_signals(t_data *data);
@@ -111,7 +113,7 @@ void					ft_free_path(char **path);
 /*		UTILS		*/
 int						ft_isspace(char c);
 int						ft_isoperator(char *str);
-int						ft_isword(char c);
+int						ft_is_in_word(char c);
 char					*ft_strndup(const char *s, int n);
 void					print_list(t_token *list);
 t_token					*ft_findlast(t_token *lst);
@@ -119,11 +121,11 @@ int						ft_isappend(char *str);
 int						ft_isheredoc(char *str);
 int						ft_isredirection(char *str);
 void					ft_set_path(t_data *data);
+int	ft_get_op_type(char *value);
+int	ft_get_type(char *str);
+char	*ft_type_to_str(int type);
 
-/*		TOKENS		*/
-t_token					*ft_create_token(char *value);
-void					ft_add_token(t_token **token_list, char *value);
-int						ft_add_new_token(t_token **token_list, char *line);
+/*		TOKEN		*/
 t_token					*ft_create_token_list(char *line);
 
 /*		TOKEN CHECK		*/

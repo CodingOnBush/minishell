@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 14:55:24 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/21 17:23:53 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ static t_data	*ft_create_data(int ac, char **av, char **env)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	ft_setup_signals(data);
 	data->ac = ac;
 	data->av = av;
 	data->env = env;
 	data->path = NULL;
+	data->line = NULL;
 	data->cmd_list = NULL;
 	data->token_list = NULL;
 	ft_set_path(data);
+	ft_setup_signals(data);
 	return (data);
 }
 
@@ -68,7 +69,27 @@ char	*find_path(t_data *data)
 		// if (access(big_cmd, ))
 		i++;
 	}
-	
+	return (NULL);
+}
+
+void	ft_print_token_list(t_token *list)
+{
+	t_token	*tmp;
+
+	tmp = list;
+	printf("TOKEN LIST\n");
+	if (tmp == NULL)
+	{
+		printf("token list empty\n");
+		return ;
+	}
+	printf("str\t\ttypecode\ttypename\tattributed\n");
+	while (tmp)
+	{
+		printf("%s\t\t%d\t\t%s\t\t%d\n", tmp->str, tmp->type, ft_type_to_str(tmp->type), tmp->attributed);
+		tmp = tmp->next;
+	}
+	printf("\n");
 }
 
 int	main(int ac, char **av, char **env)
@@ -93,23 +114,27 @@ int	main(int ac, char **av, char **env)
 		if (!data->token_list)
 		{
 			printf("no token list\n");
+			free(data->line);
 			break;
 		}
 		
-		// create cmd list
-		data->cmd_list = ft_create_cmd_list(data->token_list);
-		if (!data->cmd_list)
-		{
-			printf("parse commands failed !\n");
-			break;
-		}
-		printf("HEY\n");
+		ft_print_token_list(data->token_list);
 
-		find_path(data->cmd_list->arg_list);
+		// create cmd list
+		// data->cmd_list = ft_create_cmd_list(data->token_list);
+		// if (!data->cmd_list)
+		// {
+		// 	printf("parse commands failed !\n");
+		// 	break;
+		// }
+		// printf("HEY\n");
+
+		// find_path(data->cmd_list->arg_list);
 	
 		free(data->line);
 		ft_free_tokens(&data->token_list);
 	}
 	ft_free_path(data->path);
+	free(data);
 	return (0);
 }

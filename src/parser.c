@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/21 14:45:59 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/21 17:16:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_token	*ft_get_last_redir(t_token *cur_token)
 {
 	while (cur_token && cur_token->type != PIPE)
 	{
-		if (cur_token->type == RIGHT_TRUNC || cur_token->type == LEFT_TRUNC)
+		if (cur_token->type == RTRUNC || cur_token->type == LTRUNC)
 			return (cur_token);
 		cur_token = cur_token->next;
 	}
@@ -72,13 +72,13 @@ static int	parse_infiles(t_cmd *new_cmd, t_token *token)
 	new_infile = NULL;
 	while (token != NULL && token->type != PIPE)
 	{
-		if (token->type == LEFT_TRUNC || token->type == HERE_DOC)
+		if (token->type == LTRUNC || token->type == HEREDOC)
 		{
 			if (token->next == NULL)
 				return (ft_error_messages(NEWLINE_ERROR), FAIL);
 			else if (token->next->type != WORD)
 				return (ft_error_messages(token->next->type), FAIL);
-			new_infile = ft_create_new_infile(token->next->value, token->type);
+			new_infile = ft_create_new_infile(token->next->str, token->type);
 			if (new_infile == NULL)
 				return (FAIL);
 			ft_add_infile(&new_cmd->infile_list, new_infile);
@@ -99,13 +99,13 @@ static int	parse_outfiles(t_cmd *new_cmd, t_token *token)
 	new_outfile = NULL;
 	while (token != NULL && token->type != PIPE)
 	{
-		if (token->type == RIGHT_TRUNC || token->type == APPEND)
+		if (token->type == RTRUNC || token->type == APPEND)
 		{
 			if (token->next == NULL)
 				return (ft_error_messages(NEWLINE_ERROR), FAIL);
 			else if (token->next->type != WORD)
 				return (ft_error_messages(token->next->type), FAIL);
-			new_outfile = ft_create_new_outfile(token->next->value, token->type);
+			new_outfile = ft_create_new_outfile(token->next->str, token->type);
 			if (new_outfile == NULL)
 				return (FAIL);
 			ft_add_outfile(&new_cmd->outfile_list, new_outfile);
@@ -128,7 +128,7 @@ static int	parse_commands(t_cmd *new_cmd, t_token *token)
 	{
 		if (token->attributed == false)
 		{
-			new_arg = create_new_arg(token->value);
+			new_arg = create_new_arg(token->str);
 			if (!new_arg)
 			{
 				printf("FAIIIIL\n");
