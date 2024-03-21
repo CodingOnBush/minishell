@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/21 12:42:09 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:45:59 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ void	ft_add_new_cmd(t_cmd **cmd_list, t_cmd *new_cmd)
 	t_cmd	**tmp;
 
 	if (*cmd_list == NULL)
-	{
 		*cmd_list = new_cmd;
-		
-	}
 	else
 	{
 		tmp = cmd_list;
@@ -68,25 +65,6 @@ t_token	*ft_get_last_redir(t_token *cur_token)
 	return (NULL);
 }
 
-// int	parse_delimiter(t_cmd *new_cmd, t_token *token)
-// {
-// 	while (token != NULL && token->type != PIPE)
-// 	{
-// 		if (token->type == HERE_DOC)
-// 		{
-// 			if (token->next == NULL)
-// 				return (ft_error_messages(NEWLINE_ERROR), FAIL);
-// 			else if (token->next->type != WORD)
-// 				return (ft_error_messages(token->next->type), FAIL);
-// 			new_cmd->delimiter = token->value;
-// 			token = token->next->next;
-// 		}
-// 		else
-// 			token = token->next;
-// 	}
-	
-// }
-
 static int	parse_infiles(t_cmd *new_cmd, t_token *token)
 {
 	t_infile	*new_infile;
@@ -104,6 +82,8 @@ static int	parse_infiles(t_cmd *new_cmd, t_token *token)
 			if (new_infile == NULL)
 				return (FAIL);
 			ft_add_infile(&new_cmd->infile_list, new_infile);
+			token->attributed = true;
+			token->next->attributed = true;
 			token = token->next->next;
 		}
 		else
@@ -129,6 +109,8 @@ static int	parse_outfiles(t_cmd *new_cmd, t_token *token)
 			if (new_outfile == NULL)
 				return (FAIL);
 			ft_add_outfile(&new_cmd->outfile_list, new_outfile);
+			token->attributed = true;
+			token->next->attributed = true;
 			token = token->next->next;
 		}
 		else
@@ -137,7 +119,27 @@ static int	parse_outfiles(t_cmd *new_cmd, t_token *token)
 	return (SUCCESS);
 }
 
+static int	parse_commands(t_cmd *new_cmd, t_token *token)
+{
+	t_arg	*new_arg;
 
+	new_arg = NULL;
+	while (token != NULL && token->type != PIPE)
+	{
+		if (token->attributed == false)
+		{
+			new_arg = create_new_arg(token->value);
+			if (!new_arg)
+			{
+				printf("FAIIIIL\n");
+				return (FAIL);
+			}
+			add_new_arg(&new_cmd->arg_list, new_arg);
+		}
+		token = token->next;
+	}
+	return (SUCCESS);
+}
 
 t_cmd	*ft_create_cmd(t_token *cur_token)
 {
@@ -148,24 +150,12 @@ t_cmd	*ft_create_cmd(t_token *cur_token)
 	new_cmd = ft_create_new_cmd();
 	if (!new_cmd)
 		return (NULL);
-	parse_infiles(new_cmd, cur_token);
-	parse_outfiles(new_cmd, cur_token);
-	// parse_commands(cur_token);
-	// while (cur_token != NULL && cur_token->type != PIPE)
-	// {
-	// 	if (cur_token->type == HERE_DOC && cur_token->next != NULL && cur_token->next->type == WORD)
-	// 		new_cmd->delimiter = cur_token->next->value;
-	// 	else if (cur_token->type == LEFT_TRUNC)
-	// 		set_infile_list(new_cmd, cur_token); //on pacourt tout les tokens avant le pipe pour stocker ttes les redir d'input
-	// 	else if (cur_token->type == RIGHT_TRUNC || cur_token->type == APPEND)
-	// 		set_outfile_list(new_cmd, cur_token);
-	// 	else if (cur_token->type == WORD)
-	// 	{
-	// 		add_new_arg(&new_cmd->arg_list, cur_token);
-	// 	}
-	// 	cur_token = cur_token->next;
-		
-	// }
+	if (parse_infiles(new_cmd, cur_token) == FAIL)
+		return (NULL);
+	if (parse_outfiles(new_cmd, cur_token) == FAIL)
+		return (NULL);
+	if (parse_commands(new_cmd, cur_token) == FAIL)
+		return (NULL);
 	return (new_cmd);
 }
 

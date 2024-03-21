@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 12:42:14 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/21 13:49:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_token	*ft_create_token(char *value)
 	}
 	else
 		new_token->type = WORD;
+	new_token->attributed = false;
 	new_token->next = NULL;
 	return (new_token);
 }

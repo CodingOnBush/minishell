@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 12:16:25 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:44:22 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@
 typedef struct s_infile
 {
 	char				*filename;
-	char				*delimiter;// null si pas de here_doc
+	char				*delimiter;// null : pas here_doc donc LEFT_TRUNC
 	struct s_infile		*next;
 }						t_infile;
 
 typedef struct s_outfile
 {
 	char				*filename;
-	bool				append;
+	bool				append;// false : RIGTH_TRUNC
 	struct s_outfile	*next;
 }						t_outfile;
 
@@ -74,6 +74,7 @@ typedef struct s_token
 {
 	char				*value;
 	int					type;
+	bool				attributed;
 	struct s_token		*next;
 }						t_token;
 
@@ -130,7 +131,8 @@ void					ft_error_messages(int errno);
 int						check_token_list(t_token *list);
 
 /*		ARGS		*/
-int						add_new_arg(t_arg **head, char *value);
+t_arg					*create_new_arg(char *value);
+void					add_new_arg(t_arg **head, t_arg *new_arg);
 
 /*		PARSING		*/
 // int						ft_parse_commands(t_data *data);
