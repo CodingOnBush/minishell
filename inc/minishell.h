@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/20 17:19:25 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:58:13 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define LEFT_TRUNC 4
 # define RIGHT_TRUNC 5
 # define WORD 6
+# define NEWLINE_ERROR 7
 
 typedef struct s_infile
 {
@@ -93,12 +94,12 @@ typedef struct s_data
 /*		INFILE		*/
 t_infile				*ft_create_new_infile(char *filename);
 void					ft_add_infile(t_infile **infile_list, t_infile *new_infile);
-void					set_infile_list(t_cmd *cmd, t_token *token);
+int						set_infile_list(t_cmd *cmd, t_token *token);
 
 /*		OUTFILE		*/
 t_outfile				*ft_create_new_outfile(char *filename);
 void					ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
-void	set_outfile_list(t_cmd *cmd, t_token *token);
+int						set_outfile_list(t_cmd *cmd, t_token *token);
 
 /*		SIGNALS		*/
 void					ft_setup_signals(t_data *data);
@@ -126,7 +127,7 @@ int						ft_add_new_token(t_token **token_list, char *line);
 t_token					*ft_create_token_list(char *line);
 
 /*		TOKEN CHECK		*/
-void					ft_error_messages(char *value);
+void					ft_error_messages(int errno);
 int						check_token_list(t_token *list);
 
 /*		ARGS		*/

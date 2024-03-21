@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/20 17:20:47 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:58:57 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile)
 	}
 }
 
-void	set_outfile_list(t_cmd *cmd, t_token *token)
+int	set_outfile_list(t_cmd *cmd, t_token *token)
 {
 	t_outfile	*new_outfile;
 
@@ -53,13 +53,15 @@ void	set_outfile_list(t_cmd *cmd, t_token *token)
 			{
 				new_outfile = ft_create_new_outfile(token->next->value);
 				if (new_outfile == NULL)
-					return ;
+					return (FAIL);
 				ft_add_outfile(&cmd->outfile_list, new_outfile);
 			}
 			else if (token->next != NULL && ft_isoperator(token->next->value) != 0)
-				return (ft_error_messages(token->next->value));
+				return (ft_error_messages(token->next->type), FAIL);
 			else if (token->next == NULL)
-				return (ft_error_messages("`newline'"));
+				return (ft_error_messages(NEWLINE_ERROR), FAIL);
 		}
+		token = token->next;
 	}
+	return (SUCCESS);
 }

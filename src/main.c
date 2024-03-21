@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/20 15:24:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/21 11:11:07 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	print_args(t_cmd *cmds)
 		printf("============\ncmd %d\n", i);
 		// printf("cmds->args : %p\n", cmds->arg_list);
 		printf("delimiter : %s\n", cmds->delimiter);
+		printf("infile : %s\n", cmds->infile_list->filename);
+		printf("outfile : %s\n", cmds->outfile_list->filename);
 		// while (cmds->arg_list)
 		// {
 		// 	printf("arg %d : %s\n", j, cmds->arg_list->value);

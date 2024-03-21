@@ -6,24 +6,26 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/20 16:48:54 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:55:50 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_error_messages(char *value)
+void	ft_error_messages(int errno)
 {
-	if (ft_isappend(value))
+	if (errno == APPEND)
 		ft_putstr_fd("syntax error near unexpected token `>>'\n", 2);
-	else if (ft_isheredoc(value))
+	else if (errno == HERE_DOC)
 		ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
-	else if (*value == '>')
+	else if (errno == RIGHT_TRUNC)
 		ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
-	else if (*value == '<')
+	else if (errno == LEFT_TRUNC)
 		ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
-	else if (*value == '|')
+	else if (errno == PIPE)
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+	else if (errno == NEWLINE_ERROR)
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 }
 
 static int	is_double_pipe(t_token *list, int next_type)
@@ -53,7 +55,7 @@ static int	check_mutiple_op(t_token *list, t_token *token)
 		{
 			if (ft_isoperator(token->next->next->value) != 0)
 			{
-				ft_error_messages(token->next->next->value);
+				ft_error_messages(token->next->next->type);
 				return (ft_free_tokens(&list), FAIL);
 			}
 		}
@@ -70,7 +72,7 @@ int	check_token_list(t_token *list)
 		return (FAIL);
 	cur_token = list;
 	if (cur_token->value[0] == '|')
-		return (ft_error_messages("|"), ft_free_tokens(&list), FAIL);
+		return (ft_error_messages(PIPE), ft_free_tokens(&list), FAIL);
 	while (cur_token != NULL)
 	{
 		check = check_mutiple_op(list, cur_token);
