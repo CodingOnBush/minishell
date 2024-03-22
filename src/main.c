@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/22 14:57:16 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:32:25 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	main(int ac, char **av, char **env)
 			printf("exit\n");
 			break ;
 		}
+		add_history(data->line);
 		
 		// create token list
 		data->token_list = ft_create_token_list(data->line);
@@ -129,12 +130,17 @@ int	main(int ac, char **av, char **env)
 		// 	break;
 		// }
 		// printf("HEY\n");
-
-		// find_path(data->cmd_list->arg_list);
+		// if (do_heredocs(&data) == FAIL)
+		// {
+		// 	printf("A heredoc failed at some point !\n");
+		// 	break;
+		// }
+		// printf("cmd_path : %s\n", // find_path(data));
 	
 		free(data->line);
 		ft_free_tokens(&data->token_list);
 	}
+	rl_clear_history();
 	ft_free_path(data->path);
 	free(data);
 	return (0);
