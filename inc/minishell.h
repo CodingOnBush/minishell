@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 17:19:18 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:25:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 
-# define MINISPELL "minispell > "
+# define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 👉 \001\033[0m\002"
 
 # define YES 1
 # define NO 0
@@ -34,11 +34,11 @@
 # define DOUBLE_QUOTES '\"'
 # define SINGLE_QUOTE '\''
 
-# define HEREDOC 1
+# define HERE_DOC 1
 # define APPEND 2
 # define PIPE 3
-# define LTRUNC 4
-# define RTRUNC 5
+# define LEFT_TRUNC 4
+# define RIGHT_TRUNC 5
 # define WORD 6
 # define NEWLINE_ERROR 7
 # define QUOTES_ERROR 8

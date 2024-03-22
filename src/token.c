@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 17:22:52 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:20:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ static char	*ft_get_new_str(char *line, int type)
 	char	*new_str;
 	int		len;
 
-	if (type == PIPE || type == RTRUNC || type == LTRUNC)
+	if (type == PIPE || type == RIGHT_TRUNC || type == LEFT_TRUNC)
 		len = 1;
-	else if (type == HEREDOC || type == APPEND)
+	else if (type == HERE_DOC || type == APPEND)
 		len = 2;
 	else if (type == QWORD)
 	{

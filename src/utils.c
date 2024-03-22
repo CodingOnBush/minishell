@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 17:18:55 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:20:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,13 +135,13 @@ int	ft_get_op_type(char *value)
 	if (value[0] == '|')
 		return (PIPE);
 	if (ft_isheredoc(value) == YES)
-		return (HEREDOC);
+		return (HERE_DOC);
 	if (ft_isappend(value) == YES)
 		return (APPEND);
 	if (value[0] == '<')
-		return (LTRUNC);
+		return (LEFT_TRUNC);
 	if (value[0] == '>')
-		return (RTRUNC);
+		return (RIGHT_TRUNC);
 	return (FAIL);
 }
 
@@ -150,13 +150,13 @@ int	ft_get_type(char *str)
 	if (*str == '|')
 		return (PIPE);
 	if (ft_isheredoc(str) == YES)
-		return (HEREDOC);
+		return (HERE_DOC);
 	if (ft_isappend(str) == YES)
 		return (APPEND);
 	if (*str == '<')
-		return (LTRUNC);
+		return (LEFT_TRUNC);
 	if (*str == '>')
-		return (RTRUNC);
+		return (RIGHT_TRUNC);
 	if (*str == DOUBLE_QUOTES || *str == SINGLE_QUOTE)
 		return (QWORD);
 	return (WORD);
@@ -166,14 +166,14 @@ char	*ft_type_to_str(int type)
 {
 	if (type == PIPE)
 		return ("PIPE");
-	if (type == HEREDOC)
-		return ("HEREDOC");
+	if (type == HERE_DOC)
+		return ("HERE_DOC");
 	if (type == APPEND)
 		return ("APPEND");
-	if (type == LTRUNC)
-		return ("LTRUNC");
-	if (type == RTRUNC)
-		return ("RTRUNC");
+	if (type == LEFT_TRUNC)
+		return ("LEFT_TRUNC");
+	if (type == RIGHT_TRUNC)
+		return ("RIGHT_TRUNC");
 	if (type == WORD)
 		return ("WORD");
 	if (type == NEWLINE_ERROR)

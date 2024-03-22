@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/21 17:23:46 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:20:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	ft_error_messages(int errno)
 {
 	if (errno == APPEND)
 		ft_putstr_fd("syntax error near unexpected token `>>'\n", 2);
-	else if (errno == HEREDOC)
+	else if (errno == HERE_DOC)
 		ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
-	else if (errno == RTRUNC)
+	else if (errno == RIGHT_TRUNC)
 		ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
-	else if (errno == LTRUNC)
+	else if (errno == LEFT_TRUNC)
 		ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
 	else if (errno == PIPE)
 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
@@ -51,17 +51,18 @@ static int	check_mutiple_op(t_token *list, t_token *token)
 	{
 		if (is_double_pipe(token->next->type) == FAIL)
 			return (FAIL);
-		if ((token->next->type == APPEND || token->next->type == LTRUNC
-				|| token->next->type == RTRUNC
-				|| token->next->type == RTRUNC) && token->next->next)
+		if ((token->next->type == APPEND || token->next->type == LEFT_TRUNC
+				|| token->next->type == RIGHT_TRUNC) && token->next->next)
 		{
-			if (ft_isoperator(token->next->next->str) != 0)
+			if (ft_isoperator(token->next->next->str) != FAIL)
 			{
 				ft_error_messages(token->next->next->type);
 				return (FAIL);
 			}
 		}
 	}
+	else if (ft_isoperator(token->str) != FAIL && token->next != NULL && ft_isoperator(token->next->str) != FAIL)
+		return (ft_error_messages(token->next->type), FAIL);
 	return (SUCCESS);
 }
 

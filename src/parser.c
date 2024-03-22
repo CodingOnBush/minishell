@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/21 17:16:10 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:20:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_token	*ft_get_last_redir(t_token *cur_token)
 {
 	while (cur_token && cur_token->type != PIPE)
 	{
-		if (cur_token->type == RTRUNC || cur_token->type == LTRUNC)
+		if (cur_token->type == RIGHT_TRUNC || cur_token->type == LEFT_TRUNC)
 			return (cur_token);
 		cur_token = cur_token->next;
 	}
@@ -72,7 +72,7 @@ static int	parse_infiles(t_cmd *new_cmd, t_token *token)
 	new_infile = NULL;
 	while (token != NULL && token->type != PIPE)
 	{
-		if (token->type == LTRUNC || token->type == HEREDOC)
+		if (token->type == LEFT_TRUNC || token->type == HERE_DOC)
 		{
 			if (token->next == NULL)
 				return (ft_error_messages(NEWLINE_ERROR), FAIL);
@@ -99,7 +99,7 @@ static int	parse_outfiles(t_cmd *new_cmd, t_token *token)
 	new_outfile = NULL;
 	while (token != NULL && token->type != PIPE)
 	{
-		if (token->type == RTRUNC || token->type == APPEND)
+		if (token->type == RIGHT_TRUNC || token->type == APPEND)
 		{
 			if (token->next == NULL)
 				return (ft_error_messages(NEWLINE_ERROR), FAIL);
