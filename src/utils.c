@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/22 15:20:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 17:49:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,4 +187,35 @@ char	*ft_type_to_str(int type)
 	if (type == QWORD)
 		return ("QWORD");
 	return ("UNKNOWN");
+}
+
+void	ft_print_token_list(t_token *list)
+{
+	t_token	*tmp;
+
+	tmp = list;
+	if (tmp == NULL)
+	{
+		printf("token list empty\n");
+		return ;
+	}
+	printf("STR\t\tTYPECODE\tTYPENAME\tATTRIBUTED\n");
+	while (tmp)
+	{
+		printf("%s\t\t%d\t\t%s\t\t%d\n", tmp->str, tmp->type, ft_type_to_str(tmp->type), tmp->attributed);
+		tmp = tmp->next;
+	}
+	printf("\n");
+}
+
+void	ft_welcome_msg(char *welcome)
+{
+	printf("%s-----------------------%s-----------------------\n%s", PURPLE_BOLD, welcome,  PURPLE_BOLD);
+}
+
+int	ft_is_quote(char c)
+{
+	if (c == DOUBLE_QUOTES || c == SINGLE_QUOTE)
+		return (YES);
+	return (NO);
 }

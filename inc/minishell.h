@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/22 15:28:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 17:18:59 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@
 # include <unistd.h>
 # include <stdbool.h>
 
-# define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 👉 \001\033[0m\002"
+# define PURPLE_BOLD	"\001\e[1;38;5;141m\002"
+# define MINISPELL		"\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 👉 \001\033[0m\002"
 
 # define YES 1
 # define NO 0
 
 # define SUCCESS 1
 # define FAIL -1
-// # define ERROR -1
 
 # define DOUBLE_QUOTES '\"'
 # define SINGLE_QUOTE '\''
@@ -125,6 +125,9 @@ void					ft_set_path(t_data *data);
 int	ft_get_op_type(char *value);
 int	ft_get_type(char *str);
 char	*ft_type_to_str(int type);
+void	ft_print_token_list(t_token *list);
+void	ft_welcome_msg(char *welcome);
+int	ft_is_quote(char c);
 
 /*		TOKEN		*/
 t_token					*ft_create_token_list(char *line);
@@ -136,6 +139,9 @@ int						check_token_list(t_token *list);
 /*		ARGS		*/
 t_arg					*create_new_arg(char *value);
 void					add_new_arg(t_arg **head, t_arg *new_arg);
+
+/*		DATA		*/
+t_data	*ft_create_data(int ac, char **av, char **env);
 
 /*		PARSING		*/
 // int						ft_parse_commands(t_data *data);

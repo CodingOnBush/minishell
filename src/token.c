@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/22 15:39:07 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 17:55:59 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,24 @@ static void	ft_addlast_token(t_token **token_list, t_token *new_token)
 	}
 }
 
+static int	ft_get_word_len(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (ft_is_quote(line[i]) && ft_strchr(&line[i + 1], line[i]) != NULL)
+			return (ft_strchr(&line[i + 1], line[i]) - line + 1);
+		else if (ft_is_quote(line[i]) && ft_strchr(&line[i + 1], line[i]) == NULL)
+			return (FAIL);
+		if (ft_is_in_word(line[i]) == NO)
+			break;
+		i++;
+	}
+	return (i);
+}
+
 static char	*ft_get_new_str(char *line, int type)
 {
 	char	*new_str;
@@ -52,17 +70,11 @@ static char	*ft_get_new_str(char *line, int type)
 		len = 1;
 	else if (type == HERE_DOC || type == APPEND)
 		len = 2;
-	else if (type == QWORD)
+	else if (type == WORD || type == QWORD)
 	{
-		if (ft_strchr(line + 1, *line) == NULL)
-			return (ft_error_messages(QUOTES_ERROR), NULL);
-		len = ft_strchr(line + 1, *line) - line + 1;
-	}
-	else if (type == WORD)
-	{
-		len = 0;
-		while (line[len] != '\0' && ft_is_in_word(line[len]) == YES)
-			len++;
+		len = ft_get_word_len(line);
+		if (len == FAIL)
+			return (NULL);
 	}
 	else
 		return (NULL);
@@ -105,7 +117,5 @@ t_token	*ft_create_token_list(char *line)
 			line += step;
 		}
 	}
-	if (check_token_list(token_list) == FAIL)
-		return (ft_free_tokens(&token_list), NULL);
 	return (token_list);
 }
