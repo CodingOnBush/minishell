@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 14:44:22 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:03:48 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_data
 	char				*line;
 	t_cmd				*cmd_list;
 	t_token				*token_list;
+	int					hdnum;
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
 }						t_data;
@@ -137,5 +138,8 @@ void					add_new_arg(t_arg **head, t_arg *new_arg);
 /*		PARSING		*/
 // int						ft_parse_commands(t_data *data);
 t_cmd					*ft_create_cmd_list(t_token *token_list);
+
+/*		HEREDOCS	*/
+int						do_heredocs(t_data *data);
 
 #endif

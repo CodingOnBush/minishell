@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 14:55:24 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/22 15:17:21 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ if (execve("/usr/bin/ls", args, env) == 0)
 
 /* ls << EOF cat << EOF hey > file1 > fiel2 > ls >> file3 */
 
+
 char	*find_path(t_data *data)
 {
 	t_arg	*arg_list;
@@ -60,15 +61,19 @@ char	*find_path(t_data *data)
 	if (arg_list == NULL)
 		return (NULL);
 	i = 0;
+	data->cmd_list->arg_list->value = ft_strjoin("/", data->cmd_list->arg_list->value);
+	if (!data->cmd_list->arg_list->value)
+		return (NULL);
 	while (data->path[i] != NULL)
 	{
 		big_cmd = ft_strjoin(data->path[i], arg_list->value);
 		if (!big_cmd)
 			return (NULL);
-		// if (access(big_cmd, ))
+		if (access(big_cmd, F_OK) == 0)
+			return (big_cmd);
 		i++;
 	}
-	
+	return (NULL);
 }
 
 int	main(int ac, char **av, char **env)
@@ -87,6 +92,7 @@ int	main(int ac, char **av, char **env)
 			printf("exit\n");
 			break ;
 		}
+		add_history(data->line);
 		
 		// create token list
 		data->token_list = ft_create_token_list(data->line);
@@ -104,12 +110,17 @@ int	main(int ac, char **av, char **env)
 			break;
 		}
 		printf("HEY\n");
-
-		find_path(data->cmd_list->arg_list);
+		// if (do_heredocs(&data) == FAIL)
+		// {
+		// 	printf("A heredoc failed at some point !\n");
+		// 	break;
+		// }
+		printf("cmd_path : %s\n", find_path(data));
 	
 		free(data->line);
 		ft_free_tokens(&data->token_list);
 	}
+	rl_clear_history();
 	ft_free_path(data->path);
 	return (0);
 }
