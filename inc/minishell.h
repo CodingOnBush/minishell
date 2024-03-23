@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/22 17:18:59 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/23 17:23:16 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 # include <unistd.h>
 # include <stdbool.h>
 
-# define PURPLE_BOLD	"\001\e[1;38;5;141m\002"
-# define MINISPELL		"\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 👉 \001\033[0m\002"
+# define PURPLE_BOLD "\001\e[1;38;5;141m\002"
+# define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 👉\001\e[1;38;5;141m\002"
+# define WELCOME "-----------------------Welcome to minispell \\o_o/-----------------------\n"
 
 # define YES 1
 # define NO 0
@@ -121,16 +122,18 @@ t_token					*ft_findlast(t_token *lst);
 int						ft_isappend(char *str);
 int						ft_isheredoc(char *str);
 int						ft_isredirection(char *str);
-void					ft_set_path(t_data *data);
-int	ft_get_op_type(char *value);
-int	ft_get_type(char *str);
-char	*ft_type_to_str(int type);
-void	ft_print_token_list(t_token *list);
-void	ft_welcome_msg(char *welcome);
-int	ft_is_quote(char c);
+int						ft_set_path(t_data *data);
+int						ft_get_op_type(char *value);
+int						ft_get_type(char *str);
+char					*ft_type_to_str(int type);
+void					ft_print_token_list(t_token *list);
+void					ft_print_welcome_msg(void);
+int						ft_is_quote(char c);
 
 /*		TOKEN		*/
 t_token					*ft_create_token_list(char *line);
+int	ft_get_word_len(char *line);
+char	*ft_get_new_str(char *line, int type);
 
 /*		TOKEN CHECK		*/
 void					ft_error_messages(int errno);
@@ -144,7 +147,6 @@ void					add_new_arg(t_arg **head, t_arg *new_arg);
 t_data	*ft_create_data(int ac, char **av, char **env);
 
 /*		PARSING		*/
-// int						ft_parse_commands(t_data *data);
 t_cmd					*ft_create_cmd_list(t_token *token_list);
 
 /*		HEREDOCS	*/

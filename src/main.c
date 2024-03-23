@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/22 18:10:44 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/23 17:38:07 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	*data;
 
-	ft_welcome_msg("Welcome to minispell \\o_o/");
 	data = ft_create_data(ac, av, env);
 	if (!data)
 		return (-1);
+	ft_print_welcome_msg();
 	while (1)
 	{
 		data->line = readline(MINISPELL);
@@ -32,12 +32,6 @@ int	main(int ac, char **av, char **env)
 		
 		// create token list
 		data->token_list = ft_create_token_list(data->line);
-		if (!data->token_list)
-		{
-			printf("no token list\n");
-			// free(data->line);
-			// break;
-		}
 		ft_print_token_list(data->token_list);
 		
 		// create cmd list
@@ -60,50 +54,40 @@ int	main(int ac, char **av, char **env)
 		free(data->line);
 		ft_free_tokens(&data->token_list);
 	}
-	rl_clear_history();
+	// rl_clear_history();
 	ft_free_path(data->path);
 	free(data);
 	return (0);
 }
 
 /*
+===================
+TEST ft_get_new_str
+===================
+int	main(void)
+{
+	char	*str;
+	int		type;
+	char	*line;
 
+	line = ft_strdup("couc\"ou\"hey");
+	if (!line)
+		return (FAIL);
+	printf("line : %s\n", line);
+	type = ft_get_type(line);
+	printf("type : %d(%s)\n", type, ft_type_to_str(type));
+	str = ft_get_new_str(line, type);
+	if (!str)
+		return (FAIL);
+	printf("str : %s\n", str);
+	free(line);
+	free(str);
+	return (0);
+}
 
-echo ""$test""
-echo "" $test ""
-echo ""   $test   ""
-echo ab"$test"
-echo ab "$test"
-echo ab   "$test"
+*/
 
-echo "" bonjour
-echo ""bonjour
-
-
-```
-bash-5.1$ export var="  truc"; echo $var
-truc
-bash-5.1$ var="  truc"
-bash-5.1$ echo $var
-truc
-bash-5.1$ var="  trswqsuc"
-bash-5.1$ echo $var
-trswqsuc
-bash-5.1$ var="                 trswqsuc"
-bash-5.1$ echo $var
-trswqsuc
-bash-5.1$ var="q                 trswqsuc"
-bash-5.1$ echo $var
-q trswqsuc
-```
-
-
-export "test=ici"=coucou ; echo $test
-
-
-
-
-
+/*
 char	*args[4];
 
 (void)ac;
@@ -117,5 +101,4 @@ if (execve("/usr/bin/ls", args, env) == 0)
 {
 	printf("errorrrr\n");
 }
-
 */

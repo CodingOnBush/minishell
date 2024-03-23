@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/22 17:49:10 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/23 17:37:59 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int	ft_isappend(char *str)
 
 int	ft_isheredoc(char *str)
 {
-	if (str[0] == '<' && str[1] == '<')
+	if (!str)
+		return (NO);
+	if (str[0] == '<' && str[1] && str[1] == '<')
 		return (YES);
 	return (NO);
 }
@@ -108,7 +110,7 @@ t_token		*ft_findlast(t_token *lst)
 	return (lst);
 }
 
-void	ft_set_path(t_data *data)
+int	ft_set_path(t_data *data)
 {
 	int		i;
 	char	*path;
@@ -121,13 +123,16 @@ void	ft_set_path(t_data *data)
 		{
 			path = ft_strdup(data->env[i] + 5);
 			tmp = ft_split(path, ':');
+			if (!tmp)
+				return (FAIL);
 			free(path);
 			data->path = tmp;
-			return ;
+			return (SUCCESS);
 		}
 		i++;
 	}
 	data->path = NULL;
+	return (FAIL);
 }
 
 int	ft_get_op_type(char *value)
@@ -194,23 +199,18 @@ void	ft_print_token_list(t_token *list)
 	t_token	*tmp;
 
 	tmp = list;
-	if (tmp == NULL)
-	{
+	if (!tmp)
 		printf("token list empty\n");
-		return ;
-	}
-	printf("STR\t\tTYPECODE\tTYPENAME\tATTRIBUTED\n");
 	while (tmp)
 	{
-		printf("%s\t\t%d\t\t%s\t\t%d\n", tmp->str, tmp->type, ft_type_to_str(tmp->type), tmp->attributed);
+		printf("%s\t\t%s\t\t%d\n", tmp->str, ft_type_to_str(tmp->type), tmp->attributed);
 		tmp = tmp->next;
 	}
-	printf("\n");
 }
 
-void	ft_welcome_msg(char *welcome)
+void	ft_print_welcome_msg(void)
 {
-	printf("%s-----------------------%s-----------------------\n%s", PURPLE_BOLD, welcome,  PURPLE_BOLD);
+	printf("%s%s%s", PURPLE_BOLD, WELCOME,  PURPLE_BOLD);
 }
 
 int	ft_is_quote(char c)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/22 16:32:47 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/23 17:16:36 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 	data->line = NULL;
 	data->cmd_list = NULL;
 	data->token_list = NULL;
-	ft_set_path(data);
+	if (ft_set_path(data) == FAIL)
+		return (free(data), NULL);
 	ft_setup_signals(data);
 	return (data);
 }
