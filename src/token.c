@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/22 15:20:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/25 11:40:23 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static t_token	*ft_create_new_token(char *new_str)
 	new_token->str = new_str;
 	new_token->type = ft_get_type(new_str);
 	new_token->attributed = false;
+	new_token->pos = 0;
+	new_token->error = NULL;
 	new_token->next = NULL;
 	return (new_token);
 }
@@ -105,6 +107,8 @@ t_token	*ft_create_token_list(char *line)
 			line += step;
 		}
 	}
+	if (check_double_pipes(token_list) == FAIL)
+		return (ft_free_tokens(&token_list), NULL);
 	if (check_token_list(token_list) == FAIL)
 		return (ft_free_tokens(&token_list), NULL);
 	return (token_list);

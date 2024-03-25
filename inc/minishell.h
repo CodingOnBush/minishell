@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/22 15:28:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/25 11:42:24 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ typedef struct s_outfile
 
 typedef struct s_arg
 {
-	char			*value;
-	struct s_arg	*next;
-}					t_arg;
+	char				*value;
+	struct s_arg		*next;
+}						t_arg;
 
 typedef struct s_cmd
 {
@@ -74,11 +74,19 @@ typedef struct s_cmd
 	struct s_cmd		*next;
 }						t_cmd;
 
+typedef struct	s_error
+{
+	int					error;
+	int					type;
+}						t_error;
+
 typedef struct s_token
 {
 	char				*str;
 	int					type;
 	bool				attributed;
+	int					pos;
+	t_error				*error;
 	struct s_token		*next;
 }						t_token;
 
