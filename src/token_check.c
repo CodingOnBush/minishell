@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/24 16:55:37 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/25 12:05:53 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,16 @@ static int	check_mutiple_op(t_token *list, t_token *token)
 	return (SUCCESS);
 }
 
+void	set_pos_tokens(t_token *list)
+{
+	t_token	*cur_token;
+
+	if (!list)
+		return (FAIL);
+	cur_token = list;
+	
+}
+
 int	check_token_list(t_token *list)
 {
 	t_token	*cur_token;
@@ -75,6 +85,7 @@ int	check_token_list(t_token *list)
 
 	if (!list)
 		return (FAIL);
+	set_pos_tokens(list);
 	cur_token = list;
 	if (cur_token->str[0] == '|')
 		return (ft_error_messages(PIPE), FAIL);
