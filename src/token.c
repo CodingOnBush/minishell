@@ -6,13 +6,13 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/24 15:44:27 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/25 11:37:38 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static t_token	*ft_create_new_token(char *new_str, int type)
+t_token	*ft_create_new_token(char *new_str, int type)
 {
 	t_token	*new_token;
 
@@ -26,7 +26,7 @@ static t_token	*ft_create_new_token(char *new_str, int type)
 	return (new_token);
 }
 
-static void	ft_addlast_token(t_token **token_list, t_token *new_token)
+void	ft_addlast_token(t_token **token_list, t_token *new_token)
 {
 	t_token	*lst;
 

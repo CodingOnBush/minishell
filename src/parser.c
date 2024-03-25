@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/22 15:20:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/25 11:40:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,38 @@ t_token	*ft_find_next_pipe(t_token *cur_token)
 	return (NULL);
 }
 
-static t_cmd	*ft_create_new_cmd(void)
+static t_token	*ft_extract_token(t_token *token_list)
+{
+	t_token	*new_token;
+	t_token	*new_token_list;
+
+	new_token_list = NULL;
+	while (token_list != NULL && token_list->type != PIPE)
+	{
+		new_token = ft_create_new_token(token_list->str, token_list->type);
+		if (!new_token)
+			return (NULL);
+		ft_addlast_token(&new_token_list, new_token);
+		token_list = token_list->next;
+	}
+	return (new_token_list);
+}
+
+static t_cmd	*ft_create_new_cmd(t_token *cur_token)
 {
 	t_cmd	*new_cmd;
 	
+	if (!cur_token)
+		return (NULL);
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
+	new_cmd->token_list = ft_extract_token(cur_token);
+	if (!new_cmd->token_list)
+	{
+		free(new_cmd);
+		return (NULL);
+	}
 	new_cmd->arg_list = NULL;
 	new_cmd->infile_list = NULL;
 	new_cmd->outfile_list = NULL;
@@ -147,7 +172,7 @@ t_cmd	*ft_create_cmd(t_token *cur_token)
 
 	if (cur_token == NULL)
 		return (NULL);
-	new_cmd = ft_create_new_cmd();
+	new_cmd = ft_create_new_cmd(cur_token);
 	if (!new_cmd)
 		return (NULL);
 	if (parse_infiles(new_cmd, cur_token) == FAIL)

@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/25 10:24:04 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/25 11:39:58 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,6 @@ typedef struct s_arg
 	struct s_arg	*next;
 }					t_arg;
 
-typedef struct s_cmd
-{
-	t_arg				*arg_list;
-	t_infile			*infile_list;
-	t_outfile			*outfile_list;
-	struct s_cmd		*next;
-}						t_cmd;
-
 typedef struct s_token
 {
 	char				*str;
@@ -81,6 +73,15 @@ typedef struct s_token
 	bool				attributed;
 	struct s_token		*next;
 }						t_token;
+
+typedef struct s_cmd
+{
+	t_token				*token_list;
+	t_arg				*arg_list;// we can remove it thanks to token_list
+	t_infile			*infile_list;
+	t_outfile			*outfile_list;
+	struct s_cmd		*next;
+}						t_cmd;
 
 typedef struct s_data
 {
@@ -92,6 +93,7 @@ typedef struct s_data
 	t_cmd				*cmd_list;
 	t_token				*token_list;
 	int					hdnum;
+	t_token				*token_split;
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
 }						t_data;
@@ -118,6 +120,7 @@ int ft_check_double_pipe(t_token *token);
 
 /*		PRINT			*/
 void					ft_print_token_list(t_token *list);
+void					ft_print_cmd_list(t_cmd *list);
 
 /*		UTILS			*/
 int						ft_isspace(char c);
@@ -153,6 +156,8 @@ t_cmd					*ft_create_cmd_list(t_token *token_list);
 int						do_heredocs(t_data *data);
 
 /*		TOKEN			*/
+t_token					*ft_create_new_token(char *new_str, int type);
+void					ft_addlast_token(t_token **token_list, t_token *new_token);
 t_token					*ft_create_token_list(char *line);
 
 #endif

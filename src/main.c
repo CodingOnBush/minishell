@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/25 10:25:48 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/25 11:31:26 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,26 @@ int	main(int ac, char **av, char **env)
 			data->token_list = ft_create_token_list(data->line);
 			if (!data->token_list)
 				printf("parse tokens failed !\n");
-			if (ft_check_double_pipe(data->token_list) == FAIL)
-				ft_error_messages(DOUBLE_PIPE_ERROR);
 			else
 			{
-				ft_print_token_list(data->token_list);
+				if (ft_check_double_pipe(data->token_list) == FAIL)
+					ft_error_messages(DOUBLE_PIPE_ERROR);
+				else
+				{
+					// ft_print_token_list(data->token_list);
+					data->cmd_list = ft_create_cmd_list(data->token_list);
+					if (!data->cmd_list)
+					{
+						printf("parse commands failed !\n");
+						// ft_free_tokens(data->token_list);
+						// free(data->line);
+						break;
+					}
+					else
+					{
+						ft_print_cmd_list(data->cmd_list);
+					}
+				}
 			}
 		}
 
@@ -51,14 +66,7 @@ int	main(int ac, char **av, char **env)
 
 		
 		// create cmd list
-		// data->cmd_list = ft_create_cmd_list(data->token_list);
-		// if (!data->cmd_list)
-		// {
-		// 	printf("parse commands failed !\n");
-		// 	ft_free_tokens(data->token_list);
-		// 	free(data->line);
-		// 	break;
-		// }
+		
 		// printf("HEY\n");
 		// if (do_heredocs(&data) == FAIL)
 		// {
