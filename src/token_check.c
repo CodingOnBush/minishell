@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/25 11:43:34 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/25 11:56:22 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,15 @@ static int	check_mutiple_op(t_token *list, t_token *token)
 	return (SUCCESS);
 }
 
-void	set_pos_tokens()
+void	set_pos_tokens(t_token *list)
+{
+	t_token	*cur_token;
+
+	if (!list)
+		return (FAIL);
+	cur_token = list;
+	
+}
 
 int	check_token_list(t_token *list)
 {
