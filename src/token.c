@@ -6,13 +6,13 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/23 17:35:57 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/24 15:44:27 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static t_token	*ft_create_new_token(char *new_str)
+static t_token	*ft_create_new_token(char *new_str, int type)
 {
 	t_token	*new_token;
 
@@ -20,7 +20,7 @@ static t_token	*ft_create_new_token(char *new_str)
 	if (!new_token)
 		return (NULL);
 	new_token->str = new_str;
-	new_token->type = ft_get_type(new_str);
+	new_token->type = type;
 	new_token->attributed = false;
 	new_token->next = NULL;
 	return (new_token);
@@ -43,65 +43,48 @@ static void	ft_addlast_token(t_token **token_list, t_token *new_token)
 	}
 }
 
-int	ft_get_word_len(char *line)
+static int	ft_get_token_size(char *line)
 {
-	int	i;
+	int	type;
+	int len;
 
-	i = 0;
-	while (line[i])
+	if (!line)
+		return (FAIL);
+	type = ft_get_type(line);
+	if (type == PIPE || type == RIGHT_TRUNC || type == LEFT_TRUNC)
+		return (1);
+	if (type == HERE_DOC || type == APPEND)
+		return (2);
+	len = 0;
+	while (line[len] && !ft_isspace(line[len]) && !ft_isop(&line[len]))
 	{
-		if (ft_is_quote(line[i]) && ft_strchr(&line[i + 1], line[i]) != NULL)
-			i += ft_strchr(&line[i + 1], line[i]) - line + 1;
-		else if (ft_is_quote(line[i]) && ft_strchr(&line[i + 1], line[i]) == NULL)
-			return (FAIL);
-		if (ft_is_in_word(line[i]) == NO)
-			break;
-		i++;
+		if (ft_isquote(line[len]))
+			len += ft_strchr(&line[len + 1], line[len]) - line + 1;
+		else
+			len++;
 	}
-	return (i);
+	return (len);
 }
 
-char	*ft_get_new_str(char *line, int type)
+static char	*ft_extract_token_str(char *line)
 {
-	char	*new_str;
+	char	*str;
 	int		len;
 
-	if (type == PIPE || type == RIGHT_TRUNC || type == LEFT_TRUNC)
-		len = 1;
-	else if (type == HERE_DOC || type == APPEND)
-		len = 2;
-	else if (type == WORD || type == QWORD)
-	{
-		len = ft_get_word_len(line);
-		if (len == FAIL)
-			return (NULL);
-	}
-	else
+	len = ft_get_token_size(line);
+	if (len == FAIL)
 		return (NULL);
-	new_str = ft_strndup(line, len);
-	if (!new_str)
+	str = ft_strndup(line, len);
+	if (!str)
 		return (NULL);
-	return (new_str);
-}
-
-static int	ft_add_new_token(t_token **token_list, char *line)
-{
-	t_token	*new_token;
-	char	*new_str;
-
-	new_str = ft_get_new_str(line, ft_get_type(line));
-	if (!new_str)
-		return (FAIL);
-	new_token = ft_create_new_token(new_str);
-	if (!new_token)
-		return (free(new_str), FAIL);
-	ft_addlast_token(token_list, new_token);
-	return (SUCCESS);
+	return (str);
 }
 
 t_token	*ft_create_token_list(char *line)
 {
 	t_token	*token_list;
+	t_token	*new_token;
+	char	*new_str;
 
 	token_list = NULL;
 	while (*line != '\0')
@@ -110,9 +93,14 @@ t_token	*ft_create_token_list(char *line)
 			line++;
 		else
 		{
-			if (ft_add_new_token(&token_list, line) == FAIL)
+			new_str = ft_extract_token_str(line);
+			if (!new_str)
 				return (ft_free_tokens(&token_list), NULL);
-			line += ft_strlen(ft_findlast(token_list)->str);
+			new_token = ft_create_new_token(new_str, ft_get_type(new_str));
+			if (!new_token)
+				return (ft_free_tokens(&token_list), free(new_str), NULL);
+			ft_addlast_token(&token_list, new_token);
+			line += ft_strlen(new_str);
 		}
 	}
 	return (token_list);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
+#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/03/22 16:34:23 by momrane          ###   ########.fr        #
+#    Updated: 2024/03/24 16:56:23 by allblue          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,21 +38,21 @@ CYAN 		:= \033[0;96m
 
 #Sources
 SRC_FILES 	:=	main utils free token token_check signals \
-				parser args infile outfile data
+				parser args infile outfile data print check
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 
 # Default make
 all: $(NAME)
-	./$(NAME)
+	@./$(NAME)
 
 # Valgrind
 val: $(NAME)
-	valgrind $(VAL_FLAGS) ./$(NAME)
+	@valgrind $(VAL_FLAGS) ./$(NAME)
 	
 # Compilation
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
+	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
 
 # Linking

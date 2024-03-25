@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/23 17:37:59 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/24 15:51:57 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,18 @@ int	ft_isspace(char c)
 	return (NO);
 }
 
+int	ft_isquote(char c)
+{
+	if (c == DOUBLE_QUOTES || c == SINGLE_QUOTE)
+		return (YES);
+	return (NO);
+}
+
 int	ft_isappend(char *str)
 {
-	if (str[0] == '>' && str[1] == '>')
+	if (!str)
+		return (NO);
+	if (str[0] == '>' && str[1] && str[1] == '>')
 		return (YES);
 	return (NO);
 }
@@ -35,29 +44,28 @@ int	ft_isheredoc(char *str)
 	return (NO);
 }
 
-int	ft_isredirection(char *str)
-{
-	if (ft_isappend(str))
-		return (2);
-	if (ft_strchr("><", *str) != NULL)
-		return (1);
-	return (0);
-}
-
-int	ft_isoperator(char *str)
+int	ft_isop(char *str)
 {
 	if (ft_isappend(str) || ft_isheredoc(str))
-		return (2);
-	if (ft_strchr("|><", *str) != NULL)
-		return (1);
-	return (FAIL);
-}
-
-int	ft_is_in_word(char c)
-{
-	if (c != '|' && c != '>' && c != '<' && ft_isspace(c) == NO)
+		return (YES);
+	if (ft_strchr("><", *str) != NULL)
 		return (YES);
 	return (NO);
+}
+
+int  ft_get_type(char *str)
+{
+	if (*str == '|')
+		return (PIPE);
+	if (ft_isheredoc(str) == YES)
+		return (HERE_DOC);
+	if (ft_isappend(str) == YES)
+		return (APPEND);
+	if (*str == '<')
+		return (LEFT_TRUNC);
+	if (*str == '>')
+		return (RIGHT_TRUNC);
+	return (WORD);
 }
 
 char	*ft_strndup(const char *s, int n)
@@ -80,28 +88,16 @@ char	*ft_strndup(const char *s, int n)
 	return (res);
 }
 
-void	print_list(t_token *list)
+int	ft_isoperator(char *str)
 {
-	t_token	*cur_token;
-
-	if (list == NULL)
-	{
-		printf("empty list");
-		return ;
-	}
-	cur_token = list;
-	while (cur_token != NULL)
-	{
-		printf("address: %p\n", cur_token);
-		printf("str : %s\n", cur_token->str);
-		printf("type : %d\n", cur_token->type);
-		printf("next-> %p\n", cur_token->next);
-		printf("\n");
-		cur_token = cur_token->next;
-	}
+	if (ft_isappend(str) || ft_isheredoc(str))
+		return (2);
+	if (ft_strchr("|><", *str) != NULL)
+		return (1);
+	return (NO);
 }
 
-t_token		*ft_findlast(t_token *lst)
+t_token		*ft_findlast_token(t_token *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -135,38 +131,6 @@ int	ft_set_path(t_data *data)
 	return (FAIL);
 }
 
-int	ft_get_op_type(char *value)
-{
-	if (value[0] == '|')
-		return (PIPE);
-	if (ft_isheredoc(value) == YES)
-		return (HERE_DOC);
-	if (ft_isappend(value) == YES)
-		return (APPEND);
-	if (value[0] == '<')
-		return (LEFT_TRUNC);
-	if (value[0] == '>')
-		return (RIGHT_TRUNC);
-	return (FAIL);
-}
-
-int	ft_get_type(char *str)
-{
-	if (*str == '|')
-		return (PIPE);
-	if (ft_isheredoc(str) == YES)
-		return (HERE_DOC);
-	if (ft_isappend(str) == YES)
-		return (APPEND);
-	if (*str == '<')
-		return (LEFT_TRUNC);
-	if (*str == '>')
-		return (RIGHT_TRUNC);
-	if (*str == DOUBLE_QUOTES || *str == SINGLE_QUOTE)
-		return (QWORD);
-	return (WORD);
-}
-
 char	*ft_type_to_str(int type)
 {
 	if (type == PIPE)
@@ -194,28 +158,18 @@ char	*ft_type_to_str(int type)
 	return ("UNKNOWN");
 }
 
-void	ft_print_token_list(t_token *list)
+int	ft_get_pipe_count(t_token *token_list)
 {
+	int		count;
 	t_token	*tmp;
 
-	tmp = list;
-	if (!tmp)
-		printf("token list empty\n");
+	count = 0;
+	tmp = token_list;
 	while (tmp)
 	{
-		printf("%s\t\t%s\t\t%d\n", tmp->str, ft_type_to_str(tmp->type), tmp->attributed);
+		if (tmp->type == PIPE)
+			count++;
 		tmp = tmp->next;
 	}
-}
-
-void	ft_print_welcome_msg(void)
-{
-	printf("%s%s%s", PURPLE_BOLD, WELCOME,  PURPLE_BOLD);
-}
-
-int	ft_is_quote(char c)
-{
-	if (c == DOUBLE_QUOTES || c == SINGLE_QUOTE)
-		return (YES);
-	return (NO);
+	return (count);
 }

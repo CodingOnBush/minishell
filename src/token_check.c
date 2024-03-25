@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/22 15:20:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/24 16:55:37 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	ft_error_messages(int errno)
 	else if (errno == NEWLINE_ERROR)
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 	else if (errno == QUOTES_ERROR)
-		ft_putstr_fd("Unclosed single or double quote\n", 2);
+		ft_putstr_fd("Syntax error : Unclosed single or double quote\n", 2);
+	else if (errno == DOUBLE_PIPE_ERROR)
+		ft_putstr_fd("Syntax error : Double pipe detected\n", 2);
 }
 
 static int	is_double_pipe(int next_type)
@@ -54,14 +56,14 @@ static int	check_mutiple_op(t_token *list, t_token *token)
 		if ((token->next->type == APPEND || token->next->type == LEFT_TRUNC
 				|| token->next->type == RIGHT_TRUNC) && token->next->next)
 		{
-			if (ft_isoperator(token->next->next->str) != FAIL)
+			if (ft_isoperator(token->next->next->str) != NO)
 			{
 				ft_error_messages(token->next->next->type);
 				return (FAIL);
 			}
 		}
 	}
-	else if (ft_isoperator(token->str) != FAIL && token->next != NULL && ft_isoperator(token->next->str) != FAIL)
+	else if (ft_isoperator(token->str) != NO && token->next != NULL && ft_isoperator(token->next->str) != NO)
 		return (ft_error_messages(token->next->type), FAIL);
 	return (SUCCESS);
 }
@@ -82,6 +84,21 @@ int	check_token_list(t_token *list)
 		if (check == FAIL)
 			return (FAIL);
 		cur_token = cur_token->next;
+	}
+	return (SUCCESS);
+}
+
+int	ft_check_pipe_error(t_token *token_list)
+{
+	t_token	*next;
+
+	next = NULL;
+	while (token_list)
+	{
+		next = token_list->next;
+		if (token_list->type == PIPE && next && next->type == PIPE)
+			return (FAIL);
+		token_list = next;
 	}
 	return (SUCCESS);
 }

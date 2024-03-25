@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/23 17:23:16 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/25 10:24:04 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 
-# define PURPLE_BOLD "\001\e[1;38;5;141m\002"
-# define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 👉\001\e[1;38;5;141m\002"
-# define WELCOME "-----------------------Welcome to minispell \\o_o/-----------------------\n"
+# define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 > \001\033[0m\002"
 
 # define YES 1
 # define NO 0
@@ -46,6 +44,7 @@
 # define SINGLE_QUOTE_ERROR 9
 # define DOUBLE_QUOTE_ERROR 10
 # define QWORD 11
+# define DOUBLE_PIPE_ERROR 12
 
 typedef struct s_infile
 {
@@ -97,59 +96,63 @@ typedef struct s_data
 	struct sigaction	sigquit_action;
 }						t_data;
 
-/*		INFILE		*/
+
+/*		INFILE			*/
 t_infile				*ft_create_new_infile(char *str, int type);
 void					ft_add_infile(t_infile **infile_list, t_infile *new_infile);
 
-/*		OUTFILE		*/
+/*		OUTFILE			*/
 t_outfile				*ft_create_new_outfile(char *filename, int type);
 void					ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
 
-/*		SIGNALS		*/
+/*		SIGNALS			*/
 void					ft_setup_signals(t_data *data);
 
-/*		FREE		*/
+/*		FREE			*/
 void					ft_free_tokens(t_token **list);
 void					ft_free_path(char **path);
 
-/*		UTILS		*/
+/*		CHECK			*/
+int	ft_check_quote_error(char *line);
+int ft_check_double_pipe(t_token *token);
+
+/*		PRINT			*/
+void					ft_print_token_list(t_token *list);
+
+/*		UTILS			*/
 int						ft_isspace(char c);
-int						ft_isoperator(char *str);
-int						ft_is_in_word(char c);
-char					*ft_strndup(const char *s, int n);
-void					print_list(t_token *list);
-t_token					*ft_findlast(t_token *lst);
+int						ft_isquote(char c);
 int						ft_isappend(char *str);
 int						ft_isheredoc(char *str);
-int						ft_isredirection(char *str);
-int						ft_set_path(t_data *data);
-int						ft_get_op_type(char *value);
+int						ft_isop(char *str);
 int						ft_get_type(char *str);
+char					*ft_strndup(const char *s, int n);
+int						ft_isoperator(char *str);
+t_token					*ft_findlast_token(t_token *lst);
+int						ft_set_path(t_data *data);
 char					*ft_type_to_str(int type);
-void					ft_print_token_list(t_token *list);
-void					ft_print_welcome_msg(void);
-int						ft_is_quote(char c);
+int						ft_get_pipe_count(t_token *token_list);
 
-/*		TOKEN		*/
-t_token					*ft_create_token_list(char *line);
-int	ft_get_word_len(char *line);
-char	*ft_get_new_str(char *line, int type);
 
 /*		TOKEN CHECK		*/
 void					ft_error_messages(int errno);
 int						check_token_list(t_token *list);
+int						ft_check_pipe_error(t_token *token_list);
 
-/*		ARGS		*/
+/*		ARGS			*/
 t_arg					*create_new_arg(char *value);
 void					add_new_arg(t_arg **head, t_arg *new_arg);
 
-/*		DATA		*/
+/*		DATA			*/
 t_data	*ft_create_data(int ac, char **av, char **env);
 
-/*		PARSING		*/
+/*		PARSING			*/
 t_cmd					*ft_create_cmd_list(t_token *token_list);
 
-/*		HEREDOCS	*/
+/*		HEREDOCS		*/
 int						do_heredocs(t_data *data);
+
+/*		TOKEN			*/
+t_token					*ft_create_token_list(char *line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/23 17:38:07 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/25 10:25:48 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,36 @@ int	main(int ac, char **av, char **env)
 	data = ft_create_data(ac, av, env);
 	if (!data)
 		return (-1);
-	ft_print_welcome_msg();
 	while (1)
 	{
 		data->line = readline(MINISPELL);
 		if (!data->line)
 		{
 			printf("exit\n");
+			ft_free_path(data->path);
+			free(data);
 			break ;
 		}
 		add_history(data->line);
 		
-		// create token list
-		data->token_list = ft_create_token_list(data->line);
-		ft_print_token_list(data->token_list);
+		if (ft_check_quote_error(data->line) == FAIL)
+			ft_error_messages(QUOTES_ERROR);
+		else
+		{
+			data->token_list = ft_create_token_list(data->line);
+			if (!data->token_list)
+				printf("parse tokens failed !\n");
+			if (ft_check_double_pipe(data->token_list) == FAIL)
+				ft_error_messages(DOUBLE_PIPE_ERROR);
+			else
+			{
+				ft_print_token_list(data->token_list);
+			}
+		}
+
+		
+		
+
 		
 		// create cmd list
 		// data->cmd_list = ft_create_cmd_list(data->token_list);
@@ -55,8 +71,8 @@ int	main(int ac, char **av, char **env)
 		ft_free_tokens(&data->token_list);
 	}
 	// rl_clear_history();
-	ft_free_path(data->path);
-	free(data);
+	// ft_free_path(data->path);
+	// free(data);
 	return (0);
 }
 
