@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/26 15:33:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/26 16:10:33 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ static int	parse_infiles(t_cmd *new_cmd, t_token *token)
 		{
 			if (token->next == NULL)
 				return (assign_error(token, NEWLINE_ERROR), FAIL);
-			else if (token->next->type != WORD)
-				return (assign_error(token, token->next->type), FAIL);
+			else if (ft_isop(token->next->str) == YES)
+				return (assign_error(token->next, token->next->type), FAIL);
 			new_infile = ft_create_new_infile(token->next->str, token->type);
 			if (new_infile == NULL)
 				return (FAIL);
@@ -129,7 +129,7 @@ static int	parse_outfiles(t_cmd *new_cmd, t_token *token)
 			if (token->next == NULL)
 				return (assign_error(token, NEWLINE_ERROR), FAIL);
 			else if (token->next->type != WORD)
-				return (assign_error(token, token->next->type), FAIL);
+				return (assign_error(token->next, token->next->type), FAIL);
 			new_outfile = ft_create_new_outfile(token->next->str, token->type);
 			if (new_outfile == NULL)
 				return (FAIL);

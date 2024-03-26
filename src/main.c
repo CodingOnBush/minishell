@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/26 15:34:49 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/26 16:08:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int ac, char **av, char **env)
 					{
 						if (check_token_list(&data->token_list) == FAIL)
 						{
-							// 
+							ft_print_token_list(data->token_list);
 							break;
 						}
 						else

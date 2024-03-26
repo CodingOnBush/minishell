@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/26 15:29:26 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/26 16:06:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,33 @@
 // 		return (SUCCESS);
 // }
 
-static void	check_mutiple_op(t_token *list, t_token *token)
+static int	is_error(t_token *list, t_token *token)
 {
 	if (!list || !token)
-		return ;
+		return (NO);
 	if (token->next == NULL)
-		return ;
+		return (NO);
 	if (token->type == PIPE)
 	{
-		if ((token->next->type == APPEND || token->next->type == LEFT_TRUNC
-				|| token->next->type == RIGHT_TRUNC) && token->next->next)
+		if (token->next && ft_isop(token->next->str) == YES)
 		{
-			if (ft_isoperator(token->next->next->str) != NO)
+			if (token->next->next && token->next->next->type == PIPE)
 			{
 				token->next->next->error = true;
 				token->next->next->err_type = token->next->next->type;
-				// ft_error_messages(token->next->next->type);
-				return ;
+				return (YES);
 			}
 		}
+		return (NO);
 	}
-	else if (ft_isoperator(token->str) != NO && token->next != NULL && ft_isoperator(token->next->str) != NO)
+	else if (ft_isop(token->str) == YES && token->next != NULL && ft_isop(token->next->str) == YES)
 	{
+		printf("ICI\n");
 		token->next->error = true;
 		token->next->err_type = token->next->type;
-		// return (ft_error_messages(token->next->type), FAIL);
+		return (YES);
 	}
-	return ;
+	return (NO);
 }
 
 int	check_token_list(t_token **list)
@@ -63,7 +63,8 @@ int	check_token_list(t_token **list)
 		return (ft_error_messages(PIPE), FAIL);
 	while (cur_token != NULL)
 	{
-		check_mutiple_op(*list, cur_token);
+		if (is_error(*list, cur_token) == YES)
+			break ;
 		cur_token = cur_token->next;
 	}
 	return (SUCCESS);
