@@ -6,94 +6,82 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/25 12:05:53 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/25 13:58:51 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_error_messages(int errno)
-{
-	if (errno == APPEND)
-		ft_putstr_fd("syntax error near unexpected token `>>'\n", 2);
-	else if (errno == HERE_DOC)
-		ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
-	else if (errno == RIGHT_TRUNC)
-		ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
-	else if (errno == LEFT_TRUNC)
-		ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
-	else if (errno == PIPE)
-		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
-	else if (errno == NEWLINE_ERROR)
-		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
-	else if (errno == QUOTES_ERROR)
-		ft_putstr_fd("Syntax error : Unclosed single or double quote\n", 2);
-	else if (errno == DOUBLE_PIPE_ERROR)
-		ft_putstr_fd("Syntax error : Double pipe detected\n", 2);
-}
+// static int	is_double_pipe(int next_type)
+// {
+// 	if (next_type == PIPE)
+// 	{
+// 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+// 		return (FAIL);
+// 	}
+// 	else
+// 		return (SUCCESS);
+// }
 
-static int	is_double_pipe(int next_type)
-{
-	if (next_type == PIPE)
-	{
-		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
-		return (FAIL);
-	}
-	else
-		return (SUCCESS);
-}
-
-static int	check_mutiple_op(t_token *list, t_token *token)
+static void	check_mutiple_op(t_token *list, t_token *token)
 {
 	if (!list || !token)
-		return (FAIL);
+		return ;
 	if (token->next == NULL)
-		return (SUCCESS);
+		return ;
 	if (token->type == PIPE)
 	{
-		if (is_double_pipe(token->next->type) == FAIL)
-			return (FAIL);
 		if ((token->next->type == APPEND || token->next->type == LEFT_TRUNC
 				|| token->next->type == RIGHT_TRUNC) && token->next->next)
 		{
 			if (ft_isoperator(token->next->next->str) != NO)
 			{
-				ft_error_messages(token->next->next->type);
-				return (FAIL);
+				token->next->next->error = true;
+				token->next->next->err_type = token->next->next->type;
+				// ft_error_messages(token->next->next->type);
+				return ;
 			}
 		}
 	}
 	else if (ft_isoperator(token->str) != NO && token->next != NULL && ft_isoperator(token->next->str) != NO)
-		return (ft_error_messages(token->next->type), FAIL);
-	return (SUCCESS);
+	{
+		token->next->error = true;
+		token->next->err_type = token->next->type;
+		// return (ft_error_messages(token->next->type), FAIL);
+	}
+	return ;
 }
 
-void	set_pos_tokens(t_token *list)
+void	set_pos_tokens(t_token **list)
 {
 	t_token	*cur_token;
+	int		pos;
 
 	if (!list)
-		return (FAIL);
-	cur_token = list;
-	
+		return ;
+	pos = 0;
+	cur_token = *list;
+	while (cur_token != NULL)
+	{
+		cur_token->pos = pos;
+		pos++;
+		cur_token = cur_token->next;
+	}
 }
 
 int	check_token_list(t_token *list)
 {
 	t_token	*cur_token;
-	int		check;
 
 	if (!list)
 		return (FAIL);
-	set_pos_tokens(list);
+	set_pos_tokens(&list);
 	cur_token = list;
 	if (cur_token->str[0] == '|')
 		return (ft_error_messages(PIPE), FAIL);
 	while (cur_token != NULL)
 	{
-		check = check_mutiple_op(list, cur_token);
-		if (check == FAIL)
-			return (FAIL);
+		check_mutiple_op(list, cur_token);
 		cur_token = cur_token->next;
 	}
 	return (SUCCESS);

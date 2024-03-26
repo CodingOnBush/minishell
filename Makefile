@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
+#    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/03/24 16:56:23 by allblue          ###   ########.fr        #
+#    Updated: 2024/03/25 13:45:35 by vvaudain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ CYAN 		:= \033[0;96m
 
 #Sources
 SRC_FILES 	:=	main utils free token token_check signals \
-				parser args infile outfile data print check
+				parser args infile outfile data print check \
+				errors
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/25 11:31:26 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:16:29 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,12 @@ int	main(int ac, char **av, char **env)
 					}
 					else
 					{
+						check_token_list(data->token_list);
 						ft_print_cmd_list(data->cmd_list);
 					}
 				}
 			}
 		}
-
-		
-		
-
 		
 		// create cmd list
 		

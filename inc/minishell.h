@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/25 12:05:08 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/25 13:45:13 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,14 @@ typedef struct s_arg
 	struct s_arg		*next;
 }						t_arg;
 
-typedef struct s_cmd
-{
-	t_arg				*arg_list;
-	t_infile			*infile_list;
-	t_outfile			*outfile_list;
-	struct s_cmd		*next;
-}						t_cmd;
-
-typedef struct	s_error
-{
-	int					error;
-	int					type;
-}						t_error;
-
 typedef struct s_token
 {
 	char				*str;
 	int					type;
 	bool				attributed;
 	int					pos;
-	t_error				*error;
+	bool				error;
+	int					err_type;
 	struct s_token		*next;
 }						t_token;
 
@@ -130,9 +117,13 @@ void					ft_setup_signals(t_data *data);
 void					ft_free_tokens(t_token **list);
 void					ft_free_path(char **path);
 
+/*		ERRORS			*/
+void					assign_error(t_token *token, int err_type);
+void					ft_error_messages(int errno);
+
 /*		CHECK			*/
-int	ft_check_quote_error(char *line);
-int ft_check_double_pipe(t_token *token);
+int						ft_check_quote_error(char *line);
+int 					ft_check_double_pipe(t_token *token);
 
 /*		PRINT			*/
 void					ft_print_token_list(t_token *list);
@@ -154,7 +145,6 @@ int						ft_get_pipe_count(t_token *token_list);
 
 
 /*		TOKEN CHECK		*/
-void					ft_error_messages(int errno);
 int						check_token_list(t_token *list);
 int						ft_check_pipe_error(t_token *token_list);
 

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/25 12:06:55 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/25 13:02:48 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ t_token	*ft_create_new_token(char *new_str, int type)
 	new_token->str = new_str;
 	new_token->type = type;
 	new_token->attributed = false;
-	new_token->pos = 0;
-	new_token->error = NULL;
+	new_token->pos = -1;
+	new_token->error = false;
+	new_token->err_type = -1;
 	new_token->next = NULL;
 	return (new_token);
 }

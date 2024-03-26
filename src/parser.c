@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/25 11:40:29 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/25 13:54:00 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ static int	parse_infiles(t_cmd *new_cmd, t_token *token)
 		if (token->type == LEFT_TRUNC || token->type == HERE_DOC)
 		{
 			if (token->next == NULL)
-				return (ft_error_messages(NEWLINE_ERROR), FAIL);
+				return (assign_error(token, NEWLINE_ERROR), FAIL);
 			else if (token->next->type != WORD)
-				return (ft_error_messages(token->next->type), FAIL);
+				return (assign_error(token, token->next->type), FAIL);
 			new_infile = ft_create_new_infile(token->next->str, token->type);
 			if (new_infile == NULL)
 				return (FAIL);
@@ -127,9 +127,9 @@ static int	parse_outfiles(t_cmd *new_cmd, t_token *token)
 		if (token->type == RIGHT_TRUNC || token->type == APPEND)
 		{
 			if (token->next == NULL)
-				return (ft_error_messages(NEWLINE_ERROR), FAIL);
+				return (assign_error(token, NEWLINE_ERROR), FAIL);
 			else if (token->next->type != WORD)
-				return (ft_error_messages(token->next->type), FAIL);
+				return (assign_error(token, token->next->type), FAIL);
 			new_outfile = ft_create_new_outfile(token->next->str, token->type);
 			if (new_outfile == NULL)
 				return (FAIL);
@@ -175,12 +175,9 @@ t_cmd	*ft_create_cmd(t_token *cur_token)
 	new_cmd = ft_create_new_cmd(cur_token);
 	if (!new_cmd)
 		return (NULL);
-	if (parse_infiles(new_cmd, cur_token) == FAIL)
-		return (NULL);
-	if (parse_outfiles(new_cmd, cur_token) == FAIL)
-		return (NULL);
-	if (parse_commands(new_cmd, cur_token) == FAIL)
-		return (NULL);
+	parse_infiles(new_cmd, cur_token);
+	parse_outfiles(new_cmd, cur_token);
+	parse_commands(new_cmd, cur_token);
 	return (new_cmd);
 }
 
