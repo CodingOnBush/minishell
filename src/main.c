@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 14:37:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/25 13:16:29 by vvaudain         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/03/26 15:12:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../inc/minishell.h"
 
@@ -44,6 +45,20 @@ int	main(int ac, char **av, char **env)
 					ft_error_messages(DOUBLE_PIPE_ERROR);
 				else
 				{
+					ft_print_token_list(data->token_list);
+					// data->cmd_list = ft_create_cmd_list(data->token_list);
+					// if (!data->cmd_list)
+					// {
+					// 	printf("parse commands failed !\n");
+					// 	// ft_free_tokens(data->token_list);
+					// 	// free(data->line);
+					// 	break;
+					// }
+					// else
+					// {
+						// check_token_list(data->token_list);
+					// 	ft_print_cmd_list(data->cmd_list);
+					// }
 					// ft_print_token_list(data->token_list);
 					data->cmd_list = ft_create_cmd_list(data->token_list);
 					if (!data->cmd_list)
