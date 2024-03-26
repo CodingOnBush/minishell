@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/26 15:12:37 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:34:49 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	main(int ac, char **av, char **env)
 					ft_error_messages(DOUBLE_PIPE_ERROR);
 				else
 				{
-					ft_print_token_list(data->token_list);
 					// data->cmd_list = ft_create_cmd_list(data->token_list);
 					// if (!data->cmd_list)
 					// {
@@ -70,8 +69,15 @@ int	main(int ac, char **av, char **env)
 					}
 					else
 					{
-						check_token_list(data->token_list);
-						ft_print_cmd_list(data->cmd_list);
+						if (check_token_list(&data->token_list) == FAIL)
+						{
+							// 
+							break;
+						}
+						else
+							ft_print_token_list(data->token_list);
+
+						// ft_print_cmd_list(data->cmd_list);
 					}
 				}
 			}
@@ -90,7 +96,7 @@ int	main(int ac, char **av, char **env)
 		free(data->line);
 		ft_free_tokens(&data->token_list);
 	}
-	// rl_clear_history();
+	rl_clear_history();
 	// ft_free_path(data->path);
 	// free(data);
 	return (0);

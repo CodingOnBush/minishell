@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/25 13:45:13 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:33:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int						ft_get_pipe_count(t_token *token_list);
 
 
 /*		TOKEN CHECK		*/
-int						check_token_list(t_token *list);
+int						check_token_list(t_token **list);
 int						ft_check_pipe_error(t_token *token_list);
 
 /*		ARGS			*/
@@ -162,7 +162,7 @@ t_cmd					*ft_create_cmd_list(t_token *token_list);
 int						do_heredocs(t_data *data);
 
 /*		TOKEN			*/
-t_token					*ft_create_new_token(char *new_str, int type);
+t_token					*ft_create_new_token(char *new_str, int type, int pos);
 void					ft_addlast_token(t_token **token_list, t_token *new_token);
 t_token					*ft_create_token_list(char *line);
 

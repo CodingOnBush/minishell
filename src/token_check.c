@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/25 13:58:51 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:29:26 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,36 +52,18 @@ static void	check_mutiple_op(t_token *list, t_token *token)
 	return ;
 }
 
-void	set_pos_tokens(t_token **list)
-{
-	t_token	*cur_token;
-	int		pos;
-
-	if (!list)
-		return ;
-	pos = 0;
-	cur_token = *list;
-	while (cur_token != NULL)
-	{
-		cur_token->pos = pos;
-		pos++;
-		cur_token = cur_token->next;
-	}
-}
-
-int	check_token_list(t_token *list)
+int	check_token_list(t_token **list)
 {
 	t_token	*cur_token;
 
-	if (!list)
+	if (!list || !*list)
 		return (FAIL);
-	set_pos_tokens(&list);
-	cur_token = list;
+	cur_token = *list;
 	if (cur_token->str[0] == '|')
 		return (ft_error_messages(PIPE), FAIL);
 	while (cur_token != NULL)
 	{
-		check_mutiple_op(list, cur_token);
+		check_mutiple_op(*list, cur_token);
 		cur_token = cur_token->next;
 	}
 	return (SUCCESS);

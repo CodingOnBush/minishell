@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/25 13:54:00 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:33:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_token	*ft_extract_token(t_token *token_list)
 	new_token_list = NULL;
 	while (token_list != NULL && token_list->type != PIPE)
 	{
-		new_token = ft_create_new_token(token_list->str, token_list->type);
+		new_token = ft_create_new_token(token_list->str, token_list->type, token_list->pos);
 		if (!new_token)
 			return (NULL);
 		ft_addlast_token(&new_token_list, new_token);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/25 13:02:48 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:32:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_token	*ft_create_new_token(char *new_str, int type)
+t_token	*ft_create_new_token(char *new_str, int type, int pos)
 {
 	t_token	*new_token;
 
@@ -22,7 +22,7 @@ t_token	*ft_create_new_token(char *new_str, int type)
 	new_token->str = new_str;
 	new_token->type = type;
 	new_token->attributed = false;
-	new_token->pos = -1;
+	new_token->pos = pos;
 	new_token->error = false;
 	new_token->err_type = -1;
 	new_token->next = NULL;
@@ -83,13 +83,33 @@ static char	*ft_extract_token_str(char *line)
 	return (str);
 }
 
+// void	set_pos_tokens(t_token **list)
+// {
+// 	t_token	*cur_token;
+// 	int		pos;
+
+// 	if (!list || !*list)
+// 		return ;
+// 	pos = 0;
+// 	cur_token = *list;
+// 	while (cur_token != NULL)
+// 	{
+// 		cur_token->pos = pos;
+// 		printf("cur_token->pos : %d\n", cur_token->pos);
+// 		pos++;
+// 		cur_token = cur_token->next;
+// 	}
+// }
+
 t_token	*ft_create_token_list(char *line)
 {
 	t_token	*token_list;
 	t_token	*new_token;
 	char	*new_str;
+	int		i;
 
 	token_list = NULL;
+	i = 0;
 	while (*line != '\0')
 	{
 		if (ft_isspace(*line) == YES)
@@ -99,11 +119,12 @@ t_token	*ft_create_token_list(char *line)
 			new_str = ft_extract_token_str(line);
 			if (!new_str)
 				return (ft_free_tokens(&token_list), NULL);
-			new_token = ft_create_new_token(new_str, ft_get_type(new_str));
+			new_token = ft_create_new_token(new_str, ft_get_type(new_str), i);
 			if (!new_token)
 				return (ft_free_tokens(&token_list), free(new_str), NULL);
 			ft_addlast_token(&token_list, new_token);
 			line += ft_strlen(new_str);
+			i++;
 		}
 	}
 	return (token_list);
