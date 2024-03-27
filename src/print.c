@@ -23,9 +23,10 @@ static void	ft_print_arg_list(t_arg *list)
 		printf("arg list empty\n");
 	while (tmp)
 	{
-		printf("%s\n", tmp->value);
+		printf("[%s] ->", tmp->value);
 		tmp = tmp->next;
 	}
+	printf("\n");
 }
 
 static void	ft_print_infile_list(t_infile *list)
@@ -66,14 +67,14 @@ void	ft_print_cmd_list(t_cmd *list)
 	while (tmp)
 	{
 		printf("=========== CMD ===========\n");
-		printf("======== TOKEN LIST =======\n");
-		ft_print_token_list(tmp->token_list);
+		// printf("======== TOKEN LIST =======\n");
+		// ft_print_token_list(tmp->token_list);
 		printf("========= ARG LIST ========\n");
 		ft_print_arg_list(tmp->arg_list);
-		printf("======== INFILE LIST ======\n");
-		ft_print_infile_list(tmp->infile_list);
-		printf("======= OUTFILE LIST ======\n");
-		ft_print_outfile_list(tmp->outfile_list);
+		// printf("======== INFILE LIST ======\n");
+		// ft_print_infile_list(tmp->infile_list);
+		// printf("======= OUTFILE LIST ======\n");
+		// ft_print_outfile_list(tmp->outfile_list);
 		printf("\n");
 		tmp = tmp->next;
 	}

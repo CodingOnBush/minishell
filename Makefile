@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/03/25 13:45:35 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/03/27 11:39:24 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Setup
 NAME 		:= minishell
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g3
+CFLAGS		:= -g3#-Wall -Wextra -Werror -g3
 
 # Valgrind
 VAL_SUPP	:= readline.supp
