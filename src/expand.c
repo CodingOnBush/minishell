@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/27 13:26:49 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:59:33 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ int	ft_check_expands(t_token *list)
 char	*ft_get_vars(char *str)
 {
 	int		i;
+	int		j;
 	char	*ret_value;
 	char	*tmp;
+	char	*var_value;
 
 	if (!str)
 		return (NULL);
@@ -68,7 +70,7 @@ char	*ft_get_vars(char *str)
 	while (*str)
 	{
 		i = 0;
-		while (str[i] != '\'' && str[i] != '\"' && str[i] != '$')
+		while (str[i] && str[i] != '\'' && str[i] != '\"' && str[i] != '$')
 			i++;
 		if (i != 0 && str[i] != NULL)
 		{
@@ -79,13 +81,37 @@ char	*ft_get_vars(char *str)
 		}
 		if (str[i] == '\'')
 		{
-			i = dist_to_quote(*str);
+			i = dist_to_quote(*str); // coder la fonction dist_to_quote
 			ft_strlcpy(tmp, str, i);
 			ret_value = ft_strjoin(ret_value, tmp);
 			free(tmp);
 			str += i;
 		}
 		else if (str[i] == '\"')
+		{
+			i++;
+			j = i;
+			while (str[j] && str[j] != '$' && str[j] != '\"')
+				j++;
+			str += j - i + 1;
+			i = j;
+			if (str[j] && str[j] == '$')
+			{
+				while (str[j] && str[j] != '\"' && ft_isspace(str[j]) == NO))
+					j++;
+				if (str[j] != NULL && (str[j] == '\"' || ft_isspace(str[j]) == YES))
+				{
+					ft_strlcpy(tmp, str, j - i + 1);
+					var_value = ft_strdup(getenv((const)tmp));
+					ret_value = ft_strjoin(ret_value, var_value);
+					free(tmp);
+					free(var_value);
+					str += j;
+					i = j;
+				}
+			}
+			
+		}
 		else if (str[i] == '$')
 	}
 }
