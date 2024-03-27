@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 11:44:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 12:28:14 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_infile
 typedef struct s_outfile
 {
 	char				*filename;
-	bool				append;// false : RIGTH_TRUNC
+	bool				append;// false : RIGHT_TRUNC
 	struct s_outfile	*next;
 }						t_outfile;
 
