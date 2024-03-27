@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 17:29:22 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:34:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_data
 	t_token				*token_list;
 	int					hdnum;
 	t_token				*token_split;
+	char				**path_list;
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
 }						t_data;

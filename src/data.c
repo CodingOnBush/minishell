@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 17:28:13 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:38:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,11 @@ t_data	*ft_create_data(void)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	// data->ac = ac;
-	// data->av = av;
-	// data->env = env;
-	// data->path = NULL;
 	data->line = NULL;
 	data->cmd_list = NULL;
 	data->token_list = NULL;
-	// if (ft_set_path(data) == FAIL)
-	// 	return (free(data), NULL);
 	ft_setup_signals(data);
+	data->path_list = ft_split(getenv("PATH"), ':');
 	return (data);
 }
 
