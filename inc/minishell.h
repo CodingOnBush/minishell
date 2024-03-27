@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/26 15:33:27 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 11:44:50 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int 					ft_check_double_pipe(t_token *token);
 /*		PRINT			*/
 void					ft_print_token_list(t_token *list);
 void					ft_print_cmd_list(t_cmd *list);
+void	ft_print_arg_list(t_arg *list);
 
 /*		UTILS			*/
 int						ft_isspace(char c);

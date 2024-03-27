@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/27 11:25:25 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 11:48:20 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	ft_add_new_cmd(t_cmd **cmd_list, t_cmd *new_cmd)
 {
-	t_cmd	**tmp;
+	t_cmd	*tmp;
 
 	if (*cmd_list == NULL)
 		*cmd_list = new_cmd;
 	else
 	{
-		tmp = cmd_list;
-		while ((*tmp)->next != NULL)
-			*tmp = (*tmp)->next;
-		(*tmp)->next = new_cmd;
+		tmp = *cmd_list;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new_cmd;
 	}
 }
 
@@ -193,13 +193,17 @@ t_cmd	*ft_create_cmd_list(t_token *token_list)
 	{
 		if (cur_token->type != PIPE)
 		{
+			printf("hey\n");
 			new_cmd = ft_create_cmd(cur_token);
 			if (!new_cmd)
 				return (NULL);
+			// printf("arg list :");
+			// ft_print_arg_list(new_cmd->arg_list);
 			ft_add_new_cmd(&cmd_list, new_cmd);
 			cur_token = ft_find_next_pipe(cur_token);
 			if (cur_token == NULL)
 				return (cmd_list);
+			// printf("cur token type : %s\n", ft_type_to_str(cur_token->type));
 		}
 		cur_token = cur_token->next;
 	}
