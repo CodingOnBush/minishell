@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 12:24:39 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:19:40 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*ft_create_new_token(char *new_str, int type, int pos)
 {
 	t_token	*new_token;
 
-	new_token = malloc(sizeof(t_token));
+	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
 	new_token->str = new_str;
@@ -83,33 +83,15 @@ static char	*ft_extract_token_str(char *line)
 	return (str);
 }
 
-// void	set_pos_tokens(t_token **list)
-// {
-// 	t_token	*cur_token;
-// 	int		pos;
-
-// 	if (!list || !*list)
-// 		return ;
-// 	pos = 0;
-// 	cur_token = *list;
-// 	while (cur_token != NULL)
-// 	{
-// 		cur_token->pos = pos;
-// 		printf("cur_token->pos : %d\n", cur_token->pos);
-// 		pos++;
-// 		cur_token = cur_token->next;
-// 	}
-// }
-
 t_token	*ft_create_token_list(char *line)
 {
 	t_token	*token_list;
 	t_token	*new_token;
 	char	*new_str;
-	int		i;
+	int		pos;
 
+	pos = 0;
 	token_list = NULL;
-	i = 0;
 	while (*line != '\0')
 	{
 		if (ft_isspace(*line) == YES)
@@ -119,12 +101,12 @@ t_token	*ft_create_token_list(char *line)
 			new_str = ft_extract_token_str(line);
 			if (!new_str)
 				return (ft_free_tokens(&token_list), NULL);
-			new_token = ft_create_new_token(new_str, ft_get_type(new_str), i);
+			new_token = ft_create_new_token(new_str, ft_get_type(new_str), pos);
 			if (!new_token)
-				return (ft_free_tokens(&token_list), free(new_str), NULL);
+				return (free(new_str), ft_free_tokens(&token_list), NULL);
 			ft_addlast_token(&token_list, new_token);
 			line += ft_strlen(new_str);
-			i++;
+			pos++;
 		}
 	}
 	return (token_list);

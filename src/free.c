@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/27 13:03:22 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:40:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_free_tokens(t_token **token_list)
 		free(cur_token);
 		cur_token = next;
 	}
+	*token_list = NULL;
 }
 
 void	ft_free_path(char **path)
@@ -57,6 +58,7 @@ void	ft_free_arg_list(t_arg **arg_list)
 		free(cur_arg);
 		cur_arg = next;
 	}
+	*arg_list = NULL;
 }
 
 void	ft_free_infile_list(t_infile **infile_list)
@@ -75,6 +77,7 @@ void	ft_free_infile_list(t_infile **infile_list)
 		free(cur_infile);
 		cur_infile = next;
 	}
+	*infile_list = NULL;
 }
 
 void	ft_free_outfile_list(t_outfile **outfile_list)
@@ -92,6 +95,7 @@ void	ft_free_outfile_list(t_outfile **outfile_list)
 		free(cur_outfile);
 		cur_outfile = next;
 	}
+	*outfile_list = NULL;
 }
 
 void	ft_free_cmds(t_cmd **cmd_list)
@@ -113,4 +117,13 @@ void	ft_free_cmds(t_cmd **cmd_list)
 		free(cur_cmd);
 		cur_cmd = next;
 	}
+	*cmd_list = NULL;
+}
+
+void	ft_free_lexing_and_parsing(t_data *data)
+{
+	if (data->token_list != NULL)
+		ft_free_tokens(&data->token_list);
+	if (data->cmd_list != NULL)
+		ft_free_cmds(&data->cmd_list);
 }

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 12:58:53 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:40:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,11 @@ typedef struct s_data
 	struct sigaction	sigquit_action;
 }						t_data;
 
+/*		EXEC			*/
+void					ft_start_exec(t_data *data);
+
+/*		LEXER			*/
+int						ft_start_lexing(t_data *data);
 
 /*		INFILE			*/
 t_infile				*ft_create_new_infile(char *str, int type);
@@ -114,12 +119,13 @@ void					ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
 void					ft_setup_signals(t_data *data);
 
 /*		FREE			*/
-void	ft_free_arg_list(t_arg **arg_list);
-void	ft_free_infile_list(t_infile **infile_list);
-void	ft_free_outfile_list(t_outfile **outfile_list);
-void					ft_free_tokens(t_token **list);
 void					ft_free_path(char **path);
-void	ft_free_cmds(t_cmd **cmd_list);
+void					ft_free_arg_list(t_arg **arg_list);
+void					ft_free_infile_list(t_infile **infile_list);
+void					ft_free_outfile_list(t_outfile **outfile_list);
+void					ft_free_tokens(t_token **list);
+void					ft_free_cmds(t_cmd **cmd_list);
+void					ft_free_lexing_and_parsing(t_data *data);
 
 /*		ERRORS			*/
 void					assign_error(t_token *token, int err_type);
@@ -132,7 +138,7 @@ int 					ft_check_double_pipe(t_token *token);
 /*		PRINT			*/
 void					ft_print_token_list(t_token *list);
 void					ft_print_cmd_list(t_cmd *list);
-void	ft_print_arg_list(t_arg *list);
+void					ft_print_arg_list(t_arg *list);
 
 /*		UTILS			*/
 int						ft_isspace(char c);
@@ -141,7 +147,7 @@ int						ft_isappend(char *str);
 int						ft_isheredoc(char *str);
 int						ft_isop(char *str);
 int						ft_get_type(char *str);
-char					*ft_strndup(const char *s, int n);
+char					*ft_strndup(char *s, int n);
 int						ft_isoperator(char *str);
 t_token					*ft_findlast_token(t_token *lst);
 int						ft_set_path(t_data *data);
@@ -158,17 +164,19 @@ t_arg					*create_new_arg(char *value);
 void					add_new_arg(t_arg **head, t_arg *new_arg);
 
 /*		DATA			*/
-t_data	*ft_create_data(int ac, char **av, char **env);
+t_data					*ft_create_data(int ac, char **av, char **env);
+int						ft_finish_init_data(t_data *data);
 
 /*		PARSING			*/
 t_cmd					*ft_create_cmd_list(t_token *token_list);
+int						ft_start_parsing(t_data *data);
 
 /*		HEREDOCS		*/
 int						do_heredocs(t_data *data);
 
 /*		TOKEN			*/
 t_token					*ft_create_new_token(char *new_str, int type, int pos);
-void					ft_addlast_token(t_token **token_list, t_token *new_token);
 t_token					*ft_create_token_list(char *line);
+void					ft_addlast_token(t_token **token_list, t_token *new_token);
 
 #endif

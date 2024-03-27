@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/21 16:12:23 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 15:18:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,15 @@
 t_outfile	*ft_create_new_outfile(char *filename, int type)
 {
 	t_outfile	*new_outfile;
+	char		*new_str;
 
 	new_outfile = malloc(sizeof(t_outfile));
 	if (!new_outfile)
 		return (NULL);
-	new_outfile->filename = filename;
+	new_str = ft_strdup(filename);
+	if (!new_str)
+		return (free(new_outfile), NULL);
+	new_outfile->filename = new_str;
 	new_outfile->append = false;
 	if (type == APPEND)
 		new_outfile->append = true;

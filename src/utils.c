@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/24 15:51:57 by allblue          ###   ########.fr       */
+/*   Updated: 2024/03/27 15:08:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int  ft_get_type(char *str)
 	return (WORD);
 }
 
-char	*ft_strndup(const char *s, int n)
+char	*ft_strndup(char *s, int n)
 {
 	char	*res;
 	int		len;
@@ -79,7 +79,7 @@ char	*ft_strndup(const char *s, int n)
 	if (!res)
 		return (NULL);
 	i = 0;
-	while (i < len && i < n)
+	while (s[i] != '\0' && i < n)
 	{
 		res[i] = s[i];
 		i++;
@@ -136,19 +136,19 @@ char	*ft_type_to_str(int type)
 	if (type == PIPE)
 		return ("PIPE");
 	if (type == HERE_DOC)
-		return ("HERE_DOC");
+		return ("HEREDOC");
 	if (type == APPEND)
 		return ("APPEND");
 	if (type == LEFT_TRUNC)
-		return ("LEFT_TRUNC");
+		return ("LTRUNC");
 	if (type == RIGHT_TRUNC)
-		return ("RIGHT_TRUNC");
+		return ("RTRUNC");
 	if (type == WORD)
 		return ("WORD");
 	if (type == NEWLINE_ERROR)
-		return ("NEWLINE_ERROR");
+		return ("ERRNEWLINE");
 	if (type == QUOTES_ERROR)
-		return ("QUOTES_ERROR");
+		return ("ERRQUOTE");
 	if (type == SINGLE_QUOTE_ERROR)
 		return ("SINGLE_QUOTE_ERROR");
 	if (type == DOUBLE_QUOTE_ERROR)
