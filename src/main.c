@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/27 13:15:54 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 14:54:23 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	main(int ac, char **av, char **env)
 			continue;
 		}
 		ft_free_cmds(&data->cmd_list);
-		ft_free_tokens(&data->token_list);
 		free(data->line);
 	}
 	ft_free_path(data->path);

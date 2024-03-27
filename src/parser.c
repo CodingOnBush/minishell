@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/27 13:14:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 14:48:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ t_cmd	*ft_create_cmd(t_token *cur_token)
 	if (!new_cmd)
 		return (NULL);
 	parse_infiles(new_cmd, cur_token);
-	// parse_outfiles(new_cmd, cur_token);
+	parse_outfiles(new_cmd, cur_token);
 	// parse_commands(new_cmd, cur_token);
 	return (new_cmd);
 }
