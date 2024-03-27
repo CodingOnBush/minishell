@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 11:44:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 12:58:53 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,12 @@ void					ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
 void					ft_setup_signals(t_data *data);
 
 /*		FREE			*/
+void	ft_free_arg_list(t_arg **arg_list);
+void	ft_free_infile_list(t_infile **infile_list);
+void	ft_free_outfile_list(t_outfile **outfile_list);
 void					ft_free_tokens(t_token **list);
 void					ft_free_path(char **path);
+void	ft_free_cmds(t_cmd **cmd_list);
 
 /*		ERRORS			*/
 void					assign_error(t_token *token, int err_type);

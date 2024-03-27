@@ -41,7 +41,7 @@ static void	ft_print_infile_list(t_infile *list)
 		printf("nil");
 	while (tmp)
 	{
-		printf("[%s %s]", tmp->filename, tmp->delimiter);
+		printf("[name : %s | delim : %s]", tmp->filename, tmp->delimiter);
 		tmp = tmp->next;
 	}
 	printf("\n");
@@ -57,7 +57,7 @@ static void	ft_print_outfile_list(t_outfile *list)
 		printf("nil");
 	while (tmp)
 	{
-		printf("[%s %d]", tmp->filename, tmp->append);
+		printf("[name : %s | is_append : %d]", tmp->filename, tmp->append);
 		tmp = tmp->next;
 	}
 	printf("\n");

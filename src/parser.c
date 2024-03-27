@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/27 11:48:20 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 13:14:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,22 @@ t_token	*ft_find_next_pipe(t_token *cur_token)
 static t_token	*ft_extract_token(t_token *token_list)
 {
 	t_token	*new_token;
-	t_token	*new_token_list;
+	t_token	*sub_list;
+	char	*new_str;
 
-	new_token_list = NULL;
+	sub_list = NULL;
 	while (token_list != NULL && token_list->type != PIPE)
 	{
-		new_token = ft_create_new_token(token_list->str, token_list->type, token_list->pos);
+		new_str = ft_strdup(token_list->str);
+		if (!new_str)
+			return (ft_free_tokens(&sub_list), NULL);
+		new_token = ft_create_new_token(new_str, token_list->type, token_list->pos);
 		if (!new_token)
-			return (NULL);
-		ft_addlast_token(&new_token_list, new_token);
+			return (free(new_str), ft_free_tokens(&sub_list), NULL);
+		ft_addlast_token(&sub_list, new_token);
 		token_list = token_list->next;
 	}
-	return (new_token_list);
+	return (sub_list);
 }
 
 static t_cmd	*ft_create_new_cmd(t_token *cur_token)
@@ -63,15 +67,12 @@ static t_cmd	*ft_create_new_cmd(t_token *cur_token)
 	
 	if (!cur_token)
 		return (NULL);
-	new_cmd = malloc(sizeof(t_cmd));
+	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
 	new_cmd->token_list = ft_extract_token(cur_token);
 	if (!new_cmd->token_list)
-	{
-		free(new_cmd);
-		return (NULL);
-	}
+		return (free(new_cmd), NULL);
 	new_cmd->arg_list = NULL;
 	new_cmd->infile_list = NULL;
 	new_cmd->outfile_list = NULL;
@@ -147,18 +148,19 @@ static int	parse_outfiles(t_cmd *new_cmd, t_token *token)
 static int	parse_commands(t_cmd *new_cmd, t_token *token)
 {
 	t_arg	*new_arg;
+	char	*new_str;
 
 	new_arg = NULL;
 	while (token != NULL && token->type != PIPE)
 	{
 		if (token->attributed == false)
 		{
-			new_arg = create_new_arg(token->str);
+			new_str = ft_strdup(token->str);
+			if (!new_str)
+				return (ft_free_arg_list(&new_cmd->arg_list), FAIL);
+			new_arg = create_new_arg(new_str);
 			if (!new_arg)
-			{
-				printf("FAIIIIL\n");
-				return (FAIL);
-			}
+				return (ft_free_arg_list(&new_cmd->arg_list), FAIL);
 			add_new_arg(&new_cmd->arg_list, new_arg);
 		}
 		token = token->next;
@@ -176,8 +178,8 @@ t_cmd	*ft_create_cmd(t_token *cur_token)
 	if (!new_cmd)
 		return (NULL);
 	parse_infiles(new_cmd, cur_token);
-	parse_outfiles(new_cmd, cur_token);
-	parse_commands(new_cmd, cur_token);
+	// parse_outfiles(new_cmd, cur_token);
+	// parse_commands(new_cmd, cur_token);
 	return (new_cmd);
 }
 
@@ -193,17 +195,13 @@ t_cmd	*ft_create_cmd_list(t_token *token_list)
 	{
 		if (cur_token->type != PIPE)
 		{
-			printf("hey\n");
 			new_cmd = ft_create_cmd(cur_token);
 			if (!new_cmd)
-				return (NULL);
-			// printf("arg list :");
-			// ft_print_arg_list(new_cmd->arg_list);
+				return (ft_free_cmds(&cmd_list), NULL);
 			ft_add_new_cmd(&cmd_list, new_cmd);
 			cur_token = ft_find_next_pipe(cur_token);
 			if (cur_token == NULL)
 				return (cmd_list);
-			// printf("cur token type : %s\n", ft_type_to_str(cur_token->type));
 		}
 		cur_token = cur_token->next;
 	}

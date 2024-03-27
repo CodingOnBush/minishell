@@ -6,12 +6,45 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/27 11:56:00 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 13:15:54 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../inc/minishell.h"
+
+int	ft_start_lexing(t_data *data)
+{
+	if (ft_check_quote_error(data->line) == FAIL)
+	{
+		ft_error_messages(QUOTES_ERROR);
+		return (FAIL);
+	}
+	data->token_list = ft_create_token_list(data->line);
+	if (!data->token_list)
+	{
+		printf("parse tokens failed !\n");
+		return (FAIL);
+	}
+	if (ft_check_double_pipe(data->token_list) == FAIL)
+	{
+		ft_error_messages(DOUBLE_PIPE_ERROR);
+		return (FAIL);
+	}
+	if (check_token_list(&data->token_list) == FAIL)
+		return (FAIL);
+	return (SUCCESS);
+}
+int	ft_start_parsing(t_data *data)
+{
+	data->cmd_list = ft_create_cmd_list(data->token_list);
+	if (!data->cmd_list)
+	{
+		printf("parse commands failed !\n");
+		return (FAIL);
+	}
+	ft_print_cmd_list(data->cmd_list);
+	return (SUCCESS);
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -26,79 +59,26 @@ int	main(int ac, char **av, char **env)
 		if (!data->line)
 		{
 			printf("exit\n");
-			ft_free_path(data->path);
-			free(data);
 			break ;
 		}
-		add_history(data->line);
-		
-		if (ft_check_quote_error(data->line) == FAIL)
-			ft_error_messages(QUOTES_ERROR);
-		else
+		// add_history(data->line);// leaks from this function
+		if (ft_start_lexing(data) == FAIL)
 		{
-			data->token_list = ft_create_token_list(data->line);
-			if (!data->token_list)
-				printf("parse tokens failed !\n");
-			else
-			{
-				if (ft_check_double_pipe(data->token_list) == FAIL)
-					ft_error_messages(DOUBLE_PIPE_ERROR);
-				else
-				{
-					// data->cmd_list = ft_create_cmd_list(data->token_list);
-					// if (!data->cmd_list)
-					// {
-					// 	printf("parse commands failed !\n");
-					// 	// ft_free_tokens(data->token_list);
-					// 	// free(data->line);
-					// 	break;
-					// }
-					// else
-					// {
-						// check_token_list(data->token_list);
-					// 	ft_print_cmd_list(data->cmd_list);
-					// }
-					// ft_print_token_list(data->token_list);
-					data->cmd_list = ft_create_cmd_list(data->token_list);
-					if (!data->cmd_list)
-					{
-						printf("parse commands failed !\n");
-						// ft_free_tokens(data->token_list);
-						// free(data->line);
-						break;
-					}
-					else
-					{
-						if (check_token_list(&data->token_list) == FAIL)
-						{
-							// ft_print_token_list(data->token_list);
-							break;
-						}
-						// else
-							// ft_print_token_list(data->token_list);
-
-						ft_print_cmd_list(data->cmd_list);
-					}
-				}
-			}
+			free(data->line);
+			continue;
 		}
-		
-		// create cmd list
-		
-		// printf("HEY\n");
-		// if (do_heredocs(&data) == FAIL)
-		// {
-		// 	printf("A heredoc failed at some point !\n");
-		// 	break;
-		// }
-		// printf("cmd_path : %s\n", // find_path(data));
-	
-		free(data->line);
+		if (ft_start_parsing(data) == FAIL)
+		{
+			free(data->line);
+			ft_free_tokens(&data->token_list);
+			continue;
+		}
+		ft_free_cmds(&data->cmd_list);
 		ft_free_tokens(&data->token_list);
+		free(data->line);
 	}
-	rl_clear_history();
-	// ft_free_path(data->path);
-	// free(data);
+	ft_free_path(data->path);
+	free(data);
 	return (0);
 }
 
