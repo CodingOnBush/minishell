@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 17:46:39 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 22:48:17 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	char				*line;
+	char				**env;
 	t_cmd				*cmd_list;
 	t_token				*token_list;
 	int					hdnum;
@@ -156,13 +157,18 @@ int						ft_check_pipe_error(t_token *token_list);
 /*		ARGS			*/
 t_arg					*create_new_arg(char *value);
 void					add_new_arg(t_arg **head, t_arg *new_arg);
+int						ft_get_arg_nbr(t_arg *arg_list);
+char					**ft_arg_list_to_array(t_arg *arg_list);
 
 /*		DATA			*/
-t_data					*ft_create_data(void);
+t_data					*ft_create_data(int ac, char **av, char **env);
 int						ft_finish_init_data(t_data *data);
 
 /*		PARSING			*/
 t_cmd					*ft_create_cmd_list(t_token *token_list);
+
+/*		BUILTINS		*/
+char					*ft_getcwd(void);
 
 /*		HEREDOCS		*/
 int						do_heredocs(t_data *data);

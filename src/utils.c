@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 17:29:45 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 22:39:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,3 +148,10 @@ int	ft_get_pipe_count(t_token *token_list)
 	}
 	return (count);
 }
+
+/* char	*ft_get_cmd_path(char *cmd)
+{
+	
+} */
+
+

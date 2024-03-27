@@ -6,17 +6,17 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 17:47:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 22:26:00 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
 	t_data	*data;
 
-	data = ft_create_data();
+	data = ft_create_data(ac, av, env);
 	if (!data)
 		return (-1);
 	while (1)

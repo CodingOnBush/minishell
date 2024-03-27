@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 15:38:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 22:47:51 by momrane          ###   ########.fr       */
+/*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
+/*   Updated: 2024/03/27 22:50:45 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_start_exec(t_data *data)
+char	*ft_getcwd(void)
 {
-	printf("letsgoo !\n");
-	printf("we are at : %s\n", ft_getcwd());
+	char	*cwd;
+
+	cwd = malloc(1024 * sizeof(char));
+	if (!cwd)
+		return (NULL);
+	getcwd(cwd, 1024);
+	return (cwd);
 }

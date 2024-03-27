@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/03/27 17:49:15 by momrane          ###   ########.fr        #
+#    Updated: 2024/03/27 22:48:27 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ CYAN 		:= \033[0;96m
 #Sources
 SRC_FILES 	:=	main utils free token token_check signals \
 				parser args infile outfile data print check \
-				errors exec
+				errors exec builtins
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 

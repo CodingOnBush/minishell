@@ -6,20 +6,23 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 17:46:14 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 22:25:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_data	*ft_create_data(void)
+t_data	*ft_create_data(int ac, char **av, char **env)
 {
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
+	(void)ac;
+	(void)av;
 	data->line = NULL;
+	data->env = env;
 	data->cmd_list = NULL;
 	data->token_list = NULL;
 	ft_setup_signals(data);
