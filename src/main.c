@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/27 17:38:56 by momrane          ###   ########.fr       */
+/*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
+/*   Updated: 2024/03/27 17:47:38 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	main(void)
 		data->line = readline(MINISPELL);
 		if (!data->line)
 			break ;
-		// add_history(data->line);// leaks from this function
-		if (ft_start_lexing(data) == SUCCESS && ft_start_parsing(data) == SUCCESS)
+		// add_history(data->line);
+		if (ft_finish_init_data(data) == SUCCESS)
 			ft_start_exec(data);
 		ft_free_lexing_and_parsing(data);
 		free(data->line);
@@ -35,18 +35,12 @@ int	main(void)
 	return (free(data), 0);
 }
 
-/*
-char	*args[4];
-
-(void)ac;
-(void)av;
-args[0] = "ls";
-args[1] = "-la";
-args[2] = "cat";
-args[3] = "infile";
-
-if (execve("/usr/bin/ls", args, env) == 0)
-{
-	printf("errorrrr\n");
-}
-*/
+// char	*args[4];
+// (void)ac;
+// (void)av;
+// args[0] = "ls";
+// args[1] = "-la";
+// args[2] = "cat";
+// args[3] = "infile";
+// if (execve("/usr/bin/ls", args, env) == 0)
+// 	printf("errorrrr\n");

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 17:34:29 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:46:39 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,6 @@ typedef struct s_data
 /*		EXEC			*/
 void					ft_start_exec(t_data *data);
 
-/*		LEXER			*/
-int						ft_start_lexing(t_data *data);
-
 /*		INFILE			*/
 t_infile				*ft_create_new_infile(char *str, int type);
 void					ft_add_infile(t_infile **infile_list, t_infile *new_infile);
@@ -166,7 +163,6 @@ int						ft_finish_init_data(t_data *data);
 
 /*		PARSING			*/
 t_cmd					*ft_create_cmd_list(t_token *token_list);
-int						ft_start_parsing(t_data *data);
 
 /*		HEREDOCS		*/
 int						do_heredocs(t_data *data);
