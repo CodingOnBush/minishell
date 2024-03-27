@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/27 16:39:54 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:13:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ int	main(int ac, char **av, char **env)
 		if (!data->line)
 			break ;
 		// add_history(data->line);// leaks from this function
-		if (ft_start_lexing(data) == SUCCESS)
+		if (ft_start_lexing(data) == SUCCESS && ft_start_parsing(data) == SUCCESS)
 			ft_start_exec(data);
+		
 		ft_free_lexing_and_parsing(data);
 		free(data->line);
 	}
