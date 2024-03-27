@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 17:15:04 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:29:22 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,6 @@ typedef struct s_cmd
 
 typedef struct s_data
 {
-	int					ac;
-	char				**av;
-	char				**env;
-	char				**path;
 	char				*line;
 	t_cmd				*cmd_list;
 	t_token				*token_list;
@@ -164,7 +160,7 @@ t_arg					*create_new_arg(char *value);
 void					add_new_arg(t_arg **head, t_arg *new_arg);
 
 /*		DATA			*/
-t_data					*ft_create_data(int ac, char **av, char **env);
+t_data					*ft_create_data(void);
 int						ft_finish_init_data(t_data *data);
 
 /*		PARSING			*/

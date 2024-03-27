@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/27 17:14:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:25:45 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,4 +213,5 @@ int	ft_start_parsing(t_data *data)
 	data->cmd_list = ft_create_cmd_list(data->token_list);
 	if (!data->cmd_list)
 		return (FAIL);
+	return (SUCCESS);
 }

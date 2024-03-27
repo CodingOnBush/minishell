@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 15:08:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:29:45 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,31 +104,6 @@ t_token		*ft_findlast_token(t_token *lst)
 	while (lst->next != NULL)
 		lst = lst->next;
 	return (lst);
-}
-
-int	ft_set_path(t_data *data)
-{
-	int		i;
-	char	*path;
-	char	**tmp;
-
-	i = 0;
-	while (data->env[i])
-	{
-		if (ft_strncmp(data->env[i], "PATH=", 5) == 0)
-		{
-			path = ft_strdup(data->env[i] + 5);
-			tmp = ft_split(path, ':');
-			if (!tmp)
-				return (FAIL);
-			free(path);
-			data->path = tmp;
-			return (SUCCESS);
-		}
-		i++;
-	}
-	data->path = NULL;
-	return (FAIL);
 }
 
 char	*ft_type_to_str(int type)

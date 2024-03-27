@@ -6,17 +6,17 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/27 17:13:31 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:31:12 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main(int ac, char **av, char **env)
+int	main(void)
 {
 	t_data	*data;
 
-	data = ft_create_data(ac, av, env);
+	data = ft_create_data();
 	if (!data)
 		return (-1);
 	while (1)
@@ -27,11 +27,10 @@ int	main(int ac, char **av, char **env)
 		// add_history(data->line);// leaks from this function
 		if (ft_start_lexing(data) == SUCCESS && ft_start_parsing(data) == SUCCESS)
 			ft_start_exec(data);
-		
 		ft_free_lexing_and_parsing(data);
 		free(data->line);
 	}
-	ft_free_path(data->path);
+	// ft_free_path(data->path);
 	printf("exit\n");
 	return (free(data), 0);
 }
