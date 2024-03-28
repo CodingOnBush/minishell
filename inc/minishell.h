@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 22:48:17 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/28 12:57:09 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_infile
 typedef struct s_outfile
 {
 	char				*filename;
-	bool				append;// false : RIGTH_TRUNC
+	bool				append;// false : RIGHT_TRUNC
 	struct s_outfile	*next;
 }						t_outfile;
 
@@ -125,6 +125,9 @@ void					ft_free_lexing_and_parsing(t_data *data);
 /*		ERRORS			*/
 void					assign_error(t_token *token, int err_type);
 void					ft_error_messages(int errno);
+
+/*		EXPAND			*/
+int						ft_check_expands(t_token *list);
 
 /*		CHECK			*/
 int						ft_check_quote_error(char *line);
