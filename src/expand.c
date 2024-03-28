@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/28 16:04:22 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/28 16:57:09 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,15 +164,15 @@ char	*get_var_name(char *str, bool *single_quote_is_char)
 		return (NULL);
 	if (str[i] == '$')
 		i++;
-	while (str[i] && ft_isspace(str[i]) == NO && str[i] != DOUBLE_QUOTES)
+	while (str[i] && ft_isspace(str[i]) == NO && str[i] != DOUBLE_QUOTES && str[i] != SINGLE_QUOTE)
 		i++;
 	if (str[i] == DOUBLE_QUOTES && *single_quote_is_char == true)
-	{
 		*single_quote_is_char = !*single_quote_is_char;
-		i++;
-	}
 	if (i <= 1)
+	{
+		//ajouter le $ a res
 		return (NULL);
+	}
 	var_name = malloc(sizeof(char) * (i + 1));
 	if (!var_name)
 		return (NULL);
@@ -187,11 +187,13 @@ char	*ft_concat(char *res, char *str, int size)
 	int		i;
 	int		j;
 
+	// if (res == NULL)
+	// 	len = size;
+	// else
 	len = ft_strlen(res) + size;
 	new_res = malloc(sizeof(char) * (len + 1));
 	if (!new_res)
 		return (NULL);
-	new_res[len] = '\0';
 	i = 0;
 	while (i < ft_strlen(res))
 	{
@@ -205,6 +207,7 @@ char	*ft_concat(char *res, char *str, int size)
 		i++;
 		j++;
 	}
+	new_res[i] = '\0';
 	return (new_res);
 }
 
@@ -222,6 +225,7 @@ static char	*ft_get_extend(char *str)
 	while (str[i] != '\0')
 	{
 		len = i;
+		// printf("Index: %d, %d Char i: %c Char len: %c\n", i, len, str[i], str[len]);
 		while (str[len] && str[len] != '$' && str[len] != SINGLE_QUOTE && str[len] != DOUBLE_QUOTES)
 			len++;
 		if (str[len] == DOUBLE_QUOTES)
@@ -229,8 +233,12 @@ static char	*ft_get_extend(char *str)
 			single_quote_is_char = !single_quote_is_char;
 			len++;
 		}
+		if (str[len] == SINGLE_QUOTE && single_quote_is_char == true)
+			len++;
 		if (len > i)
 		{
+			// printf("Index: %d, %d Char i: %c Char len: %c\n", i, len, str[i], str[len]);
+			// printf("Size: %d", len - i);
 			res = ft_concat(res, &str[i], len - i);
 			if (!res)
 				return (NULL);
@@ -245,6 +253,7 @@ static char	*ft_get_extend(char *str)
 				if (!res)
 					return (NULL);
 				i += ft_strlen(get_var_name(&str[i], &single_quote_is_char)) + 1;
+				printf("index: %lu\n", ft_strlen(get_var_name(&str[i], &single_quote_is_char)) + 2);
 			}
 			else
 				i++;
