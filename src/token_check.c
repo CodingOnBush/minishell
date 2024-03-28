@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/26 16:06:55 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/28 13:03:21 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	is_error(t_token *list, t_token *token)
 	return (NO);
 }
 
-int	check_token_list(t_token **list)
+int	check_token_list(t_token **list)// rename because it check errors and set errors variables
 {
 	t_token	*cur_token;
 

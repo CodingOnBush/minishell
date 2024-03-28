@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 23:36:31 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/28 12:59:12 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,17 @@ void	ft_print_env(char **env)
 
 int	ft_change_dir(char *path)
 {
-	char	*new_path;
+	// char	*new_path;
 
-	if (path == NULL)
-	{
-		new_path = ft_getenv("HOME");
-		if (new_path == NULL)
-		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			return (FAIL);
-		}
-		return (chdir(new_path));
-	}
+	// if (path == NULL)
+	// {
+	// 	new_path = ft_getenv("HOME");
+	// 	if (new_path == NULL)
+	// 	{
+	// 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+	// 		return (FAIL);
+	// 	}
+	// 	return (chdir(new_path));
+	// }
+	return (SUCCESS);
 }

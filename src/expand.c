@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/28 12:51:08 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:17:59 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,32 +183,44 @@ static char	*ft_get_vars(char *str)
 	char	*var_content;
 	int		i;
 	char	*before;
+	int		step;
 	
 	i = 0;
 	ret_value = NULL;
 	while (str[i])
 	{
+		// printf("cou\n");
+		// if (str[i] == SINGLE_QUOTE)
+		// {
+		// 	step = ft_strchr(&str[i + 1], SINGLE_QUOTE) - &str[i] + 1;
+		// 	printf("step : %d\n", step);
+		// 	// fusion
+		// 	i += step;
+		// }
+		// else 
 		if (str[i] == '$')
 		{
-			var_str = get_var_name(&str[i]);
-			if (!var_str)
-				return (NULL);
-			var_content = getenv(var_str);
-			if (var_content != NULL)
-			{
-				printf("var_content: %s\n", var_content);
-				// ft_qqch(str, i, var_content);
-				if (ret_value == NULL)
-				{
-					ret_value = malloc(sizeof(char) * (i + 1));
-					if (!ret_value)
-						return(free(var_str), NULL);
-					ft_strlcat(ret_value, str, i + 1);
-				}
-				ret_value = ft_strjoin(ret_value, var_content);
-				printf("ret value : %s\n", ret_value);
-			}
-			i += ft_strlen(var_str);
+			printf("hey\n");
+			// var_str = get_var_name(&str[i]);
+			// if (!var_str)
+			// 	return (NULL);
+			// var_content = getenv(var_str);
+			// if (var_content != NULL)
+			// {
+			// 	printf("var_content: %s\n", var_content);
+			// 	// ft_qqch(str, i, var_content);
+			// 	if (ret_value == NULL)
+			// 	{
+			// 		ret_value = malloc(sizeof(char) * (i + 1));
+			// 		if (!ret_value)
+			// 			return(free(var_str), NULL);
+			// 		ft_strlcat(ret_value, str, i + 1);
+			// 	}
+			// 	ret_value = ft_strjoin(ret_value, var_content);
+			// 	printf("ret value : %s\n", ret_value);
+			// }
+			// i += ft_strlen(var_str);
+			i++;
 		}
 		else
 			i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 22:25:55 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/28 13:04:51 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	ft_finish_init_data(t_data *data)
 	data->token_list = ft_create_token_list(data->line);
 	if (!data->token_list)
 		return (printf("parse tokens failed !\n"), FAIL);
+	ft_check_expands(data->token_list);
 	if (ft_check_double_pipe(data->token_list) == FAIL)
 	{
 		ft_error_messages(DOUBLE_PIPE_ERROR);

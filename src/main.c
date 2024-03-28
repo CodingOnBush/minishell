@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/28 12:56:48 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/28 13:05:44 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ int	main(int ac, char **av, char **env)
 		data->line = readline(MINISPELL);
 		if (!data->line)
 			break ;
-		// add_history(data->line);
+		add_history(data->line);
 		if (ft_finish_init_data(data) == SUCCESS)
 			ft_start_exec(data);
 		ft_free_lexing_and_parsing(data);
 		free(data->line);
 	}
 	ft_free_path(data->path_list);
+	rl_clear_history();
 	printf("exit\n");
 	return (free(data), 0);
 }
