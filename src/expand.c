@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/28 16:57:09 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:34:03 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ static char	*ft_get_extend(char *str)
 	int		i;
 	int		len;
 	char	*res;
+	char	*var_name;
 	char	*var_content;
 	bool	single_quote_is_char;
 
@@ -225,7 +226,6 @@ static char	*ft_get_extend(char *str)
 	while (str[i] != '\0')
 	{
 		len = i;
-		// printf("Index: %d, %d Char i: %c Char len: %c\n", i, len, str[i], str[len]);
 		while (str[len] && str[len] != '$' && str[len] != SINGLE_QUOTE && str[len] != DOUBLE_QUOTES)
 			len++;
 		if (str[len] == DOUBLE_QUOTES)
@@ -237,8 +237,6 @@ static char	*ft_get_extend(char *str)
 			len++;
 		if (len > i)
 		{
-			// printf("Index: %d, %d Char i: %c Char len: %c\n", i, len, str[i], str[len]);
-			// printf("Size: %d", len - i);
 			res = ft_concat(res, &str[i], len - i);
 			if (!res)
 				return (NULL);
@@ -246,17 +244,28 @@ static char	*ft_get_extend(char *str)
 		}
 		if (str[i] == '$')
 		{
-			var_content = getenv(get_var_name(&str[i], &single_quote_is_char));
-			if (var_content != NULL)
+			var_name = get_var_name(&str[i], &single_quote_is_char);
+			if (var_name != NULL)
 			{
-				res = ft_concat(res, var_content, ft_strlen(var_content));
-				if (!res)
-					return (NULL);
-				i += ft_strlen(get_var_name(&str[i], &single_quote_is_char)) + 1;
-				printf("index: %lu\n", ft_strlen(get_var_name(&str[i], &single_quote_is_char)) + 2);
+				var_content = getenv(var_name);
+				if (var_content != NULL)
+				{
+					res = ft_concat(res, var_content, ft_strlen(var_content));
+					if (!res)
+						return (NULL);
+					i += ft_strlen(get_var_name(&str[i], &single_quote_is_char)) + 1;
+					printf("index: %lu\n", ft_strlen(var_name) + 2);
+				}
+				else
+					i += ft_strlen(get_var_name(&str[i], &single_quote_is_char)) + 1;
 			}
 			else
+			{
+				res = ft_concat(res, &str[i], 1);
+				if (!res)
+					return (NULL);
 				i++;
+			}
 		}
 		else if (str[i] == SINGLE_QUOTE && single_quote_is_char == false)
 		{
