@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/28 12:57:09 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:25:59 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	t_token				*token_list;
-	t_arg				*arg_list;// we can remove it thanks to token_list
+	t_arg				*arg_list;
 	t_infile			*infile_list;
 	t_outfile			*outfile_list;
 	struct s_cmd		*next;

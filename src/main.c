@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/28 13:05:44 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/28 15:38:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 int	main(int ac, char **av, char **env)
 {
-	t_data	*data;
+	t_data *const	data = ft_create_data(ac, av, env);
 
-	data = ft_create_data(ac, av, env);
 	if (!data)
 		return (-1);
 	while (1)

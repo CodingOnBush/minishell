@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/28 13:17:59 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:04:22 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ static int	dist_to_quote(char *str)
 // 	return (ret_value);
 // }
 
-char	*get_var_name(char *str)
+char	*get_var_name(char *str, bool *single_quote_is_char)
 {
 	int		i;
 	char	*var_name;
@@ -166,6 +166,11 @@ char	*get_var_name(char *str)
 		i++;
 	while (str[i] && ft_isspace(str[i]) == NO && str[i] != DOUBLE_QUOTES)
 		i++;
+	if (str[i] == DOUBLE_QUOTES && *single_quote_is_char == true)
+	{
+		*single_quote_is_char = !*single_quote_is_char;
+		i++;
+	}
 	if (i <= 1)
 		return (NULL);
 	var_name = malloc(sizeof(char) * (i + 1));
@@ -175,59 +180,86 @@ char	*get_var_name(char *str)
 	return (var_name);
 }
 
-static char	*ft_get_vars(char *str)
+char	*ft_concat(char *res, char *str, int size)
 {
-	char	*tmp;
-	char	*ret_value;
-	char	*var_str;
-	char	*var_content;
+	char	*new_res;
+	int		len;
 	int		i;
-	char	*before;
-	int		step;
-	
+	int		j;
+
+	len = ft_strlen(res) + size;
+	new_res = malloc(sizeof(char) * (len + 1));
+	if (!new_res)
+		return (NULL);
+	new_res[len] = '\0';
 	i = 0;
-	ret_value = NULL;
-	while (str[i])
+	while (i < ft_strlen(res))
 	{
-		// printf("cou\n");
-		// if (str[i] == SINGLE_QUOTE)
-		// {
-		// 	step = ft_strchr(&str[i + 1], SINGLE_QUOTE) - &str[i] + 1;
-		// 	printf("step : %d\n", step);
-		// 	// fusion
-		// 	i += step;
-		// }
-		// else 
-		if (str[i] == '$')
-		{
-			printf("hey\n");
-			// var_str = get_var_name(&str[i]);
-			// if (!var_str)
-			// 	return (NULL);
-			// var_content = getenv(var_str);
-			// if (var_content != NULL)
-			// {
-			// 	printf("var_content: %s\n", var_content);
-			// 	// ft_qqch(str, i, var_content);
-			// 	if (ret_value == NULL)
-			// 	{
-			// 		ret_value = malloc(sizeof(char) * (i + 1));
-			// 		if (!ret_value)
-			// 			return(free(var_str), NULL);
-			// 		ft_strlcat(ret_value, str, i + 1);
-			// 	}
-			// 	ret_value = ft_strjoin(ret_value, var_content);
-			// 	printf("ret value : %s\n", ret_value);
-			// }
-			// i += ft_strlen(var_str);
-			i++;
-		}
-		else
-			i++;
+		new_res[i] = res[i];
+		i++;
 	}
-	return (ret_value);
+	j = 0;
+	while (i < len)
+	{
+		new_res[i] = str[j];
+		i++;
+		j++;
+	}
+	return (new_res);
 }
 
+static char	*ft_get_extend(char *str)
+{
+	int		i;
+	int		len;
+	char	*res;
+	char	*var_content;
+	bool	single_quote_is_char;
+
+	i = 0;
+	res = NULL;
+	single_quote_is_char = false;
+	while (str[i] != '\0')
+	{
+		len = i;
+		while (str[len] && str[len] != '$' && str[len] != SINGLE_QUOTE && str[len] != DOUBLE_QUOTES)
+			len++;
+		if (str[len] == DOUBLE_QUOTES)
+		{
+			single_quote_is_char = !single_quote_is_char;
+			len++;
+		}
+		if (len > i)
+		{
+			res = ft_concat(res, &str[i], len - i);
+			if (!res)
+				return (NULL);
+			i += len - i;
+		}
+		if (str[i] == '$')
+		{
+			var_content = getenv(get_var_name(&str[i], &single_quote_is_char));
+			if (var_content != NULL)
+			{
+				res = ft_concat(res, var_content, ft_strlen(var_content));
+				if (!res)
+					return (NULL);
+				i += ft_strlen(get_var_name(&str[i], &single_quote_is_char)) + 1;
+			}
+			else
+				i++;
+		}
+		else if (str[i] == SINGLE_QUOTE && single_quote_is_char == false)
+		{
+			len = ft_strchr(&str[i + 1], SINGLE_QUOTE) - &str[i] + 1;
+			res = ft_concat(res, &str[i], len);
+			if (!res)
+				return (NULL);
+			i += len;
+		}
+	}
+	return (res);
+}
 
 int	ft_check_expands(t_token *list)
 {
@@ -242,10 +274,10 @@ int	ft_check_expands(t_token *list)
 		if (cur_token->type == WORD && is_dollar(cur_token->str) == YES)
 		{
 			tmp = cur_token->str;
-			cur_token->str = ft_get_vars(tmp);
-			printf("str expanded: %s\n", cur_token->str);
+			cur_token->str = ft_get_extend(tmp);
 			if (cur_token->str == NULL)
 				return (FAIL);
+			printf("str expanded: %s\n", cur_token->str);
 			free(tmp);
 		}
 		cur_token = cur_token->next;
