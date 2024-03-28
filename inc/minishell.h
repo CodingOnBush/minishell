@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/28 15:25:59 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/28 18:11:16 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_data
 	int					hdnum;
 	t_token				*token_split;
 	char				**path_list;
+	int					step;
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
 }						t_data;
@@ -127,7 +128,7 @@ void					assign_error(t_token *token, int err_type);
 void					ft_error_messages(int errno);
 
 /*		EXPAND			*/
-int						ft_check_expands(t_token *list);
+int						ft_check_expands(t_token *list, t_data *data);
 
 /*		CHECK			*/
 int						ft_check_quote_error(char *line);
