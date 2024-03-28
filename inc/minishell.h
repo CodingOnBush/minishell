@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 12:28:14 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:35:03 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,9 @@ void					ft_free_path(char **path);
 /*		ERRORS			*/
 void					assign_error(t_token *token, int err_type);
 void					ft_error_messages(int errno);
+
+/*		EXPAND			*/
+int						ft_check_expands(t_token *list);
 
 /*		CHECK			*/
 int						ft_check_quote_error(char *line);

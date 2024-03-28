@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/27 12:22:55 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:31:09 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,12 @@ int	main(int ac, char **av, char **env)
 					{
 						if (check_token_list(&data->token_list) == FAIL)
 						{
-							ft_check_expands(data->token_list);
 							// ft_print_token_list(data->token_list);
 							break;
 						}
 						// else
 							// ft_print_token_list(data->token_list);
-
+						ft_check_expands(data->token_list);
 						ft_print_cmd_list(data->cmd_list);
 					}
 				}
