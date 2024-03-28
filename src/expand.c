@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/28 19:11:12 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/28 19:13:05 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,122 +37,6 @@ static int	dist_to_quote(char *str)
 		i++;
 	return (i);
 }
-
-// static char	*ft_get_vars(char *str)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*ret_value;
-// 	char	*tmp;
-// 	char	*var_value;
-
-// 	if (!str)
-// 		return (NULL);
-// 	i = 0;
-// 	ret_value = NULL;
-// 	tmp = NULL;
-// 	while (str[i])
-// 	{
-// 		j = i;
-// 		while (str[j] && str[j] != '\'' && str[j] != '\"' && str[j] != '$')
-// 			j++;
-// 		if (j != 0 && str[j])
-// 		{
-// 			ft_strlcpy(tmp, &str[i], j - i); // voir si ok de mettre i + 1 et si pas i + 2
-// 			ret_value = ft_strjoin(ret_value, tmp);
-// 			free(tmp);
-// 			i = j;
-// 		}
-// 		if (str[j] == '\'')
-// 		{
-// 			j++;
-// 			i = j;
-// 			if (str[j])
-// 			{
-// 				j = dist_to_quote(&str[i]); // coder la fonction dist_to_quote
-// 				ft_strlcpy(tmp, &str[i], j - i);
-// 				ret_value = ft_strjoin(ret_value, tmp);
-// 				free(tmp);
-// 				i = i + j; //+ 1?
-// 				j = i;
-// 			}
-// 			else
-// 				return (ret_value);
-// 		}
-// 		else if (str[j] == '\"')
-// 		{
-// 			j++;
-// 			i = j;
-// 			while (str[j] && str[j] != '$' && str[j] != '\"')
-// 				j++;
-// 			if (j - i != 0 && str[j])
-// 			{
-// 				ft_strlcpy(tmp, &str[i], j - i);
-// 				ret_value = ft_strjoin(ret_value, tmp);
-// 				free(tmp);
-// 				j++;
-// 				i = j;
-// 			}
-// 			else
-// 				return (ret_value);
-// 			if (str[j] && str[j] == '$')
-// 			{
-// 				while (str[j] && str[j] != '\"' && ft_isspace(str[j]) == NO)
-// 					j++;
-// 				if (str[j] && ft_isspace(str[j]) == YES)
-// 				{
-// 					ft_strlcpy(tmp, &str[i], j - i);
-// 					var_value = ft_strdup(getenv(tmp));
-// 					ret_value = ft_strjoin(ret_value, var_value);
-// 					free(tmp);
-// 					free(var_value);
-// 					j++;
-// 					i = j;
-// 					while (str[j] && str[j] != '\"')
-// 						j++;
-// 					if (j - i != 0 && str[j])
-// 					{
-// 						ft_strlcpy(tmp, &str[i], j - i);
-// 						ret_value = ft_strjoin(ret_value, tmp);
-// 						free(tmp);
-// 						j++;
-// 						i = j;
-// 					}
-// 				}
-// 				else if (str[j] && str[j] == '\"')
-// 				{
-// 					ft_strlcpy(tmp, &str[i], j - i);
-// 					var_value = ft_strdup(getenv(tmp));
-// 					ret_value = ft_strjoin(ret_value, var_value);
-// 					free(tmp);
-// 					free(var_value);
-// 					j++;
-// 					i = j;
-// 				}
-// 				else
-// 					return (ret_value);
-// 			}
-			
-// 		}
-// 		else if (str[j] && str[j] == '$')
-// 		{
-// 			j++;
-// 			i = j;
-// 			while (str[j] && ft_isspace(str[j]) == NO)
-// 				j++;
-// 			tmp =  
-// 			ft_strlcpy(tmp, &str[i], j - i);
-// 			var_value = ft_strdup(getenv(tmp));
-// 			ret_value = ft_strjoin(ret_value, var_value);
-// 			free(tmp);
-// 			free(var_value);
-// 			if (!str[j])
-// 				return (ret_value);
-// 		}
-// 		i++;
-// 	}
-// 	return (ret_value);
-// }
 
 char	*get_var_name(char *str, bool *single_quote_is_char)
 {
