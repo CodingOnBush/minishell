@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 11:42:21 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 14:16:51 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_data
 	t_cmd				*cmd_list;
 	t_token				*token_list;
 	int					hdnum;
+	char				**hd_files;
 	t_token				*token_split;
 	char				**path_list;
 	int					step;

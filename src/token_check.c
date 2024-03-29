@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 13:45:17 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 15:07:29 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,9 @@ static int	is_error(t_token *list, t_token *token)
 		if (token->next && ft_isop(token->next->str) == YES)
 		{
 			if (token->next->next && token->next->next->type == PIPE)
-			{
-				token->next->next->error = true;
-				token->next->next->err_type = token->next->next->type;
-				return (YES);
-			}
+				return (assign_error(token->next, token->next->next->type), YES);
+			else if (ft_isop(token->next->str) == YES && token->next->next == NULL)
+				return (assign_error(token->next, NEWLINE_ERROR), YES);
 		}
 		return (NO);
 	}
@@ -46,7 +44,7 @@ static int	is_error(t_token *list, t_token *token)
 		return (assign_error(token->next, token->next->type), YES);
 	else if (ft_isop(token->str) == YES && token->next != NULL && token->next->type == PIPE)
 		return (assign_error(token, token->next->type), YES);
-	else if (ft_isop(token->str) == YES && token->next == NULL)
+	else if (ft_isoperator(token->str) >= 1 && token->next == NULL)
 		return (assign_error(token, NEWLINE), YES);
 	return (NO);
 }
@@ -70,6 +68,7 @@ int	check_token_list(t_token **list)// rename because it checks errors and set e
 			break ;
 		cur_token = cur_token->next;
 	}
+	ft_print_token_list(*list);
 	return (SUCCESS);
 }
 

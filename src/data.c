@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 13:43:19 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 15:00:58 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 
 int	ft_finish_init_data(t_data *data)
 {
-	t_cmd	*cur_cmd;
-	
 	if (ft_check_quote_error(data->line) == FAIL)
 		return (ft_error_messages(QUOTES_ERROR), FAIL);
 	data->token_list = ft_create_token_list(data->line);
@@ -49,12 +47,6 @@ int	ft_finish_init_data(t_data *data)
 	data->cmd_list = ft_create_cmd_list(data->token_list);
 	if (!data->cmd_list)
 		return (FAIL);
-	cur_cmd = data->cmd_list;
-	while (cur_cmd != NULL)
-	{
-		ft_print_token_list(cur_cmd->token_list);
-		cur_cmd = cur_cmd->next;
-	}
 	do_heredocs(data);
 	// ft_print_cmd_list(data->cmd_list);
 	return (SUCCESS);

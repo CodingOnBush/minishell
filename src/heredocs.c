@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 11:48:12 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 14:33:43 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ static int  count_heredocs(t_infile *inf_list)
    return (hd_count);
 }
 
-
 static int  get_hd_number(t_cmd *list)
 {
    int     hdnum;
@@ -108,12 +107,44 @@ static int  get_hd_number(t_cmd *list)
    return (hdnum);
 }
 
+static char **create_hd_files(int hdnum)
+{
+    char    **hd_files;
+    int     i;
+
+    hd_files = malloc(sizeof(char *) * hdnum);
+    if (!hd_files)
+        return (NULL);
+    i = 0;
+    while (i < hdnum)
+    {
+        hd_files[i] = ft_strjoin("tmp_hd", ft_itoa(i));
+        printf("hd_files[%d] = %s\n", i, hd_files[i]);
+        if (!hd_files[i])
+            return (NULL);
+        i++;
+    }
+    return (hd_files);
+}
+
+// static void remove_if_hd_exists(char *hd_file)
+// {
+//     if (access(hd_file, F_OK) == 0)
+//     {
+//         if (unlink(hd_file) == -1)
+//         {
+//             printf("Error while removing hd file\n");
+//             ft_free
+//         }
+//     }
+// }
+
 int	do_heredocs(t_data *data)
 {
-    t_cmd   *cur_cmd;
-    t_token *cur_token;
-	int	    *fd_hd;
-    int     i;
+    t_cmd       *cur_cmd;
+    t_infile    *cur_infile;
+	int	        *fd_hd;
+    int         i;
 
 	data->hdnum = get_hd_number(data->cmd_list);
     printf("hdnum = %d\n", data->hdnum);
@@ -121,23 +152,22 @@ int	do_heredocs(t_data *data)
 	fd_hd = malloc (sizeof(int) * data->hdnum);
 	if (!fd_hd)
 		return (FAIL);
-    // cur_cmd = data->cmd_list;
-	// while (cur_cmd != NULL)
+    cur_cmd = data->cmd_list;
+    data->hd_files = create_hd_files(data->hdnum);
+	// while (cur_cmd != NULL && i < data->hdnum)
     // {
-    //     cur_token = cur_cmd->token_list;
-    //     while (cur_token != NULL || cur_token->error == false)
-    //         cur_token = cur_token->next;
-    //     if (cur_token == NULL)
+    //     cur_infile = cur_cmd->infile_list;
+    //     while (cur_infile != NULL && i < data->hdnum)
     //     {
-    //         //on va executer les heredocs de la commande
+    //         if (cur_infile->delimiter != NULL)
+    //         {
+    //             remove_if_hd_exists(data->hd_files[i]);
+    //             fd_hd[i] = open(data->hd_files[i], O_WRONLY | O_CREAT, 0644);
+    //             i++;
+    //         }
+    //         cur_infile = cur_infile->next;
     //     }
-    //     else
-    //         break;
     //     cur_cmd = cur_cmd->next;
     // }
-    // /*si on arrive ici et que cur_cmd est NULL, on a fini de traiter 
-    // les heredocs sinon c'est qu'il y a une erreur et donc qu'il 
-    // faut regarder ou est cette erreur et de quel type elle est pour
-    // voir si d'autres heredocs sont a executer*/
     return (SUCCESS);
 }
