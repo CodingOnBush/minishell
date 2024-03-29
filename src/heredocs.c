@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 18:14:44 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:15:51 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,25 @@ void    writing_loop(t_data *data, int fd_hd, char *delimiter)
 static int execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
 {
     t_infile    *cur_inf;
+    int         count;
 
     cur_inf = cmd->infile_list;
-    while (cur_inf != NULL && i < data->hdnum)
+    count = 0;
+    while (cur_inf != NULL && (i + count) < data->hdnum)
     {
         if (cur_inf->delimiter != NULL)
         {
-            remove_if_hd_exists(data, data->hd_files[i]);
-            fd_hd[i] = open(data->hd_files[i], O_WRONLY | O_CREAT, 0644);
-            if (fd_hd[i] == -1)
+            remove_if_hd_exists(data, data->hd_files[i + count]);
+            fd_hd[i + count] = open(data->hd_files[i], O_WRONLY | O_CREAT, 0644);
+            if (fd_hd[i + count] == -1)
                 return(ft_error_messages(HDEXEC), ft_free_tokens(&data->token_list), ft_free_cmds(&data->cmd_list), FAIL);
-            writing_loop(data, fd_hd[i], cur_inf->delimiter);
-            close(fd_hd[i]);
-            i++;
+            writing_loop(data, fd_hd[i + count], cur_inf->delimiter);
+            close(fd_hd[i + count]);
+            count++;
         }
         cur_inf = cur_inf->next;
     }
-    return (i);
+    return (count);
 }
 
 int	do_heredocs(t_data *data)
@@ -100,6 +102,7 @@ int	do_heredocs(t_data *data)
     int         i;
 
 	data->hdnum = get_hd_number(data->cmd_list);
+    printf("hdnum = %d\n", data->hdnum);
     i = 0;
 	data->fd_hd = malloc (sizeof(int) * data->hdnum);
 	if (!data->fd_hd)
