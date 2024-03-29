@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 17:44:50 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:00:10 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,23 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 	return (data);
 }
 
+static int	is_error_to_print(t_token *list)
+{
+	t_token	*cur_token;
+
+	cur_token = list;
+	while (cur_token != NULL)
+	{
+		if (cur_token->error == true)
+		{
+			ft_error_messages(cur_token->err_type);
+			return (YES);
+		}
+		cur_token = cur_token->next;
+	}
+	return (NO);
+}
+
 int	ft_finish_init_data(t_data *data)
 {
 	if (ft_check_quote_error(data->line) == FAIL)
@@ -49,6 +66,7 @@ int	ft_finish_init_data(t_data *data)
 		return (FAIL);
 	if (do_heredocs(data) == FAIL)
 		return (FAIL);
-    //si erreur apres hd effectues afficher l'erreur et return fail pour free et quit
+	if (is_error_to_print(data->token_list) == YES)
+		return (FAIL);
 	return (SUCCESS);
 }
