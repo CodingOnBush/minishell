@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 11:15:10 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/29 16:45:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include <unistd.h>
 # include <stdbool.h>
 
-# define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 > \001\033[0m\002"
+// # define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 > \001\033[0m\002"
+# define MINISPELL "minispell > "
 
 # define YES 1
 # define NO 0

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/28 15:38:37 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/29 16:49:58 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int ac, char **av, char **env)
 		return (-1);
 	while (1)
 	{
-		data->line = readline(MINISPELL);
+		data->line = readline("minishell > ");
 		if (!data->line)
 			break ;
 		add_history(data->line);
