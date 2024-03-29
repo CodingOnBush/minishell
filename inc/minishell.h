@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/28 18:11:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:15:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,9 @@ void					assign_error(t_token *token, int err_type);
 void					ft_error_messages(int errno);
 
 /*		EXPAND			*/
-int						ft_check_expands(t_token *list, t_data *data);
+// int						ft_check_expands(t_token *list, t_data *data);
+char	*ft_get_expanded_str(char *str);
+int	ft_expand(t_data *data);
 
 /*		CHECK			*/
 int						ft_check_quote_error(char *line);

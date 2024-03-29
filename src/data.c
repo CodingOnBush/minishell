@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 10:54:40 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/29 14:22:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ int	ft_finish_init_data(t_data *data)
 	if (!data->token_list)
 		return (printf("parse tokens failed !\n"), FAIL);
 	
-	ft_check_expands(data->token_list, data);
+	// ft_check_expands(data->token_list, data);
+	
+	ft_expand(data);
 	
 	// if (ft_check_double_pipe(data->token_list) == FAIL)
 	// 	return (ft_error_messages(DOUBLE_PIPE_ERROR), ft_free_tokens(&data->token_list), FAIL);
@@ -49,7 +51,7 @@ int	ft_finish_init_data(t_data *data)
 	// if (!data->cmd_list)
 	// 	return (FAIL);
 	
-	ft_print_token_list(data->token_list);
+	// ft_print_token_list(data->token_list);
 	
 	return (SUCCESS);
 }

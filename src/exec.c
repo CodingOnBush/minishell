@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:38:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 23:11:31 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/29 14:23:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	ft_start_exec(t_data *data)
 {
-	printf("letsgoo !\n");
+	printf(" ");
 }

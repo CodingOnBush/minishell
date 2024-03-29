@@ -6,29 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 10:50:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/29 15:57:39 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static int	is_dollar(char *str)
-{
-	int	i;
-	
-	if (!str)
-		return (NO);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-			return (YES);
-		i++;
-	}
-	return (NO);
-}
-
-static int	dist_to_quote(char *str)
+/* static int	dist_to_quote(char *str)
 {
 	int	i;
 
@@ -129,38 +113,6 @@ static char	*handle_single_quote(t_data *data, char *str)
 	return (new_res);
 }
 
-// static char	*handle_normal_text(t_data *data, char *str, int i, bool *single_quote_is_char)
-// {
-// 	char	*new_res;
-// 	char	*tmp;
-	
-// 	data->step = 0;
-// 	tmp = str;
-// 	while (*str && *str != '$' && *str != SINGLE_QUOTE && *str != DOUBLE_QUOTES)
-// 	{
-// 		str++;
-// 		data->step++;
-// 	}
-// 	if (*str == DOUBLE_QUOTES)
-// 	{
-// 		*single_quote_is_char = !(*(single_quote_is_char));
-// 		str++;
-// 		data->step++;
-// 	}
-// 	if (*str == SINGLE_QUOTE && *single_quote_is_char == true)
-// 	{
-// 		str++;	
-// 		data->step++;
-// 	}
-// 	if (data->step > 0)
-// 	{
-// 		new_res = ft_concat(new_res, tmp, data->step);
-// 		if (!new_res)
-// 			return (NULL);
-// 	}
-// 	return (new_res);
-// }
-
 static char	*ft_get_extend(char *str, t_data *data)
 {
 	int		i;
@@ -206,28 +158,255 @@ static char	*ft_get_extend(char *str, t_data *data)
 		}
 	}
 	return (res);
+} */
+
+static char	*ft_super_strjoin(char *extended_str, char *toadd)
+{
+	char	*new_str;
+	int		len;
+	int		i;
+	int		j;
+
+	len = ft_strlen(extended_str) + ft_strlen(toadd);
+	new_str = malloc(sizeof(char) * (len + 1));
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (i < ft_strlen(extended_str))
+	{
+		new_str[i] = extended_str[i];
+		i++;
+	}
+	j = 0;
+	while (i < len)
+	{
+		new_str[i] = toadd[j];
+		i++;
+		j++;
+	}
+	new_str[i] = '\0';
+	return (new_str);
 }
 
-int	ft_check_expands(t_token *list, t_data *data)
+static int	ft_get_var_name_size(char *str)
 {
-	t_token	*cur_token;
-	char	*tmp;
+	int		i;
 
-	if (!list)
-		return (FAIL);
-	cur_token = list;
-	while (cur_token != NULL)
+	i = 0;
+	if (!str)
+		return (0);
+	if (*str == '$')
+		str++;
+	while (str[i] && ft_isspace(str[i]) == NO && ft_isquote(str[i]) == NO && ft_isalnum(str[i]) == YES)// str[i] != '$'
+		i++;
+	return (i);
+}
+
+static char	*ft_get_var_name(char *str)
+{
+	int		len;
+	char	*var_name;
+
+	if (!str)
+		return (NULL);
+	if (*str == '$')
+		str++;
+	if (*str == '$')
+		return (NULL);
+	len = ft_get_var_name_size(str);
+	// printf("len: %d\n", len);
+	if (len == 0)
+		return (NULL);
+	var_name = ft_substr(str, 0, len);
+	if (!var_name)
+		return (NULL);
+	printf("var_name: %s\n", var_name);
+	return (var_name);
+}
+
+static int	ft_step_to_next_var(char *str)
+{
+	int		i;
+
+	i = 0;
+	while (str[i] && str[i] != '$' && str[i] != DOUBLE_QUOTES)
+		i++;
+	return (i);
+}
+
+static char	*ft_simple_expand(char *str)
+{
+	char	*var_name;
+	char	*var_content;
+
+	if (!str || str[0] != '$')
+		return (NULL);
+	var_name = ft_get_var_name(str);
+	if (!var_name)
+		return (ft_strdup("$"));
+	var_content = getenv(var_name);
+	if (!var_content)
+		return (NULL);
+	return (var_content);
+}
+
+static char	*ft_expand_in_double_quotes(char *str)
+{
+	char	*expanded_str;
+	char	*tmp;
+	int		j;
+	int		i;
+	int		len;
+	
+	i = 0;
+	expanded_str = NULL;
+	// printf("str: %s\n", str);
+	while (str[i] != '\0')
 	{
-		if (cur_token->type == WORD && is_dollar(cur_token->str) == YES)
+		if (str[i] == '$')
 		{
-			tmp = cur_token->str;
-			cur_token->str = ft_get_extend(tmp, data);
-			if (cur_token->str == NULL)
-				return (FAIL);
-			printf("str expanded: %s\n", cur_token->str);
-			free(tmp);
+			tmp = ft_simple_expand(&str[i]);
+			if (tmp != NULL)
+			{
+				expanded_str = ft_super_strjoin(expanded_str, tmp);
+				if (!expanded_str)
+					return (NULL);
+			}
+			i += ft_get_var_name_size(&str[i]) + 1;
 		}
-		cur_token = cur_token->next;
+		else
+		{
+			len = ft_step_to_next_var(str + i);
+			if (len > 0)
+			{
+				tmp = ft_substr(str, i, len);
+				if (!tmp)
+					return (NULL);
+				expanded_str = ft_super_strjoin(expanded_str, tmp);
+				if (!expanded_str)
+					return (NULL);
+				i += len;
+			}
+			else
+				i++;
+		}
+	}
+	// printf("expanded_str: %s\n", expanded_str);
+	return (expanded_str);
+}
+
+char	*ft_get_expanded_str(char *str)
+{
+	char	*expanded_str;
+	char	*str_btw_quotes;
+	char	*var_name;
+	char	*var_content;
+	char	*tmp;
+	int		len;
+	int		i;
+	int		j;
+	
+	i = 0;
+	expanded_str = NULL;
+	while (str[i])
+	{
+		if (str[i] == DOUBLE_QUOTES)
+		{
+			// printf("here is where we are in the string: %s\n", &str[i]);
+			len = ft_strchr(str + i + 1, DOUBLE_QUOTES) - str - i + 1;
+			// printf("size of the string with the double quotes: %d\n", len);
+			// printf("STRRRR: %s\n", str);
+			// printf("len: %d\n", len);
+			str_btw_quotes = ft_substr(str, i + 1, len - 2);
+			if (!str_btw_quotes)
+				return (NULL);
+			printf("content of the double quotes: %s\n", str_btw_quotes);
+			if (ft_strchr(str_btw_quotes, '$') != NULL)
+			{
+				// printf("there is a dollar in the double quotes\n");
+				// printf("lets get the expanded string\n");
+				tmp = ft_expand_in_double_quotes(str_btw_quotes);
+				if (!tmp)
+					return (NULL);
+				// printf("expanded string: %s\n", tmp);
+				expanded_str = ft_super_strjoin(expanded_str, tmp);
+				if (!expanded_str)
+					return (NULL);
+				// printf("expanded_str: %s\n", expanded_str);
+			}
+			else
+			{
+				expanded_str = ft_super_strjoin(expanded_str, str_btw_quotes);
+				if (!expanded_str)
+					return (NULL);
+			}
+			i += len;
+		}
+		else if (str[i] == SINGLE_QUOTE)
+		{
+			len = ft_strchr(str + i + 1, SINGLE_QUOTE) - str - i + 1;
+			// printf("size of the string with the single quotes: %d\n", len);
+			str_btw_quotes = ft_substr(str, i + 1, len - 2);
+			if (!str_btw_quotes)
+				return (NULL);
+			// printf("content of the single quotes: %s\n", str_btw_quotes);
+			expanded_str = ft_super_strjoin(expanded_str, str_btw_quotes);
+			if (!expanded_str)
+				return (NULL);
+			// printf("expanded_str: %s\n", expanded_str);
+			i += len;
+		}
+		else if (str[i] == '$')
+		{
+			tmp = ft_simple_expand(str + i);
+			if (tmp != NULL)
+			{
+				expanded_str = ft_super_strjoin(expanded_str, tmp);
+				if (!expanded_str)
+					return (NULL);
+			}
+			i += ft_get_var_name_size(str + i) + 1;
+		}
+		else
+		{
+			len = ft_step_to_next_var(&str[i]);
+			if (len > 0)
+			{
+				tmp = ft_substr(str, i, len);
+				if (!tmp)
+					return (NULL);
+				expanded_str = ft_super_strjoin(expanded_str, tmp);
+				if (!expanded_str)
+					return (NULL);
+				i += len;
+			}
+			else
+				i++;
+		}
+	}
+	return (expanded_str);
+}
+
+int	ft_expand(t_data *data)
+{
+	t_token	*token;
+	char	*expanded_str;
+
+	token = data->token_list;
+	if (token == NULL)
+		return (SUCCESS);
+	while (token)
+	{
+		if (token->type == WORD)
+		{
+			expanded_str = ft_get_expanded_str(token->str);
+			if (!expanded_str)
+				return (FAIL);
+			printf("->[%s]\n", expanded_str);
+			free(token->str);
+			token->str = expanded_str;
+		}
+		token = token->next;
 	}
 	return (SUCCESS);
 }
