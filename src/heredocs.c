@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 14:33:43 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 15:49:35 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,17 +127,65 @@ static char **create_hd_files(int hdnum)
     return (hd_files);
 }
 
-// static void remove_if_hd_exists(char *hd_file)
-// {
-//     if (access(hd_file, F_OK) == 0)
-//     {
-//         if (unlink(hd_file) == -1)
-//         {
-//             printf("Error while removing hd file\n");
-//             ft_free
-//         }
-//     }
-// }
+static void remove_if_hd_exists(t_data *data, char *hd_file)
+{
+    if (access(hd_file, F_OK) == 0)
+    {
+        if (unlink(hd_file) == -1)
+        {
+            printf("Error while removing hd file\n");
+            ft_free_tokens(&data->token_list);
+            ft_free_cmds(&data->cmd_list);
+        }
+    }
+}
+
+void    writing_loop(t_data *data, int fd_hd, char *delimiter)
+{
+    char    *line;
+    size_t  len;
+
+    while (1)
+    {
+		line = readline("> ");
+		if (!line)
+		{
+			ft_putstr_fd("warning: here-document delimited by end of file\n", 2);
+			break ;
+		}
+		len = ft_strlen((const char *)line);
+		if (ft_strncmp(line, delimiter, len) == 0)
+			break ;
+		else
+		{
+			write(fd_hd, line, len);
+			free(line);
+		}
+	}
+	free(line);
+}
+
+static int execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
+{
+    t_infile    *cur_inf;
+
+    cur_inf = cmd->infile_list;
+    while (cur_inf != NULL && i < data->hdnum)
+    {
+        printf("i = %d\n", i);
+        if (cur_inf->delimiter != NULL)
+        {
+            remove_if_hd_exists(data, data->hd_files[i]);
+            fd_hd[i] = open(data->hd_files[i], O_WRONLY | O_CREAT, 0644);
+            if (fd_hd[i] == -1)
+                return(ft_error_messages(HDEXEC), ft_free_tokens(&data->token_list), ft_free_cmds(&data->cmd_list), FAIL);
+            writing_loop(data, fd_hd[i], cur_inf->delimiter);
+            i++;
+        }
+        cur_inf = cur_inf->next;
+    }
+    return (i);
+}
 
 int	do_heredocs(t_data *data)
 {
@@ -152,22 +200,19 @@ int	do_heredocs(t_data *data)
 	fd_hd = malloc (sizeof(int) * data->hdnum);
 	if (!fd_hd)
 		return (FAIL);
-    cur_cmd = data->cmd_list;
     data->hd_files = create_hd_files(data->hdnum);
-	// while (cur_cmd != NULL && i < data->hdnum)
-    // {
-    //     cur_infile = cur_cmd->infile_list;
-    //     while (cur_infile != NULL && i < data->hdnum)
-    //     {
-    //         if (cur_infile->delimiter != NULL)
-    //         {
-    //             remove_if_hd_exists(data->hd_files[i]);
-    //             fd_hd[i] = open(data->hd_files[i], O_WRONLY | O_CREAT, 0644);
-    //             i++;
-    //         }
-    //         cur_infile = cur_infile->next;
-    //     }
-    //     cur_cmd = cur_cmd->next;
-    // }
+    cur_cmd = data->cmd_list;
+	while (cur_cmd != NULL && i < data->hdnum)
+    {
+        i += execute_hd(data, cur_cmd, fd_hd, i);
+        if (i == data->hdnum)
+        {
+            return (SUCCESS);
+            // check_errors(data->cmd_list);
+            //si erreurs afficher et return fail pour free et quit
+        }
+        else
+            cur_cmd = cur_cmd->next;
+    }
     return (SUCCESS);
 }

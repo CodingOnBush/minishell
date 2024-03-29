@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:36:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/25 13:38:25 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 15:37:44 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,6 @@ void	ft_error_messages(int errno)
 		ft_putstr_fd("Syntax error : Unclosed single or double quote\n", 2);
 	else if (errno == DOUBLE_PIPE_ERROR)
 		ft_putstr_fd("Syntax error : Double pipe detected\n", 2);
+	else if (errno == HDEXEC)
+		ft_putstr_fd("Heredoc execution failed\n", 2);
 }
