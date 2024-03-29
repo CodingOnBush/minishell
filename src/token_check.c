@@ -6,27 +6,18 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 15:07:29 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 18:13:48 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// static int	is_double_pipe(int next_type)
-// {
-// 	if (next_type == PIPE)
-// 	{
-// 		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
-// 		return (FAIL);
-// 	}
-// 	else
-// 		return (SUCCESS);
-// }
-
 static int	is_error(t_token *list, t_token *token)
 {
 	if (!list || !token)
 		return (NO);
+	if (ft_isop(token->str) == YES && token->next == NULL)
+		return (assign_error(token, NEWLINE_ERROR), YES);
 	if (token->next == NULL)
 		return (NO);
 	if (token->type == PIPE)
@@ -45,11 +36,12 @@ static int	is_error(t_token *list, t_token *token)
 	else if (ft_isop(token->str) == YES && token->next != NULL && token->next->type == PIPE)
 		return (assign_error(token, token->next->type), YES);
 	else if (ft_isoperator(token->str) >= 1 && token->next == NULL)
-		return (assign_error(token, NEWLINE), YES);
+		return (assign_error(token, NEWLINE_ERROR), YES);
 	return (NO);
 }
 
-int	check_token_list(t_token **list)// rename because it checks errors and set errors variables
+// rename because it checks errors and set errors variables
+int	check_token_list(t_token **list)
 {
 	t_token	*cur_token;
 	t_token	*last_token;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/27 17:39:24 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/29 17:55:16 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,4 +128,24 @@ void	ft_free_lexing_and_parsing(t_data *data)
 		ft_free_tokens(&data->token_list);
 	if (data->cmd_list != NULL)
 		ft_free_cmds(&data->cmd_list);
+}
+
+void	unlink_and_free(t_data *data, char **hd_files)
+{
+	int	i;
+
+	i = 0;
+	if (!hd_files)
+		return ;
+	while (i < data->hdnum && hd_files[i] != NULL)
+	{
+		if (unlink(hd_files[i]) == -1)
+			ft_putstr_fd("Error while removing hd file\n", 2);
+		free(hd_files[i]);
+		i++;
+	}
+	if (hd_files)
+		free(hd_files);
+	if (data->fd_hd)
+		free(data->fd_hd);
 }

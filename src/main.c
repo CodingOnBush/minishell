@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/28 15:38:37 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/29 17:51:57 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	main(int ac, char **av, char **env)
 		add_history(data->line);
 		if (ft_finish_init_data(data) == SUCCESS)
 			ft_start_exec(data);
+		unlink_and_free(data, data->hd_files);
+		//supprimer les fichiers des hd dans l'exec a la fin ou bien la
 		ft_free_lexing_and_parsing(data);
 		free(data->line);
 	}

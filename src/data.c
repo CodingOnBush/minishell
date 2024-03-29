@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 15:00:58 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 17:44:50 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 	data->env = env;
 	data->cmd_list = NULL;
 	data->token_list = NULL;
+	data->fd_hd = NULL;
 	ft_setup_signals(data);
 	data->path_list = ft_split(getenv("PATH"), ':');
 	data->step = 0;
@@ -43,11 +44,11 @@ int	ft_finish_init_data(t_data *data)
 		return (ft_error_messages(DOUBLE_PIPE_ERROR), ft_free_tokens(&data->token_list), FAIL);
 	if (check_token_list(&data->token_list) == FAIL)
 		return (ft_free_tokens(&data->token_list), FAIL);
-	// ft_print_token_list(data->token_list);
 	data->cmd_list = ft_create_cmd_list(data->token_list);
 	if (!data->cmd_list)
 		return (FAIL);
-	do_heredocs(data);
-	// ft_print_cmd_list(data->cmd_list);
+	if (do_heredocs(data) == FAIL)
+		return (FAIL);
+    //si erreur apres hd effectues afficher l'erreur et return fail pour free et quit
 	return (SUCCESS);
 }

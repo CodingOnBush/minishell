@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 15:36:42 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 18:17:15 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_data
 	t_cmd				*cmd_list;
 	t_token				*token_list;
 	int					hdnum;
+	int					*fd_hd;
 	char				**hd_files;
 	t_token				*token_split;
 	char				**path_list;
@@ -125,6 +126,7 @@ void					ft_free_outfile_list(t_outfile **outfile_list);
 void					ft_free_tokens(t_token **list);
 void					ft_free_cmds(t_cmd **cmd_list);
 void					ft_free_lexing_and_parsing(t_data *data);
+void					unlink_and_free(t_data *data, char **hd_files);
 
 /*		ERRORS			*/
 void					assign_error(t_token *token, int err_type);
@@ -176,6 +178,12 @@ t_cmd					*ft_create_cmd_list(t_token *token_list);
 
 /*		BUILTINS		*/
 char					*ft_getcwd(void);
+
+/*		HD_COUNT		*/
+int  					get_err_pos(t_cmd *cmd);
+int 					count_hd_pre_error(t_cmd *cmd);
+int  					count_heredocs(t_infile *inf_list);
+int  					get_hd_number(t_cmd *list);
 
 /*		HEREDOCS		*/
 int						do_heredocs(t_data *data);
