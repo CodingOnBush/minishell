@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 12:53:06 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 13:45:17 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	is_error(t_token *list, t_token *token)
 	return (NO);
 }
 
-int	check_token_list(t_token **list)// rename because it check errors and set errors variables
+int	check_token_list(t_token **list)// rename because it checks errors and set errors variables
 {
 	t_token	*cur_token;
 	t_token	*last_token;
@@ -63,10 +63,7 @@ int	check_token_list(t_token **list)// rename because it check errors and set er
 	if (cur_token->str[0] == '|')
 		return (ft_error_messages(PIPE), FAIL);
 	if (last_token->type == PIPE)
-	{
-		printf("yooo");
-		return (ft_error_messages(NEWLINE), FAIL);
-	}
+		return (ft_error_messages(PIPE), FAIL);
 	while (cur_token != NULL)
 	{
 		if (is_error(*list, cur_token) == YES)
