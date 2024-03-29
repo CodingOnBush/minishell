@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/27 17:46:18 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/29 12:43:23 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_token	*ft_extract_token(t_token *token_list)
 		new_str = ft_strdup(token_list->str);
 		if (!new_str)
 			return (ft_free_tokens(&sub_list), NULL);
-		new_token = ft_create_new_token(new_str, token_list->type, token_list->pos);
+		new_token = ft_create_new_token(new_str, token_list->type, token_list->pos, token_list->error);
 		if (!new_token)
 			return (free(new_str), ft_free_tokens(&sub_list), NULL);
 		ft_addlast_token(&sub_list, new_token);
@@ -102,8 +102,13 @@ static int	parse_infiles(t_cmd *new_cmd, t_token *token)
 		{
 			if (token->next == NULL)
 				return (assign_error(token, NEWLINE_ERROR), FAIL);
-			else if (ft_isop(token->next->str) == YES)
-				return (assign_error(token->next, token->next->type), FAIL);
+			// else if (token->next->type == PIPE)
+			// {
+			// 	printf("je suis heredoc\n");
+			// 	return (assign_error(token, PIPE), FAIL);
+			// }
+			// else if (ft_isop(token->next->str) == YES)
+			// 	return (assign_error(token->next, token->next->type), FAIL);
 			new_infile = ft_create_new_infile(token->next->str, token->type);
 			if (new_infile == NULL)
 				return (FAIL);

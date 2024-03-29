@@ -10,7 +10,7 @@ void	ft_print_token_list(t_token *list)
 		printf("nil");
 	while (tmp)
 	{
-		printf("%s\t\t%s\t\t%d\t%d\t%s\n", tmp->str, ft_type_to_str(tmp->type), tmp->attributed, tmp->pos, ft_type_to_str(tmp->err_type));
+		printf("%s\t\t%s\t\t%d\t%d\t%d\t%s\n", tmp->str, ft_type_to_str(tmp->type), tmp->attributed, tmp->pos, tmp->error, ft_type_to_str(tmp->err_type));
 		tmp = tmp->next;
 	}
 }

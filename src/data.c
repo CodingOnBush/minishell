@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 10:54:40 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/29 12:28:50 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,28 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 
 int	ft_finish_init_data(t_data *data)
 {
+	t_cmd	*cur_cmd;
+	
 	if (ft_check_quote_error(data->line) == FAIL)
 		return (ft_error_messages(QUOTES_ERROR), FAIL);
 	data->token_list = ft_create_token_list(data->line);
 	if (!data->token_list)
 		return (printf("parse tokens failed !\n"), FAIL);
-	
 	ft_check_expands(data->token_list, data);
-	
-	// if (ft_check_double_pipe(data->token_list) == FAIL)
-	// 	return (ft_error_messages(DOUBLE_PIPE_ERROR), ft_free_tokens(&data->token_list), FAIL);
-	// if (check_token_list(&data->token_list) == FAIL)
-	// 	return (ft_free_tokens(&data->token_list), FAIL);
-	// data->cmd_list = ft_create_cmd_list(data->token_list);
-	// if (!data->cmd_list)
-	// 	return (FAIL);
-	
-	ft_print_token_list(data->token_list);
-	
+	if (ft_check_double_pipe(data->token_list) == FAIL)
+		return (ft_error_messages(DOUBLE_PIPE_ERROR), ft_free_tokens(&data->token_list), FAIL);
+	check_token_list(&data->token_list);
+	// ft_print_token_list(data->token_list);
+	data->cmd_list = ft_create_cmd_list(data->token_list);
+	if (!data->cmd_list)
+		return (FAIL);
+	cur_cmd = data->cmd_list;
+	while (cur_cmd != NULL)
+	{
+		ft_print_token_list(cur_cmd->token_list);
+		cur_cmd = cur_cmd->next;
+	}
+	do_heredocs(data);
+	// ft_print_cmd_list(data->cmd_list);
 	return (SUCCESS);
 }

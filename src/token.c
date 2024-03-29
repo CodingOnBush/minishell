@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 16:19:40 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/29 11:43:20 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_token	*ft_create_new_token(char *new_str, int type, int pos)
+t_token	*ft_create_new_token(char *new_str, int type, int pos, bool error)
 {
 	t_token	*new_token;
 
@@ -23,7 +23,7 @@ t_token	*ft_create_new_token(char *new_str, int type, int pos)
 	new_token->type = type;
 	new_token->attributed = false;
 	new_token->pos = pos;
-	new_token->error = false;
+	new_token->error = error;
 	new_token->err_type = -1;
 	new_token->next = NULL;
 	return (new_token);
@@ -101,7 +101,7 @@ t_token	*ft_create_token_list(char *line)
 			new_str = ft_extract_token_str(line);
 			if (!new_str)
 				return (ft_free_tokens(&token_list), NULL);
-			new_token = ft_create_new_token(new_str, ft_get_type(new_str), pos);
+			new_token = ft_create_new_token(new_str, ft_get_type(new_str), pos, false);
 			if (!new_token)
 				return (free(new_str), ft_free_tokens(&token_list), NULL);
 			ft_addlast_token(&token_list, new_token);

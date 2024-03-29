@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/28 18:11:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:42:21 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ char					*ft_getcwd(void);
 int						do_heredocs(t_data *data);
 
 /*		TOKEN			*/
-t_token					*ft_create_new_token(char *new_str, int type, int pos);
+t_token					*ft_create_new_token(char *new_str, int type, int pos, bool error);
 t_token					*ft_create_token_list(char *line);
 void					ft_addlast_token(t_token **token_list, t_token *new_token);
 

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/26 14:53:57 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/03/29 11:48:12 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int  count_hd_pre_error(t_cmd *cmd)
    hd_count = 0;
    i = 0;
    err_pos = get_err_pos(cmd);
+   printf("err_pos = %d\n", err_pos);
    cur = cmd->token_list;
    while (cur != NULL && cur->pos < err_pos)
    {
@@ -97,22 +98,46 @@ static int  get_hd_number(t_cmd *list)
                break ;
            cur_token = cur_token->next;
        }
+       if (cur_token != NULL && cur_token->error == true)
+            break ;
        hdnum += count_heredocs(cur_cmd->infile_list);
        cur_cmd = cur_cmd->next;
    }
-   if (cur_cmd != NULL)
+   if (cur_cmd != NULL && cur_token->error == true)
        hdnum += count_hd_pre_error(cur_cmd);
    return (hdnum);
 }
 
 int	do_heredocs(t_data *data)
 {
-	int	*fd_hd;
+    t_cmd   *cur_cmd;
+    t_token *cur_token;
+	int	    *fd_hd;
+    int     i;
 
-	data->hdnum = get_hd_number();
+	data->hdnum = get_hd_number(data->cmd_list);
+    printf("hdnum = %d\n", data->hdnum);
+    i = 0;
 	fd_hd = malloc (sizeof(int) * data->hdnum);
 	if (!fd_hd)
 		return (FAIL);
-	
-	
+    // cur_cmd = data->cmd_list;
+	// while (cur_cmd != NULL)
+    // {
+    //     cur_token = cur_cmd->token_list;
+    //     while (cur_token != NULL || cur_token->error == false)
+    //         cur_token = cur_token->next;
+    //     if (cur_token == NULL)
+    //     {
+    //         //on va executer les heredocs de la commande
+    //     }
+    //     else
+    //         break;
+    //     cur_cmd = cur_cmd->next;
+    // }
+    // /*si on arrive ici et que cur_cmd est NULL, on a fini de traiter 
+    // les heredocs sinon c'est qu'il y a une erreur et donc qu'il 
+    // faut regarder ou est cette erreur et de quel type elle est pour
+    // voir si d'autres heredocs sont a executer*/
+    return (SUCCESS);
 }
