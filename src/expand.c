@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 16:40:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/30 18:16:26 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static char	*ft_super_strjoin(char *extended_str, char *toadd)
+char	*ft_super_strjoin(char *extended_str, char *toadd)
 {
 	char	*new_str;
 	int		len;
@@ -42,43 +42,26 @@ static char	*ft_super_strjoin(char *extended_str, char *toadd)
 	return (new_str);
 }
 
-static int	ft_get_var_name_size(char *str)
+char	*ft_simple_expand(char *str, int *step)
 {
-	int		i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	if (*str == '$')
-		str++;
-	while (str[i] && ft_isspace(str[i]) == NO && ft_isquote(str[i]) == NO && ft_isalnum(str[i]) == YES)
-		i++;
-	return (i);
-}
-
-static char	*ft_get_var_name(char *str)
-{
-	int		len;
 	char	*var_name;
+	int		i;
 
-	if (!str)
+	*step += 1;
+	i = 0;
+	if (!str || *str != '$')
 		return (NULL);
-	if (*str == '$')
-		str++;
-	if (*str == '$')
-		return (NULL);
-	len = ft_get_var_name_size(str);
-	if (len == 0)
-		return (NULL);
-	var_name = ft_substr(str, 0, len);
+	var_name = str;
+	// var_name = ft_get_var_name(str);
 	if (!var_name)
-		return (NULL);
-	return (var_name);
+		return (ft_strdup("$"));
+	*step += ft_strlen(var_name) + 1;
+	return (getenv(var_name));
 }
 
-static int	ft_step_to_next_var(char *str)
+int	ft_step_to_next_var(char *str)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (str[i] && str[i] != '$' && str[i] != DOUBLE_QUOTES)
@@ -86,32 +69,14 @@ static int	ft_step_to_next_var(char *str)
 	return (i);
 }
 
-static char	*ft_simple_expand(char *str, int *step)
-{
-	char	*var_name;
-	char	*var_content;
-
-	if (!str || str[0] != '$')
-		return (NULL);
-	var_name = ft_get_var_name(str);
-	if (!var_name)
-	{
-		*step = 1;
-		return (ft_strdup("$"));
-	}
-	*step = ft_strlen(var_name) + 1;
-	var_content = getenv(var_name);
-	if (!var_content)
-		return (NULL);
-	return (var_content);
-}
-
-static char	*ft_grab_until_next_var(char *str, int *step)
+char	*ft_grab_str_until_next_var(char *str, int *step)
 {
 	int		len;
 	char	*res;
 
-	len = ft_step_to_next_var(str);
+	len = 0;
+	while (str[len] && str[len] != '$' && str[len] != DOUBLE_QUOTES)
+		len++;
 	*step = 1;
 	if (len == 0)
 		return (NULL);
@@ -122,13 +87,13 @@ static char	*ft_grab_until_next_var(char *str, int *step)
 	return (res);
 }
 
-static char	*ft_expand_in_double_quotes(char *str)
+char	*ft_expand_in_double_quotes(char *str)
 {
 	char	*expanded_str;
 	char	*toadd;
 	char	*tmp;
 	int		step;
-	
+
 	step = 0;
 	expanded_str = NULL;
 	while (*str)
@@ -136,7 +101,7 @@ static char	*ft_expand_in_double_quotes(char *str)
 		if (*str == '$')
 			toadd = ft_simple_expand(str, &step);
 		else
-			toadd = ft_grab_until_next_var(str, &step);
+			toadd = ft_grab_str_until_next_var(str, &step);
 		tmp = ft_super_strjoin(expanded_str, toadd);
 		if (!tmp)
 			return (NULL);
@@ -145,6 +110,36 @@ static char	*ft_expand_in_double_quotes(char *str)
 		str += step;
 	}
 	return (expanded_str);
+}
+
+int ft_strlen_util(char *str, char *limset)
+{
+	int i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] && ft_strchr(limset, str[i]) == NULL)
+		i++;
+	return (i);
+}
+
+char *ft_grab_str(char *str, char *limset)
+{
+	char    *grab;
+	int     len;
+	int		i;
+
+	if (!str)
+		return (NULL);
+	len = ft_strlen_util(str, limset);
+	if (len == 0)
+		return (NULL);
+	grab = malloc(sizeof(char) * (len + 1));
+	if (!grab)
+		return (NULL);
+	ft_strlcpy(grab, str, len + 1);
+	return (grab);
 }
 
 char	*ft_get_expanded_str(char *str)
@@ -159,73 +154,37 @@ char	*ft_get_expanded_str(char *str)
 	int		i;
 	int		j;
 	int		step;
-	
+
 	i = 0;
 	expanded_str = NULL;
 	while (str[i])
 	{
 		if (str[i] == DOUBLE_QUOTES)
 		{
-			len = ft_strchr(&str[i] + 1, DOUBLE_QUOTES) - str - i + 1;
-			str_btw_quotes = ft_substr(str, i + 1, len - 2);
-			if (!str_btw_quotes)
-				return (NULL);
-			tmp = ft_expand_in_double_quotes(str_btw_quotes);
-			if (!tmp)
-				return (NULL);
+			len = ft_strlen_util(&str[i], "\"");
+			tmp = ft_substr(&str[i], i + 1, len - 1);
+			tmp = ft_expand_in_double_quotes(tmp);
 			expanded_str = ft_super_strjoin(expanded_str, tmp);
-			if (!expanded_str)
-				return (NULL);
-			i += len;
+			i += len + 1;
 		}
 		else if (str[i] == SINGLE_QUOTE)
 		{
-			len = ft_strchr(&str[i] + 1, SINGLE_QUOTE) - str - i + 1;
-			str_btw_quotes = ft_substr(str, i + 1, len - 2);
-			if (!str_btw_quotes)
-				return (NULL);
-			expanded_str = ft_super_strjoin(expanded_str, str_btw_quotes);
-			if (!expanded_str)
-				return (NULL);
-			i += len;
+			len = ft_strlen_util(&str[i], "\'");
+			tmp = ft_substr(&str[i], i + 1, len - 1);
+			expanded_str = ft_super_strjoin(expanded_str, tmp);
+			i += len + 1;
 		}
 		else if (str[i] == '$')
 		{
 			tmp = ft_simple_expand(&str[i], &i);
-			if (tmp)
-			{
-				expanded_str = ft_super_strjoin(expanded_str, tmp);
-				if (!expanded_str)
-					return (NULL);
-			}
-			i += ft_get_var_name_size(&str[i]) + 1;
+			expanded_str = ft_super_strjoin(expanded_str, tmp);
 		}
 		else
 		{
-			toadd = ft_grab_until_next_var(&str[i], &step);
-			if (toadd)
-			{
-				printf("TOADD: [%s]\n", toadd);
-				tmp = ft_super_strjoin(expanded_str, toadd);
-				if (!tmp)
-					return (NULL);
-				free(expanded_str);
-				expanded_str = tmp;
-			}
-			// len = ft_step_to_next_var(&str[i]);
-			// if (len > 0)
-			// {
-			// 	tmp = ft_substr(str, i, len);
-			// 	if (!tmp)
-			// 		return (NULL);
-			// 	expanded_str = ft_super_strjoin(expanded_str, tmp);
-			// 	if (!expanded_str)
-			// 		return (NULL);
-			// 	i += len;
-			// }
-			// else
-			// 	i++;
-			i += step;
+			tmp = ft_grab_str(str, "$\'\"");
+			printf("tmp : %s\n", tmp);
+			// expanded_str = ft_super_strjoin(expanded_str, tmp);
+			i += ft_strlen_util(tmp, "$\'\"");
 		}
 	}
 	return (expanded_str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 16:45:27 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/30 17:44:50 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdbool.h>
 
 // # define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 > \001\033[0m\002"
 # define MINISPELL "minispell > "
@@ -50,14 +50,14 @@
 typedef struct s_infile
 {
 	char				*filename;
-	char				*delimiter;// null : pas HEREDOCdonc LC
+	char *delimiter; // null : pas HEREDOCdonc LC
 	struct s_infile		*next;
 }						t_infile;
 
 typedef struct s_outfile
 {
 	char				*filename;
-	bool				append;// false : RIGHT_TRUNC
+	bool append; // false : RIGHT_TRUNC
 	struct s_outfile	*next;
 }						t_outfile;
 
@@ -106,11 +106,13 @@ void					ft_start_exec(t_data *data);
 
 /*		INFILE			*/
 t_infile				*ft_create_new_infile(char *str, int type);
-void					ft_add_infile(t_infile **infile_list, t_infile *new_infile);
+void					ft_add_infile(t_infile **infile_list,
+							t_infile *new_infile);
 
 /*		OUTFILE			*/
 t_outfile				*ft_create_new_outfile(char *filename, int type);
-void					ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
+void					ft_add_outfile(t_outfile **outfile_list,
+							t_outfile *new_outfile);
 
 /*		SIGNALS			*/
 void					ft_setup_signals(t_data *data);
@@ -129,13 +131,21 @@ void					assign_error(t_token *token, int err_type);
 void					ft_error_messages(int errno);
 
 /*		EXPAND			*/
-// int						ft_check_expands(t_token *list, t_data *data);
-char	*ft_get_expanded_str(char *str);
-int	ft_expand(t_data *data);
+char					*ft_super_strjoin(char *extended_str, char *toadd);
+int						ft_get_var_name_size(char *str);
+char					*ft_get_var_name(char *str);
+int						ft_step_to_next_var(char *str);
+char					*ft_simple_expand(char *str, int *step);
+char					*ft_grab_str_until_next_var(char *str, int *step);
+char					*ft_expand_in_double_quotes(char *str);
+int						ft_strlen_util(char *str, char *limset);
+char					*ft_grab_str(char *str, char *limset);
+char					*ft_get_expanded_str(char *str);
+int						ft_expand(t_data *data);
 
 /*		CHECK			*/
 int						ft_check_quote_error(char *line);
-int 					ft_check_double_pipe(t_token *token);
+int						ft_check_double_pipe(t_token *token);
 
 /*		PRINT			*/
 void					ft_print_token_list(t_token *list);
@@ -155,7 +165,6 @@ t_token					*ft_findlast_token(t_token *lst);
 int						ft_set_path(t_data *data);
 char					*ft_type_to_str(int type);
 int						ft_get_pipe_count(t_token *token_list);
-
 
 /*		TOKEN CHECK		*/
 int						check_token_list(t_token **list);
@@ -183,6 +192,7 @@ int						do_heredocs(t_data *data);
 /*		TOKEN			*/
 t_token					*ft_create_new_token(char *new_str, int type, int pos);
 t_token					*ft_create_token_list(char *line);
-void					ft_addlast_token(t_token **token_list, t_token *new_token);
+void					ft_addlast_token(t_token **token_list,
+							t_token *new_token);
 
 #endif

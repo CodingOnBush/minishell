@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 12:45:26 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/26 15:34:59 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/30 15:46:47 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_handler(int signum)
 	if (signum == SIGINT)
 	{
 		printf("\n");
-		rl_replace_line("", STDIN_FILENO);// "ls |\n>"
+		// rl_replace_line("", STDIN_FILENO);// "ls |\n>"
 		rl_on_new_line();
 		rl_redisplay();
 	}
