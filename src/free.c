@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/01 13:37:47 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/01 14:44:11 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	ft_free_cmds(t_cmd **cmd_list)
 	while (cur_cmd != NULL)
 	{
 		next = cur_cmd->next;
-		
 		ft_free_tokens(&cur_cmd->token_list);
 		ft_free_arg_list(&cur_cmd->arg_list);
 		ft_free_infile_list(&cur_cmd->infile_list);

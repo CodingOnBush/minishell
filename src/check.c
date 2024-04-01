@@ -4,24 +4,22 @@ int	ft_check_quote_error(char *line)
 {
 	int	single_quote;
 	int	double_quotes;
-	int	i;
 
 	single_quote = 0;
 	double_quotes = 0;
-	i = 0;
-	while (line[i])
+	while (*line)
 	{
-		if (line[i] == '\'' && ft_strchr(line + i + 1, '\'') != NULL)
-			i += ft_strchr(line + i + 1, '\'') - line + 1;
-		else if (line[i] == '\"' && ft_strchr(line + i + 1, '\"') != NULL)
-			i += ft_strchr(line + i + 1, '\"') - line + 1;
+		if (*line == '\'' && ft_strchr(line + 1, '\'') != NULL)
+			line += ft_strchr(line + 1, '\'') - line + 1;
+		else if (*line == '\"' && ft_strchr(line + 1, '\"') != NULL)
+			line += ft_strchr(line + 1, '\"') - line + 1;
 		else
 		{
-			if (line[i] == '\"')
+			if (*line == '\"')
 				double_quotes++;
-			if (line[i] == '\'')
+			if (*line == '\'')
 				single_quote++;
-			i++;
+			line++;
 		}
 	}
 	if (single_quote % 2 != 0 || double_quotes % 2 != 0)

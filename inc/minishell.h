@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/01 13:37:16 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/01 15:29:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define DOUBLE_QUOTE_ERROR 10
 # define QWORD 11
 # define DOUBLE_PIPE_ERROR 12
+# define LIM 12
 
 typedef struct s_infile
 {
@@ -137,7 +138,7 @@ char					*ft_super_strjoin(char *extended_str, char *toadd);
 char					*ft_get_expand(char *var_name);
 char					*ft_grab_str(char *str, char *limset);
 char					*ft_grab_var_name(char *str);
-char	*ft_get_next_str_in_double_quotes(char *str);
+char					*ft_get_next_str_in_double_quotes(char *str);
 int						ft_get_next_step(char *str, char *new_str);
 char					*ft_get_next_str(char *str);
 char					*ft_get_new_str(char *str);
@@ -193,5 +194,9 @@ t_token					*ft_create_new_token(char *new_str, int type, int pos);
 t_token					*ft_create_token_list(char *line);
 void					ft_addlast_token(t_token **token_list,
 							t_token *new_token);
+
+/*		TOKEN_UTILS		*/
+void					ft_detect_delimiter(t_token **token_list);
+void					ft_remove_null_token(t_data *data);
 
 #endif

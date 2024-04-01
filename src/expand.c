@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/01 13:37:08 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/01 15:29:56 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ int	ft_is_in_var(char c)
 	if (ft_isalnum(c) || c == '_')
 		return (YES);
 	return (NO);
+}
+
+char	*ft_remove_quotes(char *str)
+{
+	char	*new_str;
+	int		i;
+
+	if (!str)
+		return (NULL);
+	i = 0;
+	if (*str == SINGLE_QUOTE || *str == DOUBLE_QUOTES)
+		i++;
+	new_str = ft_substr(str, i, ft_strlen(str) - 2 * i);
+	return (new_str);
 }
 
 char	*ft_super_strjoin(char *extended_str, char *toadd)
@@ -113,7 +127,7 @@ char	*ft_get_next_str_in_double_quotes(char *str)
 			var_name = ft_grab_var_name(str);
 			str += ft_strlen(var_name) + 1;
 			toadd = ft_get_expand(var_name);
-			free(var_name);
+			// free(var_name);
 		}
 		else
 		{
@@ -167,9 +181,10 @@ char	*ft_get_new_str(char *str)
 	new_str = NULL;
 	while (*str != '\0')
 	{
+		printf("str = %s\n", str);
 		next_str = ft_get_next_str(str);
 		new_str = ft_super_strjoin(new_str, next_str);
-		str += ft_get_next_step(str, new_str);
+		str += ft_get_next_step(str, next_str);
 	}
 	return (new_str);
 }
@@ -177,7 +192,7 @@ char	*ft_get_new_str(char *str)
 int	ft_expand(t_data *data)
 {
 	t_token	*token;
-	char	*expanded_str;
+	char	*new_str;
 
 	token = data->token_list;
 	if (token == NULL)
@@ -186,17 +201,25 @@ int	ft_expand(t_data *data)
 	{
 		if (token->type == WORD)
 		{
-			expanded_str = ft_get_new_str(token->str);
-			if (!expanded_str)
-				return (FAIL);
-			free(token->str);
-			token->str = expanded_str;
+			new_str = ft_get_new_str(token->str);
+			// if (!new_str)
+			// {
+			// 	printf("expand failed\n");
+			// 	return (FAIL);
+			// }
+			// free(token->str);
+			token->str = new_str;
 		}
-		// else if (token->type == LIM)
-		// {
-		// 	// only remove quotes
-		// }
+		else if (token->type == LIM)
+		{
+			new_str = ft_remove_quotes(token->str);
+			if (!new_str)
+				return (FAIL);
+			// free(token->str);
+			token->str = new_str;
+		}
 		token = token->next;
 	}
+	ft_remove_null_token(data);
 	return (SUCCESS);
 }

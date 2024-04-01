@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 22:39:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/01 14:50:27 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ char	*ft_type_to_str(int type)
 		return ("DOUBLE_QUOTE_ERROR");
 	if (type == QWORD)
 		return ("QWORD");
+	if (type == LIM)
+		return ("LIM");
 	return ("UNKNOWN");
 }
 

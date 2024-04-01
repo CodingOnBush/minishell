@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 16:19:40 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/01 15:31:39 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	ft_get_token_size(char *line)
 	while (line[len] && !ft_isspace(line[len]) && !ft_isop(&line[len]))
 	{
 		if (ft_isquote(line[len]))
-			len += ft_strchr(&line[len + 1], line[len]) - line + 1;
+			len += ft_strchr(&line[len + 1], line[len]) - &line[len] + 1;
 		else
 			len++;
 	}
@@ -109,5 +109,6 @@ t_token	*ft_create_token_list(char *line)
 			pos++;
 		}
 	}
+	ft_detect_delimiter(&token_list);
 	return (token_list);
 }
