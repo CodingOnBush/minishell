@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/27 17:39:24 by momrane          ###   ########.fr       */
+/*   Updated: 2024/03/31 12:39:34 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,9 @@ void	ft_free_cmds(t_cmd **cmd_list)
 
 void	ft_free_lexing_and_parsing(t_data *data)
 {
-	if (data->token_list != NULL)
-		ft_free_tokens(&data->token_list);
-	if (data->cmd_list != NULL)
-		ft_free_cmds(&data->cmd_list);
+	(void)data;
+	// if (data->token_list != NULL)
+	// 	ft_free_tokens(&data->token_list);
+	// if (data->cmd_list != NULL)
+	// 	ft_free_cmds(&data->cmd_list);
 }

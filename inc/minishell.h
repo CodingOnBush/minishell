@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/30 17:44:50 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/01 13:25:49 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@
 # define FAIL -1
 
 # define DOUBLE_QUOTES '\"'
+# define DQ "\""
 # define SINGLE_QUOTE '\''
+# define SQ "\'"
 
 # define HERE_DOC 1
 # define APPEND 2
@@ -46,6 +48,8 @@
 # define DOUBLE_QUOTE_ERROR 10
 # define QWORD 11
 # define DOUBLE_PIPE_ERROR 12
+
+int	g_exit_status = 0;
 
 typedef struct s_infile
 {
@@ -132,15 +136,13 @@ void					ft_error_messages(int errno);
 
 /*		EXPAND			*/
 char					*ft_super_strjoin(char *extended_str, char *toadd);
-int						ft_get_var_name_size(char *str);
-char					*ft_get_var_name(char *str);
-int						ft_step_to_next_var(char *str);
-char					*ft_simple_expand(char *str, int *step);
-char					*ft_grab_str_until_next_var(char *str, int *step);
-char					*ft_expand_in_double_quotes(char *str);
-int						ft_strlen_util(char *str, char *limset);
+char					*ft_get_expand(char *var_name);
 char					*ft_grab_str(char *str, char *limset);
-char					*ft_get_expanded_str(char *str);
+char					*ft_grab_var_name(char *str);
+char	*ft_get_next_str_in_double_quotes(char *str);
+int						ft_get_next_step(char *str, char *new_str);
+char					*ft_get_next_str(char *str);
+char					*ft_get_new_str(char *str);
 int						ft_expand(t_data *data);
 
 /*		CHECK			*/
@@ -162,7 +164,6 @@ int						ft_get_type(char *str);
 char					*ft_strndup(char *s, int n);
 int						ft_isoperator(char *str);
 t_token					*ft_findlast_token(t_token *lst);
-int						ft_set_path(t_data *data);
 char					*ft_type_to_str(int type);
 int						ft_get_pipe_count(t_token *token_list);
 

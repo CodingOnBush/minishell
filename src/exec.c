@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:38:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/30 17:54:07 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/01 12:20:18 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 void	ft_start_exec(t_data *data)
 {
-    char    *str;
-    // int     res;
-    char    *grab;
+	(void)data;
+	// char	*str;
+	// char	*res;
 
-    str = ft_strdup("1234");
-    // res = ft_strlen_util(str, "$");
-	// printf("=======\n%d\n=======\n", res);
-    grab = ft_grab_str(str, "$\'");
-    printf("grab : %s\n", grab);
+	// str = ft_strdup("\"echo $USER\"");
+	// res = ft_get_next_str_in_double_quotes(str);
+	// printf("res = %s\n", res);
 }
