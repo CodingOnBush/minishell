@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/01 13:35:30 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/01 13:37:08 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ char	*ft_get_expand(char *var_name)
 
 	if (!var_name)
 		return (ft_strdup("$"));
-	if (*var_name == '?')
-		return (ft_itoa(g_exit_status));
+	// if (*var_name == '?')
+	// 	return (ft_itoa(g_exit_status));
 	var_content = getenv(var_name);
 	if (!var_content)
 		return (NULL);

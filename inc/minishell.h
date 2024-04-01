@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/01 13:25:49 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/01 13:37:16 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@
 # define DOUBLE_QUOTE_ERROR 10
 # define QWORD 11
 # define DOUBLE_PIPE_ERROR 12
-
-int	g_exit_status = 0;
 
 typedef struct s_infile
 {
