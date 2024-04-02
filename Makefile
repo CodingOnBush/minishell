@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/01 14:49:56 by allblue          ###   ########.fr        #
+#    Updated: 2024/04/02 12:40:15 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CFLAGS		:= -g3#-Wall -Wextra -Werror -g3
 
 # Valgrind
 VAL_SUPP	:= readline.supp
-VAL_FLAGS	:= --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=$(VAL_SUPP)
+VAL_FLAGS	:= --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=$(VAL_SUPP)
 
 # Directories
 SRC_DIR		:= ./src

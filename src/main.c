@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/01 15:09:43 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/02 12:45:15 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ int	main(int ac, char **av, char **env)
 		add_history(data->line);
 		if (ft_finish_init_data(data) == SUCCESS)
 			ft_start_exec(data);
+		// ft_free_tokens(&data->token_list);
 		// ft_free_lexing_and_parsing(data);
 		free(data->line);
 	}
 	ft_free_path(data->path_list);
-	// rl_clear_history();
+	rl_clear_history();
 	printf("exit\n");
 	return (free(data), 0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/01 15:29:56 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/02 12:43:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,57 @@ char	*ft_remove_quotes(char *str)
 	return (new_str);
 }
 
-char	*ft_super_strjoin(char *extended_str, char *toadd)
+// char	*ft_super_strjoin(char *extended_str, char *toadd)
+// {
+// 	char	*join;
+// 	int		new_len;
+// 	int		extended_len;
+// 	int		toadd_len;
+
+// 	if (extended_str == NULL && toadd == NULL)
+// 		return (NULL);
+// 	if (toadd == NULL)
+// 		return (ft_strdup(extended_str));
+// 	if (extended_str == NULL)
+// 		return (ft_strdup(toadd));
+// 	new_len = ft_strlen(extended_str) + ft_strlen(toadd);
+// 	join = malloc(sizeof(char) * (new_len + 1));
+// 	if (!join)
+// 		return (NULL);
+// 	extended_len = ft_strlen(extended_str);
+// 	toadd_len = ft_strlen(toadd);
+// 	ft_strlcpy(join, extended_str, extended_len + 1);
+// 	ft_strlcpy(&join[extended_len], toadd, toadd_len + 1);
+// 	return (join);
+// }
+
+char	*ft_super_strjoin(char **extended_str, char **toadd)
 {
 	char	*join;
 	int		new_len;
 	int		extended_len;
 	int		toadd_len;
+	char	*ext;
+	char	*to;
 
 	if (extended_str == NULL && toadd == NULL)
 		return (NULL);
 	if (toadd == NULL)
-		return (extended_str);
+		return (ft_strdup(*extended_str));
 	if (extended_str == NULL)
-		return (toadd);
-	new_len = ft_strlen(extended_str) + ft_strlen(toadd);
+		return (ft_strdup(*toadd));
+	new_len = ft_strlen(*extended_str) + ft_strlen(*toadd);
 	join = malloc(sizeof(char) * (new_len + 1));
 	if (!join)
 		return (NULL);
-	extended_len = ft_strlen(extended_str);
-	toadd_len = ft_strlen(toadd);
-	ft_strlcpy(join, extended_str, extended_len + 1);
-	ft_strlcpy(&join[extended_len], toadd, toadd_len + 1);
-	// free(extended_str);
-	// free(toadd);
+	extended_len = ft_strlen(*extended_str);
+	toadd_len = ft_strlen(*toadd);
+	ext = *extended_str;
+	to = *toadd;
+	if (ext != NULL)
+		ft_strlcpy(join, ext, extended_len + 1);
+	if (to != NULL)
+		ft_strlcpy(&join[extended_len], to, toadd_len + 1);
 	return (join);
 }
 
@@ -65,7 +93,7 @@ char	*ft_get_expand(char *var_name)
 
 	if (!var_name)
 		return (ft_strdup("$"));
-	// if (*var_name == '?')
+	// if (*var_name == '?') // 
 	// 	return (ft_itoa(g_exit_status));
 	var_content = getenv(var_name);
 	if (!var_content)
@@ -85,10 +113,7 @@ char *ft_grab_str(char *str, char *limset)
 		i++;
 	if (i == 0)
 		return (NULL);
-	grab = malloc(sizeof(char) * (i + 1));
-	if (!grab)
-		return (NULL);
-	ft_strlcpy(grab, str, i + 1);
+	grab = ft_substr(str, 0, i);
 	return (grab);
 }
 
@@ -116,10 +141,12 @@ char	*ft_get_next_str_in_double_quotes(char *str)
 	char	*var_name;
 	char	*new_str;
 	char	*toadd;
+	char	*tmp;
 	
 	new_str = NULL;
 	if (!str)
 		return (NULL);
+	toadd = NULL;
 	while (*str != '\0')
 	{
 		if (str && *str == '$')// && (str + 1)) // est-ce qu'on garde cette condition ?
@@ -127,16 +154,30 @@ char	*ft_get_next_str_in_double_quotes(char *str)
 			var_name = ft_grab_var_name(str);
 			str += ft_strlen(var_name) + 1;
 			toadd = ft_get_expand(var_name);
-			// free(var_name);
+			free(var_name);
 		}
 		else
 		{
 			toadd = ft_grab_str(str, "$\"");
 			str += ft_strlen(toadd);
 		}
-		new_str = ft_super_strjoin(new_str, toadd);
-		if (!new_str)
-			return (NULL);
+		// tmp = ft_super_strjoin(&new_str, &toadd);
+		if (new_str == NULL && toadd != NULL)
+		{
+			new_str = ft_strdup(toadd);
+			// free(toadd);
+		}
+		else if (new_str != NULL && toadd != NULL)
+		{
+			tmp = malloc(sizeof(char) * (ft_strlen(new_str) + ft_strlen(toadd) + 1));
+			if (!tmp)
+				return (NULL);
+			ft_strlcpy(tmp, new_str, ft_strlen(new_str) + 1);
+			ft_strlcpy(&tmp[ft_strlen(new_str)], toadd, ft_strlen(toadd) + 1);
+			free(new_str);
+			free(toadd);
+		}
+		new_str = tmp;
 	}
 	return (new_str);
 }
@@ -173,20 +214,38 @@ char	*ft_get_next_str(char *str)
 	return (ft_grab_str(str, " \t\n\r\v\f$\'\""));
 }
 
-char	*ft_get_new_str(char *str)
+char	*ft_get_expanded_str(char *str)
 {
-	char	*new_str;
+	char	*res;
 	char	*next_str;
+	char	*tmp;
 	
-	new_str = NULL;
+	res = NULL;
+	next_str = NULL;
 	while (*str != '\0')
 	{
-		printf("str = %s\n", str);
 		next_str = ft_get_next_str(str);
-		new_str = ft_super_strjoin(new_str, next_str);
-		str += ft_get_next_step(str, next_str);
+		// tmp = ft_super_strjoin(&res, &next_str);
+		if (res == NULL && next_str != NULL)
+		{
+			res = ft_strdup(next_str);
+			str += ft_get_next_step(str, next_str);
+			free(next_str);
+		}
+		else if (res != NULL && next_str != NULL)
+		{
+			tmp = malloc(sizeof(char) * (ft_strlen(res) + ft_strlen(next_str) + 1));
+			if (!tmp)
+				return (NULL);
+			ft_strlcpy(tmp, res, ft_strlen(res) + 1);
+			ft_strlcpy(&tmp[ft_strlen(res)], next_str, ft_strlen(next_str) + 1);
+			str += ft_get_next_step(str, next_str);
+			free(res);
+			free(next_str);
+			res = tmp;
+		}
 	}
-	return (new_str);
+	return (res);
 }
 
 int	ft_expand(t_data *data)
@@ -197,17 +256,13 @@ int	ft_expand(t_data *data)
 	token = data->token_list;
 	if (token == NULL)
 		return (SUCCESS);
+	new_str = NULL;
 	while (token)
 	{
 		if (token->type == WORD)
 		{
-			new_str = ft_get_new_str(token->str);
-			// if (!new_str)
-			// {
-			// 	printf("expand failed\n");
-			// 	return (FAIL);
-			// }
-			// free(token->str);
+			new_str = ft_get_expanded_str(token->str);
+			free(token->str);
 			token->str = new_str;
 		}
 		else if (token->type == LIM)
@@ -215,7 +270,7 @@ int	ft_expand(t_data *data)
 			new_str = ft_remove_quotes(token->str);
 			if (!new_str)
 				return (FAIL);
-			// free(token->str);
+			free(token->str);
 			token->str = new_str;
 		}
 		token = token->next;

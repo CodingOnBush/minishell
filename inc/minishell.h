@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/01 15:29:29 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/02 12:27:05 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,14 +134,17 @@ void					assign_error(t_token *token, int err_type);
 void					ft_error_messages(int errno);
 
 /*		EXPAND			*/
-char					*ft_super_strjoin(char *extended_str, char *toadd);
-char					*ft_get_expand(char *var_name);
-char					*ft_grab_str(char *str, char *limset);
-char					*ft_grab_var_name(char *str);
-char					*ft_get_next_str_in_double_quotes(char *str);
-int						ft_get_next_step(char *str, char *new_str);
-char					*ft_get_next_str(char *str);
-char					*ft_get_new_str(char *str);
+int	ft_is_in_var(char c);
+char	*ft_remove_quotes(char *str);
+// char	*ft_super_strjoin(char *extended_str, char *toadd)
+char	*ft_super_strjoin(char **extended_str, char **toadd);
+char	*ft_get_expand(char *var_name);
+char *ft_grab_str(char *str, char *limset);
+char	*ft_grab_var_name(char *str);
+char	*ft_get_next_str_in_double_quotes(char *str);
+int	ft_get_next_step(char *str, char *new_str);
+char	*ft_get_next_str(char *str);
+char	*ft_get_expanded_str(char *str);
 int						ft_expand(t_data *data);
 
 /*		CHECK			*/
