@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 19:15:51 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:15:35 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char **create_hd_files(int hdnum)
     int     i;
     char    *file_num;
 
-    hd_files = malloc(sizeof(char *) * hdnum);
+    hd_files = malloc(sizeof(char *) *(hdnum + 1));
     if (!hd_files)
         return (NULL);
     i = 0;
@@ -31,6 +31,7 @@ static char **create_hd_files(int hdnum)
             return (NULL);
         i++;
     }
+    hd_files[i] = NULL;
     return (hd_files);
 }
 

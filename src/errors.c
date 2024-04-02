@@ -6,16 +6,41 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:36:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 15:37:44 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 12:14:33 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+int	pipe_at_end_error_check(t_token *list)
+{
+	t_token	*cur_token;
+
+	cur_token = list;
+	while (cur_token->next != NULL)
+	{
+		if (cur_token->pipe_at_end == true && cur_token->next->type == PIPE && cur_token->next->next == NULL)
+		{
+			ft_error_messages(PIPE);
+			return (FAIL);
+		}
+		cur_token = cur_token->next;
+	}
+	return (SUCCESS);
+}
+
 void	assign_error(t_token *token, int err_type)
 {
-	token->error = true;
-	token->err_type = err_type;
+	if (err_type == PIPE_AT_END)
+	{
+		token->pipe_at_end = true;
+		token->err_type = PIPE;
+	}
+	else
+	{
+		token->error = true;
+		token->err_type = err_type;
+	}
 }
 
 void	ft_error_messages(int errno)

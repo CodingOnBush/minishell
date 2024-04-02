@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 18:13:48 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:53:42 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,16 @@ static int	is_error(t_token *list, t_token *token)
 	return (NO);
 }
 
+t_token	*token_before_last(t_token *list)
+{
+	t_token	*cur_token;
+
+	cur_token = list;
+	while (cur_token->next->next != NULL)
+		cur_token = cur_token->next;
+	return (cur_token);
+}
+
 // rename because it checks errors and set errors variables
 int	check_token_list(t_token **list)
 {
@@ -53,7 +63,7 @@ int	check_token_list(t_token **list)
 	if (cur_token->str[0] == '|')
 		return (ft_error_messages(PIPE), FAIL);
 	if (last_token->type == PIPE)
-		return (ft_error_messages(PIPE), FAIL);
+		return (assign_error(token_before_last(*list), PIPE_AT_END), SUCCESS);
 	while (cur_token != NULL)
 	{
 		if (is_error(*list, cur_token) == YES)

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 11:57:57 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 12:02:53 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ char	*ft_type_to_str(int type)
 {
 	if (type == PIPE)
 		return ("PIPE");
+	if (type == PIPE_AT_END)
+		return ("PIPE_AT_END");
 	if (type == HERE_DOC)
 		return ("HEREDOC");
 	if (type == APPEND)

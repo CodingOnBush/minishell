@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 17:55:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:17:26 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,8 @@ void	unlink_and_free(t_data *data, char **hd_files)
 	{
 		if (unlink(hd_files[i]) == -1)
 			ft_putstr_fd("Error while removing hd file\n", 2);
-		free(hd_files[i]);
+		if (hd_files[i])
+			free(hd_files[i]);
 		i++;
 	}
 	if (hd_files)

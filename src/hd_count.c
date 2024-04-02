@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredocs_count.c                                   :+:      :+:    :+:   */
+/*   hd_count.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 18:14:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 18:15:12 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 12:05:20 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int  get_err_pos(t_cmd *cmd)
            err_pos = cur_token->pos;
            return (err_pos);
        }
+       else if (cur_token->pipe_at_end == true)
+           return (cur_token->next->pos);
        cur_token = cur_token->next;
    }
    return (err_pos);
@@ -56,6 +58,8 @@ int  count_hd_pre_error(t_cmd *cmd)
            hd_count++;
        cur = cur->next;
    }
+   if (cur != NULL && cur->pos == err_pos && cur->pipe_at_end == true)
+       hd_count++;
    return (hd_count);
 }
 
@@ -83,26 +87,26 @@ int  get_hd_number(t_cmd *list)
 {
    int     hdnum;
    t_cmd   *cur_cmd;
-   t_token *cur_token;
+   t_token *cur_tk;
 
 
    hdnum = 0;
    cur_cmd = list;
    while (cur_cmd != NULL)
    {
-       cur_token = cur_cmd->token_list;
-       while(cur_token != NULL)
+       cur_tk = cur_cmd->token_list;
+       while(cur_tk != NULL)
        {
-           if (cur_token->error == true)
+           if (cur_tk->error == true || cur_tk->pipe_at_end == true)
                break ;
-           cur_token = cur_token->next;
+           cur_tk = cur_tk->next;
        }
-       if (cur_token != NULL && cur_token->error == true)
+       if (cur_tk != NULL && (cur_tk->error == true || cur_tk->pipe_at_end == true))
             break ;
        hdnum += count_heredocs(cur_cmd->infile_list);
        cur_cmd = cur_cmd->next;
    }
-   if (cur_cmd != NULL && cur_token->error == true)
+   if (cur_cmd != NULL && (cur_tk->error == true || cur_tk->pipe_at_end == true))
        hdnum += count_hd_pre_error(cur_cmd);
    return (hdnum);
 }

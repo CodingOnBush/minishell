@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 18:17:15 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:38:05 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define QWORD 11
 # define DOUBLE_PIPE_ERROR 12
 # define HDEXEC 13
+# define PIPE_AT_END 14
 
 typedef struct s_infile
 {
@@ -75,6 +76,7 @@ typedef struct s_token
 	bool				attributed;
 	int					pos;
 	bool				error;
+	bool				pipe_at_end;
 	int					err_type;
 	struct s_token		*next;
 }						t_token;
