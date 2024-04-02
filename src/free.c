@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 11:17:26 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:08:28 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,11 @@ void	unlink_and_free(t_data *data, char **hd_files)
 	while (i < data->hdnum && hd_files[i] != NULL)
 	{
 		if (unlink(hd_files[i]) == -1)
+		{
+			printf("i : %d\n", i);
+			perror("perror unlink");
 			ft_putstr_fd("Error while removing hd file\n", 2);
+		}
 		if (hd_files[i])
 			free(hd_files[i]);
 		i++;

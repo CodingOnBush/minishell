@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 12:15:04 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:34:44 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,11 @@ int	ft_finish_init_data(t_data *data)
 		return (FAIL);
 	ft_print_token_list(data->token_list);
 	if (do_heredocs(data) == FAIL)
+	{
+		if (is_error_to_print(data->token_list) == NO)
+			pipe_at_end_error_check(data->token_list);
 		return (FAIL);
+	}
 	if (pipe_at_end_error_check(data->token_list) == FAIL)
 		return (FAIL);
 	if (is_error_to_print(data->token_list) == YES)

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 11:38:05 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:21:59 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void					ft_free_lexing_and_parsing(t_data *data);
 void					unlink_and_free(t_data *data, char **hd_files);
 
 /*		ERRORS			*/
+int						pipe_at_end_error_check(t_token *list);
 void					assign_error(t_token *token, int err_type);
 void					ft_error_messages(int errno);
 

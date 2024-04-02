@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 11:53:42 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:39:55 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ static int	is_error(t_token *list, t_token *token)
 {
 	if (!list || !token)
 		return (NO);
-	if (ft_isop(token->str) == YES && token->next == NULL)
-		return (assign_error(token, NEWLINE_ERROR), YES);
 	if (token->next == NULL)
 		return (NO);
+	if (ft_isop(token->str) == YES && ft_isop(token->next->str) == YES)
+		return (assign_error(token->next, token->next->type), YES);
+	if (ft_isop(token->str) == YES && token->next == NULL)
+		return (assign_error(token, NEWLINE_ERROR), YES);
 	if (token->type == PIPE)
 	{
 		if (token->next && ft_isop(token->next->str) == YES)
@@ -31,8 +33,6 @@ static int	is_error(t_token *list, t_token *token)
 		}
 		return (NO);
 	}
-	else if (ft_isop(token->str) == YES && token->next != NULL && ft_isop(token->next->str) == YES)
-		return (assign_error(token->next, token->next->type), YES);
 	else if (ft_isop(token->str) == YES && token->next != NULL && token->next->type == PIPE)
 		return (assign_error(token, token->next->type), YES);
 	else if (ft_isoperator(token->str) >= 1 && token->next == NULL)
@@ -62,15 +62,17 @@ int	check_token_list(t_token **list)
 	last_token = ft_findlast_token(*list);
 	if (cur_token->str[0] == '|')
 		return (ft_error_messages(PIPE), FAIL);
-	if (last_token->type == PIPE)
-		return (assign_error(token_before_last(*list), PIPE_AT_END), SUCCESS);
 	while (cur_token != NULL)
 	{
 		if (is_error(*list, cur_token) == YES)
 			break ;
 		cur_token = cur_token->next;
 	}
-	ft_print_token_list(*list);
+	if (cur_token == NULL)
+	{
+		if (last_token->type == PIPE)
+			return (assign_error(token_before_last(*list), PIPE_AT_END), SUCCESS);
+	}
 	return (SUCCESS);
 }
 

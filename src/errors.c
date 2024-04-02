@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:36:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 12:14:33 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:29:03 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ int	pipe_at_end_error_check(t_token *list)
 void	assign_error(t_token *token, int err_type)
 {
 	if (err_type == PIPE_AT_END)
-	{
 		token->pipe_at_end = true;
-		token->err_type = PIPE;
-	}
 	else
 	{
 		token->error = true;

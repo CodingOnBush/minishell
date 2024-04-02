@@ -6,17 +6,44 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 11:15:35 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:19:11 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+char    *get_file_name(int i)
+{
+    char    *file_num;
+    char    *file_name;
+    char    *tmp;
+
+    file_name = NULL;
+    file_num = NULL;
+    file_num = ft_itoa(i);
+    file_name = ft_strjoin("tmp_hd", file_num);
+    if (!file_name)
+        return (NULL);
+    if (access(file_name, F_OK) == 0)
+    {
+        free(file_name);
+        tmp = ft_strjoin(file_num, "_");
+        if (!tmp)
+            return (free(file_num), NULL);
+        file_name = ft_strjoin("tmp_hd", tmp);
+        if (!file_name)
+            return (free(tmp), free(file_num), NULL);
+        free(tmp);
+    }
+    if (file_num)
+        free(file_num);
+    return (file_name);
+}
+
 static char **create_hd_files(int hdnum)
 {
     char    **hd_files;
     int     i;
-    char    *file_num;
 
     hd_files = malloc(sizeof(char *) *(hdnum + 1));
     if (!hd_files)
@@ -24,28 +51,11 @@ static char **create_hd_files(int hdnum)
     i = 0;
     while (i < hdnum)
     {
-        file_num = ft_itoa(i);
-        hd_files[i] = ft_strjoin("tmp_hd", file_num);
-        free(file_num);
-        if (!hd_files[i])
-            return (NULL);
+        hd_files[i] = get_file_name(i);
         i++;
     }
     hd_files[i] = NULL;
     return (hd_files);
-}
-
-static void remove_if_hd_exists(t_data *data, char *hd_file)
-{
-    if (access(hd_file, F_OK) == 0)
-    {
-        if (unlink(hd_file) == -1)
-        {
-            ft_putstr_fd("Error while removing hd file\n", 2);
-            ft_free_tokens(&data->token_list);
-            ft_free_cmds(&data->cmd_list);
-        }
-    }
 }
 
 void    writing_loop(t_data *data, int fd_hd, char *delimiter)
@@ -84,8 +94,7 @@ static int execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
     {
         if (cur_inf->delimiter != NULL)
         {
-            remove_if_hd_exists(data, data->hd_files[i + count]);
-            fd_hd[i + count] = open(data->hd_files[i], O_WRONLY | O_CREAT, 0644);
+            fd_hd[i + count] = open(data->hd_files[i + count], O_WRONLY | O_CREAT, 0644);
             if (fd_hd[i + count] == -1)
                 return(ft_error_messages(HDEXEC), ft_free_tokens(&data->token_list), ft_free_cmds(&data->cmd_list), FAIL);
             writing_loop(data, fd_hd[i + count], cur_inf->delimiter);
@@ -103,12 +112,12 @@ int	do_heredocs(t_data *data)
     int         i;
 
 	data->hdnum = get_hd_number(data->cmd_list);
-    printf("hdnum = %d\n", data->hdnum);
     i = 0;
 	data->fd_hd = malloc (sizeof(int) * data->hdnum);
 	if (!data->fd_hd)
 		return (FAIL);
     data->hd_files = create_hd_files(data->hdnum);
+    i = 0;
     if (!data->hd_files)
         return (FAIL);
     cur_cmd = data->cmd_list;
