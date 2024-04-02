@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 15:01:22 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:51:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,8 @@ void					ft_error_messages(int errno);
 /*		EXPAND			*/
 int	ft_is_in_var(char c);
 char	*ft_remove_quotes(char *str);
-// char	*ft_super_strjoin(char *extended_str, char *toadd)
-char	*ft_super_strjoin(char **extended_str, char **toadd);
+char	*ft_super_strjoin(char *extended_str, char *toadd);
+// char	*ft_super_strjoin(char **extended_str, char **toadd);
 char	*ft_get_expand(char *var_name);
 char *ft_grab_str(char *str, char *limset);
 char	*ft_grab_var_name(char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 15:14:10 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:00:41 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	check_token_list(t_token **list)
 		return (FAIL);
 	cur_token = *list;
 	last_token = ft_findlast_token(*list);
-	if (cur_token->str[0] == '|')
+	if (cur_token->str && cur_token->str[0] == '|')
 		return (ft_error_messages(PIPE), FAIL);
 	while (cur_token != NULL)
 	{

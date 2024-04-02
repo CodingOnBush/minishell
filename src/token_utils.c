@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/02 16:41:05 by momrane           #+#    #+#             */
+/*   Updated: 2024/04/02 17:04:37 by momrane          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 void	ft_detect_delimiter(t_token **token_list)
@@ -16,22 +28,18 @@ void	ft_detect_delimiter(t_token **token_list)
 void	ft_remove_null_token(t_data *data)
 {
 	t_token	*token;
-	t_token	*prev;
+	t_token	*tmp;
 
 	token = data->token_list;
-	prev = NULL;
 	while (token)
 	{
-		if (token->type == WORD && !token->str)
+		if (token->str == NULL)
 		{
-			if (prev)
-				prev->next = token->next;
-			else
-				data->token_list = token->next;
+			tmp = token->next;
 			free(token);
-			token = prev;
+			token = tmp;
 		}
-		prev = token;
-		token = token->next;
+		else
+			token = token->next;
 	}
 }
