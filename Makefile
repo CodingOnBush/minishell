@@ -6,7 +6,7 @@
 #    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/02 14:54:03 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/04/02 17:01:48 by vvaudain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ CYAN 		:= \033[0;96m
 SRC_FILES 	:=	main utils free token token_check signals \
 				parser args infile outfile data print check \
 				errors exec builtins expand token_utils hd_count \
-				heredocs
+				heredocs exec_utils
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 

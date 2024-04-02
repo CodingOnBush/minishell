@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 15:01:22 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:01:25 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_data
 	int					hdnum;
 	int					*fd_hd;
 	char				**hd_files;
+	int					**ids;
 	t_token				*token_split;
 	char				**path_list;
 	int					step;
@@ -110,8 +111,13 @@ typedef struct s_data
 	struct sigaction	sigquit_action;
 }						t_data;
 
+/*		EXEC_UTILS		*/
+int						get_cmd_nb(t_cmd *cmd_list);
+int						alloc_ids(t_data *data);
+int						alloc_pipes(t_data *data);
+
 /*		EXEC			*/
-void					ft_start_exec(t_data *data);
+int						ft_start_exec(t_data *data);
 
 /*		INFILE			*/
 t_infile				*ft_create_new_infile(char *str, int type);
