@@ -6,228 +6,275 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/29 10:50:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/02 12:43:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static int	is_dollar(char *str)
+int	ft_is_in_var(char c)
 {
-	int	i;
-	
-	if (!str)
-		return (NO);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-			return (YES);
-		i++;
-	}
+	if (ft_isalnum(c) || c == '_')
+		return (YES);
 	return (NO);
 }
 
-static int	dist_to_quote(char *str)
+char	*ft_remove_quotes(char *str)
 {
-	int	i;
+	char	*new_str;
+	int		i;
 
+	if (!str)
+		return (NULL);
 	i = 0;
-	while (str[i] && str[i] != '\'')
+	if (*str == SINGLE_QUOTE || *str == DOUBLE_QUOTES)
 		i++;
-	return (i);
+	new_str = ft_substr(str, i, ft_strlen(str) - 2 * i);
+	return (new_str);
 }
 
-char	*get_var_name(char *str, bool *single_quote_is_char)
+// char	*ft_super_strjoin(char *extended_str, char *toadd)
+// {
+// 	char	*join;
+// 	int		new_len;
+// 	int		extended_len;
+// 	int		toadd_len;
+
+// 	if (extended_str == NULL && toadd == NULL)
+// 		return (NULL);
+// 	if (toadd == NULL)
+// 		return (ft_strdup(extended_str));
+// 	if (extended_str == NULL)
+// 		return (ft_strdup(toadd));
+// 	new_len = ft_strlen(extended_str) + ft_strlen(toadd);
+// 	join = malloc(sizeof(char) * (new_len + 1));
+// 	if (!join)
+// 		return (NULL);
+// 	extended_len = ft_strlen(extended_str);
+// 	toadd_len = ft_strlen(toadd);
+// 	ft_strlcpy(join, extended_str, extended_len + 1);
+// 	ft_strlcpy(&join[extended_len], toadd, toadd_len + 1);
+// 	return (join);
+// }
+
+char	*ft_super_strjoin(char **extended_str, char **toadd)
+{
+	char	*join;
+	int		new_len;
+	int		extended_len;
+	int		toadd_len;
+	char	*ext;
+	char	*to;
+
+	if (extended_str == NULL && toadd == NULL)
+		return (NULL);
+	if (toadd == NULL)
+		return (ft_strdup(*extended_str));
+	if (extended_str == NULL)
+		return (ft_strdup(*toadd));
+	new_len = ft_strlen(*extended_str) + ft_strlen(*toadd);
+	join = malloc(sizeof(char) * (new_len + 1));
+	if (!join)
+		return (NULL);
+	extended_len = ft_strlen(*extended_str);
+	toadd_len = ft_strlen(*toadd);
+	ext = *extended_str;
+	to = *toadd;
+	if (ext != NULL)
+		ft_strlcpy(join, ext, extended_len + 1);
+	if (to != NULL)
+		ft_strlcpy(&join[extended_len], to, toadd_len + 1);
+	return (join);
+}
+
+char	*ft_get_expand(char *var_name)
+{
+	char	*var_content;
+
+	if (!var_name)
+		return (ft_strdup("$"));
+	// if (*var_name == '?') // 
+	// 	return (ft_itoa(g_exit_status));
+	var_content = getenv(var_name);
+	if (!var_content)
+		return (NULL);
+	return (var_content);
+}
+
+char *ft_grab_str(char *str, char *limset)
+{
+	char	*grab;
+	int		i;
+
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (str[i] && ft_strchr(limset, str[i]) == NULL)
+		i++;
+	if (i == 0)
+		return (NULL);
+	grab = ft_substr(str, 0, i);
+	return (grab);
+}
+
+char	*ft_grab_var_name(char *str)
 {
 	int		i;
 	char	*var_name;
-	
+
+	if (!str || *str != '$')
+		return (NULL);
+	str++;
+	if (str && *str == '?')
+		return (ft_strdup("?"));
 	i = 0;
-	if (!str)
-		return (NULL);
-	if (str[i] == '$')
+	while (str[i] && ft_is_in_var(str[i]))
 		i++;
-	while (str[i] && ft_isspace(str[i]) == NO && str[i] != DOUBLE_QUOTES && str[i] != SINGLE_QUOTE)
-		i++;
-	if (str[i] == DOUBLE_QUOTES && *single_quote_is_char == true)
-		*single_quote_is_char = !*single_quote_is_char;
-	if (i <= 1)
+	if (i == 0)
 		return (NULL);
-	var_name = malloc(sizeof(char) * (i + 1));
-	if (!var_name)
-		return (NULL);
-	ft_strlcpy(var_name, str + 1, i);
+	var_name = ft_substr(str, 0, i);
 	return (var_name);
 }
 
-char	*ft_concat(char *res, char *str, int size)
+char	*ft_get_next_str_in_double_quotes(char *str)
 {
-	char	*new_res;
-	int		len;
-	int		i;
-	int		j;
-
-	len = ft_strlen(res) + size;
-	new_res = malloc(sizeof(char) * (len + 1));
-	if (!new_res)
-		return (NULL);
-	i = 0;
-	while (i < ft_strlen(res))
-	{
-		new_res[i] = res[i];
-		i++;
-	}
-	j = 0;
-	while (i < len)
-	{
-		new_res[i] = str[j];
-		i++;
-		j++;
-	}
-	new_res[i] = '\0';
-	return (new_res);
-}
-
-static char	*dollar_handling(t_data *data, char *str, bool *single_quote_is_char)
-{
-	char	*new_res;
 	char	*var_name;
-	char	*var_content;
-
-	data->step = 0;
-	var_name = get_var_name(str, single_quote_is_char);
-	if (var_name != NULL)
-	{
-		var_content = getenv(var_name);
-		if (var_content != NULL)
-		{
-			new_res = ft_concat(new_res, var_content, ft_strlen(var_content));
-			if (!new_res)
-				return (NULL);
-		}
-		data->step += ft_strlen(get_var_name(str, single_quote_is_char)) + 1;
-	}
-	else
-	{
-		new_res = ft_concat(new_res, str, 1);
-		if (!new_res)
-			return (NULL);
-		data->step += 1;
-	}
-	return (new_res);
-}
-
-static char	*handle_single_quote(t_data *data, char *str)
-{
-	char	*new_res;
-
-	data->step = ft_strchr(str + 1, SINGLE_QUOTE) - str + 1;
-	new_res = ft_concat(new_res, str, data->step);
-	if (!new_res)
-		return (NULL);
-	return (new_res);
-}
-
-// static char	*handle_normal_text(t_data *data, char *str, int i, bool *single_quote_is_char)
-// {
-// 	char	*new_res;
-// 	char	*tmp;
+	char	*new_str;
+	char	*toadd;
+	char	*tmp;
 	
-// 	data->step = 0;
-// 	tmp = str;
-// 	while (*str && *str != '$' && *str != SINGLE_QUOTE && *str != DOUBLE_QUOTES)
-// 	{
-// 		str++;
-// 		data->step++;
-// 	}
-// 	if (*str == DOUBLE_QUOTES)
-// 	{
-// 		*single_quote_is_char = !(*(single_quote_is_char));
-// 		str++;
-// 		data->step++;
-// 	}
-// 	if (*str == SINGLE_QUOTE && *single_quote_is_char == true)
-// 	{
-// 		str++;	
-// 		data->step++;
-// 	}
-// 	if (data->step > 0)
-// 	{
-// 		new_res = ft_concat(new_res, tmp, data->step);
-// 		if (!new_res)
-// 			return (NULL);
-// 	}
-// 	return (new_res);
-// }
+	new_str = NULL;
+	if (!str)
+		return (NULL);
+	toadd = NULL;
+	while (*str != '\0')
+	{
+		if (str && *str == '$')// && (str + 1)) // est-ce qu'on garde cette condition ?
+		{
+			var_name = ft_grab_var_name(str);
+			str += ft_strlen(var_name) + 1;
+			toadd = ft_get_expand(var_name);
+			free(var_name);
+		}
+		else
+		{
+			toadd = ft_grab_str(str, "$\"");
+			str += ft_strlen(toadd);
+		}
+		// tmp = ft_super_strjoin(&new_str, &toadd);
+		if (new_str == NULL && toadd != NULL)
+		{
+			new_str = ft_strdup(toadd);
+			// free(toadd);
+		}
+		else if (new_str != NULL && toadd != NULL)
+		{
+			tmp = malloc(sizeof(char) * (ft_strlen(new_str) + ft_strlen(toadd) + 1));
+			if (!tmp)
+				return (NULL);
+			ft_strlcpy(tmp, new_str, ft_strlen(new_str) + 1);
+			ft_strlcpy(&tmp[ft_strlen(new_str)], toadd, ft_strlen(toadd) + 1);
+			free(new_str);
+			free(toadd);
+		}
+		new_str = tmp;
+	}
+	return (new_str);
+}
 
-static char	*ft_get_extend(char *str, t_data *data)
+int	ft_get_next_step(char *str, char *new_str)
+{
+	if (*str == '\0')
+		return (0);
+	if (*str == DOUBLE_QUOTES || *str == SINGLE_QUOTE)
+		return (ft_strchr(str + 1, *str) - str + 1);
+	else if (*str == '$')
+		return (ft_strlen(ft_grab_var_name(str)) + 1);
+	else
+		return (ft_strlen(new_str));
+}
+
+char	*ft_get_next_str(char *str)
 {
 	int		i;
-	int		len;
-	char	*res;
-	bool	single_quote_is_char;
 
-	i = 0;
-	res = NULL;
-	single_quote_is_char = false;
-	while (str[i] != '\0')
+	if (str && *str == SINGLE_QUOTE && (str + 1))
+		return (ft_grab_str(str + 1, "\'"));
+	if (str && *str == DOUBLE_QUOTES && (str + 1))
+		return (ft_get_next_str_in_double_quotes(ft_grab_str(str + 1, "\"")));
+	if (str && *str == '$' && (str + 1))
+		return (ft_get_expand(ft_grab_var_name(str)));
+	if (str && ft_isspace(*str))
 	{
-		len = i;
-		// res = handle_normal_text(data, &str[len], i, &single_quote_is_char);
-		// if (!res)
-		// 	return (NULL);
-		// i += data->step;
-		while (str[len] && str[len] != '$' && str[len] != SINGLE_QUOTE && str[len] != DOUBLE_QUOTES)
-			len++;
-		if (str[len] == DOUBLE_QUOTES)
+		i = 0;
+		while (str[i] && ft_isspace(str[i]))
+			i++;
+		return (ft_substr(str, 0, i));
+	}
+	return (ft_grab_str(str, " \t\n\r\v\f$\'\""));
+}
+
+char	*ft_get_expanded_str(char *str)
+{
+	char	*res;
+	char	*next_str;
+	char	*tmp;
+	
+	res = NULL;
+	next_str = NULL;
+	while (*str != '\0')
+	{
+		next_str = ft_get_next_str(str);
+		// tmp = ft_super_strjoin(&res, &next_str);
+		if (res == NULL && next_str != NULL)
 		{
-			single_quote_is_char = !single_quote_is_char;
-			len++;
+			res = ft_strdup(next_str);
+			str += ft_get_next_step(str, next_str);
+			free(next_str);
 		}
-		if (str[len] == SINGLE_QUOTE && single_quote_is_char == true)
-			len++;
-		if (len > i)
+		else if (res != NULL && next_str != NULL)
 		{
-			res = ft_concat(res, &str[i], len - i);
-			if (!res)
+			tmp = malloc(sizeof(char) * (ft_strlen(res) + ft_strlen(next_str) + 1));
+			if (!tmp)
 				return (NULL);
-			i += len - i;
-		}
-		if (str[i] == '$')
-		{
-			res = dollar_handling(data, &str[i], &single_quote_is_char);
-			i += data->step;
-		}
-		else if (str[i] == SINGLE_QUOTE && single_quote_is_char == false)
-		{
-			res = handle_single_quote(data, &str[i]);
-			i += data->step;
+			ft_strlcpy(tmp, res, ft_strlen(res) + 1);
+			ft_strlcpy(&tmp[ft_strlen(res)], next_str, ft_strlen(next_str) + 1);
+			str += ft_get_next_step(str, next_str);
+			free(res);
+			free(next_str);
+			res = tmp;
 		}
 	}
 	return (res);
 }
 
-int	ft_check_expands(t_token *list, t_data *data)
+int	ft_expand(t_data *data)
 {
-	t_token	*cur_token;
-	char	*tmp;
+	t_token	*token;
+	char	*new_str;
 
-	if (!list)
-		return (FAIL);
-	cur_token = list;
-	while (cur_token != NULL)
+	token = data->token_list;
+	if (token == NULL)
+		return (SUCCESS);
+	new_str = NULL;
+	while (token)
 	{
-		if (cur_token->type == WORD && is_dollar(cur_token->str) == YES)
+		if (token->type == WORD)
 		{
-			tmp = cur_token->str;
-			cur_token->str = ft_get_extend(tmp, data);
-			if (cur_token->str == NULL)
-				return (FAIL);
-			printf("str expanded: %s\n", cur_token->str);
-			free(tmp);
+			new_str = ft_get_expanded_str(token->str);
+			free(token->str);
+			token->str = new_str;
 		}
-		cur_token = cur_token->next;
+		else if (token->type == LIM)
+		{
+			new_str = ft_remove_quotes(token->str);
+			if (!new_str)
+				return (FAIL);
+			free(token->str);
+			token->str = new_str;
+		}
+		token = token->next;
 	}
+	ft_remove_null_token(data);
 	return (SUCCESS);
 }

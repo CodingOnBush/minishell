@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 13:21:59 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:49:51 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdbool.h>
-# include <fcntl.h>
 
-# define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 > \001\033[0m\002"
+// # define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 > \001\033[0m\002"
+# define MINISPELL "minispell > "
 
 # define YES 1
 # define NO 0
@@ -32,7 +32,9 @@
 # define FAIL -1
 
 # define DOUBLE_QUOTES '\"'
+# define DQ "\""
 # define SINGLE_QUOTE '\''
+# define SQ "\'"
 
 # define HERE_DOC 1
 # define APPEND 2
@@ -46,20 +48,19 @@
 # define DOUBLE_QUOTE_ERROR 10
 # define QWORD 11
 # define DOUBLE_PIPE_ERROR 12
-# define HDEXEC 13
-# define PIPE_AT_END 14
+# define LIM 13
 
 typedef struct s_infile
 {
 	char				*filename;
-	char				*delimiter;// null : pas HEREDOCdonc LC
+	char *delimiter; // null : pas HEREDOCdonc LC
 	struct s_infile		*next;
 }						t_infile;
 
 typedef struct s_outfile
 {
 	char				*filename;
-	bool				append;// false : RIGHT_TRUNC
+	bool append; // false : RIGHT_TRUNC
 	struct s_outfile	*next;
 }						t_outfile;
 
@@ -111,11 +112,13 @@ void					ft_start_exec(t_data *data);
 
 /*		INFILE			*/
 t_infile				*ft_create_new_infile(char *str, int type);
-void					ft_add_infile(t_infile **infile_list, t_infile *new_infile);
+void					ft_add_infile(t_infile **infile_list,
+							t_infile *new_infile);
 
 /*		OUTFILE			*/
 t_outfile				*ft_create_new_outfile(char *filename, int type);
-void					ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile);
+void					ft_add_outfile(t_outfile **outfile_list,
+							t_outfile *new_outfile);
 
 /*		SIGNALS			*/
 void					ft_setup_signals(t_data *data);
@@ -136,11 +139,22 @@ void					assign_error(t_token *token, int err_type);
 void					ft_error_messages(int errno);
 
 /*		EXPAND			*/
-int						ft_check_expands(t_token *list, t_data *data);
+int	ft_is_in_var(char c);
+char	*ft_remove_quotes(char *str);
+// char	*ft_super_strjoin(char *extended_str, char *toadd)
+char	*ft_super_strjoin(char **extended_str, char **toadd);
+char	*ft_get_expand(char *var_name);
+char *ft_grab_str(char *str, char *limset);
+char	*ft_grab_var_name(char *str);
+char	*ft_get_next_str_in_double_quotes(char *str);
+int	ft_get_next_step(char *str, char *new_str);
+char	*ft_get_next_str(char *str);
+char	*ft_get_expanded_str(char *str);
+int						ft_expand(t_data *data);
 
 /*		CHECK			*/
 int						ft_check_quote_error(char *line);
-int 					ft_check_double_pipe(t_token *token);
+int						ft_check_double_pipe(t_token *token);
 
 /*		PRINT			*/
 void					ft_print_token_list(t_token *list);
@@ -157,10 +171,8 @@ int						ft_get_type(char *str);
 char					*ft_strndup(char *s, int n);
 int						ft_isoperator(char *str);
 t_token					*ft_findlast_token(t_token *lst);
-int						ft_set_path(t_data *data);
 char					*ft_type_to_str(int type);
 int						ft_get_pipe_count(t_token *token_list);
-
 
 /*		TOKEN CHECK		*/
 int						check_token_list(t_token **list);
@@ -194,6 +206,11 @@ int						do_heredocs(t_data *data);
 /*		TOKEN			*/
 t_token					*ft_create_new_token(char *new_str, int type, int pos, bool error);
 t_token					*ft_create_token_list(char *line);
-void					ft_addlast_token(t_token **token_list, t_token *new_token);
+void					ft_addlast_token(t_token **token_list,
+							t_token *new_token);
+
+/*		TOKEN_UTILS		*/
+void					ft_detect_delimiter(t_token **token_list);
+void					ft_remove_null_token(t_data *data);
 
 #endif

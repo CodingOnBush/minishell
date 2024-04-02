@@ -6,7 +6,7 @@
 #    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/03/29 18:18:17 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/04/02 14:54:03 by vvaudain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CFLAGS		:= -g3#-Wall -Wextra -Werror -g3
 
 # Valgrind
 VAL_SUPP	:= readline.supp
-VAL_FLAGS	:= --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=$(VAL_SUPP)
+VAL_FLAGS	:= --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=$(VAL_SUPP)
 
 # Directories
 SRC_DIR		:= ./src
@@ -39,7 +39,8 @@ CYAN 		:= \033[0;96m
 #Sources
 SRC_FILES 	:=	main utils free token token_check signals \
 				parser args infile outfile data print check \
-				errors exec builtins expand hd_count heredocs
+				errors exec builtins expand token_utils hd_count \
+				heredocs
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 

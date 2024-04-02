@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 12:02:53 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:52:22 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ char	*ft_type_to_str(int type)
 		return ("DOUBLE_QUOTE_ERROR");
 	if (type == QWORD)
 		return ("QWORD");
+	if (type == LIM)
+		return ("LIM");
 	return ("UNKNOWN");
 }
 

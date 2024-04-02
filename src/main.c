@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/29 17:51:57 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:51:26 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int ac, char **av, char **env)
 		return (-1);
 	while (1)
 	{
-		data->line = readline(MINISPELL);
+		data->line = readline("minishell > ");
 		if (!data->line)
 			break ;
 		add_history(data->line);

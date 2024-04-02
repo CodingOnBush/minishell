@@ -7,13 +7,20 @@ int	ft_check_quote_error(char *line)
 
 	single_quote = 0;
 	double_quotes = 0;
-	while (*line != '\0')
+	while (*line)
 	{
-		if (*line == SINGLE_QUOTE)
-			single_quote++;
-		else if (*line == DOUBLE_QUOTES)
-			double_quotes++;
-		line++;
+		if (*line == '\'' && ft_strchr(line + 1, '\'') != NULL)
+			line += ft_strchr(line + 1, '\'') - line + 1;
+		else if (*line == '\"' && ft_strchr(line + 1, '\"') != NULL)
+			line += ft_strchr(line + 1, '\"') - line + 1;
+		else
+		{
+			if (*line == '\"')
+				double_quotes++;
+			if (*line == '\'')
+				single_quote++;
+			line++;
+		}
 	}
 	if (single_quote % 2 != 0 || double_quotes % 2 != 0)
 		return (FAIL);
