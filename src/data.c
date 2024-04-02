@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 14:50:36 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:00:19 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_finish_init_data(t_data *data)
 	data->token_list = ft_create_token_list(data->line);
 	if (!data->token_list)
 		return (printf("parse tokens failed !\n"), FAIL);
-	ft_check_expands(data->token_list, data);
+	ft_expand(data);
 	if (ft_check_double_pipe(data->token_list) == FAIL)
 		return (ft_error_messages(DOUBLE_PIPE_ERROR), ft_free_tokens(&data->token_list), FAIL);
 	if (check_token_list(&data->token_list) == FAIL)

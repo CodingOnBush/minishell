@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 14:40:01 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:14:10 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static int	is_error(t_token *list, t_token *token)
 		}
 		return (NO);
 	}
-	else if (ft_isop(token->str) == YES && token->next != NULL && token->next->type == PIPE)
+	if (ft_isop(token->str) == YES && token->next != NULL && token->next->type == PIPE)
 		return (assign_error(token, token->next->type), YES);
-	else if (ft_isoperator(token->str) >= 1 && token->next == NULL)
+	if (ft_isoperator(token->str) >= 1 && token->next == NULL)
 		return (assign_error(token, NEWLINE_ERROR), YES);
 	return (NO);
 }

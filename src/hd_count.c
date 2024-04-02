@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 18:14:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 12:05:20 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:21:27 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int  count_hd_pre_error(t_cmd *cmd)
    cur = cmd->token_list;
    while (cur != NULL && cur->pos < err_pos)
    {
-       if (cur->type == HERE_DOC && cur->next != NULL && cur->next->type == WORD
+       if (cur->type == HERE_DOC && cur->next != NULL && cur->next->type == LIM
            && cur->error == false && cur->next->error == false)
            hd_count++;
        cur = cur->next;

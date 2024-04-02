@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 13:19:11 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:04:14 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,12 @@ int	do_heredocs(t_data *data)
     int         i;
 
 	data->hdnum = get_hd_number(data->cmd_list);
+    printf("hdnum : %d\n", data->hdnum);
     i = 0;
 	data->fd_hd = malloc (sizeof(int) * data->hdnum);
 	if (!data->fd_hd)
 		return (FAIL);
     data->hd_files = create_hd_files(data->hdnum);
-    i = 0;
     if (!data->hd_files)
         return (FAIL);
     cur_cmd = data->cmd_list;

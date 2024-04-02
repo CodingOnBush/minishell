@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 14:49:51 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:01:22 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
 
-// # define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 > \001\033[0m\002"
-# define MINISPELL "minispell > "
+# define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 > \001\033[0m\002"
+// # define MINISPELL "minispell > "
 
 # define YES 1
 # define NO 0
@@ -49,6 +50,8 @@
 # define QWORD 11
 # define DOUBLE_PIPE_ERROR 12
 # define LIM 13
+# define PIPE_AT_END 14
+# define HDEXEC 15
 
 typedef struct s_infile
 {
