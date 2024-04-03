@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/03 15:18:31 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 15:28:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ int	do_pipes(t_data *data)
 
 int	ft_start_exec(t_data *data)
 {
-	int	cmd_nb;
-	
-	(void)data;
-	cmd_nb = get_cmd_nb(data->cmd_list);
+	ft_print_cmd_list(data->cmd_list);
+	data->cmd_nb = get_cmd_nb(data->cmd_list);
 	alloc_ids(data);
 	if (do_pipes(data) == FAIL)
 		return (FAIL);
