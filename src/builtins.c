@@ -6,11 +6,37 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/28 12:59:12 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 17:37:11 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	ft_pwd(t_arg *arg_list)
+{
+	char	*cwd;
+
+	cwd = ft_getcwd();
+	if (cwd == NULL)
+	{
+		perror("getcwd");
+		return ;
+	}
+	printf("%s\n", cwd);
+	free(cwd);
+}
+
+int	ft_exec_builtin(t_data *data, t_cmd *cmd)
+{
+	int	len;
+
+	len = ft_strlen(cmd->arg_list->value);
+	if (ft_strncmp(cmd->arg_list->value, "pwd", len) == 0)
+		ft_pwd(cmd->arg_list->next);
+	else
+		printf("to be continued...\n");
+	return (SUCCESS);
+}
 
 char	*ft_getcwd(void)
 {

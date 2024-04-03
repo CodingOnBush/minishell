@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 15:17:02 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 17:55:45 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void 	ft_free_tokens(t_token **list);
 void 	ft_free_cmds(t_cmd **cmd_list);
 void 	ft_free_lexing_and_parsing(t_data *data);
 void 	unlink_and_free(t_data *data, char **hd_files);
+void	ft_free_exec(t_data *data);
+void	ft_free_all(t_data *data);
 
 /*		REMOVE		*/
 char	*ft_type_to_str(int type);
@@ -55,6 +57,11 @@ int 	ft_get_pipe_count(t_token *token_list);
 
 /*		BUILTINS	*/
 char 	*ft_getcwd(void);
+int		ft_exec_builtin(t_data *data, t_cmd *cmd);
+void	ft_pwd(t_arg *arg_list);
+
+/*		BUILTINS_UTILS	*/
+int		ft_isbuiltin(char *cmd);
 
 /*		HD_COUNT	*/
 int 	get_err_pos(t_cmd *cmd);

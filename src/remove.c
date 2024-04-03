@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 15:02:15 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 17:42:39 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_print_cmd_list(t_cmd *list)
 		printf("cmd list empty\n");
 	while (tmp)
 	{
-		printf("=========== CMD ===========\n");
+		printf("=========== CMD (%d)==========\n", tmp->pos);
 		ft_print_token_list(tmp->token_list);
 		ft_print_arg_list(tmp->arg_list);
 		ft_print_infile_list(tmp->infile_list);

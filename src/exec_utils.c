@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/03 15:28:07 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 16:30:37 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	get_cmd_nb(t_cmd *cmd_list)
 		cmd_nb++;
 		cur = cur->next;
 	}
-	printf("cmd_nb ici = %d\n", cmd_nb);
 	return (cmd_nb);
 }
 
@@ -47,16 +46,11 @@ int	alloc_ids(t_data *data)
 
 	i = 0;
 	printf("cmd_nb = %d\n", data->cmd_nb);
-	data->ids = malloc(sizeof(int*) * data->cmd_nb);
+	data->ids = malloc(sizeof(int) * data->cmd_nb);
 	if (!data->ids)
 	{
 		perror("");
 		return (FAIL);
-	}
-	while (i < data->cmd_nb)
-	{
-		data->ids[i] = &i;
-		i++;
 	}
 	return (SUCCESS);
 }

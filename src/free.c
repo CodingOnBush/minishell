@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 14:51:04 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:03:44 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,4 +152,36 @@ void	unlink_and_free(t_data *data, char **hd_files)
 		free(hd_files);
 	if (data->fd_hd)
 		free(data->fd_hd);
+}
+
+void	ft_free_exec(t_data *data)
+{
+	int	i;
+
+	if (data->ids)
+		free(data->ids);
+	if (data->pipe_ends)
+	{
+		i = 0;
+		while (i < data->cmd_nb - 1)
+		{
+			free(data->pipe_ends[i]);
+			i++;
+		}
+		free(data->pipe_ends);
+	}
+}
+
+void	ft_free_all(t_data *data)
+{
+	if (data)
+	{
+		ft_free_lexing_and_parsing(data);
+		ft_free_exec(data);
+		unlink_and_free(data, data->hd_files);
+		ft_free_path(data->path_list);
+		if (data->line)
+			free(data->line);
+		free(data);
+	}
 }

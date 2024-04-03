@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 16:20:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 18:04:04 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	wait_for_children(t_data *data)
+{
+	int	status;
+	int	i;
+
+	i = 0;
+	while (i < data->cmd_nb)
+	{
+		waitpid(data->ids[i], &status, 0);
+		i++;
+	}
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -26,14 +39,16 @@ int	main(int ac, char **av, char **env)
 		add_history(data->line);
 		if (ft_finish_init_data(data) == SUCCESS)
 			ft_start_exec(data);
-		unlink_and_free(data, data->hd_files);
+		wait_for_children(data);
 		ft_free_lexing_and_parsing(data);
+		ft_free_exec(data);
+		unlink_and_free(data, data->hd_files);
 		free(data->line);
 	}
-	ft_free_path(data->path_list);
+	ft_free_all(data);
 	rl_clear_history();
 	printf("exit\n");
-	return (free(data), 0);
+	return (0);
 }
 
 // char	*args[4];

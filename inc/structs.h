@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 15:16:09 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 17:12:17 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ typedef struct s_cmd
 	t_arg				*arg_list;
 	t_infile			*infile_list;
 	t_outfile			*outfile_list;
+	int					pos;
+	char				**arg;
+	char				*cmd_path;// chemin avec la commande
 	struct s_cmd		*next;
 }						t_cmd;
 
@@ -64,7 +67,7 @@ typedef struct s_data
 	int					hdnum;
 	int					*fd_hd;
 	char				**hd_files;
-	int					**ids;
+	int					*ids;
 	int					**pipe_ends;
 	t_token				*token_split;
 	char				**path_list;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:50:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 15:07:20 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 17:34:24 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	ft_get_arg_nbr(t_arg *arg_list);
 char	**ft_arg_list_to_array(t_arg *arg_list);
 
 /*		CMD_UTILS	*/
-t_cmd	*ft_create_cmd(t_token *cur_token);
+t_cmd	*ft_create_cmd(t_token *cur_token, int pos);
 t_cmd	*ft_create_cmd_list(t_token *token_list);
 void	ft_add_new_cmd(t_cmd **cmd_list, t_cmd *new_cmd);
-t_cmd	*ft_create_new_cmd(t_token *cur_token);
+t_cmd	*ft_create_new_cmd(t_token *cur_token, int pos);
 
 /*		INFILE		*/
 t_infile	*ft_create_new_infile(char *str, int type);
