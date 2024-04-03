@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 17:01:25 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:43:30 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,12 @@ typedef struct s_data
 	char				**env;
 	t_cmd				*cmd_list;
 	t_token				*token_list;
+	int					cmd_nb;
 	int					hdnum;
 	int					*fd_hd;
 	char				**hd_files;
 	int					**ids;
+	int					**pipe_ends;
 	t_token				*token_split;
 	char				**path_list;
 	int					step;
@@ -112,6 +114,7 @@ typedef struct s_data
 }						t_data;
 
 /*		EXEC_UTILS		*/
+void					ft_close_pipes(t_data *data);
 int						get_cmd_nb(t_cmd *cmd_list);
 int						alloc_ids(t_data *data);
 int						alloc_pipes(t_data *data);

@@ -6,11 +6,24 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 17:00:20 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:53:41 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
+
+void	ft_close_pipes(t_data *data)
+{
+	int	count;
+
+	count = 0;
+	while (count < data->cmd_nb - 1)
+	{
+		close(data->pipe_ends[count][0]);
+		close(data->pipe_ends[count][1]);
+		count ++;
+	}
+}
 
 int	get_cmd_nb(t_cmd *cmd_list)
 {
@@ -40,7 +53,7 @@ int	alloc_ids(t_data *data)
 	}
 	while (i < data->cmd_nb)
 	{
-		data->ids[i] = i;
+		data->ids[i] = &i;
 		i++;
 	}
 	return (SUCCESS);

@@ -6,11 +6,39 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:38:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 17:04:17 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:02:05 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	ft_fork(t_data *data)
+{
+	int	process;
+	
+	process = -1;
+	while (++process < data->cmd_nb)
+	{
+		data->ids[process][0] = fork();
+		if (data->ids[process][0] == -1)
+			return (perror("Forking failed"), FAIL);
+		else if (data->ids[process][0] == 0)
+			printf("child process\n");
+		// child_process(data, process);
+		process++;
+		if (process < data->cmd_nb)
+		{
+			data->ids[process][0] = fork();
+			if (data->ids[process][0] < 0)
+				return (perror("Forking failed"), FAIL);
+			else if (data->ids[process][0] == 0)
+				printf("child process\n");
+			// child_process(data, process);
+		}
+	}
+	ft_close_pipes(data);
+	return (SUCCESS);
+}
 
 int	do_pipes(t_data *data)
 {
@@ -20,7 +48,7 @@ int	do_pipes(t_data *data)
 	alloc_pipes(data);
 	while (count < data->cmd_nb - 1)
 	{
-		if (pipe(data->pipes[count]) == -1)
+		if (pipe(data->pipe_ends[count]) == -1)
 		{
 			perror(NULL);
 			return (FAIL);
@@ -41,4 +69,5 @@ int	ft_start_exec(t_data *data)
 		return (FAIL);
 	else
 		ft_fork(data);
+	return (SUCCESS);
 }

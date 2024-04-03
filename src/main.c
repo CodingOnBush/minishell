@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 15:02:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:46:11 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(int ac, char **av, char **env)
 		if (ft_finish_init_data(data) == SUCCESS)
 			ft_start_exec(data);
 		unlink_and_free(data, data->hd_files);
-		//supprimer les fichiers des hd dans l'exec a la fin ou bien la
 		ft_free_lexing_and_parsing(data);
 		free(data->line);
 	}
