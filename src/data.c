@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 14:42:44 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 15:17:21 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 	data->token_list = NULL;
 	data->fd_hd = NULL;
 	data->hd_files = NULL;
+	data->cmd_nb = 0;
 	ft_setup_signals(data);
 	data->path_list = ft_split(getenv("PATH"), ':');
 	data->step = 0;

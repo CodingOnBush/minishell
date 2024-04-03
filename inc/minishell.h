@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 15:09:33 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 15:17:02 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include "parser.h"
 
 /*		EXEC		*/
-void	ft_start_exec(t_data *data);
+int		ft_start_exec(t_data *data);
 
 /*		FREE			*/
 void 	ft_free_path(char **path);
@@ -71,5 +71,11 @@ char	*ft_super_strjoin(char *new_str, char *toadd);
 int		ft_isspace(char c);
 int		ft_isquote(char c);
 int		ft_is_in_var(char c);
+
+/*		EXEC_UTILS		*/
+void					ft_close_pipes(t_data *data);
+int						get_cmd_nb(t_cmd *cmd_list);
+int						alloc_ids(t_data *data);
+int						alloc_pipes(t_data *data);
 
 #endif

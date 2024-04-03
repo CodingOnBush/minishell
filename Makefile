@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/03 15:04:46 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/03 15:18:08 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,8 @@ CYAN 		:= \033[0;96m
 SRC_FILES 	:=	main utils free token token_check signals \
 				parser args infile outfile data remove check \
 				errors exec builtins expand token_utils hd_count \
-				heredocs expand_utils cmd_utils utils_libft
+				heredocs expand_utils cmd_utils utils_libft \
+				exec_utils
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 

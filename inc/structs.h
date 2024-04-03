@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 14:34:45 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 15:16:09 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,12 @@ typedef struct s_data
 	char				**env;
 	t_cmd				*cmd_list;
 	t_token				*token_list;
+	int					cmd_nb;
 	int					hdnum;
 	int					*fd_hd;
 	char				**hd_files;
+	int					**ids;
+	int					**pipe_ends;
 	t_token				*token_split;
 	char				**path_list;
 	int					step;
