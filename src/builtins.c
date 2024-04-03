@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 19:32:32 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 22:59:43 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,23 +87,47 @@ int	ft_change_dir(t_cmd *cmd)
 	return (SUCCESS);
 }
 
+static t_arg	*ft_find_n_option(t_arg *arg_list)
+{
+	t_arg	*cur;
+	t_arg	*last;
+	char	*str;
+
+	cur = arg_list->next;
+	last = NULL;
+	while (cur)
+	{
+		str = cur->value;
+		if (!str || !str[0] || str[0] != '-')
+			return (last);
+		str++;
+		while (str && *str != '\0' && *str == 'n')
+			str++;
+		if (*str == '\0')
+			last = cur;
+		else
+			return (last);
+		cur = cur->next;
+	}
+	return (NULL);
+}
+
 int	ft_echo(t_cmd *cmd)
 {
 	t_arg	*cur;
 	int		add_newline;
 	char	*str;
+	t_arg	*option;
 	
 	add_newline = YES;
-	cur = cmd->arg_list;
-	if (cur->next && cur->next->value)
+	option = ft_find_n_option(cmd->arg_list);
+	if (option != NULL)
 	{
-		str = cur->next->value;
-		if (str[0] == '-' && str[1] == 'n' && str[2] == '\0')
-		{
-			add_newline = NO;
-			cur = cur->next->next;
-		}
+		add_newline = NO;
+		cur = option->next;
 	}
+	else
+		cur = cmd->arg_list->next;
 	while (cur != NULL)
 	{
 		str = cur->value;

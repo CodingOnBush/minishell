@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:33:06 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 14:33:47 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 23:08:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define DEFINES_H
 
 # define PROMPT "\001\e[1;38;5;141m\002minishell\001\e[1;33m\002 > \001\033[0m\002"
-# define MINISPELL "\001\e[1;38;5;141m\002minispell\001\e[1;33m\002 > \001\033[0m\002"
+# define MINISPELL "\001\e[1;38;5;141m\002[minispell]\001\e[1;33m\002 > \001\033[0m\002"
 
 # define YES 1
 # define NO 0

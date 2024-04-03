@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/03 18:41:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 23:06:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ void	ft_free_exec(t_data *data)
 {
 	int	i;
 
+	i = 0;
 	if (data->ids)
 	{
 		free(data->ids);
@@ -174,7 +175,6 @@ void	ft_free_exec(t_data *data)
 	}
 	if (data->pipe_ends)
 	{
-		i = 0;
 		while (i < data->cmd_nb - 1)
 		{
 			if (data->pipe_ends[i])
