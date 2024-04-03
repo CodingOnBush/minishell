@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 17:06:26 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 13:09:47 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,22 @@ int	ft_finish_init_data(t_data *data)
 		return (printf("parse tokens failed !\n"), FAIL);
 	ft_expand(data);
 	ft_print_token_list(data->token_list);
-	// if (ft_check_double_pipe(data->token_list) == FAIL)
-	// 	return (ft_error_messages(DOUBLE_PIPE_ERROR), ft_free_tokens(&data->token_list), FAIL);
-	// if (check_token_list(&data->token_list) == FAIL)
-	// 	return (ft_free_tokens(&data->token_list), FAIL);
-	// data->cmd_list = ft_create_cmd_list(data->token_list);
-	// if (!data->cmd_list)
-	// 	return (FAIL);
-	// ft_print_token_list(data->token_list);
-	// if (do_heredocs(data) == FAIL)
-	// {
-	// 	if (is_error_to_print(data->token_list) == NO)
-	// 		pipe_at_end_error_check(data->token_list);
-	// 	return (FAIL);
-	// }
-	// if (pipe_at_end_error_check(data->token_list) == FAIL)
-	// 	return (FAIL);
-	// if (is_error_to_print(data->token_list) == YES)
-	// 	return (FAIL);
+	if (ft_check_double_pipe(data->token_list) == FAIL)
+		return (ft_error_messages(DOUBLE_PIPE_ERROR), ft_free_tokens(&data->token_list), FAIL);
+	if (check_token_list(&data->token_list) == FAIL)
+		return (ft_free_tokens(&data->token_list), FAIL);
+	data->cmd_list = ft_create_cmd_list(data->token_list);
+	if (!data->cmd_list)
+		return (FAIL);
+	if (do_heredocs(data) == FAIL)
+	{
+		if (is_error_to_print(data->token_list) == NO)
+			pipe_at_end_error_check(data->token_list);
+		return (FAIL);
+	}
+	if (pipe_at_end_error_check(data->token_list) == FAIL)
+		return (FAIL);
+	if (is_error_to_print(data->token_list) == YES)
+		return (FAIL);
 	return (SUCCESS);
 }

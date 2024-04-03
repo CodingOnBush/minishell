@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 17:42:52 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 13:06:47 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,24 @@ char	*ft_super_strjoin(char *extended_str, char *toadd)
 	if (!join)
 		return (NULL);
 	if (extended_str)
-	{
-		i = -1;
-		while (extended_str[++i])
-			join[i] = extended_str[i];
-	}
+		ft_strlcpy(join, extended_str, extended_len + 1);
+	// {
+	// 	i = -1;
+	// 	while (extended_str[++i])
+	// 		join[i] = extended_str[i];
+	// }
 	if (toadd)
-	{
-		i = -1;
-		while (toadd[++i])
-			join[extended_len + i] = toadd[i];
-	}
+		ft_strlcpy(join + extended_len, toadd, toadd_len + 1);
+	// {
+	// 	i = -1;
+	// 	while (toadd[++i])
+	// 		join[extended_len + i] = toadd[i];
+	// }
 	join[new_len] = '\0';
+	if (extended_str)
+		free(extended_str);
+	if (toadd)
+		free(toadd);
 	return (join);
 }
 
@@ -77,7 +83,7 @@ char	*ft_get_expand(char *var_name)
 	var_content = getenv(var_name);
 	if (!var_content)
 		return (NULL);
-	return (var_content);
+	return (ft_strdup(var_content));
 }
 
 char *ft_grab_str(char *str, char *limset)
@@ -135,7 +141,7 @@ char	*ft_get_next_str_in_double_quotes(char *str)
 			toadd = ft_get_expand(var_name);
 			free(var_name);
 			tmp = ft_super_strjoin(new_str, toadd);
-			free(new_str);
+			// free(new_str);
 			// free(toadd);
 			new_str = tmp;
 		}
@@ -144,8 +150,8 @@ char	*ft_get_next_str_in_double_quotes(char *str)
 			toadd = ft_grab_str(str, "$\"");
 			str += ft_strlen(toadd);
 			tmp = ft_super_strjoin(new_str, toadd);
-			free(toadd);
-			free(new_str);
+			// free(toadd);
+			// free(new_str);
 			new_str = tmp;
 		}
 	}
@@ -182,15 +188,18 @@ char	*ft_get_next_str(char *str)
 	{
 		grab = ft_grab_str(str + 1, "\"");
 		res = ft_get_next_str_in_double_quotes(grab);
-		return (free(grab), res);
+		free(grab);
+		return (res);
 	}
 	if (str && *str == '$' && (str + 1))
 	{
 		grab = ft_grab_var_name(str);
 		res = ft_get_expand(grab);
-		return (free(grab), res);
+		free(grab);
+		return (res);
 	}
-	return (ft_grab_str(str, " \t\n\r\v\f$\'\""));
+	grab = ft_grab_str(str, " \t\n\r\v\f$\'\"");
+	return (grab);
 }
 
 char	*ft_get_expanded_str(char *str)
@@ -204,10 +213,8 @@ char	*ft_get_expanded_str(char *str)
 	while (*str != '\0')
 	{
 		next_str = ft_get_next_str(str);
-		tmp = ft_super_strjoin(res, next_str);
-		free(res);
 		str += ft_get_next_step(str, next_str);
-		free(next_str);
+		tmp = ft_super_strjoin(res, next_str);
 		res = tmp;
 	}
 	return (res);
