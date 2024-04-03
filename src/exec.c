@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/03 17:56:22 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 19:26:54 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	exec_command(t_data *data, int process, t_cmd *cmd_to_exec)
 	dup2(fd_in, 0);
 	dup2(fd_out, 1);
 	ft_close_pipes(data);
-	if (ft_isbuiltin(cmd_to_exec->arg_list->value) == YES)
+	if (cmd_to_exec->arg_list && ft_isbuiltin(cmd_to_exec->arg_list->value) == YES)
 	{
 		if (ft_exec_builtin(data, cmd_to_exec) == FAIL)
 			perror(cmd_to_exec->arg_list->value);
@@ -116,10 +116,41 @@ int	do_pipes(t_data *data)
 	return (SUCCESS);
 }
 
+static int	is_error_to_print(t_token *list)
+{
+	t_token	*cur_token;
+
+	cur_token = list;
+	while (cur_token != NULL)
+	{
+		if (cur_token->error == true)
+		{
+			ft_error_messages(cur_token->err_type);
+			return (YES);
+		}
+		cur_token = cur_token->next;
+	}
+	return (NO);
+}
+
 int	ft_start_exec(t_data *data)
 {
+	if (do_heredocs(data) == FAIL)
+	{
+		if (is_error_to_print(data->token_list) == NO)
+			pipe_at_end_error_check(data->token_list);
+		return (FAIL);
+	}
+	if (pipe_at_end_error_check(data->token_list) == FAIL)
+		return (FAIL);
+	if (is_error_to_print(data->token_list) == YES)
+		return (FAIL);
 	data->cmd_nb = get_cmd_nb(data->cmd_list);
-	if (do_pipes(data) == FAIL)
+	if (data->cmd_nb == 1)
+	{
+		exec_command(data, 0, data->cmd_list);
+	}
+	else if (do_pipes(data) == FAIL)
 		return (FAIL);
 	else
 		ft_fork(data);

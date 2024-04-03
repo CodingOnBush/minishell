@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:13:28 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/03 17:25:22 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:34:02 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_isbuiltin(char *cmd)
 	int	len;
 
 	len = ft_strlen(cmd);
+	if (len == 0)
+		return (NO);
 	if (ft_strncmp(cmd, "echo", len) == 0)
 		return (YES);
 	if (ft_strncmp(cmd, "cd", len) == 0)

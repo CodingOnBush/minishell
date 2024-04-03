@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 18:04:04 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:56:21 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	wait_for_children(t_data *data)
 	int	i;
 
 	i = 0;
+	if (data->cmd_nb == 1 || data->cmd_nb == 0)
+		return ;
 	while (i < data->cmd_nb)
 	{
 		waitpid(data->ids[i], &status, 0);
@@ -42,7 +44,7 @@ int	main(int ac, char **av, char **env)
 		wait_for_children(data);
 		ft_free_lexing_and_parsing(data);
 		ft_free_exec(data);
-		unlink_and_free(data, data->hd_files);
+		unlink_and_free(data);
 		free(data->line);
 	}
 	ft_free_all(data);

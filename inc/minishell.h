@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 17:55:45 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 19:11:09 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void 	ft_free_outfile_list(t_outfile **outfile_list);
 void 	ft_free_tokens(t_token **list);
 void 	ft_free_cmds(t_cmd **cmd_list);
 void 	ft_free_lexing_and_parsing(t_data *data);
-void 	unlink_and_free(t_data *data, char **hd_files);
+void 	unlink_and_free(t_data *data);
 void	ft_free_exec(t_data *data);
 void	ft_free_all(t_data *data);
 
@@ -58,7 +58,9 @@ int 	ft_get_pipe_count(t_token *token_list);
 /*		BUILTINS	*/
 char 	*ft_getcwd(void);
 int		ft_exec_builtin(t_data *data, t_cmd *cmd);
-void	ft_pwd(t_arg *arg_list);
+int		ft_pwd(t_arg *arg_list);
+int		ft_change_dir(t_cmd *cmd);
+int		ft_echo(t_cmd *cmd);
 
 /*		BUILTINS_UTILS	*/
 int		ft_isbuiltin(char *cmd);

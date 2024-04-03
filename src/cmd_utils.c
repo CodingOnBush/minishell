@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:53:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 17:59:31 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:28:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,16 @@ t_cmd	*ft_create_new_cmd(t_token *cur_token, int pos)
 	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
+	ft_memset(new_cmd, 0, sizeof(t_cmd));
 	new_cmd->token_list = ft_extract_token(cur_token);
 	if (!new_cmd->token_list)
 		return (free(new_cmd), NULL);
 	new_cmd->arg_list = NULL;
-	new_cmd->pos = pos;
 	new_cmd->infile_list = NULL;
 	new_cmd->outfile_list = NULL;
+	new_cmd->pos = pos;
+	new_cmd->arg = NULL;
+	new_cmd->cmd_path = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);
 }

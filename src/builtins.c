@@ -3,27 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 17:37:11 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 19:32:32 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_pwd(t_arg *arg_list)
+static void	ft_print_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	if (!env)
+		return ;
+	while (env[i] != NULL)
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+}
+
+int	ft_pwd(t_arg *arg_list)
 {
 	char	*cwd;
 
 	cwd = ft_getcwd();
 	if (cwd == NULL)
 	{
-		perror("getcwd");
-		return ;
+		perror(arg_list->value);
+		return (FAIL);
 	}
 	printf("%s\n", cwd);
 	free(cwd);
+	return (SUCCESS);
 }
 
 int	ft_exec_builtin(t_data *data, t_cmd *cmd)
@@ -32,9 +47,16 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 
 	len = ft_strlen(cmd->arg_list->value);
 	if (ft_strncmp(cmd->arg_list->value, "pwd", len) == 0)
-		ft_pwd(cmd->arg_list->next);
-	else
-		printf("to be continued...\n");
+		return (ft_pwd(cmd->arg_list->next));
+	if (ft_strncmp(cmd->arg_list->value, "cd", len) == 0)
+		return (ft_change_dir(cmd));
+	if (ft_strncmp(cmd->arg_list->value, "echo", len) == 0)
+		return (ft_echo(cmd));
+	if (ft_strncmp(cmd->arg_list->value, "env", len) == 0)
+	{
+		ft_print_env(data->env);
+		return (SUCCESS);
+	}
 	return (SUCCESS);
 }
 
@@ -49,31 +71,48 @@ char	*ft_getcwd(void)
 	return (cwd);
 }
 
-void	ft_print_env(char **env)
+int	ft_change_dir(t_cmd *cmd)
 {
-	int	i;
+	char	*path;
 
-	i = 0;
-	while (env[i] != NULL)
+	if (!cmd || !cmd->arg_list || !cmd->arg_list->next)
+		return (FAIL);
+	path = cmd->arg_list->next->value;
+	// check if path match with our conditions
+	if (chdir(path) == -1)
 	{
-		printf("%s\n", env[i]);
-		i++;
+		perror(path);
+		return (FAIL);
 	}
+	return (SUCCESS);
 }
 
-int	ft_change_dir(char *path)
+int	ft_echo(t_cmd *cmd)
 {
-	// char	*new_path;
-
-	// if (path == NULL)
-	// {
-	// 	new_path = ft_getenv("HOME");
-	// 	if (new_path == NULL)
-	// 	{
-	// 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-	// 		return (FAIL);
-	// 	}
-	// 	return (chdir(new_path));
-	// }
+	t_arg	*cur;
+	int		add_newline;
+	char	*str;
+	
+	add_newline = YES;
+	cur = cmd->arg_list;
+	if (cur->next && cur->next->value)
+	{
+		str = cur->next->value;
+		if (str[0] == '-' && str[1] == 'n' && str[2] == '\0')
+		{
+			add_newline = NO;
+			cur = cur->next->next;
+		}
+	}
+	while (cur != NULL)
+	{
+		str = cur->value;
+		printf("%s", str);
+		if (cur->next != NULL)
+			printf(" ");
+		cur = cur->next;
+	}
+	if (add_newline == YES)
+		printf("\n");
 	return (SUCCESS);
 }
