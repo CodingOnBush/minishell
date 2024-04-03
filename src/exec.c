@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/03 19:26:54 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 23:20:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ void	exec_command(t_data *data, int process, t_cmd *cmd_to_exec)
 	ft_close_pipes(data);
 	if (cmd_to_exec->arg_list && ft_isbuiltin(cmd_to_exec->arg_list->value) == YES)
 	{
-		if (ft_exec_builtin(data, cmd_to_exec) == FAIL)
-			perror(cmd_to_exec->arg_list->value);
+		ft_exec_builtin(data, cmd_to_exec);
+		// if (ft_exec_builtin(data, cmd_to_exec) == FAIL)
+		// 	printf("error\n");
 		// else
 			// builtin success
 	}

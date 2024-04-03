@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 22:59:43 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 23:25:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,19 @@ int	ft_change_dir(t_cmd *cmd)
 {
 	char	*path;
 
+	path = NULL;
 	if (!cmd || !cmd->arg_list || !cmd->arg_list->next)
 		return (FAIL);
 	path = cmd->arg_list->next->value;
 	// check if path match with our conditions
+	if (ft_get_arg_nbr(cmd->arg_list) > 2)
+	{
+		printf("minishell: cd: too many arguments\n");
+		return (FAIL);
+	}
 	if (chdir(path) == -1)
 	{
-		perror(path);
+		printf("minishell: cd: %s: No such file or directory\n", path);
 		return (FAIL);
 	}
 	return (SUCCESS);
@@ -98,7 +104,7 @@ static t_arg	*ft_find_n_option(t_arg *arg_list)
 	while (cur)
 	{
 		str = cur->value;
-		if (!str || !str[0] || str[0] != '-')
+		if (!str || !str[0] || !str[1] || (str[0] != '-' && str[1] != 'n'))
 			return (last);
 		str++;
 		while (str && *str != '\0' && *str == 'n')
