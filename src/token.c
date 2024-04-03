@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 14:52:09 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:47:14 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,6 @@ t_token	*ft_create_new_token(char *new_str, int type, int pos, bool error)
 	new_token->pipe_at_end = false;
 	new_token->next = NULL;
 	return (new_token);
-}
-
-void	ft_addlast_token(t_token **token_list, t_token *new_token)
-{
-	t_token	*lst;
-
-	if (!new_token)
-		return ;
-	if (*token_list == NULL)
-		*token_list = new_token;
-	else
-	{
-		lst = *token_list;
-		while (lst->next != NULL)
-			lst = lst->next;
-		lst->next = new_token;
-	}
 }
 
 static int	ft_get_token_size(char *line)

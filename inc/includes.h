@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   includes.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 15:38:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 13:26:33 by momrane          ###   ########.fr       */
+/*   Created: 2024/04/03 14:32:27 by momrane           #+#    #+#             */
+/*   Updated: 2024/04/03 14:32:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#ifndef INCLUDES_H
+# define INCLUDES_H
 
-void	ft_start_exec(t_data *data)
-{
-	(void)data;
-}
+# include "../libft/inc/libft.h"
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+
+#endif

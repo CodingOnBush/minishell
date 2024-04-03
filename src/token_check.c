@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 17:00:41 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 14:45:03 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	is_error(t_token *list, t_token *token)
 	return (NO);
 }
 
-t_token	*token_before_last(t_token *list)
+static t_token	*token_before_last(t_token *list)
 {
 	t_token	*cur_token;
 

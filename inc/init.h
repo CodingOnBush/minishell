@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   init.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 15:38:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 13:26:33 by momrane          ###   ########.fr       */
+/*   Created: 2024/04/03 14:38:17 by momrane           #+#    #+#             */
+/*   Updated: 2024/04/03 14:49:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#ifndef INIT_H
+# define INIT_H
 
-void	ft_start_exec(t_data *data)
-{
-	(void)data;
-}
+/*		DATA		*/
+t_data	*ft_create_data(int ac, char **av, char **env);
+int		ft_finish_init_data(t_data *data);
+
+/*		SIGNALS		*/
+void	ft_setup_signals(t_data *data);
+
+#endif

@@ -6,122 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/03 13:06:47 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 15:09:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_is_in_var(char c)
-{
-	if (ft_isalnum(c) || c == '_')
-		return (YES);
-	return (NO);
-}
-
-char	*ft_remove_quotes(char *str)
-{
-	char	*new_str;
-	int		i;
-
-	if (!str)
-		return (NULL);
-	i = 0;
-	if (*str == SINGLE_QUOTE || *str == DOUBLE_QUOTES)
-		i++;
-	new_str = ft_substr(str, i, ft_strlen(str) - 2 * i);
-	return (new_str);
-}
-
-char	*ft_super_strjoin(char *extended_str, char *toadd)
-{
-	char	*join;
-	int		new_len;
-	int		extended_len;
-	int		toadd_len;
-	int		i;
-
-	if (extended_str == NULL && toadd == NULL)
-		return (NULL);
-	i = 0;
-	extended_len = ft_strlen(extended_str);
-	toadd_len = ft_strlen(toadd);
-	new_len = extended_len + toadd_len;
-	join = malloc(sizeof(char) * (new_len + 1));
-	if (!join)
-		return (NULL);
-	if (extended_str)
-		ft_strlcpy(join, extended_str, extended_len + 1);
-	// {
-	// 	i = -1;
-	// 	while (extended_str[++i])
-	// 		join[i] = extended_str[i];
-	// }
-	if (toadd)
-		ft_strlcpy(join + extended_len, toadd, toadd_len + 1);
-	// {
-	// 	i = -1;
-	// 	while (toadd[++i])
-	// 		join[extended_len + i] = toadd[i];
-	// }
-	join[new_len] = '\0';
-	if (extended_str)
-		free(extended_str);
-	if (toadd)
-		free(toadd);
-	return (join);
-}
-
-char	*ft_get_expand(char *var_name)
-{
-	char	*var_content;
-
-	if (!var_name)
-		return (ft_strdup("$"));
-	// if (*var_name == '?') // 
-	// 	return (ft_itoa(g_exit_status));
-	var_content = getenv(var_name);
-	if (!var_content)
-		return (NULL);
-	return (ft_strdup(var_content));
-}
-
-char *ft_grab_str(char *str, char *limset)
-{
-	char	*grab;
-	int		i;
-
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (str[i] && ft_strchr(limset, str[i]) == NULL)
-		i++;
-	if (i == 0)
-		return (NULL);
-	grab = ft_substr(str, 0, i);
-	return (grab);
-}
-
-char	*ft_grab_var_name(char *str)
-{
-	int		i;
-	char	*var_name;
-
-	if (!str || *str != '$')
-		return (NULL);
-	str++;
-	if (str && *str == '?')
-		return (ft_strdup("?"));
-	i = 0;
-	while (str[i] && ft_is_in_var(str[i]))
-		i++;
-	if (i == 0)
-		return (NULL);
-	var_name = ft_substr(str, 0, i);
-	return (var_name);
-}
-
-char	*ft_get_next_str_in_double_quotes(char *str)
+static char	*ft_get_next_str_in_double_quotes(char *str)
 {
 	char	*var_name;
 	char	*new_str;
@@ -129,36 +20,28 @@ char	*ft_get_next_str_in_double_quotes(char *str)
 	char	*tmp;
 	
 	new_str = NULL;
-	if (!str)
-		return (NULL);
 	toadd = NULL;
-	while (*str != '\0')
+	while (str != NULL && *str != '\0')
 	{
-		if (str && *str == '$')// && (str + 1)) // est-ce qu'on garde cette condition ?
+		if (str && *str == '$')
 		{
 			var_name = ft_grab_var_name(str);
-			str += ft_strlen(var_name) + 1;
 			toadd = ft_get_expand(var_name);
+			str += ft_strlen(var_name) + 1;
 			free(var_name);
-			tmp = ft_super_strjoin(new_str, toadd);
-			// free(new_str);
-			// free(toadd);
-			new_str = tmp;
 		}
 		else
 		{
 			toadd = ft_grab_str(str, "$\"");
 			str += ft_strlen(toadd);
-			tmp = ft_super_strjoin(new_str, toadd);
-			// free(toadd);
-			// free(new_str);
-			new_str = tmp;
 		}
+		tmp = ft_super_strjoin(new_str, toadd);
+		new_str = tmp;
 	}
 	return (new_str);
 }
 
-int	ft_get_next_step(char *str, char *new_str)
+static int	ft_get_next_step(char *str, char *new_str)
 {
 	char	*grab;
 	int		res;
@@ -177,7 +60,7 @@ int	ft_get_next_step(char *str, char *new_str)
 	return (ft_strlen(new_str));
 }
 
-char	*ft_get_next_str(char *str)
+static char	*ft_get_next_str(char *str)
 {
 	char	*grab;
 	char	*res;
@@ -202,7 +85,7 @@ char	*ft_get_next_str(char *str)
 	return (grab);
 }
 
-char	*ft_get_expanded_str(char *str)
+static char	*ft_get_expanded_str(char *str)
 {
 	char	*res;
 	char	*tmp;
@@ -220,16 +103,14 @@ char	*ft_get_expanded_str(char *str)
 	return (res);
 }
 
-int	ft_expand(t_data *data)
+void	ft_expand(t_token **token_list)
 {
 	t_token	*token;
 	char	*new_str;
 
-	token = data->token_list;
-	if (token == NULL)
-		return (SUCCESS);
 	new_str = NULL;
-	while (token)
+	token = *token_list;
+	while (token != NULL)
 	{
 		if (token->type == WORD)
 		{
@@ -240,13 +121,9 @@ int	ft_expand(t_data *data)
 		else if (token->type == LIM)
 		{
 			new_str = ft_remove_quotes(token->str);
-			if (!new_str)
-				return (FAIL);
 			free(token->str);
 			token->str = new_str;
 		}
 		token = token->next;
 	}
-	// ft_remove_null_token(data);
-	return (SUCCESS);
 }

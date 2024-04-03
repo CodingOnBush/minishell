@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:41:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/02 17:04:37 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/03 14:55:19 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,41 @@ void	ft_detect_delimiter(t_token **token_list)
 	}
 }
 
-void	ft_remove_null_token(t_data *data)
+t_token		*ft_findlast_token(t_token *lst)
 {
-	t_token	*token;
-	t_token	*tmp;
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
 
-	token = data->token_list;
-	while (token)
+void	ft_addlast_token(t_token **token_list, t_token *new_token)
+{
+	t_token	*lst;
+
+	if (!new_token)
+		return ;
+	if (*token_list == NULL)
+		*token_list = new_token;
+	else
 	{
-		if (token->str == NULL)
-		{
-			tmp = token->next;
-			free(token);
-			token = tmp;
-		}
-		else
-			token = token->next;
+		lst = *token_list;
+		while (lst->next != NULL)
+			lst = lst->next;
+		lst->next = new_token;
 	}
+}
+
+t_token	*ft_find_next_pipe(t_token *cur_token)
+{
+	if (cur_token == NULL)
+		return (NULL);
+	while (cur_token != NULL)
+	{
+		if (cur_token->type == PIPE)
+			return (cur_token);
+		cur_token = cur_token->next;
+	}
+	return (NULL);
 }
