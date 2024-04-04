@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/04 15:26:46 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/04 16:17:06 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@
 #include "lexer.h"
 #include "parser.h"
 
+/*		SINGLE EXEC		*/
+int		ft_single_exec(t_data *data, t_cmd *cmd);
+void	exec_single_command(t_data *data);
+
 /*		EXEC		*/
+void	exec_single_command(t_data *data);
 int		ft_start_exec(t_data *data);
 
 /*		FREE			*/
@@ -83,9 +88,15 @@ int		ft_isquote(char c);
 int		ft_is_in_var(char c);
 
 /*		EXEC_UTILS		*/
-void					ft_close_pipes(t_data *data);
-int						get_cmd_nb(t_cmd *cmd_list);
-int						alloc_ids(t_data *data);
-int						alloc_pipes(t_data *data);
+void	ft_close_pipes(t_data *data);
+int		get_cmd_nb(t_cmd *cmd_list);
+int		alloc_ids(t_data *data);
+int		alloc_pipes(t_data *data);
+void	set_cmd_pos(t_cmd *cmd_list);
+int		is_infile(t_cmd *cmd);
+char	*get_missing_file(t_infile *inf_list);
+char	*get_last_infile(t_infile *inf_list);
+char	*get_last_outfile(t_outfile *out_list);
+char	*get_cmd_path(t_data *data, t_cmd *cmd);
 
 #endif
