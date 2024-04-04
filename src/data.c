@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 23:07:09 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/04 16:08:31 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 	data->pipe_ends = NULL;
 	ft_setup_signals(data);
 	data->path_list = ft_split(getenv("PATH"), ':');
+	data->join_path = NULL;
 	data->step = 0;
 	return (data);
 }

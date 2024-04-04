@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 18:56:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/04 15:11:13 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	wait_for_children(t_data *data)
 	int	i;
 
 	i = 0;
-	if (data->cmd_nb == 1 || data->cmd_nb == 0)
+	if (!data || data->cmd_nb == 1 || data->cmd_nb == 0)
 		return ;
 	while (i < data->cmd_nb)
 	{

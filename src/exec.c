@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/04 12:18:28 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:14:36 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ void	exec_command(t_data *data, int process, t_cmd *cmd_to_exec)
 {
 	int		count;
 	int		fd_in;
-	int		fd_out;
+	// int		fd_out;
 	char 	*infile;
 
 	count = 0;
+	infile = NULL;
 	if (is_infile(cmd_to_exec) == YES)
 	{
-		infile = all_files_exist(cmd_to_exec->infile_list);
+		infile = get_missing_file(cmd_to_exec->infile_list);
 		if (infile == NULL)
 		{
 			infile = get_last_infile(cmd_to_exec->infile_list);
@@ -30,22 +31,26 @@ void	exec_command(t_data *data, int process, t_cmd *cmd_to_exec)
 		}
 		else
 			return (perror(infile), ft_free_exec(data));
-			
 	}
-	// if (process == 0)
-	// 	fd_in = STDIN_FILENO;
-	// else
-	// 	fd_in = data->pipe_ends[process - 1][0];
+	else
+	{
+		if (process == 0)
+			fd_in = STDIN_FILENO;
+		else
+			fd_in = data->pipe_ends[process - 1][0];
+	}
 	// if (process == data->cmd_nb - 1)
 	// 	fd_out = STDOUT_FILENO;
 	// else
 	// 	fd_out = data->pipe_ends[process][1];
-	dup2(fd_in, 0);
-	dup2(fd_out, 1);
+	if (data->cmd_nb > 1)
+		dup2(fd_in, 0);
+	// dup2(fd_out, 1);
 	close (fd_in);
 	// ft_close_pipes(data);
 	if (cmd_to_exec->arg_list && ft_isbuiltin(cmd_to_exec->arg_list->value) == YES)
 	{
+		printf("builtin\n");
 		ft_exec_builtin(data, cmd_to_exec);
 		// if (ft_exec_builtin(data, cmd_to_exec) == FAIL)
 		// 	printf("error\n");
@@ -54,6 +59,8 @@ void	exec_command(t_data *data, int process, t_cmd *cmd_to_exec)
 	}
 	else	
 	{
+		printf("execve\n");
+		printf("infile : %s\n", infile);
 		// ft_exec(data, cmd_to_exec);
 		// execve(/*la commande avec le chemin*/, /*le tableau arg[]*/, data->env);
 		// perror("execve");
@@ -90,7 +97,10 @@ int	ft_fork(t_data *data)
 			return (perror("Forking failed"), FAIL);
 		else if (data->ids[process] == 0)
 		{
-			child_process(data, process);
+			if (data->cmd_nb == 1)
+				exec_single_command(data);
+			else
+				child_process(data, process);
 			ft_free_all(data);
 			printf("child process %d\n", process);
 			exit(0);
@@ -164,10 +174,13 @@ int	ft_start_exec(t_data *data)
 		return (FAIL);
 	data->cmd_nb = get_cmd_nb(data->cmd_list);
 	if (data->cmd_nb == 1)
-		exec_command(data, 0, data->cmd_list);
-	else if (do_pipes(data) == FAIL)
-		return (FAIL);
-	else
+	{
 		ft_fork(data);
+		
+	}
+	// else if (do_pipes(data) == FAIL)
+	// 	return (FAIL);
+	// else
+	// 	ft_fork(data);
 	return (SUCCESS);
 }

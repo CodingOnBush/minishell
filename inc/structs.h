@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 17:12:17 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:08:00 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_data
 	int					**pipe_ends;
 	t_token				*token_split;
 	char				**path_list;
+	char				*join_path;
 	int					step;
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
