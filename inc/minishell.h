@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 19:11:09 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/04 15:26:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int 	ft_isoperator(char *str);
 t_token	*ft_findlast_token(t_token *lst);
 char 	*ft_type_to_str(int type);
 int 	ft_get_pipe_count(t_token *token_list);
+char	**ft_get_args_array(t_arg *arg_list);
 
 /*		BUILTINS	*/
 char 	*ft_getcwd(void);

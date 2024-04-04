@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 14:47:24 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/04 15:26:48 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,30 @@ int	ft_get_pipe_count(t_token *token_list)
 	return (count);
 }
 
-/* char	*ft_get_cmd_path(char *cmd)
+char	**ft_get_args_array(t_arg *arg_list)
 {
-	
-} */
+	char	**args;
+	t_arg	*tmp;
+	int		len;
+
+	if (!arg_list)
+		return (NULL);
+	tmp = arg_list;
+	while (tmp)
+	{
+		len++;
+		tmp = tmp->next;
+	}
+	args = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!args)
+		return (NULL);
+	len = 0;
+	while (arg_list)
+	{
+		args[len] = arg_list->value;
+		len++;
+		arg_list = arg_list->next;
+	}
+	args[len] = NULL;
+	return (args);	
+}

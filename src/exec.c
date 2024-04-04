@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/03 23:20:57 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/04 15:53:03 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,5 @@ int	ft_start_exec(t_data *data)
 		return (FAIL);
 	else
 		ft_fork(data);
-	
 	return (SUCCESS);
 }
