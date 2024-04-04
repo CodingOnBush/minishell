@@ -6,7 +6,7 @@
 #    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/03 17:16:53 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/04/04 16:24:40 by vvaudain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRC_FILES 	:=	main utils free token token_check signals \
 				parser args infile outfile data remove check \
 				errors exec builtins expand token_utils hd_count \
 				heredocs expand_utils cmd_utils utils_libft \
-				exec_utils builtin_utils
+				exec_utils builtin_utils single_cmd
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 

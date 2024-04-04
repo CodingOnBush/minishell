@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/04 16:17:48 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:39:24 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,24 @@ static int	is_error_to_print(t_token *list)
 
 int	ft_start_exec(t_data *data)
 {
+	// int	i;
+	// t_cmd	*cmd;
+
+	// cmd = data->cmd_list;
+	// while (cmd)
+	// {
+	// 	printf("cmd->pos = %d\n", cmd->pos);
+	// 	i = 0;
+	// 	while (cmd->args[i] != NULL)
+	// 	{
+	// 		printf("args[%d] = %s\n", i, cmd->args[i]);
+	// 		i++;
+	// 	}
+	// 	cmd = cmd->next;
+	// }
+	
+
+
 	if (do_heredocs(data) == FAIL)
 	{
 		if (is_error_to_print(data->token_list) == NO)
@@ -174,10 +192,7 @@ int	ft_start_exec(t_data *data)
 		return (FAIL);
 	data->cmd_nb = get_cmd_nb(data->cmd_list);
 	if (data->cmd_nb == 1)
-	{
 		ft_fork(data);
-		
-	}
 	// else if (do_pipes(data) == FAIL)
 	// 	return (FAIL);
 	// else

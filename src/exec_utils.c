@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/04 16:15:29 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:28:34 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ char	*get_last_outfile(t_outfile *out_list)
 }
 
 //ft_add_slash
-void	ft_add_slash(t_data *data, t_cmd *cmd)
+static void	ft_add_slash(t_data *data, t_cmd *cmd)
 {
 	char	*tmp;
 	
@@ -160,12 +160,21 @@ void	ft_add_slash(t_data *data, t_cmd *cmd)
 	if (!cmd->args[0])
 	{
 		perror("");
-		ft_free_exec(data);
-		exit(EXIT_FAILURE);
+		// ft_free_exec(data);
+		// exit(EXIT_FAILURE);
 	}
 	free(tmp);
 }
 //ft_join_path
+static void	ft_join_path(t_data *data, t_cmd *cmd, int count)
+{
+	data->join_path = ft_strjoin(data->path_list[count], cmd->args[0]);
+	if (!data->join_path)
+	{
+		ft_free_exec(data);
+		exit(EXIT_FAILURE);
+	}
+}
 
 char	*get_cmd_path(t_data *data, t_cmd *cmd)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:53:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 18:28:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/04 16:23:45 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ t_cmd	*ft_create_cmd(t_token *cur_token, int pos)
 	parse_infiles(new_cmd, cur_token);
 	parse_outfiles(new_cmd, cur_token);
 	parse_commands(new_cmd, cur_token);
+	new_cmd->args = ft_get_args_array(new_cmd->arg_list);
+	if (!new_cmd->args && new_cmd->arg_list != NULL)
+		return (NULL);
 	return (new_cmd);
 }
 
@@ -87,7 +90,7 @@ t_cmd	*ft_create_new_cmd(t_token *cur_token, int pos)
 	new_cmd->infile_list = NULL;
 	new_cmd->outfile_list = NULL;
 	new_cmd->pos = pos;
-	new_cmd->arg = NULL;
+	new_cmd->args = NULL;
 	new_cmd->cmd_path = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);

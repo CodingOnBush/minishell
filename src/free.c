@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/04 10:42:01 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:46:17 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,22 @@ void	ft_free_outfile_list(t_outfile **outfile_list)
 	*outfile_list = NULL;
 }
 
+void	ft_free_args(char ***args)
+{
+	int	i;
+
+	i = 0;
+	if (!args || !*args)
+		return ;
+	while ((*args)[i] != NULL)
+	{
+		free((*args)[i]);
+		i++;
+	}
+	free(*args);
+	*args = NULL;
+}
+
 void	ft_free_cmds(t_cmd **cmd_list)
 {
 	t_cmd	*cur_cmd;
@@ -115,6 +131,7 @@ void	ft_free_cmds(t_cmd **cmd_list)
 		ft_free_arg_list(&cur_cmd->arg_list);
 		ft_free_infile_list(&cur_cmd->infile_list);
 		ft_free_outfile_list(&cur_cmd->outfile_list);
+		free(cur_cmd->args);
 		free(cur_cmd);
 		cur_cmd = next;
 	}

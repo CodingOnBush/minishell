@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/04 16:03:09 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:36:03 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int	ft_single_exec(t_data *data, t_cmd *cmd)
 		ft_free_exec(data);
 		exit(127);
 	}
-	if (execve(path_name, cmd->args, data->env) != -1)
-		exit(0);
+	execve(path_name, cmd->args, data->env);
 	perror(path_name);
 	ft_free_exec(data);
 	free(path_name);

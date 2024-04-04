@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/04 16:08:00 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:20:15 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_cmd
 	t_infile			*infile_list;
 	t_outfile			*outfile_list;
 	int					pos;
-	char				**arg;
+	char				**args;
 	char				*cmd_path;// chemin avec la commande
 	struct s_cmd		*next;
 }						t_cmd;

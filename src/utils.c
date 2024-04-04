@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/04 15:26:48 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/04 16:42:28 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char	**ft_get_args_array(t_arg *arg_list)
 	t_arg	*tmp;
 	int		len;
 
+	len = 0;
 	if (!arg_list)
 		return (NULL);
 	tmp = arg_list;
