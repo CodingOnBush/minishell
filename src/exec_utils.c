@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/03 16:30:37 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/04 12:30:05 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,60 @@ int	alloc_pipes(t_data *data)
 		i++;
 	}
 	return (SUCCESS);
+}
+void	set_cmd_pos(t_cmd *cmd_list)
+{
+	int		pos;
+	t_cmd	*cur;
+
+	pos = 0;
+	cur = cmd_list;
+	while (cur != NULL)
+	{
+		cur->pos = pos;
+		pos++;
+		cur = cur->next;
+	}
+}
+
+int	is_infile(t_cmd *cmd)
+{
+	t_infile	*cur_inf;
+
+	cur_inf = cmd->infile_list;
+	while (cur_inf != NULL)
+	{
+		if (cur_inf->delimiter == NULL && cur_inf->filename != NULL)
+			return (YES);
+		cur_inf = cur_inf->next;
+	}
+	return (0);
+}
+char	*all_files_exist(t_infile *inf_list)
+{
+	t_infile	*cur_inf;
+
+	cur_inf = inf_list;
+	while (cur_inf != NULL)
+	{
+		if (access(cur_inf->filename, F_OK) == -1)
+			return (cur_inf->filename);
+		cur_inf = cur_inf->next;
+	}
+	return (YES);
+}
+
+char	*get_last_infile(t_infile *inf_list)
+{
+	t_infile	*cur_inf;
+	t_infile	*last_infile;
+
+	cur_inf = inf_list;
+	while (cur_inf != NULL)
+	{
+		if (cur_inf->delimiter == NULL && cur_inf->filename != NULL)
+			last_infile = cur_inf;
+		cur_inf = cur_inf->next;
+	}
+	return (last_infile->filename);
 }

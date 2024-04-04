@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 19:11:09 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/04 11:54:23 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,11 @@ int		ft_isquote(char c);
 int		ft_is_in_var(char c);
 
 /*		EXEC_UTILS		*/
-void					ft_close_pipes(t_data *data);
-int						get_cmd_nb(t_cmd *cmd_list);
-int						alloc_ids(t_data *data);
-int						alloc_pipes(t_data *data);
+void	ft_close_pipes(t_data *data);
+int		get_cmd_nb(t_cmd *cmd_list);
+int		alloc_ids(t_data *data);
+int		alloc_pipes(t_data *data);
+void	set_cmd_pos(t_cmd *cmd_list);
+int		is_infile(t_cmd *cmd);
 
 #endif

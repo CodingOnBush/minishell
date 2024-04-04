@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/03 23:06:29 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/04 10:42:01 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,7 @@ void	unlink_and_free(t_data *data)
 	while (i < data->hdnum && data->hd_files[i] != NULL)
 	{
 		if (unlink(data->hd_files[i]) == -1)
-		{
-			printf("i : %d\n", i);
 			perror("perror unlink");
-			ft_putstr_fd("Error while removing hd file\n", 2);
-		}
 		if (data->hd_files[i])
 		{
 			free(data->hd_files[i]);
