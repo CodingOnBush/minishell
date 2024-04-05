@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/05 11:42:25 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/05 17:35:22 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	ft_free_tokens(t_token **token_list)
 	while (cur_token != NULL)
 	{
 		next = cur_token->next;
-		free(cur_token->str);
+		if (cur_token->str)
+			free(cur_token->str);
 		free(cur_token);
 		cur_token = next;
 	}
