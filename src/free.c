@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/04 16:46:17 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:42:25 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,25 @@ void	ft_free_exec(t_data *data)
 	}
 }
 
+void	ft_free_pipe_ends(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->pipe_ends)
+	{
+		ft_close_pipes(data);
+		while (i < data->cmd_nb - 1)
+		{
+			if (data->pipe_ends[i])
+				free(data->pipe_ends[i]);
+			i++;
+		}
+		free(data->pipe_ends);
+		data->pipe_ends = NULL;
+	}
+}
+
 void	ft_free_all(t_data *data)
 {
 	if (data)
@@ -210,6 +229,8 @@ void	ft_free_all(t_data *data)
 			ft_free_path(data->path_list);
 		if (data->line)
 			free(data->line);
+		if (data->pipe_ends)
+			ft_free_pipe_ends(data);
 		free(data);
 	}
 }

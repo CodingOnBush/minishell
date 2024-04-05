@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/04 16:39:24 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:07:30 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,15 @@ void	exec_command(t_data *data, int process, t_cmd *cmd_to_exec)
 
 void	child_process(t_data *data, int process)
 {
-	t_cmd	*cmd_to_exec;
+	(void)data;
+	(void)process;
+	printf("I am in a the child process function\n");
+	// t_cmd	*cmd_to_exec;
 
-	cmd_to_exec = data->cmd_list;
-	while (cmd_to_exec && process > cmd_to_exec->pos)
-		cmd_to_exec = cmd_to_exec->next;
-	exec_command(data, process, cmd_to_exec);
+	// cmd_to_exec = data->cmd_list;
+	// while (cmd_to_exec && process > cmd_to_exec->pos)
+	// 	cmd_to_exec = cmd_to_exec->next;
+	// exec_command(data, process, cmd_to_exec);
 }
 
 
@@ -87,8 +90,6 @@ int	ft_fork(t_data *data)
 	int	process;
 	
 	process = -1;
-	alloc_ids(data);
-	set_cmd_pos(data->cmd_list);
 	while (++process < data->cmd_nb)
 	{
 		printf("process %d\n", process);
@@ -105,20 +106,6 @@ int	ft_fork(t_data *data)
 			printf("child process %d\n", process);
 			exit(0);
 		}
-		// process++;
-		// if (process < data->cmd_nb)
-		// {
-		// 	data->ids[process] = fork();
-		// 	if (data->ids[process] < 0)
-		// 		return (perror("Forking failed"), FAIL);
-		// 	else if (data->ids[process] == 0)
-		// 	{
-		// 		child_process(data, process);
-		// 		ft_free_all(data);
-		// 		printf("child process %d\n", process);
-		// 		exit (0);
-		// 	}
-		// }
 	}
 	ft_close_pipes(data);
 	return (SUCCESS);
@@ -179,7 +166,7 @@ int	ft_start_exec(t_data *data)
 	// }
 	
 
-
+	// heredoc part
 	if (do_heredocs(data) == FAIL)
 	{
 		if (is_error_to_print(data->token_list) == NO)
@@ -190,12 +177,16 @@ int	ft_start_exec(t_data *data)
 		return (FAIL);
 	if (pipe_at_end_error_check(data->token_list) == FAIL)
 		return (FAIL);
+	
+	// a mettre apres avoir creer la cmd list
 	data->cmd_nb = get_cmd_nb(data->cmd_list);
-	if (data->cmd_nb == 1)
-		ft_fork(data);
-	// else if (do_pipes(data) == FAIL)
-	// 	return (FAIL);
-	// else
-	// 	ft_fork(data);
+	alloc_ids(data);
+
+	if (data->cmd_nb > 1)
+	{
+		if (do_pipes(data) == FAIL)
+			return (FAIL);
+	}
+	ft_fork(data);
 	return (SUCCESS);
 }

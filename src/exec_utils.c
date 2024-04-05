@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/04 16:28:34 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/05 11:50:43 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,19 +135,27 @@ char	*get_last_infile(t_infile *inf_list)
 	return (last_infile->filename);
 }
 
-char	*get_last_outfile(t_outfile *out_list)
+t_outfile	*get_last_outfile(t_outfile *out_list)
 {
 	t_outfile	*cur;
 	int			fd;
 
 	cur = out_list;
+	if (!cur)
+		return (NULL);
 	while (cur->next != NULL)
 	{
 		if (access(cur->filename, F_OK) == -1)
-			fd = open(cur->filename, O_CREAT, 0644);
+		{
+			if (cur->append == 1)
+				fd = open(cur->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			else
+				fd = open(cur->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			close(fd);
+		}
 		cur = cur->next;
 	}
-	return (cur->filename);
+	return (cur);
 }
 
 //ft_add_slash
