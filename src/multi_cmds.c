@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/05 16:07:10 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:44:14 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,18 @@ void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 	int		fd_out;
 	int		fd_in;
 
-	// printf("I am in the first command function\n");
 	fd_in = ft_get_fd_in(data, cmd_to_exec);
 	fd_out = ft_get_fd_out(data, cmd_to_exec);
-	close(data->pipe_ends[0][0]);
 	dup2(fd_in, STDIN_FILENO);
 	if (fd_out == STDOUT_FILENO)
-	{
-		// printf("pipe_ends[0][0]: %d\n", data->pipe_ends[0][0]);
-		// printf("pipe_ends[0][1]: %d\n", data->pipe_ends[0][1]);
 		dup2(data->pipe_ends[0][1], STDOUT_FILENO);
-	}
 	else
 		dup2(fd_out, STDOUT_FILENO);
 	if (fd_in != STDIN_FILENO)
 		close(fd_in);
 	if (fd_out != STDOUT_FILENO)
 		close(fd_out);
+	ft_close_pipes(data);
 	if (ft_isbuiltin(cmd_to_exec->arg_list->value) == YES)
 		ft_exec_builtin(data, cmd_to_exec);
 	else
@@ -55,6 +50,7 @@ void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 		dup2(data->pipe_ends[process][1], STDOUT_FILENO);
 	else
 		dup2(fd_out, STDOUT_FILENO);
+	ft_close_pipes(data);
 	if (fd_in != STDIN_FILENO)
 		close(fd_in);
 	if (fd_out != STDOUT_FILENO)
@@ -70,19 +66,15 @@ void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 	int		fd_out;
 	int		fd_in;
 
-	// printf("I am in the last command function\n");
 	close(data->pipe_ends[process - 1][1]);
 	fd_in = ft_get_fd_in(data, cmd_to_exec);
 	fd_out = ft_get_fd_out(data, cmd_to_exec);
 	if (fd_in == STDIN_FILENO)
-	{
-		// printf("pipe_ends[process - 1][0]: %d\n", data->pipe_ends[process - 1][0]);
 		dup2(data->pipe_ends[process - 1][0], STDIN_FILENO);
-	}
 	else
 		dup2(fd_in, STDIN_FILENO);
-	// printf("fd_out: %d\n", fd_out);
 	dup2(fd_out, STDOUT_FILENO);
+	ft_close_pipes(data);
 	if (fd_in != STDIN_FILENO)
 		close(fd_in);
 	if (fd_out != STDOUT_FILENO)
