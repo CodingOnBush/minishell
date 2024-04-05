@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/05 11:07:30 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/05 12:08:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ int	ft_fork(t_data *data)
 	int	process;
 	
 	process = -1;
+	alloc_ids(data);
 	while (++process < data->cmd_nb)
 	{
-		printf("process %d\n", process);
 		data->ids[process] = fork();
 		if (data->ids[process] == -1)
 			return (perror("Forking failed"), FAIL);
@@ -103,7 +103,6 @@ int	ft_fork(t_data *data)
 			else
 				child_process(data, process);
 			ft_free_all(data);
-			printf("child process %d\n", process);
 			exit(0);
 		}
 	}
@@ -147,26 +146,8 @@ static int	is_error_to_print(t_token *list)
 	return (NO);
 }
 
-int	ft_start_exec(t_data *data)
+int	ft_launch_heredoc(t_data *data)
 {
-	// int	i;
-	// t_cmd	*cmd;
-
-	// cmd = data->cmd_list;
-	// while (cmd)
-	// {
-	// 	printf("cmd->pos = %d\n", cmd->pos);
-	// 	i = 0;
-	// 	while (cmd->args[i] != NULL)
-	// 	{
-	// 		printf("args[%d] = %s\n", i, cmd->args[i]);
-	// 		i++;
-	// 	}
-	// 	cmd = cmd->next;
-	// }
-	
-
-	// heredoc part
 	if (do_heredocs(data) == FAIL)
 	{
 		if (is_error_to_print(data->token_list) == NO)
@@ -177,11 +158,13 @@ int	ft_start_exec(t_data *data)
 		return (FAIL);
 	if (pipe_at_end_error_check(data->token_list) == FAIL)
 		return (FAIL);
-	
-	// a mettre apres avoir creer la cmd list
-	data->cmd_nb = get_cmd_nb(data->cmd_list);
-	alloc_ids(data);
+	return (SUCCESS);
+}
 
+int	ft_start_exec(t_data *data)
+{
+	if (ft_launch_heredoc(data) == FAIL)
+		return (FAIL);
 	if (data->cmd_nb > 1)
 	{
 		if (do_pipes(data) == FAIL)

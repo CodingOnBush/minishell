@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 23:25:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/05 12:15:41 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,18 @@ int	ft_change_dir(t_cmd *cmd)
 	char	*path;
 
 	path = NULL;
-	if (!cmd || !cmd->arg_list || !cmd->arg_list->next)
+	if (!cmd || !cmd->arg_list)
 		return (FAIL);
 	path = cmd->arg_list->next->value;
 	// check if path match with our conditions
 	if (ft_get_arg_nbr(cmd->arg_list) > 2)
 	{
-		printf("minishell: cd: too many arguments\n");
+		perror("cd");
 		return (FAIL);
 	}
 	if (chdir(path) == -1)
 	{
-		printf("minishell: cd: %s: No such file or directory\n", path);
+		perror(path);
 		return (FAIL);
 	}
 	return (SUCCESS);
@@ -123,14 +123,14 @@ int	ft_echo(t_cmd *cmd)
 	t_arg	*cur;
 	int		add_newline;
 	char	*str;
-	t_arg	*option;
+	t_arg	*arg_option;
 	
 	add_newline = YES;
-	option = ft_find_n_option(cmd->arg_list);
-	if (option != NULL)
+	arg_option = ft_find_n_option(cmd->arg_list);
+	if (arg_option != NULL)
 	{
 		add_newline = NO;
-		cur = option->next;
+		cur = arg_option->next;
 	}
 	else
 		cur = cmd->arg_list->next;
