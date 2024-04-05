@@ -3,87 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/05 12:08:37 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/05 16:13:48 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	exec_command(t_data *data, int process, t_cmd *cmd_to_exec)
+int	ft_exec(t_data *data, t_cmd *cmd)
 {
-	int		count;
-	int		fd_in;
-	// int		fd_out;
-	char 	*infile;
+	char	*path_name;
 
-	count = 0;
-	infile = NULL;
-	if (is_infile(cmd_to_exec) == YES)
+	path_name = get_cmd_path(data, cmd);
+	// printf("path_name = %s\n", path_name);
+	if (!path_name)
 	{
-		infile = get_missing_file(cmd_to_exec->infile_list);
-		if (infile == NULL)
+		if (!cmd->args && !cmd->args[0])
 		{
-			infile = get_last_infile(cmd_to_exec->infile_list);
-			fd_in = open(infile, O_RDONLY);
+			ft_free_exec(data);
+			exit(EXIT_FAILURE);
 		}
+		if (cmd->args[0][0] == '/' || ft_strncmp("./", cmd->args[0], 2) == 0)
+			perror(cmd->args[0]);
 		else
-			return (perror(infile), ft_free_exec(data));
+			ft_putstr_fd("command not found\n", 2);
+		ft_free_exec(data);
+		exit(127);
 	}
-	else
-	{
-		if (process == 0)
-			fd_in = STDIN_FILENO;
-		else
-			fd_in = data->pipe_ends[process - 1][0];
-	}
-	// if (process == data->cmd_nb - 1)
-	// 	fd_out = STDOUT_FILENO;
-	// else
-	// 	fd_out = data->pipe_ends[process][1];
-	if (data->cmd_nb > 1)
-		dup2(fd_in, 0);
-	// dup2(fd_out, 1);
-	close (fd_in);
-	// ft_close_pipes(data);
-	if (cmd_to_exec->arg_list && ft_isbuiltin(cmd_to_exec->arg_list->value) == YES)
-	{
-		printf("builtin\n");
-		ft_exec_builtin(data, cmd_to_exec);
-		// if (ft_exec_builtin(data, cmd_to_exec) == FAIL)
-		// 	printf("error\n");
-		// else
-			// builtin success
-	}
-	else	
-	{
-		printf("execve\n");
-		printf("infile : %s\n", infile);
-		// ft_exec(data, cmd_to_exec);
-		// execve(/*la commande avec le chemin*/, /*le tableau arg[]*/, data->env);
-		// perror("execve");
-		// exit(1);
-	}
-		//execve
-	/* BUILTIN ou EXECVE */
-	
+	// printf("execve lletsgo\n");
+	execve(path_name, cmd->args, data->env);
+	perror(path_name);
+	ft_free_exec(data);
+	free(path_name);
+	exit(126);
 }
-
-void	child_process(t_data *data, int process)
-{
-	(void)data;
-	(void)process;
-	printf("I am in a the child process function\n");
-	// t_cmd	*cmd_to_exec;
-
-	// cmd_to_exec = data->cmd_list;
-	// while (cmd_to_exec && process > cmd_to_exec->pos)
-	// 	cmd_to_exec = cmd_to_exec->next;
-	// exec_command(data, process, cmd_to_exec);
-}
-
 
 int	ft_fork(t_data *data)
 {
@@ -107,25 +62,6 @@ int	ft_fork(t_data *data)
 		}
 	}
 	ft_close_pipes(data);
-	return (SUCCESS);
-}
-
-int	do_pipes(t_data *data)
-{
-	int		count;
-	
-	count = 0;
-	alloc_pipes(data);
-	while (count < data->cmd_nb - 1)
-	{
-		if (pipe(data->pipe_ends[count]) == -1)
-		{
-			perror(NULL);
-			ft_free_exec(data);
-			return (FAIL);
-		}
-		count++;
-	}
 	return (SUCCESS);
 }
 
@@ -165,11 +101,20 @@ int	ft_start_exec(t_data *data)
 {
 	if (ft_launch_heredoc(data) == FAIL)
 		return (FAIL);
-	if (data->cmd_nb > 1)
+	if (data->cmd_nb == 1)
+	{
+		if (ft_isbuiltin(data->cmd_list->arg_list->value) == YES)
+			return (ft_exec_builtin(data, data->cmd_list));
+		ft_fork(data);
+	}
+	else if (data->cmd_nb > 1)
 	{
 		if (do_pipes(data) == FAIL)
 			return (FAIL);
+		ft_fork(data);
 	}
-	ft_fork(data);
+	else if (data->cmd_nb <= 0)
+		return (FAIL);
+	// ft_fork(data);
 	return (SUCCESS);
 }

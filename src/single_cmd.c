@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/05 12:10:31 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/05 14:03:33 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	ft_single_exec(t_data *data, t_cmd *cmd)
-{
-	char	*path_name;
-
-	path_name = get_cmd_path(data, cmd);
-	if (!path_name)
-	{
-		if (!cmd->args && !cmd->args[0])
-		{
-			ft_free_exec(data);
-			exit(EXIT_FAILURE);
-		}
-		if (cmd->args[0][0] == '/' || ft_strncmp("./", cmd->args[0], 2) == 0)
-			perror(cmd->args[0]);
-		else
-			ft_putstr_fd("command not found\n", 2);
-		ft_free_exec(data);
-		exit(127);
-	}
-	execve(path_name, cmd->args, data->env);
-	perror(path_name);
-	ft_free_exec(data);
-	free(path_name);
-	exit(126);
-}
 
 char	*ft_get_valid_infile(t_data *data, t_cmd *cmd)
 {
@@ -114,5 +88,5 @@ void	exec_single_command(t_data *data)
 	if (ft_isbuiltin(cmd_to_exec->arg_list->value) == YES)
 		ft_exec_builtin(data, cmd_to_exec);
 	else
-		ft_single_exec(data, cmd_to_exec);
+		ft_exec(data, cmd_to_exec);
 }

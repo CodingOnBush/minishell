@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/04 16:39:09 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:07:20 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	wait_for_children(t_data *data)
 	while (i < data->cmd_nb)
 	{
 		waitpid(data->ids[i], &status, 0);
-		printf("status = %d\n", status);
+		// printf("child %d finished\n", i);
+		// printf("status = %d\n", status);
 		i++;
 	}
 }

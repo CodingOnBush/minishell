@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/05 11:31:20 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:29:44 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,20 @@
 #include "parser.h"
 
 /*		SINGLE EXEC		*/
-int		ft_single_exec(t_data *data, t_cmd *cmd);
+char	*ft_get_valid_infile(t_data *data, t_cmd *cmd);
+int		ft_get_fd_in(t_data *data, t_cmd *cmd);
+int		ft_get_fd_out(t_data *data, t_cmd *cmd);
 void	exec_single_command(t_data *data);
 
+/*		MULTI CMDS		*/
+void	first_cmd(t_data *data, t_cmd *cmd_to_exec);
+void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process);
+void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process);
+void	child_process(t_data *data, int process);
+int		do_pipes(t_data *data);
+
 /*		EXEC		*/
+int		ft_exec(t_data *data, t_cmd *cmd);
 void	exec_single_command(t_data *data);
 int		ft_start_exec(t_data *data);
 

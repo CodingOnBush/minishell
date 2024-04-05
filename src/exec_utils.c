@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/05 11:50:43 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:08:23 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	alloc_ids(t_data *data)
 	int	i;
 
 	i = 0;
-	printf("cmd_nb = %d\n", data->cmd_nb);
+	// printf("cmd_nb = %d\n", data->cmd_nb);
 	data->ids = malloc(sizeof(int) * data->cmd_nb);
 	if (!data->ids)
 	{
