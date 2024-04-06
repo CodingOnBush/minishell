@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/06 12:56:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/06 18:54:53 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	wait_for_children(t_data *data)
 	int	i;
 
 	i = 0;
-	if (!data || (data->cmd_nb <= 1 && ft_isbuiltin(data->cmd_list->arg_list->value) == YES))
+	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list->arg_list->value))
 		return ;
 	while (i < data->cmd_nb)
 	{
@@ -39,13 +39,10 @@ int	main(int ac, char **av, char **env)
 		if (!data->line)
 			break ;
 		add_history(data->line);
-		if (ft_finish_init_data(data) == SUCCESS)
+		if (ft_lexer(data) == SUCCESS && ft_parser(data) == SUCCESS)
 			ft_start_exec(data);
 		wait_for_children(data);
-		ft_free_lexing_and_parsing(data);
-		ft_free_exec(data);
-		unlink_and_free(data);
-		free(data->line);
+		ft_reset_data(data);
 	}
 	ft_free_all(data);
 	rl_clear_history();

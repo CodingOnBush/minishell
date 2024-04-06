@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:41:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 14:55:19 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/06 15:29:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_addlast_token(t_token **token_list, t_token *new_token)
 	}
 }
 
-t_token	*ft_find_next_pipe(t_token *cur_token)
+t_token	*ft_get_next_pipe_token(t_token *cur_token)
 {
 	if (cur_token == NULL)
 		return (NULL);

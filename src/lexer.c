@@ -1,45 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.c                                            :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 14:37:24 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/06 15:17:33 by momrane          ###   ########.fr       */
+/*   Created: 2024/04/06 14:47:50 by momrane           #+#    #+#             */
+/*   Updated: 2024/04/06 15:28:47 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_check_quote_error(char *line)
+int	ft_lexer(t_data *data)
 {
-	int	quote;
-
-	quote = 0;
-	while (*line)
-	{
-		if (ft_isquote(*line) && ft_strchr(line + 1, *line) != NULL)
-			line += ft_strchr(line + 1, *line) - line + 1;
-		else
-		{
-			if (ft_isquote(*line))
-				quote++;
-			line++;
-		}
-	}
-	if (quote % 2 != 0)
+	if (ft_check_quote_error(data->line) == NO)
+		return (ft_print_error(QUOTES_ERROR), FAIL);
+	data->token_list = ft_create_token_list(data->line);
+	if (!data->token_list)
+		return (FAIL);
+	ft_start_expansion(&data->token_list);
+	if (check_token_list(data->token_list) == FAIL)
 		return (FAIL);
 	return (SUCCESS);
-}
-
-int ft_double_pipe_detected(t_token *token)
-{
-	while (token)
-	{
-		if (token->type == PIPE && token->next && token->next->type == PIPE)
-			return (YES);
-		token = token->next;
-	}
-	return (NO);
 }

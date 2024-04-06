@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/03/27 22:49:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/06 16:27:40 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,28 @@ char	**ft_arg_list_to_array(t_arg *arg_list)
 	}
 	array[i] = NULL;
 	return (array);
+}
+
+t_arg	*ft_create_arg_list(t_token *token)
+{
+	t_arg	*new;
+	t_arg	*res;
+	char	*str;
+
+	res = NULL;
+	while (token != NULL && token->type != PIPE)
+	{
+		if (token->attributed == false)
+		{
+			str = ft_strdup(token->str);
+			if (!str)
+				return (ft_free_arg_list(&res), NULL);
+			new = create_new_arg(str);
+			if (!new)
+				return (ft_free_arg_list(&res), NULL);
+			add_new_arg(&res, new);
+		}
+		token = token->next;
+	}
+	return (res);
 }

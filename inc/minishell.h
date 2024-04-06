@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/05 15:29:44 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/06 18:38:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,20 @@ int		ft_start_exec(t_data *data);
 
 /*		FREE			*/
 void 	ft_free_path(char **path);
+void	ft_free_args(char ***args);
 void 	ft_free_arg_list(t_arg **arg_list);
 void 	ft_free_infile_list(t_infile **infile_list);
 void 	ft_free_outfile_list(t_outfile **outfile_list);
 void 	ft_free_tokens(t_token **list);
-void 	ft_free_cmds(t_cmd **cmd_list);
+void 	ft_free_cmd_list(t_cmd **cmd_list);
 void 	ft_free_lexing_and_parsing(t_data *data);
 void 	unlink_and_free(t_data *data);
 void	ft_free_exec(t_data *data);
 void	ft_free_all(t_data *data);
+void	ft_reset_data(t_data *data);
+void	ft_free_infiles(t_infile **infile_list);
+void	ft_free_cmd(t_cmd *cmd);
+void	ft_free_outfiles(t_outfile **outfile_list);
 
 /*		REMOVE		*/
 char	*ft_type_to_str(int type);
@@ -69,7 +74,7 @@ int 	ft_isoperator(char *str);
 t_token	*ft_findlast_token(t_token *lst);
 char 	*ft_type_to_str(int type);
 int 	ft_get_pipe_count(t_token *token_list);
-char	**ft_get_args_array(t_arg *arg_list);
+char	**ft_create_args_array(t_arg *arg_list);
 
 /*		BUILTINS	*/
 char 	*ft_getcwd(void);

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/06 12:54:00 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/06 13:51:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	is_error_to_print(t_token *list)
 	{
 		if (cur_token->error == true)
 		{
-			ft_error_messages(cur_token->err_type);
+			ft_print_error(cur_token->err_type);
 			return (YES);
 		}
 		cur_token = cur_token->next;

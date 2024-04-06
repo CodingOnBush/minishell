@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/03 18:01:05 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/06 13:14:04 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static int execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
         {
             fd_hd[i + count] = open(data->hd_files[i + count], O_WRONLY | O_CREAT, 0644);
             if (fd_hd[i + count] == -1)
-                return(ft_error_messages(HDEXEC), ft_free_all(data), FAIL);
+                return(ft_print_error(HDEXEC), ft_free_all(data), FAIL);
             writing_loop(data, fd_hd[i + count], cur_inf->delimiter);
             close(fd_hd[i + count]);
             count++;

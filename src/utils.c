@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/04 16:42:28 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/06 15:58:02 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_get_pipe_count(t_token *token_list)
 	return (count);
 }
 
-char	**ft_get_args_array(t_arg *arg_list)
+char	**ft_create_args_array(t_arg *arg_list)
 {
 	char	**args;
 	t_arg	*tmp;

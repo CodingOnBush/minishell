@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 15:18:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/06 16:33:19 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,24 @@ void	ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile)
 			lst = lst->next;
 		lst->next = new_outfile;
 	}
+}
+
+t_outfile	*ft_create_outfile_list(t_token *cur_token)
+{
+	t_outfile	*outfile_list;
+	t_outfile	*new_outfile;
+
+	outfile_list = NULL;
+	while (cur_token)
+	{
+		if (cur_token->type == RIGHT_TRUNC || cur_token->type == APPEND)
+		{
+			new_outfile = ft_create_new_outfile(cur_token->next->str, cur_token->type);
+			if (!new_outfile)
+				return (ft_free_outfiles(&outfile_list), NULL);
+			ft_add_outfile(&outfile_list, new_outfile);
+		}
+		cur_token = cur_token->next;
+	}
+	return (outfile_list);
 }

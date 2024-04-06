@@ -6,32 +6,11 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/03 18:27:52 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/06 17:01:19 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-t_token	*ft_extract_token(t_token *token_list)
-{
-	t_token	*new_token;
-	t_token	*sub_list;
-	char	*new_str;
-
-	sub_list = NULL;
-	while (token_list != NULL && token_list->type != PIPE)
-	{
-		new_str = ft_strdup(token_list->str);
-		if (!new_str)
-			return (ft_free_tokens(&sub_list), NULL);
-		new_token = ft_create_new_token(new_str, token_list->type, token_list->pos, token_list->error);
-		if (!new_token)
-			return (free(new_str), ft_free_tokens(&sub_list), NULL);
-		ft_addlast_token(&sub_list, new_token);
-		token_list = token_list->next;
-	}
-	return (sub_list);
-}
 
 t_token	*ft_get_last_redir(t_token *cur_token)
 {
@@ -123,5 +102,57 @@ int	parse_commands(t_cmd *new_cmd, t_token *token)
 		}
 		token = token->next;
 	}
+	return (SUCCESS);
+}
+
+t_cmd	*ft_create_cmd_list(t_token *token_list)
+{
+	t_token	*cur_token;
+	t_cmd	*cmd_list;
+	t_cmd	*new_cmd;
+	int		pos;
+
+	cmd_list = NULL;
+	cur_token = token_list;
+	pos = 0;
+	while (cur_token != NULL)
+	{
+		if (cur_token->type != PIPE)
+		{
+			new_cmd = ft_new_cmd(cur_token, pos);
+			if (!new_cmd)
+				return (ft_free_cmd_list(&cmd_list), NULL);
+			ft_add_new_cmd(&cmd_list, new_cmd);
+			cur_token = ft_get_next_pipe_token(cur_token);
+			if (cur_token == NULL)
+				return (cmd_list);
+		}
+		cur_token = cur_token->next;
+		pos++;
+	}
+	return (cmd_list);
+}
+
+int	get_cmd_nb(t_cmd *cmd_list)
+{
+	int		cmd_nb;
+	t_cmd	*cur;
+
+	cmd_nb = 0;
+	cur = cmd_list;
+	while (cur != NULL)
+	{
+		cmd_nb++;
+		cur = cur->next;
+	}
+	return (cmd_nb);
+}
+
+int	ft_parser(t_data *data)
+{
+	data->cmd_list = ft_create_cmd_list(data->token_list);
+	if (!data->cmd_list)
+		return (FAIL);
+	data->cmd_nb = get_cmd_nb(data->cmd_list);
 	return (SUCCESS);
 }

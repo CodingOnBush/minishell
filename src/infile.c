@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/27 15:18:00 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/06 18:38:36 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,24 @@ void	ft_add_infile(t_infile **infile_list, t_infile *new_infile)
 			lst = lst->next;
 		lst->next = new_infile;
 	}
+}
+
+t_infile	*ft_create_infile_list(t_token *cur_token)
+{
+	t_infile	*res;
+	t_infile	*new;
+
+	res = NULL;
+	while (cur_token)
+	{
+		if (cur_token->type == LEFT_TRUNC || cur_token->type == HERE_DOC)
+		{
+			new = ft_create_new_infile(cur_token->str, cur_token->type);
+			if (!new)
+				return (ft_free_infiles(&res), NULL);
+			ft_add_infile(&res, new);
+		}
+		cur_token = cur_token->next;
+	}
+	return (res);
 }

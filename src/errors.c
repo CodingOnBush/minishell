@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:36:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/02 13:29:03 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/06 13:14:04 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	pipe_at_end_error_check(t_token *list)
 	{
 		if (cur_token->pipe_at_end == true && cur_token->next->type == PIPE && cur_token->next->next == NULL)
 		{
-			ft_error_messages(PIPE);
+			ft_print_error(PIPE);
 			return (FAIL);
 		}
 		cur_token = cur_token->next;
@@ -40,7 +40,7 @@ void	assign_error(t_token *token, int err_type)
 	}
 }
 
-void	ft_error_messages(int errno)
+void	ft_print_error(int errno)
 {
 	if (errno == APPEND)
 		ft_putstr_fd("syntax error near unexpected token `>>'\n", 2);

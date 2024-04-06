@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/05 17:34:19 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/06 13:28:24 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static char	*ft_get_expanded_str(char *str)
 	return (res);
 }
 
-void	ft_expand(t_token **token_list)
+void	ft_start_expansion(t_token **token_list)
 {
 	t_token	*token;
 	char	*new_str;

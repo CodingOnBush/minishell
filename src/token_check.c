@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/03 14:45:03 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/06 14:37:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,30 @@ static t_token	*token_before_last(t_token *list)
 }
 
 // rename because it checks errors and set errors variables
-int	check_token_list(t_token **list)
+int	check_token_list(t_token *list)
 {
 	t_token	*cur_token;
 	t_token	*last_token;
 
-	if (!list || !*list)
-		return (FAIL);
-	cur_token = *list;
-	last_token = ft_findlast_token(*list);
+	cur_token = list;
+	if (!cur_token)
+		return (SUCCESS);
+	printf("heyhey\n");
+	last_token = ft_findlast_token(list);
+	if (ft_double_pipe_detected(cur_token) == YES)
+		return (ft_print_error(DOUBLE_PIPE_ERROR), FAIL);
 	if (cur_token->str && cur_token->str[0] == '|')
-		return (ft_error_messages(PIPE), FAIL);
+		return (ft_print_error(PIPE), FAIL);
 	while (cur_token != NULL)
 	{
-		if (is_error(*list, cur_token) == YES)
+		if (is_error(list, cur_token) == YES)
 			break ;
 		cur_token = cur_token->next;
 	}
 	if (cur_token == NULL)
 	{
 		if (last_token->type == PIPE)
-			return (assign_error(token_before_last(*list), PIPE_AT_END), SUCCESS);
+			return (assign_error(token_before_last(list), PIPE_AT_END), SUCCESS);
 	}
 	return (SUCCESS);
 }

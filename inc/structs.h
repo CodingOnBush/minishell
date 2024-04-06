@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/04 16:20:15 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:52:12 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 typedef struct s_infile
 {
 	char				*filename;
-	char *delimiter; // null : pas HEREDOCdonc LC
+	char 				*delimiter;
 	struct s_infile		*next;
 }						t_infile;
 
 typedef struct s_outfile
 {
 	char				*filename;
-	bool append; // false : RIGHT_TRUNC
+	bool				append;
 	struct s_outfile	*next;
 }						t_outfile;
 
@@ -53,7 +53,7 @@ typedef struct s_cmd
 	t_outfile			*outfile_list;
 	int					pos;
 	char				**args;
-	char				*cmd_path;// chemin avec la commande
+	char				*cmd_path;
 	struct s_cmd		*next;
 }						t_cmd;
 
@@ -69,7 +69,6 @@ typedef struct s_data
 	char				**hd_files;
 	int					*ids;
 	int					**pipe_ends;
-	t_token				*token_split;
 	char				**path_list;
 	char				*join_path;
 	int					step;

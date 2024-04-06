@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/05 16:08:23 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/06 17:00:52 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,6 @@ void	ft_close_pipes(t_data *data)
 		close(data->pipe_ends[count][1]);
 		count ++;
 	}
-}
-
-int	get_cmd_nb(t_cmd *cmd_list)
-{
-	int		cmd_nb;
-	t_cmd	*cur;
-
-	cmd_nb = 0;
-	cur = cmd_list;
-	while (cur != NULL)
-	{
-		cmd_nb++;
-		cur = cur->next;
-	}
-	return (cmd_nb);
 }
 
 int	alloc_ids(t_data *data)
