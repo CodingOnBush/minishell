@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/05 12:15:41 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/06 12:15:14 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,22 @@ int	ft_change_dir(t_cmd *cmd)
 	path = NULL;
 	if (!cmd || !cmd->arg_list)
 		return (FAIL);
-	path = cmd->arg_list->next->value;
-	// check if path match with our conditions
-	if (ft_get_arg_nbr(cmd->arg_list) > 2)
+	if (cmd->arg_list->next == NULL)
 	{
-		perror("cd");
-		return (FAIL);
+		path = getenv("HOME");
+		if (!path)
+			return (FAIL);// no home so no cd and no error
 	}
+	else
+		path = cmd->arg_list->next->value;
+	printf("path: %s\n", path);
 	if (chdir(path) == -1)
 	{
 		perror(path);
 		return (FAIL);
 	}
+	printf("directory changed\n");
+	printf("pwd : %s\n", ft_getcwd());
 	return (SUCCESS);
 }
 
