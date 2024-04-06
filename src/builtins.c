@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/06 12:15:14 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/06 12:59:24 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,26 +74,30 @@ char	*ft_getcwd(void)
 int	ft_change_dir(t_cmd *cmd)
 {
 	char	*path;
+	t_arg	*arg_list;
 
 	path = NULL;
-	if (!cmd || !cmd->arg_list)
+	arg_list = cmd->arg_list;
+	if (!cmd || !arg_list)
 		return (FAIL);
-	if (cmd->arg_list->next == NULL)
+	if (arg_list->next == NULL)
 	{
 		path = getenv("HOME");
 		if (!path)
 			return (FAIL);// no home so no cd and no error
 	}
 	else
-		path = cmd->arg_list->next->value;
-	printf("path: %s\n", path);
+		path = arg_list->next->value;
+	if (arg_list->next->next != NULL)
+	{
+		printf("cd: too many arguments\n");
+		return (FAIL);
+	}
 	if (chdir(path) == -1)
 	{
 		perror(path);
 		return (FAIL);
 	}
-	printf("directory changed\n");
-	printf("pwd : %s\n", ft_getcwd());
 	return (SUCCESS);
 }
 
