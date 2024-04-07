@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/07 01:22:23 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/07 15:22:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 static char	*ft_create_cmd_path(char *path, char *cmd_name)
 {
 	char	*cmd_path;
+	char	*tmp;
 
-	cmd_path = ft_super_strjoin(path, ft_strdup("/"));
+	tmp = ft_strjoin(path, "/");
+	if (!tmp)
+		return (NULL);
+	cmd_path = ft_strjoin(tmp, cmd_name);
 	if (!cmd_path)
 		return (NULL);
-	cmd_path = ft_super_strjoin(cmd_path, ft_strdup(cmd_name));
-	if (!cmd_path)
-		return (NULL);
+	free(tmp);
 	return (cmd_path);
 }
 
@@ -42,6 +44,7 @@ static char	*ft_get_cmd_path(char *cmd_name)
 			return (ft_free_path(path_list), NULL);
 		if (access(cmd_path, F_OK) == 0)
 			return (ft_free_path(path_list), cmd_path);
+		free(cmd_path);
 		i++;
 	}
 	return (ft_free_path(path_list), NULL);
@@ -56,17 +59,9 @@ static int	ft_init_new_cmd(t_cmd *new_cmd, t_token *cur_token)
 	if (!new_cmd->arg_list)
 		return (FAIL);
 	new_cmd->infile_list = ft_create_infile_list(cur_token);
-	if (!new_cmd->infile_list)
-		return (FAIL);
 	new_cmd->outfile_list = ft_create_outfile_list(cur_token);
-	if (!new_cmd->outfile_list)
-		return (FAIL);
 	new_cmd->args = ft_create_args_array(new_cmd->arg_list);
-	if (!new_cmd->args)
-		return (FAIL);
 	new_cmd->cmd_path = ft_get_cmd_path(new_cmd->args[0]);
-	if (!new_cmd->cmd_path)
-		return (FAIL);
 	new_cmd->next = NULL;
 	return (SUCCESS);
 }
@@ -75,7 +70,7 @@ t_cmd	*ft_new_cmd(t_token *cur_token, int pos)
 {
 	t_cmd	*new_cmd;
 
-	if (cur_token == NULL)
+	if (!cur_token)
 		return (NULL);
 	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_cmd)

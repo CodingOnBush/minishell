@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/07 02:23:10 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/07 15:16:08 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@ void	ft_launch_exec(t_data *data)
 	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == YES)
 		ft_exec_builtin(data, data->cmd_list);
 	else if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == NO)
+	{
 		ft_fork(data);
+	}
 	else if (data->cmd_nb > 1 && ft_init_pipes(data) == SUCCESS)
 		ft_fork(data);
 	ft_wait_for_children(data);

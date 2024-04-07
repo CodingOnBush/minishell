@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:38:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 02:05:57 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/07 15:31:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	ft_free_pipe_ends(t_data *data);
 void	ft_free_all(t_data *data);
 void	ft_free_hd_files(t_data *data);
 void	ft_reset_data(t_data *data);
+void	ft_free_env_list(t_env **env_list);
 
 
 #endif

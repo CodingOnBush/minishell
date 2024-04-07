@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 01:53:54 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/07 15:30:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,8 @@ void	ft_free_all(t_data *data)
 			free(data->line);
 		if (data->pipe_ends)
 			ft_free_pipe_ends(data);
+		if (data->env_list)
+			ft_free_env_list(&data->env_list);
 		free(data);
 	}
 }

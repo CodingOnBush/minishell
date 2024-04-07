@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/07 02:05:16 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/07 15:29:53 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ t_env	*ft_create_env_list(char **env)
 	i = 0;
 	while (env[i])
 	{
-		new = ft_new(env[i]);
+		new = ft_new_env(env[i]);
 		if (!new)
-			return (ft_free_res(&res), NULL);
+			return (NULL);
 		ft_add_new_env(&res, new);
 		i++;
 	}

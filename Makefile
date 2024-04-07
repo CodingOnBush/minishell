@@ -3,10 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/07 02:35:00 by allblue          ###   ########.fr        #
+#    Updated: 2024/04/07 14:37:50 by momrane          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
+#    Updated: 2024/04/06 15:54:48 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +37,6 @@ BIN_DIR 	:= ./bin
 INC_DIR 	:= ./inc
 LIBS_DIR 	:= ./lib
 LIBFT_DIR	:= ./libft
-EXEC_DIR	:= $(SRC_DIR)/exec
-INIT_DIR	:= $(SRC_DIR)/init
-LEXER_DIR	:= $(SRC_DIR)/lexer
-PARSER_DIR	:= $(SRC_DIR)/parser
 
 # Lib
 LIBFT		:= $(LIBFT_DIR)/libft.a
@@ -40,23 +48,18 @@ DEF_COLOR	:= \033[0;39m
 GREEN 		:= \033[0;92m
 CYAN 		:= \033[0;96m
 
-#Sources
-EXEC_SRC	:=	builtin_utils builtins exec_utils exec \
+SRC_EXEC	:=	builtin_utils builtins exec exec_utils \
 				hd_count heredocs multi_cmds single_cmd
 
-INIT_SRC	:=	data env_utils env free signals utils
+SRC_INIT	:=	data env env_utils free signals utils
 
-LEXER_SRC	:=	check errors expand_utils expand lexer \
-				token_check token_utils token
+SRC_LEXER	:=	check errors expand expand_utils lexer \
+				token token_check token_utils
 
-PARSER_SRC	:=	args infile outfile parser_utils parser
+SRC_PARSER	:=	args infile outfile parser parser_utils
 
-SRC_FILES	:=	$(EXEC_DIR)/$(EXEC_SRC) \
-				$(INIT_DIR)/$(INIT_SRC) \
-				$(LEXER_DIR)/$(LEXER_SRC) \
-				$(PARSER_DIR)/$(PARSER_SRC) \
-				main remove
-
+#Sources
+SRC_FILES 	:=	main remove $(SRC_EXEC) $(SRC_INIT) $(SRC_LEXER) $(SRC_PARSER)
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 
@@ -70,7 +73,7 @@ val: $(NAME)
 	
 # Compilation
 $(NAME): $(OBJ) $(LIBFT)
-	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME)
+	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
 
 # Linking
@@ -103,4 +106,4 @@ norm:
 	@norminette $(SRC) $(INC_DIR)/*.h
 
 # Non-File Targets
-.PHONY:	all clean fclean re norm
+.PHONY:	all clean fclean re norm val

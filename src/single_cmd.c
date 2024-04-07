@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 02:30:21 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/07 15:01:12 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_exec_single_cmd(t_data *data)
 	t_cmd	*cmd_to_exec;
 	int		fd_out;
 	int		fd_in;
-	
+
 	cmd_to_exec = data->cmd_list;
 	if (cmd_to_exec == NULL || cmd_to_exec->arg_list == NULL)
 		return ;

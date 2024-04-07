@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 01:22:31 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/07 14:51:53 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_cmd	*ft_create_cmd_list(t_token *token_list)
 		{
 			new_cmd = ft_new_cmd(cur_token, pos);
 			if (!new_cmd)
-				return (ft_free_cmd_list(&cmd_list), NULL);
+				return (printf("HO\n"), NULL);
 			ft_add_new_cmd(&cmd_list, new_cmd);
 			cur_token = ft_get_next_pipe_token(cur_token);
 		}
@@ -50,6 +50,21 @@ static t_cmd	*ft_create_cmd_list(t_token *token_list)
 		pos++;
 	}
 	return (cmd_list);
+}
+
+int	ft_get_cmd_nb(t_cmd *cmd_list)
+{
+	t_cmd	*cur;
+	int		cmd_nb;
+
+	cmd_nb = 0;
+	cur = cmd_list;
+	while (cur != NULL)
+	{
+		cmd_nb++;
+		cur = cur->next;
+	}
+	return (cmd_nb);
 }
 
 int	ft_parser(t_data *data)

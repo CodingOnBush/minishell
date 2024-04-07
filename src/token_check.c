@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/06 14:37:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 14:49:14 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	check_token_list(t_token *list)
 	cur_token = list;
 	if (!cur_token)
 		return (SUCCESS);
-	printf("heyhey\n");
 	last_token = ft_findlast_token(list);
 	if (ft_double_pipe_detected(cur_token) == YES)
 		return (ft_print_error(DOUBLE_PIPE_ERROR), FAIL);
