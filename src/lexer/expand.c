@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/06 13:28:24 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 00:56:39 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*ft_get_next_str_in_double_quotes(char *str)
 	char	*new_str;
 	char	*toadd;
 	char	*tmp;
-	
+
 	new_str = NULL;
 	toadd = NULL;
 	while (str != NULL && *str != '\0')
@@ -90,7 +90,7 @@ static char	*ft_get_expanded_str(char *str)
 	char	*res;
 	char	*tmp;
 	char	*next_str;
-	
+
 	res = NULL;
 	next_str = NULL;
 	while (*str != '\0')
@@ -103,7 +103,7 @@ static char	*ft_get_expanded_str(char *str)
 	return (res);
 }
 
-void	ft_start_expansion(t_token **token_list)
+void	ft_expand_words(t_token **token_list)
 {
 	t_token	*token;
 	char	*new_str;

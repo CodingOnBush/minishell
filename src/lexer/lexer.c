@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:47:50 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/06 15:28:47 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 00:54:45 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	ft_lexer(t_data *data)
 	data->token_list = ft_create_token_list(data->line);
 	if (!data->token_list)
 		return (FAIL);
-	ft_start_expansion(&data->token_list);
+	ft_set_delimiter(&data->token_list);
+	ft_expand_words(&data->token_list);
 	if (check_token_list(data->token_list) == FAIL)
 		return (FAIL);
 	return (SUCCESS);

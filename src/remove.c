@@ -3,14 +3,131 @@
 /*                                                        :::      ::::::::   */
 /*   remove.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 17:42:39 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/07 00:44:23 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+t_cmd	*ft_create_new_cmd(t_token *cur_token, int pos)
+{
+	t_cmd	*new_cmd;
+	
+	if (!cur_token)
+		return (NULL);
+	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!new_cmd)
+		return (NULL);
+	ft_memset(new_cmd, 0, sizeof(t_cmd));
+	new_cmd->token_list = ft_extract_token(cur_token);
+	if (!new_cmd->token_list)
+		return (free(new_cmd), NULL);
+	new_cmd->arg_list = NULL;
+	new_cmd->infile_list = NULL;
+	new_cmd->outfile_list = NULL;
+	new_cmd->pos = pos;
+	new_cmd->args = NULL;
+	new_cmd->cmd_path = NULL;
+	new_cmd->next = NULL;
+	return (new_cmd);
+}
+
+
+t_token	*ft_get_last_redir(t_token *cur_token)
+{
+	while (cur_token && cur_token->type != PIPE)
+	{
+		if (cur_token->type == RIGHT_TRUNC || cur_token->type == LEFT_TRUNC)
+			return (cur_token);
+		cur_token = cur_token->next;
+	}
+	return (NULL);
+}
+
+int	parse_infiles(t_cmd *new_cmd, t_token *token)
+{
+	t_infile	*new_infile;
+
+	new_infile = NULL;
+	while (token != NULL && token->type != PIPE)
+	{
+		if (token->type == LEFT_TRUNC || token->type == HERE_DOC)
+		{
+			if (token->next == NULL)
+				return (assign_error(token, NEWLINE_ERROR), FAIL);
+			// else if (token->next->type == PIPE)
+			// {
+			// 	printf("je suis heredoc\n");
+			// 	return (assign_error(token, PIPE), FAIL);
+			// }
+			// else if (ft_isop(token->next->str) == YES)
+			// 	return (assign_error(token->next, token->next->type), FAIL);
+			new_infile = ft_new_infile(token->next->str, token->type);
+			if (new_infile == NULL)
+				return (FAIL);
+			ft_add_infile(&new_cmd->infile_list, new_infile);
+			token->attributed = true;
+			token->next->attributed = true;
+			token = token->next->next;
+		}
+		else
+			token = token->next;
+	}
+	return (SUCCESS);
+}
+
+int	parse_outfiles(t_cmd *new_cmd, t_token *token)
+{
+	t_outfile	*new_outfile;
+
+	new_outfile = NULL;
+	while (token != NULL && token->type != PIPE)
+	{
+		if (token->type == RIGHT_TRUNC || token->type == APPEND)
+		{
+			if (token->next == NULL)
+				return (assign_error(token, NEWLINE_ERROR), FAIL);
+			else if (token->next->type != WORD)
+				return (assign_error(token->next, token->next->type), FAIL);
+			new_outfile = ft_new_outfile(token->next->str, token->type);
+			if (new_outfile == NULL)
+				return (FAIL);
+			ft_add_outfile(&new_cmd->outfile_list, new_outfile);
+			token->attributed = true;
+			token->next->attributed = true;
+			token = token->next->next;
+		}
+		else
+			token = token->next;
+	}
+	return (SUCCESS);
+}
+
+int	parse_commands(t_cmd *new_cmd, t_token *token)
+{
+	t_arg	*new_arg;
+	char	*new_str;
+
+	new_arg = NULL;
+	while (token != NULL && token->type != PIPE)
+	{
+		if (token->attributed == false)
+		{
+			new_str = ft_strdup(token->str);
+			if (!new_str)
+				return (ft_free_arg_list(&new_cmd->arg_list), FAIL);
+			new_arg = ft_new_arg(new_str);
+			if (!new_arg)
+				return (ft_free_arg_list(&new_cmd->arg_list), FAIL);
+			ft_add_new_arg(&new_cmd->arg_list, new_arg);
+		}
+		token = token->next;
+	}
+	return (SUCCESS);
+}
 
 char	*ft_type_to_str(int type)
 {

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:41:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/06 15:29:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 00:52:22 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_detect_delimiter(t_token **token_list)
+void	ft_set_delimiter(t_token **token_list)
 {
 	t_token	*token;
 
@@ -51,15 +51,24 @@ void	ft_addlast_token(t_token **token_list, t_token *new_token)
 	}
 }
 
-t_token	*ft_get_next_pipe_token(t_token *cur_token)
+t_token	*ft_extract_token(t_token *cur_token)
 {
-	if (cur_token == NULL)
-		return (NULL);
-	while (cur_token != NULL)
+	t_token	*res;
+	t_token	*new;
+	char	*str;
+
+	res = NULL;
+	while (cur_token != NULL && cur_token->type != PIPE)
 	{
-		if (cur_token->type == PIPE)
-			return (cur_token);
+		str = ft_strdup(cur_token->str);
+		if (!str)
+			return (ft_free_tokens(&res), NULL);
+		new = ft_new_token(str, cur_token->type, cur_token->pos, cur_token->error);
+		if (!new)
+			return (free(str), ft_free_tokens(&res), NULL);
+		ft_addlast_token(&res, new);
 		cur_token = cur_token->next;
 	}
-	return (NULL);
+	return (res);
 }
+

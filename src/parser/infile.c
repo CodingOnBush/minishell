@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   infile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/06 18:38:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 00:41:11 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_infile	*ft_create_new_infile(char *str, int type)
+t_infile	*ft_new_infile(char *str, int type)
 {
 	t_infile	*new_infile;
 	char		*new_str;
@@ -62,7 +62,7 @@ t_infile	*ft_create_infile_list(t_token *cur_token)
 	{
 		if (cur_token->type == LEFT_TRUNC || cur_token->type == HERE_DOC)
 		{
-			new = ft_create_new_infile(cur_token->str, cur_token->type);
+			new = ft_new_infile(cur_token->str, cur_token->type);
 			if (!new)
 				return (ft_free_infiles(&res), NULL);
 			ft_add_infile(&res, new);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/06 12:52:39 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 02:30:21 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_get_fd_out(t_data *data, t_cmd *cmd)
 	return (fd_out);
 }
 
-void	exec_single_command(t_data *data)
+void	ft_exec_single_cmd(t_data *data)
 {
 	t_cmd	*cmd_to_exec;
 	int		fd_out;
@@ -85,7 +85,7 @@ void	exec_single_command(t_data *data)
 		close(fd_in);
 	if (fd_out != STDOUT_FILENO)
 		close(fd_out);
-	if (ft_isbuiltin(cmd_to_exec->arg_list->value) == YES)
+	if (ft_isbuiltin(cmd_to_exec) == YES)
 		ft_exec_builtin(data, cmd_to_exec);
 	else
 		ft_exec(data, cmd_to_exec);

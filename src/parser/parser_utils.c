@@ -1,20 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/06 15:34:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/06 18:39:32 by momrane          ###   ########.fr       */
+/*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
+/*   Updated: 2024/04/07 01:22:23 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static char	*ft_get_cmd_path(char *cmd)
+static char	*ft_create_cmd_path(char *path, char *cmd_name)
 {
-	return (ft_strdup(cmd));
+	char	*cmd_path;
+
+	cmd_path = ft_super_strjoin(path, ft_strdup("/"));
+	if (!cmd_path)
+		return (NULL);
+	cmd_path = ft_super_strjoin(cmd_path, ft_strdup(cmd_name));
+	if (!cmd_path)
+		return (NULL);
+	return (cmd_path);
+}
+
+static char	*ft_get_cmd_path(char *cmd_name)
+{
+	char	**path_list;
+	char	*cmd_path;
+	int		i;
+
+	path_list = ft_split(getenv("PATH"), ':');
+	if (!path_list)
+		return (NULL);
+	i = 0;
+	while (path_list[i])
+	{
+		cmd_path = ft_create_cmd_path(path_list[i], cmd_name);
+		if (!cmd_path)
+			return (ft_free_path(path_list), NULL);
+		if (access(cmd_path, F_OK) == 0)
+			return (ft_free_path(path_list), cmd_path);
+		i++;
+	}
+	return (ft_free_path(path_list), NULL);
 }
 
 static int	ft_init_new_cmd(t_cmd *new_cmd, t_token *cur_token)
@@ -55,4 +85,19 @@ t_cmd	*ft_new_cmd(t_token *cur_token, int pos)
 	if (ft_init_new_cmd(new_cmd, cur_token) == FAIL)
 		return (ft_free_cmd(new_cmd), NULL);
 	return (new_cmd);
+}
+
+void	ft_add_new_cmd(t_cmd **cmd_list, t_cmd *new_cmd)
+{
+	t_cmd	*tmp;
+
+	if (*cmd_list == NULL)
+		*cmd_list = new_cmd;
+	else
+	{
+		tmp = *cmd_list;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new_cmd;
+	}
 }

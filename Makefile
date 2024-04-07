@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
+#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/06 15:54:48 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/07 02:35:00 by allblue          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,10 @@ BIN_DIR 	:= ./bin
 INC_DIR 	:= ./inc
 LIBS_DIR 	:= ./lib
 LIBFT_DIR	:= ./libft
+EXEC_DIR	:= $(SRC_DIR)/exec
+INIT_DIR	:= $(SRC_DIR)/init
+LEXER_DIR	:= $(SRC_DIR)/lexer
+PARSER_DIR	:= $(SRC_DIR)/parser
 
 # Lib
 LIBFT		:= $(LIBFT_DIR)/libft.a
@@ -37,12 +41,22 @@ GREEN 		:= \033[0;92m
 CYAN 		:= \033[0;96m
 
 #Sources
-SRC_FILES 	:=	main utils free token token_check signals \
-				parser args infile outfile data remove check \
-				errors exec builtins expand token_utils hd_count \
-				heredocs expand_utils cmd_utils utils_libft \
-				exec_utils builtin_utils single_cmd multi_cmds \
-				lexer cmd
+EXEC_SRC	:=	builtin_utils builtins exec_utils exec \
+				hd_count heredocs multi_cmds single_cmd
+
+INIT_SRC	:=	data env_utils env free signals utils
+
+LEXER_SRC	:=	check errors expand_utils expand lexer \
+				token_check token_utils token
+
+PARSER_SRC	:=	args infile outfile parser_utils parser
+
+SRC_FILES	:=	$(EXEC_DIR)/$(EXEC_SRC) \
+				$(INIT_DIR)/$(INIT_SRC) \
+				$(LEXER_DIR)/$(LEXER_SRC) \
+				$(PARSER_DIR)/$(PARSER_SRC) \
+				main remove
+
 SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 
@@ -56,7 +70,7 @@ val: $(NAME)
 	
 # Compilation
 $(NAME): $(OBJ) $(LIBFT)
-	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
+	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
 
 # Linking

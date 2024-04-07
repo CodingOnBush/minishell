@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/06 16:57:05 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 01:53:54 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,12 +174,6 @@ void	ft_free_cmd_list(t_cmd **cmd_list)
 	while (cur_cmd != NULL)
 	{
 		next = cur_cmd->next;
-		// ft_free_tokens(&cur_cmd->token_list);
-		// ft_free_arg_list(&cur_cmd->arg_list);
-		// ft_free_infile_list(&cur_cmd->infile_list);
-		// ft_free_outfile_list(&cur_cmd->outfile_list);
-		// free(cur_cmd->args);
-		// free(cur_cmd);
 		ft_free_cmd(cur_cmd);
 		cur_cmd = next;
 	}
@@ -329,4 +323,21 @@ void	ft_reset_data(t_data *data)
 		// maybe free path_list and/or join_path
 		data->step = 0;
 	}
+}
+
+void	ft_free_env_list(t_env **env_list)
+{
+	t_env	*cur;
+	t_env	*next;
+
+	cur = *env_list;
+	while (cur != NULL)
+	{
+		next = cur->next;
+		free(cur->key);
+		free(cur->value);
+		free(cur);
+		cur = next;
+	}
+	*env_list = NULL;
 }

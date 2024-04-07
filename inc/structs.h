@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/06 16:52:12 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 01:50:20 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ typedef struct s_cmd
 	struct s_cmd		*next;
 }						t_cmd;
 
+typedef struct s_env
+{
+	char				*key;
+	char				*value;
+	struct s_env		*next;
+}						t_env;
+
 typedef struct s_data
 {
 	char				*line;
@@ -72,6 +79,7 @@ typedef struct s_data
 	char				**path_list;
 	char				*join_path;
 	int					step;
+	t_env				*env_list;
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
 }						t_data;

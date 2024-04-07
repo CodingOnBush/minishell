@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/06 16:27:40 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 01:43:12 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_arg	*create_new_arg(char *value)
+t_arg	*ft_new_arg(char *value)
 {
 	t_arg	*new_arg;
 
@@ -24,7 +24,7 @@ t_arg	*create_new_arg(char *value)
 	return (new_arg);
 }
 
-void	add_new_arg(t_arg **head, t_arg *new_arg)
+void	ft_add_new_arg(t_arg **head, t_arg *new_arg)
 {
 	t_arg	*arg_list;
 
@@ -39,7 +39,31 @@ void	add_new_arg(t_arg **head, t_arg *new_arg)
 	}
 }
 
-int	ft_get_arg_nbr(t_arg *arg_list)
+t_arg	*ft_create_arg_list(t_token *token)
+{
+	t_arg	*new;
+	t_arg	*res;
+	char	*str;
+
+	res = NULL;
+	while (token != NULL && token->type != PIPE)
+	{
+		if (token->attributed == false)
+		{
+			str = ft_strdup(token->str);
+			if (!str)
+				return (ft_free_arg_list(&res), NULL);
+			new = ft_new_arg(str);
+			if (!new)
+				return (ft_free_arg_list(&res), NULL);
+			ft_add_new_arg(&res, new);
+		}
+		token = token->next;
+	}
+	return (res);
+}
+
+static int	ft_get_arg_nbr(t_arg *arg_list)
 {
 	int	count;
 
@@ -52,7 +76,7 @@ int	ft_get_arg_nbr(t_arg *arg_list)
 	return (count);
 }
 
-char	**ft_arg_list_to_array(t_arg *arg_list)
+char	**ft_create_args_array(t_arg *arg_list)
 {
 	char	**array;
 	int		len;
@@ -73,28 +97,4 @@ char	**ft_arg_list_to_array(t_arg *arg_list)
 	}
 	array[i] = NULL;
 	return (array);
-}
-
-t_arg	*ft_create_arg_list(t_token *token)
-{
-	t_arg	*new;
-	t_arg	*res;
-	char	*str;
-
-	res = NULL;
-	while (token != NULL && token->type != PIPE)
-	{
-		if (token->attributed == false)
-		{
-			str = ft_strdup(token->str);
-			if (!str)
-				return (ft_free_arg_list(&res), NULL);
-			new = create_new_arg(str);
-			if (!new)
-				return (ft_free_arg_list(&res), NULL);
-			add_new_arg(&res, new);
-		}
-		token = token->next;
-	}
-	return (res);
 }
