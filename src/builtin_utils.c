@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:13:28 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 14:33:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 17:14:50 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ int	ft_isbuiltin(t_cmd *cmd)
 	if (ft_strncmp(cmd_name, "env", len) == 0)
 		return (YES);
 	if (ft_strncmp(cmd_name, "exit", len) == 0)
+		return (YES);
+	if (ft_strncmp(cmd_name, ":", len) == 0)
+	{
+		// printf("YES\n");
+		return (YES);
+	}
+	if (ft_strncmp(cmd_name, "!", len) == 0)
 		return (YES);
 	return (NO);
 }

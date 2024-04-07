@@ -6,28 +6,60 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/07 15:16:08 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 20:00:28 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+int	ft_cmd_errors_found(t_cmd *cmd)
+{
+	char	*cmd_name;
+	int		i;
+
+	if (cmd && cmd->args && ft_strchr(cmd->args[0], '/') == NULL)
+		return (NO);
+	i = 0;
+	cmd_name = cmd->args[0];
+	while (cmd_name[i])
+	{
+		while (cmd_name[i] != '\0' && cmd_name[i] == '/')
+			i++;
+		if (cmd_name[i] == '\0')
+			return (printf("minishell: %s: 1Is a directory\n", cmd_name), YES);
+		i++;
+		if (cmd_name[i] != '.')
+			return (printf("minishell: %s: 2No such file or directory\n", cmd_name), YES);
+		i++;
+		if (cmd_name[i] != '.')
+			return (printf("minishell: %s: 3No such file or directory\n", cmd_name), YES);
+		if (cmd_name[i] == '\0')
+			return (printf("minishell: %s: 4Is a directory\n", cmd_name), YES);
+		if (cmd_name[i] != '/')
+			return (printf("minishell: %s: 5No such file or directory\n", cmd_name), YES);
+		i++;
+	}
+	return (NO);
+}
+
 int	ft_exec(t_data *data, t_cmd *cmd)
 {
-	char	*path_name;
-
-	path_name = cmd->cmd_path;
-	if (!cmd->cmd_path)
+	if (ft_cmd_errors_found(cmd) == YES)
+	{
+		ft_free_all(data);
+		exit(1);
+	}
+	if (cmd->cmd_path == NULL)
 	{
 		if (!cmd->args && !cmd->args[0])
 		{
 			ft_free_all(data);
 			exit(EXIT_FAILURE);
 		}
-		if (cmd->args[0][0] == '/' || ft_strncmp("./", cmd->args[0], 2) == 0)
-			perror(cmd->args[0]);
-		else
-			ft_putstr_fd("command not found\n", 2);
+		// if (cmd->args[0][0] == '/' || ft_strncmp("./", cmd->args[0], 2) == 0)
+		// 	perror(cmd->args[0]);
+		// else
+		// 	printf("minishell: %s: command not found\n", cmd->args[0]);
 		ft_free_all(data);
 		exit(127);
 	}

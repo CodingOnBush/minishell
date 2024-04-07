@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 14:33:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 17:56:02 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_outfile	*ft_create_outfile_list(t_token *cur_token)
 	{
 		if (cur_token->type == RIGHT_TRUNC || cur_token->type == APPEND)
 		{
+			printf("type : %s\n", ft_type_to_str(cur_token->type));
 			new_outfile = ft_new_outfile(cur_token->next->str, cur_token->type);
 			if (!new_outfile)
 				return (ft_free_outfiles(&outfile_list), NULL);

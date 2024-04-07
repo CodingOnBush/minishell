@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 14:33:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 17:07:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 		ft_print_env(data->env);
 		return (SUCCESS);
 	}
+	if (ft_strncmp(cmd->arg_list->value, ":", len) == 0)
+		return (SUCCESS);
+	if (ft_strncmp(cmd->arg_list->value, "!", len) == 0)
+		return (SUCCESS);
 	return (SUCCESS);
 }
 
