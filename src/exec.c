@@ -6,48 +6,61 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/07 20:00:28 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/07 23:17:11 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_cmd_errors_found(t_cmd *cmd)
+static int	ft_jump_util(char *str, char c)
 {
-	char	*cmd_name;
-	int		i;
+	int i;
 
-	if (cmd && cmd->args && ft_strchr(cmd->args[0], '/') == NULL)
-		return (NO);
 	i = 0;
-	cmd_name = cmd->args[0];
-	while (cmd_name[i])
+	if (!str)
+		return (-1);
+	while (str[i] && str[i] != c)
 	{
-		while (cmd_name[i] != '\0' && cmd_name[i] == '/')
-			i++;
-		if (cmd_name[i] == '\0')
-			return (printf("minishell: %s: 1Is a directory\n", cmd_name), YES);
-		i++;
-		if (cmd_name[i] != '.')
-			return (printf("minishell: %s: 2No such file or directory\n", cmd_name), YES);
-		i++;
-		if (cmd_name[i] != '.')
-			return (printf("minishell: %s: 3No such file or directory\n", cmd_name), YES);
-		if (cmd_name[i] == '\0')
-			return (printf("minishell: %s: 4Is a directory\n", cmd_name), YES);
-		if (cmd_name[i] != '/')
-			return (printf("minishell: %s: 5No such file or directory\n", cmd_name), YES);
+		if (str[i] != '.')
+			return (-1);
 		i++;
 	}
-	return (NO);
+	return (i);
 }
 
-int	ft_exec(t_data *data, t_cmd *cmd)
+static int ft_cmd_errors_found(t_cmd *cmd)
+{
+	char	*str;
+	int		jump;
+
+	if (!cmd || !cmd->arg_list)
+		return (NO);
+	str = cmd->arg_list->value;
+	if (ft_strchr(str, '/') == NULL)
+		return (NO);
+	while (*str)
+	{
+		if (*str == '.')
+		{
+			jump = ft_jump_util(str, '/');
+			if (jump == -1 || jump > 2)
+				return (printf("minishell: %s: No such file or directory\n", cmd->arg_list->value), YES);
+			str += jump;
+		}
+		else if (*str == '/')
+			str++;
+		else
+			return (printf("minishell: %s: No such file or directory\n", cmd->arg_list->value), YES);
+	}
+	return (printf("minishell: %s: Is a directory\n", cmd->arg_list->value), YES);
+}
+
+int ft_exec(t_data *data, t_cmd *cmd)
 {
 	if (ft_cmd_errors_found(cmd) == YES)
 	{
 		ft_free_all(data);
-		exit(1);
+		exit(127);
 	}
 	if (cmd->cmd_path == NULL)
 	{
@@ -69,10 +82,10 @@ int	ft_exec(t_data *data, t_cmd *cmd)
 	exit(126);
 }
 
-int	ft_fork(t_data *data)
+int ft_fork(t_data *data)
 {
-	int	process;
-	
+	int process;
+
 	alloc_ids(data);
 	process = 0;
 	while (process < data->cmd_nb)
@@ -95,14 +108,14 @@ int	ft_fork(t_data *data)
 	return (SUCCESS);
 }
 
-void	ft_wait_for_children(t_data *data)
+void ft_wait_for_children(t_data *data)
 {
-	int	status;
-	int	i;
+	int status;
+	int i;
 
 	i = 0;
 	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list))
-		return ;
+		return;
 	while (i < data->cmd_nb)
 	{
 		waitpid(data->ids[i], &status, 0);
@@ -110,10 +123,10 @@ void	ft_wait_for_children(t_data *data)
 	}
 }
 
-void	ft_launch_exec(t_data *data)
+void ft_launch_exec(t_data *data)
 {
 	if (ft_launch_heredoc(data) == FAIL || data->cmd_nb <= 0)
-		return ;
+		return;
 	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == YES)
 		ft_exec_builtin(data, data->cmd_list);
 	else if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == NO)
