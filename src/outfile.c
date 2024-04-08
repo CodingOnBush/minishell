@@ -52,12 +52,14 @@ t_outfile	*ft_create_outfile_list(t_token *cur_token)
 	t_outfile	*new_outfile;
 
 	outfile_list = NULL;
+	new_outfile = NULL;
 	while (cur_token)
 	{
 		if (cur_token->type == RIGHT_TRUNC || cur_token->type == APPEND)
 		{
 			printf("type : %s\n", ft_type_to_str(cur_token->type));
-			new_outfile = ft_new_outfile(cur_token->next->str, cur_token->type);
+			if (cur_token->next && cur_token->next->str)
+				new_outfile = ft_new_outfile(cur_token->next->str, cur_token->type);
 			if (!new_outfile)
 				return (ft_free_outfiles(&outfile_list), NULL);
 			ft_add_outfile(&outfile_list, new_outfile);

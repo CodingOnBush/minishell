@@ -16,12 +16,14 @@ static int	is_error(t_token *list, t_token *token)
 {
 	if (!list || !token)
 		return (NO);
-	if (token->next == NULL)
+	if (token->next == NULL && ft_isop(token->str) == NO && token->type != PIPE)
 		return (NO);
-	if (ft_isop(token->str) == YES && ft_isop(token->next->str) == YES)
-		return (assign_error(token, token->next->type), YES);
-	if (ft_isop(token->str) == YES && token->next == NULL)
+	if (ft_isop(token->str) == YES && !token->next)
 		return (assign_error(token, NEWLINE_ERROR), YES);
+	if (ft_isop(token->str) == YES && token->next && ft_isop(token->next->str) == YES)
+		return (assign_error(token, token->next->type), YES);
+	// if (ft_isop(token->str) == YES && token->next == NULL)
+	// 	return (assign_error(token, NEWLINE_ERROR), YES);
 	if (token->type == PIPE)
 	{
 		if (token->next && ft_isop(token->next->str) == YES)

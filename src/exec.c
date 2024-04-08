@@ -114,6 +114,8 @@ void ft_wait_for_children(t_data *data)
 	int i;
 
 	i = 0;
+	if (!data->ids)
+		return;
 	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list))
 		return;
 	while (i < data->cmd_nb)
