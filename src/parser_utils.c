@@ -12,44 +12,6 @@
 
 #include "../inc/minishell.h"
 
-static char	*ft_create_cmd_path(char *path, char *cmd_name)
-{
-	char	*cmd_path;
-	char	*tmp;
-
-	tmp = ft_strjoin(path, "/");
-	if (!tmp)
-		return (NULL);
-	cmd_path = ft_strjoin(tmp, cmd_name);
-	if (!cmd_path)
-		return (NULL);
-	free(tmp);
-	return (cmd_path);
-}
-
-static char	*ft_get_cmd_path(char *cmd_name)
-{
-	char	**path_list;
-	char	*cmd_path;
-	int		i;
-
-	path_list = ft_split(getenv("PATH"), ':');
-	if (!path_list)
-		return (NULL);
-	i = 0;
-	while (path_list[i])
-	{
-		cmd_path = ft_create_cmd_path(path_list[i], cmd_name);
-		if (!cmd_path)
-			return (ft_free_path(path_list), NULL);
-		if (access(cmd_path, F_OK) == 0)
-			return (ft_free_path(path_list), cmd_path);
-		free(cmd_path);
-		i++;
-	}
-	return (ft_free_path(path_list), NULL);
-}
-
 static int	ft_init_new_cmd(t_cmd *new_cmd, t_token *cur_token)
 {
 	new_cmd->token_list = ft_extract_token(cur_token);
@@ -61,7 +23,8 @@ static int	ft_init_new_cmd(t_cmd *new_cmd, t_token *cur_token)
 	new_cmd->infile_list = ft_create_infile_list(cur_token);
 	new_cmd->outfile_list = ft_create_outfile_list(cur_token);
 	new_cmd->args = ft_create_args_array(new_cmd->arg_list);
-	new_cmd->cmd_path = ft_get_cmd_path(new_cmd->args[0]);
+	// new_cmd->cmd_path = ft_get_cmd_path(new_cmd->args[0]);
+	new_cmd->cmd_path = NULL;
 	new_cmd->next = NULL;
 	return (SUCCESS);
 }

@@ -32,6 +32,7 @@ int			is_infile(t_cmd *cmd);
 char		*get_missing_file(t_infile *inf_list);
 char		*get_last_infile(t_infile *inf_list);
 t_outfile	*get_last_outfile(t_outfile *out_list);
+char		*ft_get_cmd_path(char *cmd_name);
 
 /*		HEREDOCS	*/
 char		*get_file_name(int i);

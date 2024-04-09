@@ -62,6 +62,7 @@ int ft_exec(t_data *data, t_cmd *cmd)
 		ft_free_all(data);
 		exit(127);
 	}
+	cmd->cmd_path = ft_get_cmd_path(cmd->args[0]);
 	if (cmd->cmd_path == NULL)
 	{
 		if (!cmd->args && !cmd->args[0])
@@ -69,10 +70,8 @@ int ft_exec(t_data *data, t_cmd *cmd)
 			ft_free_all(data);
 			exit(EXIT_FAILURE);
 		}
-		// if (cmd->args[0][0] == '/' || ft_strncmp("./", cmd->args[0], 2) == 0)
-		// 	perror(cmd->args[0]);
-		// else
-		// 	printf("minishell: %s: command not found\n", cmd->args[0]);
+		else
+			printf("minishell: %s: command not found\n", cmd->args[0]);
 		ft_free_all(data);
 		exit(127);
 	}
@@ -132,9 +131,7 @@ void ft_launch_exec(t_data *data)
 	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == YES)
 		ft_exec_builtin(data, data->cmd_list);
 	else if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == NO)
-	{
 		ft_fork(data);
-	}
 	else if (data->cmd_nb > 1 && ft_init_pipes(data) == SUCCESS)
 		ft_fork(data);
 	ft_wait_for_children(data);

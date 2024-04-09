@@ -234,6 +234,7 @@ void	ft_print_cmd_list(t_cmd *list)
 	while (tmp)
 	{
 		printf("=========== CMD (%d)==========\n", tmp->pos);
+		printf("tmp->cmd_path : %s\n", tmp->cmd_path);
 		ft_print_token_list(tmp->token_list);
 		ft_print_arg_list(tmp->arg_list);
 		ft_print_infile_list(tmp->infile_list);

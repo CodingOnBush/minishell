@@ -128,6 +128,44 @@ t_outfile	*get_last_outfile(t_outfile *out_list)
 	return (cur);
 }
 
+static char	*ft_create_cmd_path(char *path, char *cmd_name)
+{
+	char	*cmd_path;
+	char	*tmp;
+
+	tmp = ft_strjoin(path, "/");
+	if (!tmp)
+		return (NULL);
+	cmd_path = ft_strjoin(tmp, cmd_name);
+	if (!cmd_path)
+		return (NULL);
+	free(tmp);
+	return (cmd_path);
+}
+
+char	*ft_get_cmd_path(char *cmd_name)
+{
+	char	**path_list;
+	char	*cmd_path;
+	int		i;
+
+	path_list = ft_split(getenv("PATH"), ':');
+	if (!path_list)
+		return (NULL);
+	i = 0;
+	while (path_list[i])
+	{
+		cmd_path = ft_create_cmd_path(path_list[i], cmd_name);
+		if (!cmd_path)
+			return (ft_free_path(path_list), NULL); //ici il ne faut pas free sinon pas de path pour dire à l'exec que la cmd n'existe pas (booleen?)
+		if (access(cmd_path, F_OK) == 0)
+			return (ft_free_path(path_list), cmd_path);
+		free(cmd_path);
+		i++;
+	}
+	return (ft_free_path(path_list), NULL);
+}
+
 // //ft_add_slash
 // static void	ft_add_slash(t_data *data, t_cmd *cmd)
 // {
