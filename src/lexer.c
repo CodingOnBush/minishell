@@ -12,21 +12,6 @@
 
 #include "../inc/minishell.h"
 
-static void	ft_print_token_list(t_token *list)
-{
-	t_token	*tmp;
-
-	tmp = list;
-	printf("TOKEN LIST\n");
-	if (!tmp)
-		printf("nil");
-	while (tmp)
-	{
-		printf("%s\t\t%s\t\t%d\t%d\t%d\t%s\n", tmp->str, ft_type_to_str(tmp->type), tmp->attributed, tmp->pos, tmp->error, ft_type_to_str(tmp->err_type));
-		tmp = tmp->next;
-	}
-}
-
 int	ft_lexer(t_data *data)
 {
 	if (ft_check_quote_error(data->line) == NO)
