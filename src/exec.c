@@ -70,6 +70,8 @@ int ft_exec(t_data *data, t_cmd *cmd)
 			ft_free_all(data);
 			exit(EXIT_FAILURE);
 		}
+		else if(cmd->args[0][0] == '&' && cmd->args[0][1]  && cmd->args[0][1] == '&') //ne règle pas le cas : qdazd  &&&&&
+			printf("unexpected token '&&'\n");
 		else
 			printf("minishell: %s: command not found\n", cmd->args[0]);
 		ft_free_all(data);

@@ -46,7 +46,6 @@ int	count_hd_pre_error(t_cmd *cmd)
 	hd_count = 0;
 	i = 0;
 	err_pos = get_err_pos(cmd);
-	printf("err_pos = %d\n", err_pos);
 	cur = cmd->token_list;
 	while (cur != NULL && cur->pos < err_pos)
 	{
