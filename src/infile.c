@@ -52,22 +52,22 @@ void	ft_add_infile(t_infile **infile_list, t_infile *new_infile)
 	}
 }
 
-t_infile	*ft_create_infile_list(t_token *cur_token)
+t_infile	*ft_create_infile_list(t_token *cur)
 {
 	t_infile	*res;
 	t_infile	*new;
 
 	res = NULL;
-	while (cur_token)
+	while (cur)
 	{
-		if (cur_token->type == LEFT_TRUNC || cur_token->type == HERE_DOC)
+		if ((cur->type == LEFT_TRUNC || cur->type == HERE_DOC) && cur->error == false)
 		{
-			new = ft_new_infile(cur_token->str, cur_token->type);
+			new = ft_new_infile(cur->str, cur->type);
 			if (!new)
 				return (ft_free_infiles(&res), NULL);
 			ft_add_infile(&res, new);
 		}
-		cur_token = cur_token->next;
+		cur = cur->next;
 	}
 	return (res);
 }

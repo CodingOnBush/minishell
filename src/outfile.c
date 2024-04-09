@@ -55,7 +55,7 @@ t_outfile	*ft_create_outfile_list(t_token *cur_token)
 	new_outfile = NULL;
 	while (cur_token)
 	{
-		if (cur_token->type == RIGHT_TRUNC || cur_token->type == APPEND)
+		if ((cur_token->type == RIGHT_TRUNC || cur_token->type == APPEND) && cur_token->error == false)
 		{
 			printf("type : %s\n", ft_type_to_str(cur_token->type));
 			if (cur_token->next && cur_token->next->str)

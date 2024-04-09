@@ -71,6 +71,8 @@ void	ft_free_outfiles(t_outfile **outfile_list)
 	t_outfile	*cur;
 	t_outfile	*next;
 
+	if (!outfile_list && !*outfile_list)
+		return ;
 	cur = *outfile_list;
 	if (!cur)
 		return ;
