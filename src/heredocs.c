@@ -136,7 +136,7 @@ int	do_heredocs(t_data *data)
 	return (FAIL);
 }
 
-static int	is_error_to_print(t_token *list)
+static int	is_error_to_print(t_data *data, t_token *list)
 {
 	t_token	*cur_token;
 
@@ -146,7 +146,7 @@ static int	is_error_to_print(t_token *list)
 		if (cur_token->error == true)
 		{
 			ft_print_error(cur_token->err_type);
-			return (YES);
+			return (ft_reset_data(data), YES);
 		}
 		cur_token = cur_token->next;
 	}
@@ -157,13 +157,13 @@ int	ft_launch_heredoc(t_data *data)
 {
 	if (do_heredocs(data) == FAIL)
 	{
-		if (is_error_to_print(data->token_list) == NO)
-			pipe_at_end_error_check(data->token_list);
+		if (is_error_to_print(data, data->token_list) == NO)
+			pipe_at_end_error_check(data, data->token_list);
 		return (FAIL);
 	}
-	if (is_error_to_print(data->token_list) == YES)
+	if (is_error_to_print(data, data->token_list) == YES)
 		return (FAIL);
-	if (pipe_at_end_error_check(data->token_list) == FAIL)
+	if (pipe_at_end_error_check(data, data->token_list) == FAIL)
 		return (FAIL);
 	return (SUCCESS);
 }

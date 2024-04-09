@@ -27,7 +27,7 @@ char	*ft_grab_var_name(char *str);
 char	*ft_get_expand(char *var_name);
 
 /*		ERRORS		*/
-int		pipe_at_end_error_check(t_token *list);
+int		pipe_at_end_error_check(t_data *data, t_token *list);
 void	assign_error(t_token *token, int err_type);
 void	ft_print_error(int errno);
 

@@ -215,9 +215,10 @@ static void	ft_print_outfile_list(t_outfile *list)
 	printf("OUTFILE\t:");
 	if (!tmp)
 		printf("nil");
-	while (tmp)
+	while (tmp != NULL)
 	{
-		printf("[name : %s | is_append : %d]", tmp->filename, tmp->append);
+		if (tmp->filename)
+			printf("[name : %s | is_append : %d]", tmp->filename, tmp->append);
 		tmp = tmp->next;
 	}
 	printf("\n");

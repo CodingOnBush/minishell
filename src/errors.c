@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-int	pipe_at_end_error_check(t_token *list)
+int	pipe_at_end_error_check(t_data *data, t_token *list)
 {
 	t_token	*cur_token;
 

@@ -103,6 +103,7 @@ void	ft_free_cmd(t_cmd *cmd)
 {
 	if (cmd != NULL)
 	{
+		ft_print_cmd_list(cmd);
 		if (cmd->token_list != NULL)
 			ft_free_tokens(&cmd->token_list);
 		if (cmd->arg_list != NULL)

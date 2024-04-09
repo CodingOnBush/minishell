@@ -13,6 +13,11 @@
 #ifndef EXEC_H
 # define EXEC_H
 
+/*		REMOVE		*/
+void	ft_print_token_list(t_token *list);
+void	ft_print_arg_list(t_arg *list);
+void	ft_print_cmd_list(t_cmd *list);
+
 /*		EXEC		*/
 int			ft_exec(t_data *data, t_cmd *cmd);
 int			ft_fork(t_data *data);
