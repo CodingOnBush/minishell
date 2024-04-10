@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   infile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 14:33:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:54:22 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,20 @@ t_infile	*ft_create_infile_list(t_token *cur)
 	t_infile	*new;
 
 	res = NULL;
+	new = NULL;
 	while (cur)
 	{
 		if ((cur->type == LEFT_TRUNC || cur->type == HERE_DOC) && cur->error == false)
 		{
-			new = ft_new_infile(cur->str, cur->type);
-			if (!new)
-				return (ft_free_infiles(&res), NULL);
+			if (cur->next && (cur->next->type == WORD || cur->next->type == LIM) && cur->next->error == false)
+			{
+				new = ft_new_infile(cur->next->str, cur->type);
+				if (!new)
+					return (ft_free_infiles(&res), NULL);
+				cur->next->attributed = true;
+			}
 			ft_add_infile(&res, new);
+			cur = cur->next;
 		}
 		cur = cur->next;
 	}

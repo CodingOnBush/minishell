@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 14:33:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:48:16 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,57 +166,9 @@ char	*ft_get_cmd_path(char *cmd_name)
 	return (ft_free_path(path_list), NULL);
 }
 
-// //ft_add_slash
-// static void	ft_add_slash(t_data *data, t_cmd *cmd)
-// {
-// 	char	*tmp;
-	
-// 	tmp = cmd->args[0];
-// 	cmd->args[0] = ft_strjoin("/", tmp);
-// 	if (!cmd->args[0])
-// 	{
-// 		perror("");
-// 		// ft_free_exec(data);
-// 		// exit(EXIT_FAILURE);
-// 	}
-// 	free(tmp);
-// }
-
-// //ft_join_path
-// static void	ft_join_path(t_data *data, t_cmd *cmd, int count)
-// {
-// 	data->join_path = ft_strjoin(data->path_list[count], cmd->args[0]);
-// 	if (!data->join_path)
-// 	{
-// 		ft_free_exec(data);
-// 		exit(EXIT_FAILURE);
-// 	}
-// }
-
-// char	*get_cmd_path(t_data *data, t_cmd *cmd)
-// {
-// 	int	count;
-
-// 	if (!cmd->args[0])
-// 		return (NULL);
-// 	if (ft_strchr(cmd->args[0], '/'))
-// 	{
-// 		if (access(cmd->args[0], F_OK) == 0)
-// 			return (ft_strdup(cmd->args[0]));
-// 		else
-// 			return (NULL);
-// 	}
-// 	if (data->path_list == NULL)
-// 		return (NULL);
-// 	ft_add_slash(data, cmd);
-// 	count = 0;
-// 	while (data->path_list[count])
-// 	{
-// 		ft_join_path(data, cmd, count);
-// 		if (access(data->join_path, F_OK) == 0)
-// 			return (data->join_path);
-// 		free(data->join_path);
-// 		count++;
-// 	}
-// 	return (NULL);
-// }
+void	cmd_not_found_error(char *cmd_name)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd_name, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}

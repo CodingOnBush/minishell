@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/07 23:17:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:13:14 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,19 @@ int ft_exec(t_data *data, t_cmd *cmd)
 		ft_free_all(data);
 		exit(127);
 	}
-	cmd->cmd_path = ft_get_cmd_path(cmd->args[0]);
+	if (cmd->args && cmd->args[0])
+		cmd->cmd_path = ft_get_cmd_path(cmd->args[0]);
 	if (cmd->cmd_path == NULL)
 	{
-		if (!cmd->args && !cmd->args[0])
+		if (!cmd->args || !cmd->args[0])
 		{
 			ft_free_all(data);
 			exit(EXIT_FAILURE);
 		}
 		else if(cmd->args[0][0] == '&' && cmd->args[0][1]  && cmd->args[0][1] == '&') //ne règle pas le cas : qdazd  &&&&&
-			printf("unexpected token '&&'\n");
+			ft_putstr_fd("unexpected token '&&'\n", 2);
 		else
-			printf("minishell: %s: command not found\n", cmd->args[0]);
+			cmd_not_found_error(cmd->args[0]);
 		ft_free_all(data);
 		exit(127);
 	}

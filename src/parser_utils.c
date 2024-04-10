@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/07 15:22:29 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:55:40 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@ static int	ft_init_new_cmd(t_cmd *new_cmd, t_token *cur_token)
 	new_cmd->token_list = ft_extract_token(cur_token);
 	if (!new_cmd->token_list)
 		return (FAIL);
-	new_cmd->arg_list = ft_create_arg_list(cur_token);
-	if (!new_cmd->arg_list)
-		return (FAIL);
 	new_cmd->infile_list = ft_create_infile_list(cur_token);
 	new_cmd->outfile_list = ft_create_outfile_list(cur_token);
+	new_cmd->arg_list = ft_create_arg_list(cur_token);
+	// if (!new_cmd->arg_list)
+	// 	return (FAIL);
 	new_cmd->args = ft_create_args_array(new_cmd->arg_list);
-	// new_cmd->cmd_path = ft_get_cmd_path(new_cmd->args[0]);
 	new_cmd->cmd_path = NULL;
 	new_cmd->next = NULL;
 	return (SUCCESS);
@@ -32,6 +31,7 @@ static int	ft_init_new_cmd(t_cmd *new_cmd, t_token *cur_token)
 t_cmd	*ft_new_cmd(t_token *cur_token, int pos)
 {
 	t_cmd	*new_cmd;
+	t_token	*next_token;
 
 	if (!cur_token)
 		return (NULL);
@@ -40,6 +40,10 @@ t_cmd	*ft_new_cmd(t_token *cur_token, int pos)
 		return (NULL);
 	ft_memset(new_cmd, 0, sizeof(t_cmd));
 	new_cmd->pos = pos;
+	if (cur_token->next)
+		next_token = cur_token->next;
+	else
+		next_token = NULL;
 	if (ft_init_new_cmd(new_cmd, cur_token) == FAIL)
 		return (ft_free_cmd(new_cmd), NULL);
 	return (new_cmd);

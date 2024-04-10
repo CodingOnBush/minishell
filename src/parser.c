@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 18:40:37 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:52:51 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,7 @@ int	ft_parser(t_data *data)
 	if (!data->cmd_list)
 		return (FAIL);
 	data->cmd_nb = ft_get_cmd_nb(data->cmd_list);
+	ft_print_cmd_list(data->cmd_list);
+	printf("cmd_nb = %d\n", data->cmd_nb);
 	return (SUCCESS);
 }

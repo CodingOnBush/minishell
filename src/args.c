@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 14:33:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:15:16 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_arg	*ft_create_arg_list(t_token *token)
 	res = NULL;
 	while (token != NULL && token->type != PIPE)
 	{
-		if (token->attributed == false)
+		if (token->attributed == false && ft_isop(token->str) == false)
 		{
 			str = ft_strdup(token->str);
 			if (!str)

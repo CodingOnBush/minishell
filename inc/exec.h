@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/07 02:29:59 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/10 16:17:05 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char		*get_missing_file(t_infile *inf_list);
 char		*get_last_infile(t_infile *inf_list);
 t_outfile	*get_last_outfile(t_outfile *out_list);
 char		*ft_get_cmd_path(char *cmd_name);
+void		cmd_not_found_error(char *cmd_name);
 
 /*		HEREDOCS	*/
 char		*get_file_name(int i);
