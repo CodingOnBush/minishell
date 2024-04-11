@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/10 17:35:57 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:58:11 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ static int	is_error_to_print(t_data *data, t_token *list)
 		if (cur_token->error == true)
 		{
 			ft_print_error(cur_token->err_type);
-			return (ft_reset_data(data), YES);
+			return (ft_free_exec(data), YES);
 		}
 		cur_token = cur_token->next;
 	}

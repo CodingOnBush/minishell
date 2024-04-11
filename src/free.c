@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/10 18:52:06 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:08:08 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,17 +191,13 @@ void	ft_free_lexing_and_parsing(t_data *data)
 		ft_free_cmd_list(&data->cmd_list);
 }
 
-void	unlink_and_free(t_data *data)
+static	void	free_heredocs(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	if (!data || !data->hd_files)
-		return ;
-	while (i < data->hdnum && data->hd_files[i] != NULL)
+	while (i < data->hdnum)
 	{
-		if (unlink(data->hd_files[i]) == -1)
-			perror("perror unlink");
 		if (data->hd_files[i])
 		{
 			free(data->hd_files[i]);
@@ -219,6 +215,27 @@ void	unlink_and_free(t_data *data)
 		free(data->fd_hd);
 		data->fd_hd = NULL;
 	}
+}
+
+void	unlink_and_free(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (!data || !data->hd_files)
+		return ;
+	while (i < data->hdnum && data->hd_files[i] != NULL)
+	{
+		if (data->hd_files[i])
+		{
+			if (unlink(data->hd_files[i]) == -1)
+				perror("perror unlink");
+			free(data->hd_files[i]);
+			data->hd_files[i] = NULL;
+		}
+		i++;
+	}
+	// free_heredocs(data);
 }
 
 void	ft_free_exec(t_data *data)
@@ -268,7 +285,7 @@ void	ft_free_all(t_data *data)
 {
 	if (data)
 	{
-		unlink_and_free(data);
+		free_heredocs(data);
 		ft_free_lexing_and_parsing(data);
 		ft_free_exec(data);
 		if (data->path_list)

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/10 18:11:12 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:57:27 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,10 @@ void	ft_exec_single_cmd(t_data *data)
 
 	cmd_to_exec = data->cmd_list;
 	if (cmd_to_exec == NULL || cmd_to_exec->arg_list == NULL)
+	{
+		ft_free_exec(data);
 		return ;
+	}
 	fd_in = ft_get_fd_in(data, cmd_to_exec);
 	fd_out = ft_get_fd_out(data, cmd_to_exec);
 	dup2(fd_in, STDIN_FILENO);

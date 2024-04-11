@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/11 14:06:44 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:01:09 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	main(int ac, char **av, char **env)
 		add_history(data->line);
 		if (ft_lexer(data) == SUCCESS && ft_parser(data) == SUCCESS)
 			ft_launch_exec(data);
-		unlink_and_free(data);
 		ft_wait_for_children(data);
 		ft_reset_data(data);
 	}
