@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/10 18:13:14 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:24:34 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,19 @@ void ft_wait_for_children(t_data *data)
 	int i;
 
 	i = 0;
+	status = 0;
 	if (!data->ids)
 		return;
 	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list))
 		return;
-	while (i < data->cmd_nb)
+	if (waitpid(data->ids[data->cmd_nb - 1], &status, 0) == data->ids[data->cmd_nb - 1])
 	{
-		waitpid(data->ids[i], &status, 0);
-		i++;
+		if (WIFEXITED(status))
+			data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status) != 0)
+			data->exit_status = SIGNUM + 128;
+		else
+			data->exit_status = 0;
 	}
 }
 

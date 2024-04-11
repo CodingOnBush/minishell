@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 14:33:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/11 14:02:28 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static char	*ft_get_next_str_in_double_quotes(char *str)
+static char	*ft_get_next_str_in_double_quotes(t_data *data, char *str)
 {
 	char	*var_name;
 	char	*new_str;
@@ -26,7 +26,7 @@ static char	*ft_get_next_str_in_double_quotes(char *str)
 		if (str && *str == '$')
 		{
 			var_name = ft_grab_var_name(str);
-			toadd = ft_get_expand(var_name);
+			toadd = ft_get_expand(data, var_name);
 			str += ft_strlen(var_name) + 1;
 			free(var_name);
 		}
@@ -60,7 +60,7 @@ static int	ft_get_next_step(char *str, char *new_str)
 	return (ft_strlen(new_str));
 }
 
-static char	*ft_get_next_str(char *str)
+static char	*ft_get_next_str(t_data *data, char *str)
 {
 	char	*grab;
 	char	*res;
@@ -70,14 +70,14 @@ static char	*ft_get_next_str(char *str)
 	if (str && *str == DOUBLE_QUOTES && (str + 1))
 	{
 		grab = ft_grab_str(str + 1, "\"");
-		res = ft_get_next_str_in_double_quotes(grab);
+		res = ft_get_next_str_in_double_quotes(data, grab);
 		free(grab);
 		return (res);
 	}
 	if (str && *str == '$' && (str + 1))
 	{
 		grab = ft_grab_var_name(str);
-		res = ft_get_expand(grab);
+		res = ft_get_expand(data, grab);
 		free(grab);
 		return (res);
 	}
@@ -85,7 +85,7 @@ static char	*ft_get_next_str(char *str)
 	return (grab);
 }
 
-static char	*ft_get_expanded_str(char *str)
+static char	*ft_get_expanded_str(t_data *data, char *str)
 {
 	char	*res;
 	char	*tmp;
@@ -95,7 +95,7 @@ static char	*ft_get_expanded_str(char *str)
 	next_str = NULL;
 	while (*str != '\0')
 	{
-		next_str = ft_get_next_str(str);
+		next_str = ft_get_next_str(data, str);
 		str += ft_get_next_step(str, next_str);
 		tmp = ft_super_strjoin(res, next_str);
 		res = tmp;
@@ -103,7 +103,7 @@ static char	*ft_get_expanded_str(char *str)
 	return (res);
 }
 
-void	ft_expand_words(t_token **token_list)
+void	ft_expand_words(t_data *data, t_token **token_list)
 {
 	t_token	*token;
 	char	*new_str;
@@ -114,7 +114,7 @@ void	ft_expand_words(t_token **token_list)
 	{
 		if (token->type == WORD)
 		{
-			new_str = ft_get_expanded_str(token->str);
+			new_str = ft_get_expanded_str(data, token->str);
 			free(token->str);
 			token->str = new_str;
 		}

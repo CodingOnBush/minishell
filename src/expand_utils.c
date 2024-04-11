@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 14:33:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/11 13:44:44 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ char	*ft_grab_var_name(char *str)
 	return (var_name);
 }
 
-char	*ft_get_expand(char *var_name)
+char	*ft_get_expand(t_data *data, char *var_name)
 {
 	char	*var_content;
 
 	if (var_name == NULL)
 		return (ft_strdup("$"));
-	// if (*var_name == '?') // 
-	// 	return (ft_itoa(g_exit_status));
+	if (*var_name == '?')
+		return (ft_itoa(data->exit_status));
 	var_content = getenv(var_name);
 	if (!var_content)
 		return (NULL);

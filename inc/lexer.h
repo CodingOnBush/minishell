@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:36:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 17:53:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/11 14:02:15 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int		ft_check_quote_error(char *line);
 int		ft_double_pipe_detected(t_token *token);
 
 /*		EXPAND		*/
-void	ft_expand_words(t_token **token_list);
+void	ft_expand_words(t_data *data, t_token **token_list);
 
 /*	EXPAND_UTILS	*/
 char	*ft_remove_quotes(char *str);
 char	*ft_grab_str(char *str, char *limset);
 char	*ft_grab_var_name(char *str);
-char	*ft_get_expand(char *var_name);
+char	*ft_get_expand(t_data *data, char *var_name);
 
 /*		ERRORS		*/
 int		pipe_at_end_error_check(t_data *data, t_token *list);

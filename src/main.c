@@ -6,11 +6,13 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/10 17:55:47 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/11 14:06:44 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	SIGNUM = 0;
 
 int	main(int ac, char **av, char **env)
 {
