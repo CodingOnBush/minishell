@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 15:06:22 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:42:32 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,18 @@ t_infile	*ft_new_infile(char *str, int type, t_data *data)
 	new_str = ft_strdup(str);
 	if (!new_str)
 		return (free(new_infile), NULL);
+	new_infile->to_expand = true;
 	if (type == LEFT_TRUNC)
 	{
 		new_infile->filename = new_str;
 		new_infile->delimiter = NULL;
-		new_infile->to_expand = false;
 	}
 	else if (type == HERE_DOC)
 	{
-		new_infile->hd_num = data->hd_pos + 1;
+		new_infile->hd_num = data->hd_pos;
+		data->hd_pos++;
 		new_infile->delimiter = new_str;
-		new_infile->to_expand = true;
+		// new_infile->to_expand = true;
 		if (ft_strchr(new_str, '\'') != NULL || ft_strchr(new_str, '\"') != NULL)
 			new_infile->to_expand = false;
 	}
@@ -45,7 +46,9 @@ void	ft_set_hd_as_infiles(t_data *data)
 {
 	t_infile	*lst;
 	t_cmd		*cur;
+	int			i;
 	
+	i = 0;
 	cur = data->cmd_list;
 	if (!cur)
 		return ;
@@ -54,14 +57,11 @@ void	ft_set_hd_as_infiles(t_data *data)
 		lst = cur->infile_list;
 		while (lst)
 		{
-			if (lst->delimiter != NULL)
+			if (lst->delimiter != NULL && data->hd_files != NULL && data->hd_files[i] != NULL)
 			{
-				if (data->hd_files != NULL && data->hd_files[lst->hd_num] != NULL)
-				{
-					lst->filename = data->hd_files[lst->hd_num];
-					if (!lst->filename)
-						return ;
-				}
+				lst->filename = data->hd_files[i++];
+				if (!lst->filename)
+					return ;
 			}
 			lst = lst->next;
 		}

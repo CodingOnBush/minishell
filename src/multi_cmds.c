@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 15:05:05 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:12:02 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 	fd_out = ft_get_fd_out(data, cmd_to_exec);
 	dup2(fd_in, STDIN_FILENO);
 	if (fd_out == STDOUT_FILENO)
-		dup2(data->pipe_ends[0][1], STDOUT_FILENO);
+	{
+		if (dup2(data->pipe_ends[0][1], STDOUT_FILENO) == -1)
+			perror(NULL);
+	}
 	else
 		dup2(fd_out, STDOUT_FILENO);
 	if (fd_in != STDIN_FILENO)
@@ -118,6 +121,5 @@ int	ft_init_pipes(t_data *data)
 		}
 		count++;
 	}
-	ft_close_pipes(data);
 	return (SUCCESS);
 }
