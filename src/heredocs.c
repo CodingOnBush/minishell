@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 10:20:17 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:06:43 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	do_heredocs(t_data *data)
 	int		i;
 
 	data->hdnum = get_hd_number(data->cmd_list);
-	printf("hdnum = %d\n", data->hdnum);
+	// printf("hdnum = %d\n", data->hdnum);
 	if (data->hdnum == 0)
 		return (SUCCESS);
 	i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/10 18:48:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:55:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ char	*ft_get_cmd_path(char *cmd_name)
 	char	*cmd_path;
 	int		i;
 
+	if (ft_strchr(cmd_name, '/') != NULL)
+		return (ft_strdup(cmd_name));
 	path_list = ft_split(getenv("PATH"), ':');
 	if (!path_list)
 		return (NULL);

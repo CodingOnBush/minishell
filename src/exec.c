@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/12 10:29:28 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:00:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,12 @@ static int	ft_jump_util(char *str, char c)
 	return (i);
 }
 
-static int ft_cmd_errors_found(t_cmd *cmd)
+static int ft_is_directory(char *cmd_name)
 {
 	char	*str;
 	int		jump;
 
-	if (!cmd || !cmd->arg_list)
-		return (NO);
-	str = cmd->arg_list->value;
+	str = cmd_name;
 	if (ft_strchr(str, '/') == NULL)
 		return (NO);
 	while (*str)
@@ -44,40 +42,40 @@ static int ft_cmd_errors_found(t_cmd *cmd)
 		{
 			jump = ft_jump_util(str, '/');
 			if (jump == -1 || jump > 2)
-				return (printf("minishell: %s: No such file or directory\n", cmd->arg_list->value), YES);
+				return (NO);
 			str += jump;
 		}
 		else if (*str == '/')
 			str++;
 		else
-			return (printf("minishell: %s: No such file or directory\n", cmd->arg_list->value), YES);
+			return (NO);
 	}
-	return (printf("minishell: %s: Is a directory\n", cmd->arg_list->value), YES);
+	return (YES);
 }
 
 int ft_exec(t_data *data, t_cmd *cmd)
 {
-	if (ft_cmd_errors_found(cmd) == YES)
+	if (!cmd->arg_list || !cmd->arg_list->value)
+		return (SUCCESS);
+	if (ft_is_directory(cmd->arg_list->value) == YES)
 	{
+		printf("minishell: %s: Is a directory\n", cmd->arg_list->value);
+		ft_free_all(data);
+		exit(126);
+	}
+	cmd->cmd_path = ft_get_cmd_path(cmd->args[0]);
+	if (!cmd->cmd_path)
+	{
+		cmd_not_found_error(cmd->args[0]);
 		ft_free_all(data);
 		exit(127);
 	}
-	if (cmd->args && cmd->args[0])
-		cmd->cmd_path = ft_get_cmd_path(cmd->args[0]);
-	if (cmd->cmd_path == NULL)
-	{
-		if (!cmd->args || !cmd->args[0])
-		{
-			ft_free_all(data);
-			exit(EXIT_FAILURE);
-		}
-		else if(cmd->args[0][0] == '&' && cmd->args[0][1]  && cmd->args[0][1] == '&') //ne règle pas le cas : qdazd  &&&&&
-			ft_putstr_fd("unexpected token '&&'\n", 2);
-		else
-			cmd_not_found_error(cmd->args[0]);
-		ft_free_all(data);
-		exit(127);
-	}
+	// if (access(cmd->arg_list->value, R_OK) == -1)
+	// {
+	// 	printf("minishell: %s: No such file or directory\n", cmd->arg_list->value);
+	// 	ft_free_all(data);
+	// 	exit(127);
+	// }
 	execve(cmd->cmd_path, cmd->args, data->env);
 	perror(cmd->cmd_path);
 	ft_free_all(data);

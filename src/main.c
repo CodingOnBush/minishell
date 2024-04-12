@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/11 16:01:09 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:58:54 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	SIGNUM = 0;
+int SIGNUM = 0;
 
 int	main(int ac, char **av, char **env)
 {
