@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 15:26:06 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:40:35 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ int	ft_get_fd_in(t_data *data, t_cmd *cmd)
 	{
 		perror(infile);
 		ft_free_all(data);
-		exit(EXIT_FAILURE);
+		if (infile && access(infile, F_OK) == 0)
+			exit(126);
+		else
+			exit(127);
 	}
 	return (fd_in);
 }
@@ -55,6 +58,8 @@ int	ft_get_fd_out(t_data *data, t_cmd *cmd)
 
 	fd_out = STDOUT_FILENO;
 	outfile = get_last_outfile(cmd->outfile_list);
+	if (!outfile)
+		return (fd_out);
 	if (outfile != NULL && outfile->append == YES)
 		fd_out = open(outfile->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else if (outfile != NULL && outfile->append == NO)
@@ -62,8 +67,13 @@ int	ft_get_fd_out(t_data *data, t_cmd *cmd)
 	if (fd_out == -1)
 	{
 		perror(outfile->filename);
+		if (access(outfile->filename, F_OK) == -1)
+		{
+			ft_free_all(data);
+			exit(127);
+		}
 		ft_free_all(data);
-		exit(EXIT_FAILURE);
+		exit(126);
 	}
 	return (fd_out);
 }

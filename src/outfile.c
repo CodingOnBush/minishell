@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outfile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 17:56:02 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/12 16:27:08 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ t_outfile	*ft_create_outfile_list(t_token *cur_token)
 	{
 		if ((cur_token->type == RIGHT_TRUNC || cur_token->type == APPEND) && cur_token->error == false)
 		{
-			// printf("type : %s\n", ft_type_to_str(cur_token->type));
 			if (cur_token->next && cur_token->next->str && ft_isop(cur_token->next->str) == NO)
 				new_outfile = ft_new_outfile(cur_token->next->str, cur_token->type);
 			if (!new_outfile)

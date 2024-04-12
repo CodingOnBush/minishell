@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/12 13:44:43 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:27:19 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static int	ft_init_new_cmd(t_data *data, t_cmd *new_cmd, t_token *cur_token)
 	new_cmd->infile_list = ft_create_infile_list(data, new_cmd->token_list);
 	new_cmd->outfile_list = ft_create_outfile_list(new_cmd->token_list);
 	new_cmd->arg_list = ft_create_arg_list(new_cmd->token_list);
-	// if (!new_cmd->arg_list)
-	// 	return (FAIL);
 	new_cmd->args = ft_create_args_array(new_cmd->arg_list);
 	new_cmd->cmd_path = NULL;
 	new_cmd->next = NULL;
