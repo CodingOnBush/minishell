@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 16:40:35 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:04:54 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ int	ft_get_fd_in(t_data *data, t_cmd *cmd)
 	{
 		perror(infile);
 		ft_free_all(data);
-		if (infile && access(infile, F_OK) == 0)
-			exit(126);
-		else
-			exit(127);
+		exit(1);
 	}
 	return (fd_in);
 }
@@ -67,13 +64,8 @@ int	ft_get_fd_out(t_data *data, t_cmd *cmd)
 	if (fd_out == -1)
 	{
 		perror(outfile->filename);
-		if (access(outfile->filename, F_OK) == -1)
-		{
-			ft_free_all(data);
-			exit(127);
-		}
 		ft_free_all(data);
-		exit(126);
+		exit(1);
 	}
 	return (fd_out);
 }

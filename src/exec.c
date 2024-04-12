@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/12 16:47:34 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:15:57 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,6 @@ int ft_exec(t_data *data, t_cmd *cmd)
 		ft_free_all(data);
 		exit(127);
 	}
-	// if (access(cmd->arg_list->value, R_OK) == -1)
-	// {
-	// 	printf("minishell: %s: No such file or directory\n", cmd->arg_list->value);
-	// 	ft_free_all(data);
-	// 	exit(127);
-	// }
 	execve(cmd->cmd_path, cmd->args, data->env);
 	perror(cmd->cmd_path);
 	ft_free_all(data);
@@ -135,10 +129,10 @@ void ft_launch_exec(t_data *data)
 	if (ft_launch_heredoc(data) == FAIL || data->cmd_nb <= 0)
 		return;
 	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == YES)
-		ft_exec_builtin(data, data->cmd_list);
+		data->exit_status = ft_exec_builtin(data, data->cmd_list);
 	else if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == NO)
 		ft_fork(data);
 	else if (data->cmd_nb > 1 && ft_init_pipes(data) == SUCCESS)
 		ft_fork(data);
-	ft_wait_for_children(data);
+// 	ft_wait_for_children(data);
 }

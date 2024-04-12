@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 17:07:55 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/12 17:17:49 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_pwd(t_arg *arg_list)
 	}
 	printf("%s\n", cwd);
 	free(cwd);
-	return (SUCCESS);
+	return (0);
 }
 
 int	ft_exec_builtin(t_data *data, t_cmd *cmd)
@@ -102,7 +102,7 @@ int	ft_change_dir(t_cmd *cmd)
 		perror(path);
 		return (FAIL);
 	}
-	return (SUCCESS);
+	return (0);
 }
 
 static t_arg	*ft_find_n_option(t_arg *arg_list)
@@ -156,5 +156,5 @@ int	ft_echo(t_cmd *cmd)
 	}
 	if (add_newline == YES)
 		printf("\n");
-	return (SUCCESS);
+	return (0);
 }

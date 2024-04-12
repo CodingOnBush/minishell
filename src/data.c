@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 15:24:57 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:13:09 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_data	*ft_create_data(char **env)
 	data->step = 0;
 	data->env_list = ft_create_env_list(env);
 	data->hd_pos = -1;
+	data->exit_status = 0;
 	if (!data->env_list)
 		return (free(data), NULL);
 	ft_setup_signals(data);

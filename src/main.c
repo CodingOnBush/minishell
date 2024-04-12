@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 16:46:52 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:16:43 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int g_signum = 0;
 
 int	main(int ac, char **av, char **env)
 {
+	int				status;
 	t_data *const	data = ft_create_data(env);
 
 	(void)ac;
@@ -33,8 +34,9 @@ int	main(int ac, char **av, char **env)
 		ft_wait_for_children(data);
 		ft_reset_data(data);
 	}
+	status = data->exit_status;
 	ft_free_all(data);
 	rl_clear_history();
 	printf("exit\n");
-	return (0);
+	return (status);
 }
