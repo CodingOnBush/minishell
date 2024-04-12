@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 14:33:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/12 15:05:05 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,6 @@ int	ft_init_pipes(t_data *data)
 		}
 		count++;
 	}
+	ft_close_pipes(data);
 	return (SUCCESS);
 }

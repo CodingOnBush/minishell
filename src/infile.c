@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 13:55:15 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:06:22 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_set_hd_as_infiles(t_data *data)
 			{
 				if (data->hd_files != NULL && data->hd_files[lst->hd_num] != NULL)
 				{
-					lst->filename = ft_strdup(data->hd_files[lst->hd_num]);
+					lst->filename = data->hd_files[lst->hd_num];
 					if (!lst->filename)
 						return ;
 				}
