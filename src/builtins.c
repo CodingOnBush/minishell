@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 17:17:49 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:41:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,11 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_strncmp(cmd->arg_list->value, "echo", len) == 0)
 		return (ft_echo(cmd));
 	if (ft_strncmp(cmd->arg_list->value, "env", len) == 0)
-	{
-		ft_print_env(data->env);
-		return (SUCCESS);
-	}
+		return (ft_print_env(data->env), 0);
 	if (ft_strncmp(cmd->arg_list->value, ":", len) == 0)
-		return (SUCCESS);
+		return (0);
 	if (ft_strncmp(cmd->arg_list->value, "!", len) == 0)
-		return (SUCCESS);
+		return (1);
 	return (SUCCESS);
 }
 

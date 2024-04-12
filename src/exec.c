@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/12 17:15:57 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:33:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int ft_exec(t_data *data, t_cmd *cmd)
 		return (SUCCESS);
 	if (ft_is_directory(cmd->arg_list->value) == YES)
 	{
-		printf("minishell: %s: Is a directory\n", cmd->arg_list->value);
+		printf("%s: Is a directory\n", cmd->arg_list->value);
 		ft_free_all(data);
 		exit(126);
 	}

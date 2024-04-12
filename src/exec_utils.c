@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 16:38:13 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:33:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ char	*ft_get_cmd_path(char *cmd_name)
 
 void	cmd_not_found_error(char *cmd_name)
 {
-	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("", 2);
 	ft_putstr_fd(cmd_name, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }

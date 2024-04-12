@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:37 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 17:16:43 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:30:54 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int g_signum = 0;
 
 int	main(int ac, char **av, char **env)
 {
-	int				status;
 	t_data *const	data = ft_create_data(env);
+	int				status;
 
 	(void)ac;
 	(void)av;
