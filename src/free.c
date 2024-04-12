@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/11 16:08:08 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:24:25 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	ft_free_cmd(t_cmd *cmd)
 {
 	if (cmd != NULL)
 	{
-		// ft_print_cmd_list(cmd);
 		if (cmd->token_list != NULL)
 			ft_free_tokens(&cmd->token_list);
 		if (cmd->arg_list != NULL)
@@ -198,7 +197,7 @@ static	void	free_heredocs(t_data *data)
 	i = 0;
 	while (i < data->hdnum)
 	{
-		if (data->hd_files[i])
+		if (data->hd_files && data->hd_files[i])
 		{
 			free(data->hd_files[i]);
 			data->hd_files[i] = NULL;
@@ -243,6 +242,8 @@ void	ft_free_exec(t_data *data)
 	int	i;
 
 	i = 0;
+	unlink_and_free(data);
+	free_heredocs(data);
 	if (data->ids)
 	{
 		free(data->ids);

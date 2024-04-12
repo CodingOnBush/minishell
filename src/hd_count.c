@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 18:14:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 10:32:40 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:16:52 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	count_heredocs(t_infile *inf_list)
 	{
 		if (cur_inf->delimiter != NULL)
 			hd_count++;
-		printf("hd_count = %d\n", hd_count);
 		cur_inf = cur_inf->next;
 	}
 	return (hd_count);
@@ -89,7 +88,6 @@ int	get_hd_number(t_cmd *list)
 	while (cur_cmd != NULL)
 	{
 		cur_tk = cur_cmd->token_list;
-		ft_print_cmd_list(cur_cmd);
 		while (cur_tk != NULL)
 		{
 			if (cur_tk->error == true || cur_tk->pipe_at_end == true)
@@ -100,7 +98,6 @@ int	get_hd_number(t_cmd *list)
 				|| cur_tk->pipe_at_end == true))
 			break ;
 		hdnum += count_heredocs(cur_cmd->infile_list);
-		printf("hdnum = %d\n", hdnum);
 		cur_cmd = cur_cmd->next;
 	}
 	if (cur_cmd != NULL && (cur_tk->error == true
