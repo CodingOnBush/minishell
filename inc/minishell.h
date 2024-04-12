@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 14:37:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/11 14:07:46 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:47:18 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include "parser.h"
 #include "exec.h"
 
-extern int SIGNUM;
+extern int g_signum;
 
 char	*ft_type_to_str(int type);
 

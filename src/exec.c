@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/12 16:41:12 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:47:34 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void ft_wait_for_children(t_data *data)
 		if (WIFEXITED(status))
 			data->exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status) != 0)
-			data->exit_status = SIGNUM + 128;
+			data->exit_status = g_signum + 128;
 		else
 			data->exit_status = 0;
 	}
