@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 11:26:44 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:31:07 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	**create_hd_files(int hdnum)
 	return (hd_files);
 }
 
-void	writing_loop(t_data *data, int fd_hd, char *delimiter)
+void	writing_loop(t_data *data, int fd_hd, char *delimiter, bool to_expand)
 {
 	char	*line;
 	size_t	len;
@@ -73,8 +73,11 @@ void	writing_loop(t_data *data, int fd_hd, char *delimiter)
 				2);
 			break ;
 		}
+		if (to_expand == true)
+			line = ft_get_expanded_str(data, line);
+		line = ft_super_strjoin(line, ft_strdup("\n"));
 		len = ft_strlen((const char *)line);
-		if (ft_strncmp(line, delimiter, len) == 0)
+		if (ft_strncmp(line, delimiter, len - 1) == 0)
 			break ;
 		else
 		{
@@ -92,6 +95,7 @@ static int	execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
 
 	cur_inf = cmd->infile_list;
 	count = 0;
+	ft_set_hd_as_infiles(data);
 	while (cur_inf != NULL && (i + count) < data->hdnum)
 	{
 		if (cur_inf->delimiter != NULL)
@@ -100,7 +104,7 @@ static int	execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
 					O_WRONLY | O_CREAT, 0644);
 			if (fd_hd[i + count] == -1)
 				return (ft_print_error(HDEXEC), ft_free_all(data), FAIL);
-			writing_loop(data, fd_hd[i + count], cur_inf->delimiter);
+			writing_loop(data, fd_hd[i + count], cur_inf->delimiter, cur_inf->to_expand);
 			close(fd_hd[i + count]);
 			count++;
 		}

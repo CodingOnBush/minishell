@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:36:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/11 14:02:15 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:48:25 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int		ft_check_quote_error(char *line);
 int		ft_double_pipe_detected(t_token *token);
 
 /*		EXPAND		*/
+char	*ft_get_expanded_str(t_data *data, char *str);
 void	ft_expand_words(t_data *data, t_token **token_list);
 
 /*	EXPAND_UTILS	*/

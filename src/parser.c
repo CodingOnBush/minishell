@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/11 14:42:17 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:14:52 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_token	*ft_get_next_pipe_token(t_token *cur_token)
 	return (NULL);
 }
 
-static t_cmd	*ft_create_cmd_list(t_token *token_list)
+static t_cmd	*ft_create_cmd_list(t_data *data, t_token *token_list)
 {
 	t_token	*cur_token;
 	t_cmd	*cmd_list;
@@ -39,7 +39,7 @@ static t_cmd	*ft_create_cmd_list(t_token *token_list)
 	{
 		if (cur_token->type != PIPE)
 		{
-			new_cmd = ft_new_cmd(cur_token, pos);
+			new_cmd = ft_new_cmd(data, cur_token, pos);
 			if (!new_cmd)
 				return (printf("HO\n"), NULL);
 			ft_add_new_cmd(&cmd_list, new_cmd);
@@ -69,7 +69,7 @@ int	ft_get_cmd_nb(t_cmd *cmd_list)
 
 int	ft_parser(t_data *data)
 {
-	data->cmd_list = ft_create_cmd_list(data->token_list);
+	data->cmd_list = ft_create_cmd_list(data, data->token_list);
 	if (!data->cmd_list)
 		return (FAIL);
 	data->cmd_nb = ft_get_cmd_nb(data->cmd_list);

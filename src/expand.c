@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/11 14:02:28 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:48:01 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static char	*ft_get_next_str(t_data *data, char *str)
 	return (grab);
 }
 
-static char	*ft_get_expanded_str(t_data *data, char *str)
+char	*ft_get_expanded_str(t_data *data, char *str)
 {
 	char	*res;
 	char	*tmp;

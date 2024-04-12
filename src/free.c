@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 11:24:25 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:19:30 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ void	ft_free_infiles(t_infile **infile_list)
 	while (cur != NULL)
 	{
 		next = cur->next;
-		free(cur->filename);
-		free(cur->delimiter);
+		if (cur->filename)
+			free(cur->filename);
+		if (cur->delimiter)
+			free(cur->delimiter);
 		free(cur);
 		cur = next;
 	}

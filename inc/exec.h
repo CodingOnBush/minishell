@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/10 16:17:05 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:58:18 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void		cmd_not_found_error(char *cmd_name);
 
 /*		HEREDOCS	*/
 char		*get_file_name(int i);
-void		writing_loop(t_data *data, int fd_hd, char *delimiter);
+void		writing_loop(t_data *data, int fd_hd, char *delimiter, bool to_expand);
 int			do_heredocs(t_data *data);
 int			ft_launch_heredoc(t_data *data);
 

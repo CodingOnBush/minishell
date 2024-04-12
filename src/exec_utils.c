@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/10 18:48:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:27:54 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	is_infile(t_cmd *cmd)
 	cur_inf = cmd->infile_list;
 	while (cur_inf != NULL)
 	{
-		if (cur_inf->delimiter == NULL && cur_inf->filename != NULL)
+		if (cur_inf->filename != NULL)
 			return (YES);
 		cur_inf = cur_inf->next;
 	}
@@ -98,7 +98,7 @@ char	*get_last_infile(t_infile *inf_list)
 	cur_inf = inf_list;
 	while (cur_inf != NULL)
 	{
-		if (cur_inf->delimiter == NULL && cur_inf->filename != NULL)
+		if (cur_inf->filename != NULL)
 			last_infile = cur_inf;
 		cur_inf = cur_inf->next;
 	}

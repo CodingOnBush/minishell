@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 18:14:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 11:16:52 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:26:03 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int	count_heredocs(t_infile *inf_list)
 	while (cur_inf != NULL)
 	{
 		if (cur_inf->delimiter != NULL)
+		{
+			cur_inf->hd_num = hd_count;
 			hd_count++;
+		}
 		cur_inf = cur_inf->next;
 	}
 	return (hd_count);
