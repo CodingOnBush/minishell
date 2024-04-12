@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:36:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 11:49:16 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/12 13:40:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,21 @@ void	assign_error(t_token *token, int err_type)
 void	ft_print_error(int errno)
 {
 	if (errno == APPEND)
-		ft_putstr_fd("syntax error near unexpected token `>>'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `>>'\n", 2);
 	else if (errno == HERE_DOC)
-		ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `<<'\n", 2);
 	else if (errno == RIGHT_TRUNC)
-		ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `>'\n", 2);
 	else if (errno == LEFT_TRUNC)
-		ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `<'\n", 2);
 	else if (errno == PIPE)
-		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
 	else if (errno == NEWLINE_ERROR)
-		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
 	else if (errno == QUOTES_ERROR)
-		ft_putstr_fd("Syntax error : Unclosed single or double quote\n", 2);
+		ft_putstr_fd("minishell: syntax error : Unclosed single or double quote\n", 2);
 	else if (errno == DOUBLE_PIPE_ERROR)
-		ft_putstr_fd("Syntax error : Double pipe detected\n", 2);
+		ft_putstr_fd("minishell: syntax error : Double pipe detected\n", 2);
 	else if (errno == HDEXEC)
-		ft_putstr_fd("Heredoc execution failed\n", 2);
+		ft_putstr_fd("minishell: heredoc execution failed\n", 2);
 }
