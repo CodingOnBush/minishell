@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 17:41:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/13 22:52:58 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,27 @@ static t_arg	*ft_find_n_option(t_arg *arg_list)
 	return (NULL);
 }
 
+static int	ft_there_is_n_option(t_arg *arg_list)
+{
+	t_arg	*cur;
+	char	*str;
+
+	cur = arg_list->next;
+	while (cur)
+	{
+		str = cur->value;
+		if (!str || !str[0] || !str[1] || (str[0] != '-' && str[1] != 'n'))
+			return (NO);
+		str++;
+		while (str && *str != '\0' && *str == 'n')
+			str++;
+		if (*str == '\0')
+			return (YES);
+		cur = cur->next;
+	}
+	return (NO);
+}
+
 int	ft_echo(t_cmd *cmd)
 {
 	t_arg	*cur;
@@ -136,10 +157,13 @@ int	ft_echo(t_cmd *cmd)
 	
 	add_newline = YES;
 	arg_option = ft_find_n_option(cmd->arg_list);
-	if (arg_option != NULL)
+	if (ft_there_is_n_option(cmd->arg_list) == YES)
 	{
 		add_newline = NO;
-		cur = arg_option->next;
+		if (arg_option != NULL)
+			cur = arg_option->next;
+		else
+			cur = cmd->arg_list->next->next;
 	}
 	else
 		cur = cmd->arg_list->next;
