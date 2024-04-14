@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/13 22:52:58 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/14 15:59:31 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_strncmp(cmd->arg_list->value, "cd", len) == 0)
 		return (ft_change_dir(cmd));
 	if (ft_strncmp(cmd->arg_list->value, "echo", len) == 0)
-		return (ft_echo(cmd));
+		return (ft_echo(cmd->arg_list));
 	if (ft_strncmp(cmd->arg_list->value, "env", len) == 0)
 		return (ft_print_env(data->env), 0);
 	if (ft_strncmp(cmd->arg_list->value, ":", len) == 0)
@@ -99,83 +99,5 @@ int	ft_change_dir(t_cmd *cmd)
 		perror(path);
 		return (FAIL);
 	}
-	return (0);
-}
-
-static t_arg	*ft_find_n_option(t_arg *arg_list)
-{
-	t_arg	*cur;
-	t_arg	*last;
-	char	*str;
-
-	cur = arg_list->next;
-	last = NULL;
-	while (cur)
-	{
-		str = cur->value;
-		if (!str || !str[0] || !str[1] || (str[0] != '-' && str[1] != 'n'))
-			return (last);
-		str++;
-		while (str && *str != '\0' && *str == 'n')
-			str++;
-		if (*str == '\0')
-			last = cur;
-		else
-			return (last);
-		cur = cur->next;
-	}
-	return (NULL);
-}
-
-static int	ft_there_is_n_option(t_arg *arg_list)
-{
-	t_arg	*cur;
-	char	*str;
-
-	cur = arg_list->next;
-	while (cur)
-	{
-		str = cur->value;
-		if (!str || !str[0] || !str[1] || (str[0] != '-' && str[1] != 'n'))
-			return (NO);
-		str++;
-		while (str && *str != '\0' && *str == 'n')
-			str++;
-		if (*str == '\0')
-			return (YES);
-		cur = cur->next;
-	}
-	return (NO);
-}
-
-int	ft_echo(t_cmd *cmd)
-{
-	t_arg	*cur;
-	int		add_newline;
-	char	*str;
-	t_arg	*arg_option;
-	
-	add_newline = YES;
-	arg_option = ft_find_n_option(cmd->arg_list);
-	if (ft_there_is_n_option(cmd->arg_list) == YES)
-	{
-		add_newline = NO;
-		if (arg_option != NULL)
-			cur = arg_option->next;
-		else
-			cur = cmd->arg_list->next->next;
-	}
-	else
-		cur = cmd->arg_list->next;
-	while (cur != NULL)
-	{
-		str = cur->value;
-		printf("%s", str);
-		if (cur->next != NULL)
-			printf(" ");
-		cur = cur->next;
-	}
-	if (add_newline == YES)
-		printf("\n");
 	return (0);
 }

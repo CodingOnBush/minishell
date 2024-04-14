@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/12 11:58:18 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/14 15:59:51 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			ft_pwd(t_arg *arg_list);
 int			ft_exec_builtin(t_data *data, t_cmd *cmd);
 char		*ft_getcwd(void);
 int			ft_change_dir(t_cmd *cmd);
-int			ft_echo(t_cmd *cmd);
+// int			ft_echo(t_cmd *cmd);
 
 /*		BUILTIN_UTILS	*/
 int			ft_isbuiltin(t_cmd *cmd);
@@ -69,5 +69,8 @@ char		*ft_get_valid_infile(t_data *data, t_cmd *cmd);
 int			ft_get_fd_in(t_data *data, t_cmd *cmd);
 int			ft_get_fd_out(t_data *data, t_cmd *cmd);
 void		ft_exec_single_cmd(t_data *data);
+
+/*		ECHO			*/
+int			ft_echo(t_arg *lst);
 
 #endif

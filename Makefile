@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
+#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/12 14:32:12 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/04/14 15:59:10 by allblue          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ GREEN 		:= \033[0;92m
 CYAN 		:= \033[0;96m
 
 SRC_EXEC	:=	builtin_utils builtins exec exec_utils \
-				hd_count heredocs multi_cmds single_cmd
+				hd_count heredocs multi_cmds single_cmd echo
 
 SRC_INIT	:=	data env env_utils free signals utils
 
