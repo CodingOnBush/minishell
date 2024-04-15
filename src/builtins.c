@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/15 07:36:04 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/15 08:49:12 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_strncmp(cmd->arg_list->value, "pwd", len) == 0)
 		return (ft_pwd(cmd->arg_list->next));
 	if (ft_iscd(cmd->arg_list->value))
-		return (ft_cd(cmd->arg_list->next));
+		return (ft_cd(cmd->arg_list));
 	if (ft_isecho(cmd->arg_list->value))
 		return (ft_echo(cmd->arg_list));
 	if (ft_strncmp(cmd->arg_list->value, "env", len) == 0)

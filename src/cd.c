@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/15 07:32:47 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/15 09:10:41 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,26 @@
 static char	*ft_get_path(t_arg *lst)
 {
 	char	*path;
+	char	*tmp;
 
-	if (lst->next->next != NULL)
+	if (lst->next != NULL)
 		return (printf("cd: too many arguments\n"), NULL);
 	path = lst->value;
+	if (path[0] == '~' && path[1] == '\0')
+	{
+		tmp = getenv("HOME");
+		if (!tmp)
+			return (NULL);
+		path = ft_strjoin(tmp, path + 1);
+		if (!path)
+			return (free(tmp), perror("ft_strjoin"), NULL);
+	}
+	else if (path[0] == '-' && path[1] == '\0')
+	{
+		path = getenv("OLDPWD");
+		if (!path)
+			return (printf("cd: OLDPWD not set\n"), NULL);
+	}
 	return (path);
 }
 
@@ -27,7 +43,7 @@ int	ft_cd(t_arg *lst)
 	char	*path;
 
 	if (!lst || !lst->value || !ft_iscd(lst->value))
-		return (printf("ft_cd: stop"), FAIL);
+		return (printf("ft_cd: error"), FAIL);
 	if (lst->next == NULL)
 		path = getenv("HOME");
 	else
@@ -38,5 +54,5 @@ int	ft_cd(t_arg *lst)
 			return (perror(path), FAIL);
 		// update PWD and OLDPWD
 	}
-	return (0);
+	return (SUCCESS);
 }
