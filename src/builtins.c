@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/14 15:59:31 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/15 07:36:04 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 {
 	int	len;
 
+	if (!cmd->arg_list)
+		return (SUCCESS);
 	len = ft_strlen(cmd->arg_list->value);
 	if (ft_strncmp(cmd->arg_list->value, "pwd", len) == 0)
 		return (ft_pwd(cmd->arg_list->next));
-	if (ft_strncmp(cmd->arg_list->value, "cd", len) == 0)
-		return (ft_change_dir(cmd));
-	if (ft_strncmp(cmd->arg_list->value, "echo", len) == 0)
+	if (ft_iscd(cmd->arg_list->value))
+		return (ft_cd(cmd->arg_list->next));
+	if (ft_isecho(cmd->arg_list->value))
 		return (ft_echo(cmd->arg_list));
 	if (ft_strncmp(cmd->arg_list->value, "env", len) == 0)
 		return (ft_print_env(data->env), 0);
@@ -72,32 +74,3 @@ char	*ft_getcwd(void)
 	return (cwd);
 }
 
-int	ft_change_dir(t_cmd *cmd)
-{
-	char	*path;
-	t_arg	*arg_list;
-
-	path = NULL;
-	arg_list = cmd->arg_list;
-	if (!cmd || !arg_list)
-		return (FAIL);
-	if (arg_list->next == NULL)
-	{
-		path = getenv("HOME");
-		if (!path)
-			return (FAIL);// no home so no cd and no error
-	}
-	else
-		path = arg_list->next->value;
-	if (arg_list->next->next != NULL)
-	{
-		printf("cd: too many arguments\n");
-		return (FAIL);
-	}
-	if (chdir(path) == -1)
-	{
-		perror(path);
-		return (FAIL);
-	}
-	return (0);
-}

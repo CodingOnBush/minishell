@@ -6,7 +6,7 @@
 #    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/14 15:59:10 by allblue          ###   ########.fr        #
+#    Updated: 2024/04/15 07:13:21 by allblue          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ GREEN 		:= \033[0;92m
 CYAN 		:= \033[0;96m
 
 SRC_EXEC	:=	builtin_utils builtins exec exec_utils \
-				hd_count heredocs multi_cmds single_cmd echo
+				hd_count heredocs multi_cmds single_cmd echo \
+				cd
 
 SRC_INIT	:=	data env env_utils free signals utils
 

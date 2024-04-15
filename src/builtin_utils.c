@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:13:28 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 17:14:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/15 07:32:56 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ int	ft_isbuiltin(t_cmd *cmd)
 		return (YES);
 	}
 	if (ft_strncmp(cmd_name, "!", len) == 0)
+		return (YES);
+	return (NO);
+}
+
+int	ft_isecho(char *str)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	if (ft_strncmp(str, "echo", len) == 0)
+		return (YES);
+	return (NO);
+}
+
+int	ft_iscd(char *str)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	if (ft_strncmp(str, "cd", len) == 0)
 		return (YES);
 	return (NO);
 }
