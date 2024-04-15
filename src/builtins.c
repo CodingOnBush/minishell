@@ -58,6 +58,8 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 		return (0);
 	if (ft_strncmp(cmd->arg_list->value, "!", len) == 0)
 		return (1);
+	if (ft_strncmp(cmd->arg_list->value, "exit", len) == 0)
+		return (ft_exit(cmd->arg_list));
 	return (SUCCESS);
 }
 

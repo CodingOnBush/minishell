@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 12:36:48 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/15 09:50:57 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_data
 	struct sigaction	sigint_action;
 	struct sigaction	sigquit_action;
 	int					exit_status;
+	int					exit_builtin;
 	int					hd_pos;
 }						t_data;
 
