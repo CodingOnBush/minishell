@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:36:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 17:33:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/16 12:40:54 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,21 @@ void	assign_error(t_token *token, int err_type)
 void	ft_print_error(int errno)
 {
 	if (errno == APPEND)
-		ft_putstr_fd("syntax error near unexpected token `>>'\n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `>>'\n", 2);
 	else if (errno == HERE_DOC)
-		ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `<<'\n", 2);
 	else if (errno == RIGHT_TRUNC)
-		ft_putstr_fd("syntax error near unexpected token `>'\n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `>'\n", 2);
 	else if (errno == LEFT_TRUNC)
-		ft_putstr_fd("syntax error near unexpected token `<'\n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `<'\n", 2);
 	else if (errno == PIPE)
-		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 	else if (errno == NEWLINE_ERROR)
-		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `newline'\n", 2);
 	else if (errno == QUOTES_ERROR)
-		ft_putstr_fd("syntax error : Unclosed single or double quote\n", 2);
+		ft_putstr_fd(" syntax error : Unclosed single or double quote\n", 2);
 	else if (errno == DOUBLE_PIPE_ERROR)
-		ft_putstr_fd("syntax error : Double pipe detected\n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 	else if (errno == HDEXEC)
-		ft_putstr_fd("heredoc execution failed\n", 2);
+		ft_putstr_fd(" heredoc execution failed\n", 2);
 }

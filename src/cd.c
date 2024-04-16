@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/16 12:01:43 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 13:19:56 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ int	ft_cd(t_env *env_list, t_arg *lst)
 			return (FAIL);
 		}
 	}
-	return (SUCCESS);
+	return (0);
 }
