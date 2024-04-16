@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/16 16:17:20 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:51:37 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_cd(t_env *env_list, t_arg *lst)
 	char	*path;
 
 	if (!lst || !lst->value || !ft_iscd(lst->value))
-		return (printf("ft_cd: error"), FAIL);
+		return (printf("ft_cd: error"), 1);
 	if (lst->next == NULL)
 		path = getenv("HOME");
 	else
@@ -54,7 +54,7 @@ int	ft_cd(t_env *env_list, t_arg *lst)
 		if (chdir(path) == -1)
 		{
 			perror(path);
-			return (FAIL);
+			return (1);
 		}
 	}
 	return (0);
