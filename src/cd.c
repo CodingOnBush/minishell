@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/15 09:10:41 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 11:21:01 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*ft_get_path(t_arg *lst)
 	if (lst->next != NULL)
 		return (printf("cd: too many arguments\n"), NULL);
 	path = lst->value;
-	if (path[0] == '~' && path[1] == '\0')
+	if (ft_strncmp(path, "~", 1) == 0)
 	{
 		tmp = getenv("HOME");
 		if (!tmp)
@@ -29,7 +29,7 @@ static char	*ft_get_path(t_arg *lst)
 		if (!path)
 			return (free(tmp), perror("ft_strjoin"), NULL);
 	}
-	else if (path[0] == '-' && path[1] == '\0')
+	else if (ft_strncmp(path, "-", ft_strlen(path)) == 0)
 	{
 		path = getenv("OLDPWD");
 		if (!path)
