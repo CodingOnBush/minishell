@@ -6,17 +6,18 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/16 11:21:01 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 12:01:43 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static char	*ft_get_path(t_arg *lst)
+static char	*ft_get_path(t_env *env_list, t_arg *lst)
 {
 	char	*path;
 	char	*tmp;
 
+	(void)env_list;
 	if (lst->next != NULL)
 		return (printf("cd: too many arguments\n"), NULL);
 	path = lst->value;
@@ -38,7 +39,7 @@ static char	*ft_get_path(t_arg *lst)
 	return (path);
 }
 
-int	ft_cd(t_arg *lst)
+int	ft_cd(t_env *env_list, t_arg *lst)
 {
 	char	*path;
 
@@ -47,12 +48,14 @@ int	ft_cd(t_arg *lst)
 	if (lst->next == NULL)
 		path = getenv("HOME");
 	else
-		path = ft_get_path(lst->next);
+		path = ft_get_path(env_list, lst->next);
 	if (path)
 	{
 		if (chdir(path) == -1)
-			return (perror(path), FAIL);
-		// update PWD and OLDPWD
+		{
+			perror(path);
+			return (FAIL);
+		}
 	}
 	return (SUCCESS);
 }

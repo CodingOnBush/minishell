@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:38:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 15:31:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/16 11:43:25 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_env	*ft_create_env_list(char **env);
 char	*ft_get_env_value(t_env *env_list, char *key);
 void	ft_remove_env(t_env **env_list, char *key);
 t_env	*ft_create_new_var(char *key, char *value);
+void	ft_update_env(t_env **env_list, char *key, char *new);
 
 /*		ENV_UTILS	*/
 char	*ft_get_key(char *str);

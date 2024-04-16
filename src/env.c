@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/07 15:29:53 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/16 11:46:36 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,23 @@ t_env	*ft_create_new_var(char *key, char *value)
 		return (free(new_var->key), free(new_var), NULL);
 	new_var->next = NULL;
 	return (new_var);
+}
+
+void	ft_update_env(t_env **env_list, char *key, char *new)
+{
+	t_env	*tmp;
+
+	tmp = *env_list;
+	if (!new)
+		return ;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(new);
+			return ;
+		}
+		tmp = tmp->next;
+	}
 }

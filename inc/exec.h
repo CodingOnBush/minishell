@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/15 07:32:56 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 11:40:32 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ int			do_heredocs(t_data *data);
 int			ft_launch_heredoc(t_data *data);
 
 /*		BUILTINS	*/
-int			ft_pwd(t_arg *arg_list);
 int			ft_exec_builtin(t_data *data, t_cmd *cmd);
-char		*ft_getcwd(void);
 
 /*		BUILTIN_UTILS	*/
 int			ft_isbuiltin(t_cmd *cmd);
@@ -74,6 +72,6 @@ void		ft_exec_single_cmd(t_data *data);
 int			ft_echo(t_arg *lst);
 
 /*		CD				*/
-int			ft_cd(t_arg *lst);
+int			ft_cd(t_env *env_list, t_arg *lst);
 
 #endif

@@ -2,6 +2,7 @@
 	"C_Cpp.errorSquiggles": "disabled",
 	"files.associations": {
 		"minishell.h": "c",
-		"waitstatus.h": "c"
+		"waitstatus.h": "c",
+		"exec.h": "c"
 	}
 }
