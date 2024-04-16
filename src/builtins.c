@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/14 15:59:31 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 08:58:35 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_strncmp(cmd->arg_list->value, "!", len) == 0)
 		return (1);
 	if (ft_strncmp(cmd->arg_list->value, "exit", len) == 0)
-		return (ft_exit(cmd->arg_list));
+		return (ft_exit(data, cmd->arg_list));
 	return (SUCCESS);
 }
 

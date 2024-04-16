@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/14 15:59:51 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 09:23:14 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define EXEC_H
 
 /*		REMOVE		*/
-void	ft_print_token_list(t_token *list);
-void	ft_print_arg_list(t_arg *list);
-void	ft_print_cmd_list(t_cmd *list);
+void		ft_print_token_list(t_token *list);
+void		ft_print_arg_list(t_arg *list);
+void		ft_print_cmd_list(t_cmd *list);
 
 /*		EXEC		*/
 int			ft_exec(t_data *data, t_cmd *cmd);
@@ -72,5 +72,9 @@ void		ft_exec_single_cmd(t_data *data);
 
 /*		ECHO			*/
 int			ft_echo(t_arg *lst);
+
+/*		EXIT			*/
+int			is_exit_builtin(t_data *data);
+int			ft_exit(t_data *data, t_arg *arg_list);
 
 #endif

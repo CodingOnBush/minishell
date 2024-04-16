@@ -6,13 +6,27 @@
 /*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:40:03 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/04/15 09:50:39 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/04/16 09:22:36 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_isnumber(char *str)
+int	is_exit_builtin(t_data *data)
+{
+	t_cmd	*cmd;
+
+	cmd = data->cmd_list;
+	while (cmd)
+	{
+		if (ft_strncmp(cmd->args[0], "exit", ft_strlen("exit")) == 0)
+			return (YES);
+		cmd = cmd->next;
+	}
+	return (NO);
+}
+
+static int	ft_isnumber(char *str)
 {
 	int	i;
 
@@ -28,7 +42,7 @@ int	ft_isnumber(char *str)
 	return (YES);
 }
 
-int	ft_exit(t_arg *arg_list)
+int	ft_exit(t_data *data, t_arg *arg_list)
 {
 	int		status;
 	char	*str;
@@ -48,6 +62,7 @@ int	ft_exit(t_arg *arg_list)
 	}
 	ft_putstr_fd("exit\n", 2);
 	data->exit_builtin = YES;
+	ft_free_all(data);
 	exit(status);
 	return (status);
 }
