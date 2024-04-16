@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 11:48:01 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:13:23 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	ft_expand_words(t_data *data, t_token **token_list)
 	token = *token_list;
 	while (token != NULL)
 	{
-		if (token->type == WORD)
+		if (token->type == WORD || token->type == EXPANDED)
 		{
 			new_str = ft_get_expanded_str(data, token->str);
 			free(token->str);

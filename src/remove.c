@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 13:56:03 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:13:49 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	parse_commands(t_cmd *new_cmd, t_token *token)
 			new_str = ft_strdup(token->str);
 			if (!new_str)
 				return (ft_free_arg_list(&new_cmd->arg_list), FAIL);
-			new_arg = ft_new_arg(new_str);
+			new_arg = ft_new_arg(new_str, token->type);
 			if (!new_arg)
 				return (ft_free_arg_list(&new_cmd->arg_list), FAIL);
 			ft_add_new_arg(&new_cmd->arg_list, new_arg);
@@ -157,6 +157,8 @@ char	*ft_type_to_str(int type)
 		return ("QWORD");
 	if (type == LIM)
 		return ("LIM");
+	if (type == EXPANDED)
+		return ("EXPANDED");
 	return ("UNKNOWN");
 }
 

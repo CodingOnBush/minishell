@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/16 11:24:01 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:58:47 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_outfile
 typedef struct s_arg
 {
 	char				*value;
+	int					token_type;
 	struct s_arg		*next;
 }						t_arg;
 

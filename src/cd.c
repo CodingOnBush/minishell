@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/16 13:19:56 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:17:20 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*ft_get_path(t_env *env_list, t_arg *lst)
 	char	*tmp;
 
 	(void)env_list;
-	if (lst->next != NULL)
+	if (lst && lst->next != NULL && lst->token_type == WORD)
 		return (printf("cd: too many arguments\n"), NULL);
 	path = lst->value;
 	if (ft_strncmp(path, "~", 1) == 0)

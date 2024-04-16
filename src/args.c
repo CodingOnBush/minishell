@@ -6,13 +6,13 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/16 13:19:33 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:05:41 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_arg	*ft_new_arg(char *value)
+t_arg	*ft_new_arg(char *value, int token_type)
 {
 	t_arg	*new_arg;
 
@@ -20,6 +20,7 @@ t_arg	*ft_new_arg(char *value)
 	if (!new_arg)
 		return (NULL);
 	new_arg->value = value;
+	new_arg->token_type = token_type;
 	new_arg->next = NULL;
 	return (new_arg);
 }
@@ -53,7 +54,7 @@ t_arg	*ft_create_arg_list(t_token *token)
 			str = ft_strdup(token->str);
 			if (!str)
 				return (ft_free_arg_list(&res), NULL);
-			new = ft_new_arg(str);
+			new = ft_new_arg(str, token->type);
 			if (!new)
 				return (ft_free_arg_list(&res), NULL);
 			ft_add_new_arg(&res, new);

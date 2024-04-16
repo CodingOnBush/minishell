@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/16 12:25:11 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:15:32 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 {
 	int	len;
 
-	printf("ft_exec_builtin\n");
 	if (!cmd->arg_list)
 		return (SUCCESS);
 	len = ft_strlen(cmd->arg_list->value);

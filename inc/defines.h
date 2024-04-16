@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:33:06 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/03 23:08:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:47:58 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@
 # define LIM 13
 # define PIPE_AT_END 14
 # define HDEXEC 15
+# define EXPANDED 16
 
 #endif

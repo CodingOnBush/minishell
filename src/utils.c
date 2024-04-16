@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/16 13:09:12 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:12:33 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int  ft_get_type(char *str)
 		return (LEFT_TRUNC);
 	if (*str == '>')
 		return (RIGHT_TRUNC);
+	if (ft_strchr(str, '$') != NULL)
+		return (EXPANDED);
 	return (WORD);
 }
 

@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/16 11:46:36 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:18:52 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_env	*ft_create_env_list(char **env)
 	return (res);
 }
 
-char	*ft_get_env_value(t_env *env_list, char *key)
+char	*ft_getenv(t_env *env_list, char *key)
 {
 	t_env	*tmp;
 
