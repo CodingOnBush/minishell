@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/16 12:14:38 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:56:22 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			is_infile(t_cmd *cmd);
 char		*get_missing_file(t_infile *inf_list);
 char		*get_last_infile(t_infile *inf_list);
 t_outfile	*get_last_outfile(t_outfile *out_list);
-char		*ft_get_cmd_path(char *cmd_name);
+char		*ft_get_cmd_path(t_data *data, char *cmd_name);
 void		cmd_not_found_error(char *cmd_name);
 
 /*		HEREDOCS	*/
@@ -73,5 +73,18 @@ int			ft_echo(t_arg *lst);
 
 /*		CD				*/
 int			ft_cd(t_env *env_list, t_arg *lst);
+
+/*		EXPORT			*/
+void		ft_add_new_env(t_env **env_list, t_env *new);
+t_env		*ft_env_to_env_list(char **env);
+char		**ft_env_list_to_env(t_env *env_list);
+char		*ft_getenv(t_env *env_list, char *key);
+void		ft_remove_env(t_env **env_list, char *key);
+int			ft_update_var(t_env **env_list, char *key, char *value);
+int			ft_add_new_env_var(t_env **env_list, char *key, char *value);
+char		*ft_strjoin_key_value(char *key, char *value);
+char		*ft_extract_key(char*str);
+char		*ft_extract_value(char *str);
+void		ft_add_new_env_in_list(t_env **env_list, char *key, char *value);
 
 #endif

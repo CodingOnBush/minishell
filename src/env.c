@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/16 16:18:52 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:59:39 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,44 +31,44 @@ t_env	*ft_create_env_list(char **env)
 	return (res);
 }
 
-char	*ft_getenv(t_env *env_list, char *key)
-{
-	t_env	*tmp;
+// char	*ft_getenv(t_env *env_list, char *key)
+// {
+// 	t_env	*tmp;
 
-	tmp = env_list;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
-			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
+// 	tmp = env_list;
+// 	while (tmp)
+// 	{
+// 		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+// 			return (ft_strdup(tmp->value));
+// 		tmp = tmp->next;
+// 	}
+// 	return (NULL);
+// }
 
-void	ft_remove_env(t_env **env_list, char *key)
-{
-	t_env	*tmp;
-	t_env	*prev;
+// void	ft_remove_env(t_env **env_list, char *key)
+// {
+// 	t_env	*tmp;
+// 	t_env	*prev;
 
-	tmp = *env_list;
-	prev = NULL;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
-		{
-			if (prev)
-				prev->next = tmp->next;
-			else
-				*env_list = tmp->next;
-			free(tmp->key);
-			free(tmp->value);
-			free(tmp);
-			return ;
-		}
-		prev = tmp;
-		tmp = tmp->next;
-	}
-}
+// 	tmp = *env_list;
+// 	prev = NULL;
+// 	while (tmp)
+// 	{
+// 		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+// 		{
+// 			if (prev)
+// 				prev->next = tmp->next;
+// 			else
+// 				*env_list = tmp->next;
+// 			free(tmp->key);
+// 			free(tmp->value);
+// 			free(tmp);
+// 			return ;
+// 		}
+// 		prev = tmp;
+// 		tmp = tmp->next;
+// 	}
+// }
 
 t_env	*ft_create_new_var(char *key, char *value)
 {
@@ -103,5 +103,54 @@ void	ft_update_env(t_env **env_list, char *key, char *new)
 			return ;
 		}
 		tmp = tmp->next;
+	}
+}
+
+
+static int	ft_get_env_size(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	return (i);
+}
+
+// void	ft_add_new_env_var(t_data *data, char *var_name, char *var_value)
+// {
+// 	char	**new_env;
+// 	char	*tmp;
+// 	int		i;
+
+// 	new_env = (char **)malloc(sizeof(char *) * (ft_get_env_size(data->env) + 2));
+// 	if (!new_env)
+// 	{
+// 		data->exit_status = 1;
+// 		return ;
+// 	}
+// 	i = 0;
+// 	while (data->env[i])
+// 	{
+// 		new_env[i] = ft_strdup(data->env[i]);
+// 		i++;
+// 	}
+// 	tmp = ft_strjoin(var_name, "=");
+// 	new_env[i] = ft_strjoin(tmp, var_value);
+// 	free(tmp);
+// 	new_env[i + 1] = NULL;
+// 	ft_free_env(data->env);
+// 	data->env = new_env;
+// }
+
+void	ft_print_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
 	}
 }

@@ -1,9 +1,15 @@
 # TODO
+cd ../../../../../../bin
+
+
+# Pour pwd, on a le choix entre ignorer les arguments (donc executer pwd)
+# ou les considerer comme une erreur (ne pas executer pwd et avoir le bon msg d'erreur et le bon exit code)
 pwd -p
 pwd --p
 pwd ---p
 pwd -- p
-cd ../../../../../../bin
+
+
 cd -
 cd --
 cd ---

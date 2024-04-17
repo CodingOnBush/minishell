@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 15:07:47 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:37:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,6 +301,8 @@ void	ft_free_all(t_data *data)
 			ft_free_pipe_ends(data);
 		if (data->env_list)
 			ft_free_env_list(&data->env_list);
+		if (data->env)
+			ft_free_env(data->env);
 		free(data);
 	}
 }
@@ -367,4 +369,17 @@ void	ft_free_env_list(t_env **env_list)
 		cur = next;
 	}
 	*env_list = NULL;
+}
+
+void	ft_free_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		free(env[i]);
+		i++;
+	}
+	free(env);
 }

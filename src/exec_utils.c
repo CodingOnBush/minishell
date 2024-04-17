@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/17 16:02:07 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:43:20 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ static char	*ft_create_cmd_path(char *path, char *cmd_name)
 	return (cmd_path);
 }
 
-char	*ft_get_cmd_path(char *cmd_name)
+char	*ft_get_cmd_path(t_data *data, char *cmd_name)
 {
 	char	**path_list;
 	char	*cmd_path;
@@ -153,7 +153,7 @@ char	*ft_get_cmd_path(char *cmd_name)
 		return (ft_strdup(""));
 	if (ft_strchr(cmd_name, '/') != NULL)
 		return (ft_strdup(cmd_name));
-	path_list = ft_split(getenv("PATH"), ':');
+	path_list = ft_split(ft_getenv(data->env_list, "PATH"), ':');
 	if (!path_list)
 		return (NULL);
 	i = 0;
