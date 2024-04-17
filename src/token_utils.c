@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:41:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 17:53:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/17 15:18:00 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,14 @@ t_token	*ft_extract_token(t_token *cur_token)
 	res = NULL;
 	while (cur_token != NULL && cur_token->type != PIPE)
 	{
-		str = ft_strdup(cur_token->str);
-		if (!str)
-			return (ft_free_tokens(&res), NULL);
+		if (cur_token->str == NULL)
+			str = NULL;
+		else
+		{
+			str = ft_strdup(cur_token->str);
+			if (!str)
+				return (ft_free_tokens(&res), NULL);
+		}
 		new = ft_new_token(str, cur_token->type, cur_token->pos, cur_token->error);
 		if (!new)
 			return (free(str), ft_free_tokens(&res), NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:38:00 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/16 12:19:10 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/17 15:18:12 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_cmd	*ft_create_cmd_list(t_data *data, t_token *token_list)
 		{
 			new_cmd = ft_new_cmd(data, cur_token, pos);
 			if (!new_cmd)
-				return (printf("HO\n"), NULL);
+				return (NULL);
 			ft_add_new_cmd(&cmd_list, new_cmd);
 			cur_token = ft_get_next_pipe_token(cur_token);
 		}

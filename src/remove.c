@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/16 16:13:49 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/17 14:17:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,6 @@ char	*ft_type_to_str(int type)
 		return ("QWORD");
 	if (type == LIM)
 		return ("LIM");
-	if (type == EXPANDED)
-		return ("EXPANDED");
 	return ("UNKNOWN");
 }
 

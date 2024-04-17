@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/16 16:51:37 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/17 14:15:25 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static char	*ft_get_path(t_env *env_list, t_arg *lst)
 		path = ft_strjoin(tmp, path + 1);
 		if (!path)
 			return (free(tmp), perror("ft_strjoin"), NULL);
+		free(tmp);
 	}
 	else if (ft_strncmp(path, "-", ft_strlen(path)) == 0)
 	{

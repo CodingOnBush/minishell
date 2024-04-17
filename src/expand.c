@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/16 16:13:23 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/17 15:18:18 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*ft_get_next_str_in_double_quotes(t_data *data, char *str)
 		if (str && *str == '$')
 		{
 			var_name = ft_grab_var_name(str);
-			toadd = ft_get_expand(data, var_name);
+			toadd = ft_get_expand(data, var_name, str);
 			str += ft_strlen(var_name) + 1;
 			free(var_name);
 		}
@@ -77,7 +77,7 @@ static char	*ft_get_next_str(t_data *data, char *str)
 	if (str && *str == '$' && (str + 1))
 	{
 		grab = ft_grab_var_name(str);
-		res = ft_get_expand(data, grab);
+		res = ft_get_expand(data, grab, str);
 		free(grab);
 		return (res);
 	}
@@ -112,7 +112,7 @@ void	ft_expand_words(t_data *data, t_token **token_list)
 	token = *token_list;
 	while (token != NULL)
 	{
-		if (token->type == WORD || token->type == EXPANDED)
+		if (token->type == WORD)
 		{
 			new_str = ft_get_expanded_str(data, token->str);
 			free(token->str);

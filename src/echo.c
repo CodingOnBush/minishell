@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:24:42 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/16 13:00:46 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/17 15:18:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ int	ft_echo(t_arg *lst)
 	lst = ft_get_first_arg_to_print(lst->next);
 	while (lst)
 	{
-		printf("%s", lst->value);
+		if (lst->value)
+			printf("%s", lst->value);
+		else
+			printf(" ");
 		lst = lst->next;
 		if (lst)
 			printf(" ");

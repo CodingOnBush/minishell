@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:13:28 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/15 07:32:56 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/17 16:03:40 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ft_isbuiltin(t_cmd *cmd)
 		return (NO);
 	cmd_name = cmd->arg_list->value;
 	len = ft_strlen(cmd_name);
+	if (len == 0)
+		return (NO);
 	if (ft_strncmp(cmd_name, "echo", len) == 0)
 		return (YES);
 	if (ft_strncmp(cmd_name, "cd", len) == 0)
@@ -36,10 +38,7 @@ int	ft_isbuiltin(t_cmd *cmd)
 	if (ft_strncmp(cmd_name, "exit", len) == 0)
 		return (YES);
 	if (ft_strncmp(cmd_name, ":", len) == 0)
-	{
-		// printf("YES\n");
 		return (YES);
-	}
 	if (ft_strncmp(cmd_name, "!", len) == 0)
 		return (YES);
 	return (NO);
