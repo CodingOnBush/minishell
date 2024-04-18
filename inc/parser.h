@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:50:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 13:54:50 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:06:38 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSER_H
 
 /*		ARGS		*/
-t_arg		*ft_new_arg(char *value);
+t_arg		*ft_new_arg(char *value, int token_type);
 void		ft_add_new_arg(t_arg **head, t_arg *new_arg);
 t_arg		*ft_create_arg_list(t_token *token);
 char		**ft_create_args_array(t_arg *arg_list);

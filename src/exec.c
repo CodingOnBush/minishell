@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/18 11:40:43 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 12:04:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,45 +28,20 @@ static int	ft_jump_util(char *str, char c)
 	return (i);
 }
 
-static int ft_is_directory(char *cmd_name)
-{
-	char	*str;
-	int		jump;
-
-	str = cmd_name;
-	if (ft_strchr(str, '/') == NULL)
-		return (NO);
-	while (*str)
-	{
-		if (*str == '.')
-		{
-			jump = ft_jump_util(str, '/');
-			if (jump == -1 || jump > 2)
-				return (NO);
-			str += jump;
-		}
-		else if (*str == '/')
-			str++;
-		else
-			return (NO);
-	}
-	return (YES);
-}
-
 int ft_exec(t_data *data, t_cmd *cmd)
 {
 	if (!cmd->arg_list || !cmd->arg_list->value)
 		return (SUCCESS);
-	if (ft_is_directory(cmd->arg_list->value) == YES)
+	if (access(cmd->arg_list->value, X_OK) == 0)
 	{
-		printf("%s: Is a directory\n", cmd->arg_list->value);
+		printf("minishell: %s: Is a directory\n", cmd->arg_list->value);
 		ft_free_all(data);
 		exit(126);
 	}
-	cmd->cmd_path = ft_get_cmd_path(cmd->args[0]);
-	if (!cmd->cmd_path)
+	cmd->cmd_path = ft_get_cmd_path(data, cmd->arg_list->value);
+	if (!cmd->cmd_path || (cmd->cmd_path && cmd->cmd_path[0] == '\0'))
 	{
-		cmd_not_found_error(cmd->args[0]);
+		cmd_not_found_error(cmd->arg_list->value);
 		ft_free_all(data);
 		exit(127);
 	}

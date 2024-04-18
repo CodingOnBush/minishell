@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:38:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 11:41:52 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 12:00:33 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,18 @@ int		ft_is_in_var(char c);
 
 /*		ENV			*/
 t_env	*ft_create_env_list(char **env);
-char	*ft_get_env_value(t_env *env_list, char *key);
-void	ft_remove_env(t_env **env_list, char *key);
+// char	*ft_getenv(t_env *env_list, char *key);
+// void	ft_remove_env(t_env **env_list, char *key);
 t_env	*ft_create_new_var(char *key, char *value);
+void	ft_update_env(t_env **env_list, char *key, char *new);
+// void	ft_add_new_env_var(t_data *data, char *var_name, char *var_value);
+void	ft_print_env(char **env);
 
 /*		ENV_UTILS	*/
 char	*ft_get_key(char *str);
 char	*ft_get_value(char *str);
 t_env	*ft_new_env(char *line);
-void	ft_add_new_env(t_env **env_list, t_env *new_env);
+// void	ft_add_new_env(t_env **env_list, t_env *new_env);
 
 /*		FREE		*/
 void	ft_free_tokens(t_token **token_list);
@@ -63,6 +66,6 @@ void	ft_free_all(t_data *data);
 void	ft_free_hd_files(t_data *data);
 void	ft_reset_data(t_data *data);
 void	ft_free_env_list(t_env **env_list);
-
+void	ft_free_env(char **env);
 
 #endif

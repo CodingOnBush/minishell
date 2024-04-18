@@ -2,6 +2,17 @@
 	"C_Cpp.errorSquiggles": "disabled",
 	"files.associations": {
 		"minishell.h": "c",
-		"waitstatus.h": "c"
+		"waitstatus.h": "c",
+		"exec.h": "c",
+		"optional": "c",
+		"ostream": "c",
+		"system_error": "c",
+		"array": "c",
+		"functional": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"utility": "c",
+		"lexer.h": "c",
+		"init.h": "c"
 	}
 }

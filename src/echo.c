@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:24:42 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/14 16:00:46 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/17 15:18:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,22 @@ int	ft_echo(t_arg *lst)
 	bool	n_flag;
 
 	if (!lst || !lst->value)
-		return (printf("ft_echo: no element in lst"), FAIL);
-	if (ft_strncmp(lst->value, "echo", ft_strlen(lst->value)) != 0)
-		return (printf("ft_echo: the first argument is not echo"), FAIL);
+		return (FAIL);
 	n_flag = false;
 	if (lst->next && ft_is_n(lst->next->value) == YES)
 		n_flag = true;
 	lst = ft_get_first_arg_to_print(lst->next);
 	while (lst)
 	{
-		printf("%s", lst->value);
+		if (lst->value)
+			printf("%s", lst->value);
+		else
+			printf(" ");
 		lst = lst->next;
 		if (lst)
 			printf(" ");
 	}
 	if (!n_flag)
 		printf("\n");
-	return (SUCCESS);
+	return (0);
 }

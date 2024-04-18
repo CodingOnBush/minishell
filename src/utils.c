@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 17:56:12 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/17 14:17:40 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_isappend(char *str)
 {
 	if (!str)
 		return (NO);
-	if (str[0] == '>' && str[1] && str[1] == '>')
+	if (str[0] == '>' && str[1] && str[1] == '>' && !str[2])
 		return (YES);
 	return (NO);
 }
@@ -25,18 +25,25 @@ int	ft_isheredoc(char *str)
 {
 	if (!str)
 		return (NO);
-	if (str[0] == '<' && str[1] && str[1] == '<')
+	if (str[0] == '<' && str[1] && str[1] == '<' && !str[2])
 		return (YES);
 	return (NO);
 }
 
 int	ft_isop(char *str)
 {
+	int	len;
+
+	len = ft_strlen(str);
 	if (!str)
 		return (NO);
-	if (ft_isappend(str) || ft_isheredoc(str))
+	if (ft_strncmp(str, ">>", len) == 0)
 		return (YES);
-	if (ft_strchr("><", *str) != NULL)
+	if (ft_strncmp(str, "<<", len) == 0)
+		return (YES);
+	if (ft_strncmp(str, ">", len) == 0)
+		return (YES);
+	if (ft_strncmp(str, "<", len) == 0)
 		return (YES);
 	return (NO);
 }

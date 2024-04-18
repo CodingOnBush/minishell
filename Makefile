@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/18 11:28:11 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/18 12:00:10 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ CYAN 		:= \033[0;96m
 
 SRC_EXEC	:=	builtin_utils builtins exec exec_utils \
 				hd_count heredocs multi_cmds single_cmd echo \
-				exit
+				cd export exit
 
 SRC_INIT	:=	data env env_utils free signals utils
 
@@ -60,7 +60,7 @@ val: $(NAME)
 	@valgrind $(VAL_FLAGS) ./$(NAME)
 	
 # Compilation
-$(NAME): $(OBJ) $(LIBFT)
+$(NAME): $(LIBFT) $(OBJ)
 	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
 

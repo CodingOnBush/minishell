@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:36:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 11:48:25 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:49:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_expand_words(t_data *data, t_token **token_list);
 char	*ft_remove_quotes(char *str);
 char	*ft_grab_str(char *str, char *limset);
 char	*ft_grab_var_name(char *str);
-char	*ft_get_expand(t_data *data, char *var_name);
+char	*ft_get_expand(t_data *data, char *var_name, char *str);
 
 /*		ERRORS		*/
 int		pipe_at_end_error_check(t_data *data, t_token *list);

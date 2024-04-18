@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/15 09:50:57 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/04/18 12:01:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_outfile
 typedef struct s_arg
 {
 	char				*value;
+	int					token_type;
 	struct s_arg		*next;
 }						t_arg;
 

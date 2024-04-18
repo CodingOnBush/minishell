@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 02:04:51 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/07 14:33:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/17 20:59:54 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,17 @@ t_env	*ft_new_env(char *line)
 	return (new_env);
 }
 
-void	ft_add_new_env(t_env **env_list, t_env *new_env)
-{
-	t_env	*tmp;
+// void	ft_add_new_env(t_env **env_list, t_env *new_env)
+// {
+// 	t_env	*tmp;
 
-	if (!*env_list)
-	{
-		*env_list = new_env;
-		return ;
-	}
-	tmp = *env_list;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new_env;
-}
+// 	if (!*env_list)
+// 	{
+// 		*env_list = new_env;
+// 		return ;
+// 	}
+// 	tmp = *env_list;
+// 	while (tmp->next)
+// 		tmp = tmp->next;
+// 	tmp->next = new_env;
+// }
