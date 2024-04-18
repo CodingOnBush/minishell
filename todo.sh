@@ -1,7 +1,7 @@
 # after lunch
-- cleaning files
 - use stat function
-- fix todo.sh tests
+- replace printf in builtins by ft_putstr_fd
+- refactor env functions
 
 # TODO
 cd ../../../../../../bin
@@ -24,7 +24,6 @@ cd ----
 "$HOMEdskjhfkdshfsd"
 
 
-
 # DONE
 echo $""HOME
 echo $""
@@ -42,7 +41,5 @@ echo ""             hola
 echo "$DONTEXIST" "Makefile"
 $HOME
 cd $HOME $HOME
-
-#ERROR VICTOIRE
 [minispell] > cat Makefile >outf
-cat: outf: input file is output file
+	cat: outf: input file is output file
