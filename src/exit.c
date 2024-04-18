@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:40:03 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/04/16 09:22:36 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/04/18 10:55:43 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ int	ft_exit(t_data *data, t_arg *arg_list)
 	if (arg_list->next != NULL)
 	{
 		str = arg_list->next->value;
-		if (ft_isnumber(str) == NO)
+		if (ft_isnumber(str) == NO || (ft_isnumber(str) == YES && ft_atoi(str) > LLONG_MAX)
 		{
 			ft_putstr_fd("exit\n", 2);
 			ft_putstr_fd(str, 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			exit(2);
 		}
-		status = ft_atoi(str);
+		status = ft_atoi(str) % 256;
 	}
 	ft_putstr_fd("exit\n", 2);
 	data->exit_builtin = YES;
