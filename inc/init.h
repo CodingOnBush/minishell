@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:38:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/07 15:31:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 11:41:52 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define INIT_H
 
 /*		DATA		*/
-t_data	*ft_create_data(char **env);
+t_data	*ft_create_data(int ac, char **av, char **env);
 
 /*		SIGNALS		*/
 void	ft_setup_signals(t_data *data);

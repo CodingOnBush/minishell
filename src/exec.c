@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/12 17:33:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 11:40:43 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,5 @@ void ft_launch_exec(t_data *data)
 		ft_fork(data);
 	else if (data->cmd_nb > 1 && ft_init_pipes(data) == SUCCESS)
 		ft_fork(data);
-// 	ft_wait_for_children(data);
+	ft_wait_for_children(data);
 }
