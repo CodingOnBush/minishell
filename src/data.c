@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 12:02:58 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 12:06:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	**ft_duplicate_env(char **env)
 	return (res);
 }
 
-t_data	*ft_create_data(char **env)
+t_data	*ft_create_data(int ac, char **av, char **env)
 {
 	t_data	*data;
 

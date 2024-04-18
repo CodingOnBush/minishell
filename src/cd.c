@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/17 21:05:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 12:08:20 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,15 @@ int	ft_cd(t_env *env_list, t_arg *lst)
 		cur_pwd = ft_getenv(env_list, "PWD");
 		if (!cur_pwd)
 			cur_pwd = path;
-		printf("cur OLDPWD: %s\n", ft_getenv(env_list, "OLDPWD"));
-		printf("cur PWD: %s\n", ft_getenv(env_list, "PWD"));
+		// printf("cur OLDPWD: %s\n", ft_getenv(env_list, "OLDPWD"));
+		// printf("cur PWD: %s\n", ft_getenv(env_list, "PWD"));
 		if (ft_update_var(&env_list, "OLDPWD", cur_pwd) == FAIL)
 			ft_add_new_env_in_list(&env_list, "OLDPWD", cur_pwd);
 		free(cur_pwd);
 		if (ft_update_var(&env_list, "PWD", path) == FAIL)
 			ft_add_new_env_in_list(&env_list, "PWD", path);
-		printf("new OLDPWD: %s\n", ft_getenv(env_list, "OLDPWD"));
-		printf("new PWD: %s\n", ft_getenv(env_list, "PWD"));
+		// printf("new OLDPWD: %s\n", ft_getenv(env_list, "OLDPWD"));
+		// printf("new PWD: %s\n", ft_getenv(env_list, "PWD"));
 	}
 	return (0);
 }
