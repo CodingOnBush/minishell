@@ -42,3 +42,7 @@ echo ""             hola
 echo "$DONTEXIST" "Makefile"
 $HOME
 cd $HOME $HOME
+
+#ERROR VICTOIRE
+[minispell] > cat Makefile >outf
+cat: outf: input file is output file
