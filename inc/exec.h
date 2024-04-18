@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/18 11:59:45 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 16:43:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int			ft_get_fd_out(t_data *data, t_cmd *cmd);
 void		ft_exec_single_cmd(t_data *data);
 
 /*		ECHO			*/
-int			ft_echo(t_arg *lst);
+int			ft_echo(t_data *data, t_cmd *cmd);
 
 /*		CD				*/
 int			ft_cd(t_env *env_list, t_arg *lst);

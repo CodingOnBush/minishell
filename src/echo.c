@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:24:42 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/17 15:18:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 16:43:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,16 @@ static t_arg	*ft_get_first_arg_to_print(t_arg *lst)
 	return (cur);
 }
 
-int	ft_echo(t_arg *lst)
+int	ft_echo(t_data *data, t_cmd *cmd)
 {
 	bool	n_flag;
+	t_arg	*lst;
+	int		fd;
 
+	lst = cmd->arg_list;
 	if (!lst || !lst->value)
 		return (FAIL);
+	fd = ft_get_fd_out(data, cmd);
 	n_flag = false;
 	if (lst->next && ft_is_n(lst->next->value) == YES)
 		n_flag = true;
@@ -47,14 +51,15 @@ int	ft_echo(t_arg *lst)
 	while (lst)
 	{
 		if (lst->value)
-			printf("%s", lst->value);
+			ft_putstr_fd(lst->value, fd);
 		else
-			printf(" ");
+			ft_putstr_fd(" ", fd);
 		lst = lst->next;
 		if (lst)
-			printf(" ");
+			ft_putstr_fd(" ", fd);
 	}
 	if (!n_flag)
-		printf("\n");
+		ft_putstr_fd("\n", fd);
+	close(fd);
 	return (0);
 }

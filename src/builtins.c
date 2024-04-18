@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 14:07:04 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 16:43:52 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_iscd(cmd->arg_list->value))
 		return (ft_cd(data->env_list, cmd->arg_list));
 	if (ft_isecho(cmd->arg_list->value))
-		return (ft_echo(cmd->arg_list));
+		return (ft_echo(data, cmd));
 	if (ft_strncmp(cmd->arg_list->value, "env", len) == 0)
 		return (ft_print_env(data->env), 0);
 	if (ft_strncmp(cmd->arg_list->value, ":", len) == 0)

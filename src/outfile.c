@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outfile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/12 16:27:08 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:41:43 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,12 @@ t_outfile	*ft_create_outfile_list(t_token *cur_token)
 			if (!new_outfile)
 				return (ft_free_outfiles(&outfile_list), NULL);
 			ft_add_outfile(&outfile_list, new_outfile);
+			cur_token->attributed = true;
+			cur_token->next->attributed = true;
+			cur_token = cur_token->next;
 		}
-		cur_token = cur_token->next;
+		else
+			cur_token = cur_token->next;
 	}
 	return (outfile_list);
 }
