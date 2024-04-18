@@ -6,23 +6,26 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 12:09:33 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 14:07:04 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static char	*ft_getcwd(void)
+static int	ft_pwd(t_env *env_list, t_arg *arg_list)
 {
 	char	*cwd;
 
-	cwd = getcwd(NULL, 1024);
+	(void)env_list;
+	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 	{
-		perror("getcwd");
-		return (NULL);
+		perror(arg_list->value);
+		return (FAIL);
 	}
-	return (cwd);
+	printf("%s\n", cwd);
+	free(cwd);
+	return (0);
 }
 
 static void	ft_print_env_list(t_env *env_list)
@@ -32,22 +35,6 @@ static void	ft_print_env_list(t_env *env_list)
 		printf("%s=%s\n", env_list->key, env_list->value);
 		env_list = env_list->next;
 	}
-}
-
-static int	ft_pwd(t_env *env_list, t_arg *arg_list)
-{
-	char	*cwd;
-
-	(void)env_list;
-	cwd = ft_getcwd();
-	if (cwd == NULL)
-	{
-		perror(arg_list->value);
-		return (FAIL);
-	}
-	printf("%s\n", cwd);
-	free(cwd);
-	return (0);
 }
 
 static int	ft_export(t_data *data, t_arg *arg_list)

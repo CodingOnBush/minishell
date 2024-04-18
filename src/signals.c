@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 12:45:26 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 12:05:04 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 14:21:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_handler(int signum)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_replace_line("", STDIN_FILENO);// "ls |\n>"
 		rl_on_new_line();
-		// rl_redisplay();
+		rl_redisplay();
 	}
 }
 

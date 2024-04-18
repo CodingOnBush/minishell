@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/17 14:17:40 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/18 14:28:36 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_isappend(char *str)
 {
 	if (!str)
 		return (NO);
-	if (str[0] == '>' && str[1] && str[1] == '>' && !str[2])
+	if (str[0] == '>' && str[1] && str[1] == '>')
 		return (YES);
 	return (NO);
 }
@@ -25,7 +25,7 @@ int	ft_isheredoc(char *str)
 {
 	if (!str)
 		return (NO);
-	if (str[0] == '<' && str[1] && str[1] == '<' && !str[2])
+	if (str[0] == '<' && str[1] && str[1] == '<')
 		return (YES);
 	return (NO);
 }

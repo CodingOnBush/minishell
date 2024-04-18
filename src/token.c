@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/16 16:11:48 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/18 14:27:34 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static int	ft_get_token_size(char *line)
 	if (!line)
 		return (FAIL);
 	type = ft_get_type(line);
-	if (type == PIPE || type == RIGHT_TRUNC || type == LEFT_TRUNC)
-		return (1);
 	if (type == HERE_DOC || type == APPEND)
 		return (2);
+	if (type == PIPE || type == RIGHT_TRUNC || type == LEFT_TRUNC)
+		return (1);
 	len = 0;
 	while (line[len] && !ft_isspace(line[len]) && !ft_isop(&line[len]))
 	{
