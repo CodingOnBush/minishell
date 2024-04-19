@@ -6,33 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:13:28 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/18 13:53:19 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 10:52:22 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_isecho(char *str)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	if (ft_strncmp(str, "echo", len) == 0)
-		return (YES);
-	return (NO);
-}
-
-int	ft_iscd(char *str)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	if (ft_strncmp(str, "cd", len) == 0)
-		return (YES);
-	return (NO);
-}
-
-int	ft_isbuiltin(t_cmd *cmd)
+int	ft_cmdcmp(t_cmd *cmd, char *cmd_name)
 {
 	char	*str;
 	int		len;
@@ -43,19 +23,30 @@ int	ft_isbuiltin(t_cmd *cmd)
 	len = ft_strlen(str);
 	if (len == 0)
 		return (NO);
-	if (!ft_strncmp(str, "echo", len))
+	if (ft_strncmp(str, cmd_name, len) == 0)
 		return (YES);
-	if (!ft_strncmp(str, "cd", len))
-		return (YES);
-	if (!ft_strncmp(str, "pwd", len))
-		return (YES);
-	if (!ft_strncmp(str, "export", len) || !ft_strncmp(str, "unset", len))
-		return (YES);
-	if (!ft_strncmp(str, "env", len))
-		return (YES);
-	if (!ft_strncmp(str, "exit", len))
-		return (YES);
-	if (!ft_strncmp(str, ":", len) || !ft_strncmp(str, "!", len))
-		return (YES);
+	return (NO);
+}
+
+int	ft_isbuiltin(t_cmd *cmd)
+{
+	const char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", ":", "!", NULL};
+	char		*str;
+	int			len;
+	int			i;
+
+	if (!cmd || !(cmd->arg_list) || !(cmd->arg_list->value))
+		return (NO);
+	str = cmd->arg_list->value;
+	len = ft_strlen(str);
+	if (len == 0)
+		return (NO);
+	i = 0;
+	while (builtins[i])
+	{
+		if (ft_cmdcmp(cmd, (char *)builtins[i]) == YES)
+			return (YES);
+		i++;
+	}
 	return (NO);
 }

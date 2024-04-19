@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/19 11:55:49 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:49:32 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,14 @@ static char	*ft_get_path(t_env *env_list, t_arg *lst)
 	return (path);
 }
 
-int	ft_cd(t_env *env_list, t_arg *lst)
+int	ft_cd(t_env *env_list, t_cmd *cmd)
 {
+	t_arg	*lst;
 	char	*path;
 	char	*cur_pwd;
 
-	if (!lst || !lst->value || !ft_iscd(lst->value))
+	lst = cmd->arg_list;
+	if (!lst || !lst->value || ft_cmdcmp(cmd, "cd") == NO)
 		return (printf("ft_cd: error"), 1);
 	if (lst->next == NULL)
 		path = ft_getenv(env_list, "HOME");

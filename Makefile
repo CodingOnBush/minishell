@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/18 12:00:10 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/19 10:59:28 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ CYAN 		:= \033[0;96m
 
 SRC_EXEC	:=	builtin_utils builtins exec exec_utils \
 				hd_count heredocs multi_cmds single_cmd echo \
-				cd export exit
+				cd export exit print
 
 SRC_INIT	:=	data env env_utils free signals utils
 

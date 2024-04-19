@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/18 16:43:46 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 11:01:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,8 @@ int			ft_launch_heredoc(t_data *data);
 int			ft_exec_builtin(t_data *data, t_cmd *cmd);
 
 /*		BUILTIN_UTILS	*/
+int			ft_cmdcmp(t_cmd *cmd, char *cmd_name);
 int			ft_isbuiltin(t_cmd *cmd);
-int			ft_isecho(char *str);
-int			ft_iscd(char *str);
 
 /*		HD_COUNT		*/
 int			get_err_pos(t_cmd *cmd);
@@ -72,12 +71,11 @@ void		ft_exec_single_cmd(t_data *data);
 int			ft_echo(t_data *data, t_cmd *cmd);
 
 /*		CD				*/
-int			ft_cd(t_env *env_list, t_arg *lst);
+int			ft_cd(t_env *env_list, t_cmd *cmd);
 
 /*		EXPORT			*/
 void		ft_add_new_env(t_env **env_list, t_env *new);
 t_env		*ft_env_to_env_list(char **env);
-char		**ft_env_list_to_env(t_env *env_list);
 char		*ft_getenv(t_env *env_list, char *key);
 void		ft_remove_env(t_env **env_list, char *key);
 int			ft_update_var(t_env **env_list, char *key, char *value);
@@ -86,9 +84,13 @@ char		*ft_strjoin_key_value(char *key, char *value);
 char		*ft_extract_key(char*str);
 char		*ft_extract_value(char *str);
 void		ft_add_new_env_in_list(t_env **env_list, char *key, char *value);
+int			ft_export(t_data *data, t_cmd *cmd);
 
 /*		EXIT			*/
 int			is_exit_builtin(t_data *data);
 int			ft_exit(t_data *data, t_arg *arg_list);
+
+/*		PRINT			*/
+void		ft_print_fdout(t_data *data, t_cmd *cmd, char *str);
 
 #endif

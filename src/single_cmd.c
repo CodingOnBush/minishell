@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/19 14:40:08 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:53:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,31 +70,30 @@ int	ft_get_fd_out(t_data *data, t_cmd *cmd)
 	return (fd_out);
 }
 
-void	ft_exec_single_cmd(t_data *data)
+static void	ft_dup_all(int fd_in, int fd_out)
 {
-	t_cmd	*cmd_to_exec;
-	int		status;
-	int		fd_out;
-	int		fd_in;
-
-	cmd_to_exec = data->cmd_list;
-	status = 0;
-	if (cmd_to_exec == NULL || cmd_to_exec->arg_list == NULL)
-		return (ft_free_exec(data));
-	fd_in = ft_get_fd_in(data, cmd_to_exec);
-	fd_out = ft_get_fd_out(data, cmd_to_exec);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 	if (fd_in != STDIN_FILENO)
 		close(fd_in);
 	if (fd_out != STDOUT_FILENO)
 		close(fd_out);
-	if (ft_isbuiltin(cmd_to_exec) == YES)
+}
+
+void	ft_exec_single_cmd(t_data *data)
+{
+	t_cmd	*cmd;
+	int		status;
+
+	cmd = data->cmd_list;
+	if (cmd == NULL || cmd->arg_list == NULL)
+		return (ft_free_exec(data));
+	ft_dup_all(ft_get_fd_in(data, cmd), ft_get_fd_out(data, cmd));
+	if (ft_isbuiltin(cmd) == YES)
 	{
-		status = ft_exec_builtin(data, cmd_to_exec);
+		status = ft_exec_builtin(data, cmd);
 		ft_free_all(data);
 		exit(status);
 	}
-	else
-		ft_exec(data, cmd_to_exec);
+	ft_exec(data, cmd);
 }
