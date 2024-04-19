@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/19 12:13:48 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:41:29 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ int ft_exec(t_data *data, t_cmd *cmd)
 {
 	if (!cmd->arg_list || !cmd->arg_list->value)
 		return (SUCCESS);
-	if (access(cmd->arg_list->value, X_OK) == 0) //ici est-ce que c'est pas 1 plutot?
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->arg_list->value, 2);
-		ft_putstr_fd(": Is a directory\n", 2);
-		// printf("minishell: %s: Is a directory\n", cmd->arg_list->value);
-		ft_free_all(data);
-		exit(126);
-	}
+	// if (access(cmd->arg_list->value, X_OK) == 0) //ici est-ce que c'est pas 1 plutot?
+	// {
+	// 	ft_putstr_fd("minishell: ", 2);
+	// 	ft_putstr_fd(cmd->arg_list->value, 2);
+	// 	ft_putstr_fd(": Is a directory\n", 2);
+	// 	// printf("minishell: %s: Is a directory\n", cmd->arg_list->value);
+	// 	ft_free_all(data);
+	// 	exit(126);
+	// }
 	cmd->cmd_path = ft_get_cmd_path(data, cmd->arg_list->value);
 	if (!cmd->cmd_path || (cmd->cmd_path && cmd->cmd_path[0] == '\0'))
 	{
@@ -89,8 +89,8 @@ void ft_wait_for_children(t_data *data)
 	status = 0;
 	if (!data->ids)
 		return;
-	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list))
-		return;
+	// if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list))
+	// 	return;
 	if (waitpid(data->ids[data->cmd_nb - 1], &status, 0) == data->ids[data->cmd_nb - 1])
 	{
 		if (WIFEXITED(status))
@@ -116,5 +116,5 @@ void ft_launch_exec(t_data *data)
 	// if (data->cmd_nb == 1)
 	// else if (data->cmd_nb > 1 && ft_init_pipes(data) == SUCCESS)
 	// 	ft_fork(data);
-	ft_wait_for_children(data);
+	// ft_wait_for_children(data);
 }

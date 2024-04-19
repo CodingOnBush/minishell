@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 12:18:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:20:38 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int	ft_pwd(t_env *env_list, t_arg *arg_list)
 		return (FAIL);
 	}
 	ft_putstr_fd(cwd, 1);
+	ft_putstr_fd("\n", 1);
 	free(cwd);
 	return (0);
 }

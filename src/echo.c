@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:24:42 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/19 12:32:06 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:07:48 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,20 @@ int	ft_echo(t_data *data, t_cmd *cmd)
 	while (lst)
 	{
 		if (lst->value)
+		{
 			ft_putstr_fd(lst->value, fd);
+			if (!lst->next && !n_flag)
+				ft_putstr_fd("\n", fd);
+		}
 		else
 			ft_putstr_fd(" ", fd);
 		lst = lst->next;
 		if (lst)
 			ft_putstr_fd(" ", fd);
 	}
-	if (!n_flag)
-		ft_putstr_fd("\n", fd);
-	close(fd);
+	// if (!n_flag)
+	// 	ft_putstr_fd("\n", fd);
+	if (fd != STDOUT_FILENO)
+		close(fd);
 	return (0);
 }
