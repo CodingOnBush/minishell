@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/19 15:32:54 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 01:43:34 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_arg	*ft_new_arg(char *value, int token_type)
+static t_arg	*ft_new_arg(char *value, int token_type)
 {
 	t_arg	*new_arg;
 
 	new_arg = malloc(sizeof(t_arg));
 	if (!new_arg)
 		return (NULL);
-	new_arg->value = value;
+	new_arg->value = ft_strdup(value);
 	new_arg->token_type = token_type;
 	new_arg->next = NULL;
 	return (new_arg);
 }
 
-void	ft_add_new_arg(t_arg **head, t_arg *new_arg)
+static void	ft_add_new_arg(t_arg **head, t_arg *new_arg)
 {
 	t_arg	*arg_list;
 
@@ -40,3 +40,22 @@ void	ft_add_new_arg(t_arg **head, t_arg *new_arg)
 	}
 }
 
+t_arg	*ft_create_arg_list(t_token *token)
+{
+	t_arg	*new;
+	t_arg	*res;
+
+	res = NULL;
+	while (token != NULL && token->type != PIPE)
+	{
+		if (token->attributed == false && ft_isop(token->value) == NO)
+		{
+			new = ft_new_arg(token->value, token->type);
+			if (!new)
+				return (ft_free_arg_list(&res), NULL);
+			ft_add_new_arg(&res, new);
+		}
+		token = token->next;
+	}
+	return (res);
+}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
+#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/19 16:59:19 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/20 01:20:53 by allblue          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,22 +36,43 @@ DEF_COLOR	:= \033[0;39m
 GREEN 		:= \033[0;92m
 CYAN 		:= \033[0;96m
 
-SRC_EXEC	:=	builtin_utils builtins exec exec_utils \
-				hd_count heredocs multi_cmds single_cmd ft_echo \
-				ft_cd ft_export ft_exit ft_env \
-				single_cmd_utils
+SRC_FILES	:=	args \
+				builtins_utils \
+				builtins \
+				env_utils \
+				env \
+				errors \
+				exec_utils \
+				exec \
+				expand_utils \
+				free \
+				ft_cd \
+				ft_check_token_list \
+				ft_echo \
+				ft_exit \
+				ft_expand \
+				ft_export \
+				ft_pwd \
+				ft_unset \
+				hd_count \
+				heredocs \
+				infile \
+				init \
+				lexer \
+				main \
+				multi_cmds \
+				outfile \
+				parser_utils \
+				parser \
+				remove \
+				single_cmd_utils \
+				single_cmd \
+				token_utils \
+				token \
+				utils
 
-SRC_INIT	:=	data env_utils free signals utils
-
-SRC_LEXER	:=	errors expand expand_utils lexer \
-				token token_check token_utils
-
-SRC_PARSER	:=	args infile outfile parser parser_utils
-
-#Sources
-SRC_FILES 	:=	main remove $(SRC_EXEC) $(SRC_INIT) $(SRC_LEXER) $(SRC_PARSER)
-SRC 		:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
-OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
+SRC 		:=	$(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
+OBJ			:=	$(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 
 # Default make
 all: $(NAME)

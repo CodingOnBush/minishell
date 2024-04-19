@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/19 14:49:32 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 00:04:15 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,14 @@ static char	*ft_get_path(t_env *env_list, t_arg *lst)
 	if (lst && lst->next != NULL && lst->token_type == WORD)
 		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), NULL);
 	path = lst->value;
-	if (ft_strncmp(path, "~", 1) == 0)
+	if (!path)
+	{
+		tmp = ft_getenv(env_list, "HOME");
+		if (!tmp)
+			return (ft_putstr_fd("cd: HOME not set\n", 2), NULL);
+		path = tmp;
+	}
+	else if (ft_strncmp(path, "~", 1) == 0)
 	{
 		tmp = ft_getenv(env_list, "HOME");
 		if (!tmp)
@@ -78,32 +85,27 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 	lst = cmd->arg_list;
 	if (!lst || !lst->value || ft_cmdcmp(cmd, "cd") == NO)
 		return (printf("ft_cd: error"), 1);
-	if (lst->next == NULL)
-		path = ft_getenv(env_list, "HOME");
-	else
-		path = ft_get_path(env_list, lst->next);
-	if (path)
-	{
-		cur_pwd = getcwd(NULL, 0);
-		if (!cur_pwd)
-			cur_pwd = path;
-		if (chdir(path) == -1)
-		{
-			perror(path);
-			return (1);
-		}
-		// printf("cur OLDPWD: %s\n", ft_getenv(env_list, "OLDPWD"));
-		// printf("cur PWD: %s\n", ft_getenv(env_list, "PWD"));
-		if (ft_update_var(&env_list, "OLDPWD", cur_pwd) == FAIL)
-			ft_add_new_env_in_list(&env_list, "OLDPWD", cur_pwd);
-		free(cur_pwd);
-		cur_pwd = getcwd(NULL, 0);
-		if (ft_update_var(&env_list, "PWD", cur_pwd) == FAIL)
-			ft_add_new_env_in_list(&env_list, "PWD", cur_pwd);
-		free(cur_pwd);
-		// printf("new OLDPWD: %s\n", ft_getenv(env_list, "OLDPWD"));
-		// printf("new PWD: %s\n", ft_getenv(env_list, "PWD"));
-	}
+	path = ft_get_path(env_list, lst->next);
+	if (!path)
+		return (1);
+	cur_pwd = getcwd(NULL, 0);
+	if (!cur_pwd)
+		cur_pwd = path;
+	if (chdir(path) == -1)
+		return (perror("minishell : "), perror(path), 1);
+	// printf("cur OLDPWD: %s\n", ft_getenv(env_list, "OLDPWD"));
+	// printf("cur PWD: %s\n", ft_getenv(env_list, "PWD"));
+	// if (ft_update_var(&env_list, "OLDPWD", cur_pwd) == FAIL)
+	// 	ft_add_new_env_in_list(&env_list, "OLDPWD", cur_pwd);
+	ft_set_env(env_list, "OLDPWD", cur_pwd);
+	free(cur_pwd);
+	cur_pwd = getcwd(NULL, 0);
+	// if (ft_update_var(&env_list, "PWD", cur_pwd) == FAIL)
+	// 	ft_add_new_env_in_list(&env_list, "PWD", cur_pwd);
+	ft_set_env(env_list, "PWD", cur_pwd);
+	free(cur_pwd);
+	// printf("new OLDPWD: %s\n", ft_getenv(env_list, "OLDPWD"));
+	// printf("new PWD: %s\n", ft_getenv(env_list, "PWD"));
 	free(path);
 	return (0);
 }

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 12:16:46 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/17 15:18:18 by momrane          ###   ########.fr       */
+/*   Created: 2024/04/20 01:13:46 by allblue           #+#    #+#             */
+/*   Updated: 2024/04/20 01:41:47 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
 
 static char	*ft_get_next_str_in_double_quotes(t_data *data, char *str)
 {
@@ -103,7 +104,7 @@ char	*ft_get_expanded_str(t_data *data, char *str)
 	return (res);
 }
 
-void	ft_expand_words(t_data *data, t_token **token_list)
+void	ft_expand(t_data *data, t_token **token_list)
 {
 	t_token	*token;
 	char	*new_str;
@@ -114,15 +115,15 @@ void	ft_expand_words(t_data *data, t_token **token_list)
 	{
 		if (token->type == WORD)
 		{
-			new_str = ft_get_expanded_str(data, token->str);
-			free(token->str);
-			token->str = new_str;
+			new_str = ft_get_expanded_str(data, token->value);
+			free(token->value);
+			token->value = new_str;
 		}
 		else if (token->type == LIM)
 		{
-			new_str = ft_remove_quotes(token->str);
-			free(token->str);
-			token->str = new_str;
+			new_str = ft_remove_quotes(token->value);
+			free(token->value);
+			token->value = new_str;
 		}
 		token = token->next;
 	}

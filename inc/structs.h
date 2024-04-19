@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 15:34:13 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 01:42:05 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_arg
 
 typedef struct s_token
 {
-	char				*str;
+	char				*value;
 	int					type;
 	bool				attributed;
 	int					pos;
@@ -82,8 +82,8 @@ typedef struct s_data
 	char				*join_path;
 	int					step;
 	t_env				*env_list;
-	struct sigaction	sigint_action;
-	struct sigaction	sigquit_action;
+	struct sigaction	act_interupt;
+	struct sigaction	act_quit;
 	int					exit_status;
 	int					exit_builtin;
 	int					hd_pos;

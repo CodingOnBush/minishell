@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:50:01 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 16:59:52 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 01:42:51 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_infile	*ft_create_infile_list(t_data *data, t_token *cur_token);
 t_outfile	*ft_create_outfile_list(t_token *cur_token);
 
 /*	PARSER_UTILS	*/
-t_cmd		*ft_new_cmd(t_data *data, t_token *cur_token, int pos);
+// t_cmd		*ft_new_cmd(t_data *data, t_token *cur_token, int pos);
 void		ft_add_new_cmd(t_cmd **cmd_list, t_cmd *new_cmd);
 // int			ft_get_cmd_nb(t_cmd *cmd_list);
 

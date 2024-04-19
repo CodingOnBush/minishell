@@ -3,74 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   remove.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 18:00:01 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 00:52:03 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_cmd	*ft_create_new_cmd(t_token *cur_token, int pos)
-{
-	t_cmd	*new_cmd;
-	
-	if (!cur_token)
-		return (NULL);
-	new_cmd = (t_cmd *)malloc(sizeof(t_cmd));
-	if (!new_cmd)
-		return (NULL);
-	ft_memset(new_cmd, 0, sizeof(t_cmd));
-	new_cmd->token_list = ft_extract_token(cur_token);
-	if (!new_cmd->token_list)
-		return (free(new_cmd), NULL);
-	new_cmd->arg_list = NULL;
-	new_cmd->infile_list = NULL;
-	new_cmd->outfile_list = NULL;
-	new_cmd->pos = pos;
-	new_cmd->args = NULL;
-	new_cmd->cmd_path = NULL;
-	new_cmd->next = NULL;
-	return (new_cmd);
-}
-
-
-t_token	*ft_get_last_redir(t_token *cur_token)
-{
-	while (cur_token && cur_token->type != PIPE)
-	{
-		if (cur_token->type == RIGHT_TRUNC || cur_token->type == LEFT_TRUNC)
-			return (cur_token);
-		cur_token = cur_token->next;
-	}
-	return (NULL);
-}
-
-int	parse_commands(t_cmd *new_cmd, t_token *token)
-{
-	t_arg	*new_arg;
-	char	*new_str;
-
-	new_arg = NULL;
-	while (token != NULL && token->type != PIPE)
-	{
-		if (token->attributed == false)
-		{
-			new_str = ft_strdup(token->str);
-			if (!new_str)
-				return (ft_free_arg_list(&new_cmd->arg_list), FAIL);
-			new_arg = ft_new_arg(new_str, token->type);
-			if (!new_arg)
-				return (ft_free_arg_list(&new_cmd->arg_list), FAIL);
-			ft_add_new_arg(&new_cmd->arg_list, new_arg);
-		}
-		token = token->next;
-	}
-	return (SUCCESS);
-}
-
-char	*ft_type_to_str(int type)
+static char	*ft_type_to_str(int type)
 {
 	if (type == PIPE)
 		return ("PIPE");

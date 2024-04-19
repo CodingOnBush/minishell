@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 14:27:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 01:20:03 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	ft_get_token_size(char *line)
 	return (len);
 }
 
-static char	*ft_get_token_str(char *line)
+static char	*ft_get_next_str(char *line)
 {
 	char	*str;
 	int		len;
@@ -65,6 +65,23 @@ static char	*ft_get_token_str(char *line)
 	if (!str)
 		return (NULL);
 	return (str);
+}
+
+void	ft_addlast_token(t_token **token_list, t_token *new_token)
+{
+	t_token	*lst;
+
+	if (!new_token)
+		return ;
+	if (*token_list == NULL)
+		*token_list = new_token;
+	else
+	{
+		lst = *token_list;
+		while (lst->next != NULL)
+			lst = lst->next;
+		lst->next = new_token;
+	}
 }
 
 t_token	*ft_create_token_list(char *line)
@@ -82,7 +99,7 @@ t_token	*ft_create_token_list(char *line)
 			line++;
 		else
 		{
-			new_str = ft_get_token_str(line);
+			new_str = ft_get_next_str(line);
 			if (!new_str)
 				return (ft_free_tokens(&token_list), NULL);
 			new_token = ft_new_token(new_str, ft_get_type(new_str), pos, false);

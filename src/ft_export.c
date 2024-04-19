@@ -3,164 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 18:29:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 00:45:11 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	ft_add_new_env(t_env **env_list, t_env *new)
-{
-	t_env	*tmp;
-
-	if (!new)
-		return ;
-	if (!*env_list)
-	{
-		*env_list = new;
-		return ;
-	}
-	tmp = *env_list;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-}
-
-char	*ft_getenv(t_env *env_list, char *key)
-{
-	t_env	*tmp;
-
-	tmp = env_list;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
-			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-void	ft_remove_env(t_env **env_list, char *key)
-{
-	t_env	*tmp;
-	t_env	*prev;
-
-	tmp = *env_list;
-	prev = NULL;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
-		{
-			if (prev)
-				prev->next = tmp->next;
-			else
-				*env_list = tmp->next;
-			free(tmp->key);
-			free(tmp->value);
-			free(tmp);
-			return ;
-		}
-		prev = tmp;
-		tmp = tmp->next;
-	}
-}
-
-int	ft_update_var(t_env **env_list, char *key, char *value)
-{
-	t_env	*tmp;
-
-	tmp = *env_list;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(value);
-			return (SUCCESS);
-		}
-		tmp = tmp->next;
-	}
-	return (FAIL);
-}
-
-char	*ft_strjoin_key_value(char *key, char *value)
-{
-	char	*res;
-	char	*tmp;
-
-	tmp = ft_strjoin(key, "=");
-	res = ft_strjoin(tmp, value);
-	free(tmp);
-	return (res);
-}
-
-char	*ft_extract_key(char*str)
-{
-	int		i;
-	char	*res;
-
-	if (ft_strchr(str, '=') == NULL)
-		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	if (i == 0)
-		return (NULL);
-	res = (char *)malloc(sizeof(char) * (i + 1));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '=')
-	{
-		res[i] = str[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}
-
-char	*ft_extract_value(char *str)
-{
-	int		i;
-	int		j;
-	char	*res;
-
-	if (ft_strchr(str, '=') == NULL)
-		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	if (str[i] == '\0')
-		return (NULL);
-	i++;
-	j = 0;
-	while (str[i + j])
-		j++;
-	res = (char *)malloc(sizeof(char) * (j + 1));
-	if (!res)
-		return (NULL);
-	j = 0;
-	while (str[i + j])
-	{
-		res[j] = str[i + j];
-		j++;
-	}
-	res[j] = '\0';
-	return (res);
-}
-
-void	ft_add_new_env_in_list(t_env **env_list, char *key, char *value)
-{
-	t_env	*new_var;
-
-	new_var = ft_create_new_var(key, value);
-	if (!new_var)
-		return ;
-	ft_add_new_env(env_list, new_var);
-}
 
 static int	ft_isvalid_varname(char *varname)
 {
@@ -178,58 +28,92 @@ static int	ft_isvalid_varname(char *varname)
 	return (YES);
 }
 
-static int	ft_print_export(t_data *data, t_cmd *cmd)
+static void	ft_print_export_error(char *arg_error)
 {
-	t_env	*env_list;
-	int		fd;
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(arg_error, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
 
-	if (!data)
-		return (1);
-	env_list = data->env_list;
-	fd = ft_get_fd_out(data, cmd);
-	while (env_list)
-	{
-		ft_putstr_fd("export ", fd);
-		ft_putstr_fd(env_list->key, fd);
-		ft_putstr_fd("=", fd);
-		ft_putstr_fd(env_list->value, fd);
-		ft_putstr_fd("\n", fd);
-		env_list = env_list->next;
-	}
-	if (fd != STDOUT_FILENO)
-		close(fd);
-	return (0);
+static char	*ft_extract_key(char*str)
+{
+	int		i;
+	char	*res;
+
+	if (ft_strchr(str, '=') == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (i == 0)
+		return (NULL);
+	res = (char *)malloc(sizeof(char) * (i + 1));
+	if (!res)
+		return (NULL);
+	ft_strlcpy(res, str, i + 1);
+	// i = 0;
+	// while (str[i] && str[i] != '=')
+	// {
+	// 	res[i] = str[i];
+	// 	i++;
+	// }
+	// res[i] = '\0';
+	return (res);
+}
+
+static char	*ft_extract_value(char *str)
+{
+	char	*res;
+	int		i;
+	int		j;
+
+	if (ft_strchr(str, '=') == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (str[i] == '\0')
+		return (NULL);
+	i++;
+	j = 0;
+	while (str[i + j])
+		j++;
+	res = (char *)malloc(sizeof(char) * (j + 1));
+	if (!res)
+		return (NULL);
+	ft_strlcpy(res, str + i, j + 1);
+	// j = 0;
+	// while (str[i + j])
+	// {
+	// 	res[j] = str[i + j];
+	// 	j++;
+	// }
+	// res[j] = '\0';
+	return (res);
 }
 
 int	ft_export(t_data *data, t_cmd *cmd)
 {
-	t_arg	*arg_list;
+	t_arg	*args;
 	char	*var_name;
 	char	*var_content;
-	t_arg	*export_args;
 
-	arg_list = cmd->arg_list;
-	if (!data || !cmd || !arg_list || !arg_list->value)
+	if (!data || !cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (FAIL);
-	if (arg_list->next == NULL)
+	if (cmd->arg_list->next == NULL)
 		return (ft_putstr_fd("minishell : unspecified behaviour\n", 2), 1);
-	export_args = arg_list->next;
-	while (export_args)
+	args = cmd->arg_list->next;
+	while (args)
 	{
-		var_name = ft_extract_key(export_args->value);
-		// printf("var_name : %s\n", var_name);
+		var_name = ft_extract_key(args->value);
 		if (ft_isvalid_varname(var_name) == NO)
-		{
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(export_args->value, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-		}
+			ft_print_export_error(args->value);
 		else
 		{
-			var_content = ft_extract_value(export_args->value);
-			ft_add_new_env_in_list(&data->env_list, var_name, var_content);
+			var_content = ft_extract_value(args->value);
+			ft_setenv(&data->env_list, var_name, var_content);
 		}
-		export_args = export_args->next;
+		args = args->next;
 	}
 	return (0);
 }

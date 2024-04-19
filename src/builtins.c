@@ -3,35 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 18:01:59 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 01:53:41 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static int	ft_pwd(t_data *data, t_cmd *cmd)
-{
-	char	*cwd;
-	int		fd;
-
-	if (!cmd || !cmd->arg_list || !cmd->arg_list->value)
-		return (1);
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		return (perror(cmd->arg_list->value), 1);
-	fd = ft_get_fd_out(data, cmd);
-	ft_putstr_fd(cwd, fd);
-	ft_putstr_fd("\n", fd);
-	free(cwd);
-	if (fd != STDOUT_FILENO)
-		close(fd);
-	return (0);
-}
-
-static int	ft_env(t_data *data, t_cmd *cmd)
+static int	ft_print_env(t_data *data, t_cmd *cmd)
 {
 	t_env	*env_list;
 	int		fd;
@@ -53,25 +34,46 @@ static int	ft_env(t_data *data, t_cmd *cmd)
 	return (0);
 }
 
-static int	ft_unset(t_data *data, t_arg *arg_list)
+int	ft_cmdcmp(t_cmd *cmd, char *cmd_name)
 {
-	if (!data || !arg_list || !arg_list->value)
-		return (FAIL);
-	if (arg_list->next == NULL)
-		return (0);
-	printf("arg_list->value = %s\n", arg_list->value);
-	printf("arg_list->next->value = %s\n", arg_list->next->value);
-	(void)data;
-	(void)arg_list;
-	// USE EXPORT.C FUNCTIONS
-	// si aucun argument apres unset que faire ?
-	// si plusieurs arguments apres unset que faire ?
-	// si un seul argument apres unset recup key
-	// supprimer key dans env_list
-	// si key n'existe pas dans env_list ne rien faire
-	// un fois que c'est supprimé dans env_list mettre a jour env en freeant l'ancien env pour le remplacer par le nouveau
-	return (0);
+	char	*str;
+	int		len;
+
+	if (!cmd || !(cmd->arg_list) || !(cmd->arg_list->value))
+		return (NO);
+	str = cmd->arg_list->value;
+	len = ft_strlen(str);
+	if (len == 0)
+		return (NO);
+	if (ft_strncmp(str, cmd_name, len) == 0)
+		return (YES);
+	return (NO);
 }
+
+int	ft_isbuiltin(t_cmd *cmd)
+{
+	char	*builtins[] = {"echo", "cd", "pwd",
+		"export", "unset", "env", "exit", ":", "!", NULL};
+	char		*str;
+	int			len;
+	int			i;
+
+	if (!cmd || !(cmd->arg_list) || !(cmd->arg_list->value))
+		return (NO);
+	str = cmd->arg_list->value;
+	len = ft_strlen(str);
+	if (len == 0)
+		return (NO);
+	i = 0;
+	while (builtins[i])
+	{
+		if (ft_cmdcmp(cmd, (char *)builtins[i]) == YES)
+			return (YES);
+		i++;
+	}
+	return (NO);
+}
+
 
 int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 {
@@ -82,7 +84,7 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_cmdcmp(cmd, "echo") == YES)
 		return (ft_echo(data, cmd));
 	if (ft_cmdcmp(cmd, "env") == YES)
-		return (ft_env(data, cmd));
+		return (ft_print_env(data, cmd));
 	if (ft_cmdcmp(cmd, ":") == YES || ft_cmdcmp(cmd, "!") == YES)
 		return (0);
 	if (ft_cmdcmp(cmd, "export") == YES)
@@ -91,5 +93,5 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 		return (ft_unset(data, cmd->arg_list));
 	if (ft_cmdcmp(cmd, "exit") == YES)
 		return (ft_exit(data, cmd->arg_list));
-	return (SUCCESS);
+	return (1);
 }

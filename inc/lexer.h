@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:36:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 15:32:29 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 01:20:53 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /*		EXPAND		*/
 char	*ft_get_expanded_str(t_data *data, char *str);
-void	ft_expand_words(t_data *data, t_token **token_list);
+void	ft_expand(t_data *data, t_token **token_list);
 
 /*	EXPAND_UTILS	*/
 char	*ft_remove_quotes(char *str);
@@ -29,7 +29,7 @@ void	assign_error(t_token *token, int err_type);
 void	ft_print_error(int errno);
 
 /*	TOKEN_CHECK		*/
-int		check_token_list(t_token *list);
+int		ft_check_token_list(t_token *list);
 int		ft_check_pipe_error(t_token *token_list);
 
 /*	TOKEN_UTILS		*/

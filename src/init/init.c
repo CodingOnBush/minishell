@@ -3,76 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 15:34:28 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 01:08:01 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// static char	**ft_duplicate_env(char **env)
-// {
-// 	char	**res;
-// 	int		i;
-
-// 	i = 0;
-// 	while (env[i])
-// 		i++;
-// 	res = malloc(sizeof(char *) * (i + 1));
-// 	if (!res)
-// 		return (NULL);
-// 	i = 0;
-// 	while (env[i])
-// 	{
-// 		res[i] = ft_strdup(env[i]);
-// 		if (!res[i])
-// 			return (ft_free_args(&res), NULL);
-// 		i++;
-// 	}
-// 	res[i] = NULL;
-// 	return (res);
-// }
-
-static char	*ft_get_key(char *str)
+static void	ft_handler(int signum)
 {
-	char	*equal;
-
-	equal = ft_strchr(str, '=');
-	if (!equal)
-		return (NULL);
-	return (ft_substr(str, 0, equal - str));
+	if (signum == SIGINT)
+	{
+		g_signum = signum;
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		// rl_replace_line("", STDIN_FILENO);// "ls |\n>"
+		rl_on_new_line();
+		// rl_redisplay();
+	}
 }
 
-static char	*ft_get_value(char *str)
+static void	ft_setup_signals(t_data *data)
 {
-	char	*equal;
-
-	equal = ft_strchr(str, '=');
-	if (!equal)
-		return (NULL);
-	return (ft_strdup(equal + 1));
+	data->act_interupt.sa_handler = ft_handler;
+	data->act_quit.sa_handler = SIG_IGN;
+	sigemptyset(&data->act_interupt.sa_mask);
+	sigemptyset(&data->act_quit.sa_mask);
+	data->act_interupt.sa_flags = 0;//to have a ft_handler with only one arg (signum)
+	data->act_quit.sa_flags = 0;
+	sigaction(SIGINT, &data->act_interupt, NULL);
+	sigaction(SIGact_quit, &data->act_quit, NULL);
 }
 
-static t_env	*ft_new_env(char *line)
+static t_env	*ft_line_to_env(char *line)
 {
 	t_env	*new_env;
+	char	*equal;
 
+	equal = ft_strchr(line, '=');
+	if (!equal)
+		return (NULL);
 	new_env = malloc(sizeof(t_env));
 	if (!new_env)
 		return (NULL);
-	new_env->key = ft_get_key(line);
+	new_env->key = ft_substr(line, 0, equal - line);
 	if (!new_env->key)
 		return (free(new_env), NULL);
-	new_env->value = ft_get_value(line);
+	new_env->value = ft_strdup(equal + 1);
 	if (!new_env->value)
 		return (free(new_env->key), free(new_env), NULL);
 	new_env->next = NULL;
 	return (new_env);
 }
 
-static t_env	*ft_create_env_list(char **env)
+static t_env	*ft_create_envlist(char **env)
 {
 	t_env	*res;
 	t_env	*new;
@@ -82,7 +67,7 @@ static t_env	*ft_create_env_list(char **env)
 	i = 0;
 	while (env[i])
 	{
-		new = ft_new_env(env[i]);
+		new = ft_line_to_env(env[i]);
 		if (!new)
 			return (NULL);
 		ft_add_new_env(&res, new);
@@ -112,7 +97,7 @@ t_data *const	ft_create_data(int ac, char **av, char **env)
 	data->pipe_ends = NULL;
 	data->join_path = NULL;
 	data->step = 0;
-	data->env_list = ft_create_env_list(env);
+	data->env_list = ft_create_envlist(env);
 	data->hd_pos = -1;
 	data->exit_status = 0;
 	data->exit_builtin = NO;

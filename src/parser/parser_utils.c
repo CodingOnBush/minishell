@@ -1,55 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_utils.c                                      :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 16:41:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 16:56:47 by momrane          ###   ########.fr       */
+/*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
+/*   Updated: 2024/04/20 01:53:08 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	ft_set_delimiters(t_token **token_list)
-{
-	t_token	*token;
-
-	token = *token_list;
-	while (token)
-	{
-		if (token->type == HERE_DOC && token->next && token->next->type == WORD)
-			token->next->type = LIM;
-		token = token->next;
-	}
-}
-
-t_token		*ft_findlast_token(t_token *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
-void	ft_addlast_token(t_token **token_list, t_token *new_token)
-{
-	t_token	*lst;
-
-	if (!new_token)
-		return ;
-	if (*token_list == NULL)
-		*token_list = new_token;
-	else
-	{
-		lst = *token_list;
-		while (lst->next != NULL)
-			lst = lst->next;
-		lst->next = new_token;
-	}
-}
 
 t_token	*ft_extract_token(t_token *cur_token)
 {
@@ -77,3 +38,39 @@ t_token	*ft_extract_token(t_token *cur_token)
 	return (res);
 }
 
+static int	ft_count_args(t_arg *lst)
+{
+	int		count;
+
+	count = 0;
+	while (lst)
+	{
+		count++;
+		lst = lst->next;
+	}
+	return (count);
+}
+
+char	**ft_create_args_array(t_arg *arg_list)
+{
+	char	**array;
+	int		i;
+
+	i = ft_count_args(arg_list);
+	if (i == 0)
+		return (NULL);
+	array = ft_calloc(i + 1, sizeof(char *));
+	if (!array)
+		return (NULL);
+	i = 0;
+	while (arg_list)
+	{
+		array[i] = ft_strdup(arg_list->value);
+		if (!array[i])
+			return (ft_free_array(array), NULL);
+		i++;
+		arg_list = arg_list->next;
+	}
+	array[i] = NULL;
+	return (array);
+}
