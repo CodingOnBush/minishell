@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/18 16:45:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 12:13:48 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,12 @@ int ft_exec(t_data *data, t_cmd *cmd)
 {
 	if (!cmd->arg_list || !cmd->arg_list->value)
 		return (SUCCESS);
-	if (access(cmd->arg_list->value, X_OK) == 0)
+	if (access(cmd->arg_list->value, X_OK) == 0) //ici est-ce que c'est pas 1 plutot?
 	{
-		printf("minishell: %s: Is a directory\n", cmd->arg_list->value);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->arg_list->value, 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+		// printf("minishell: %s: Is a directory\n", cmd->arg_list->value);
 		ft_free_all(data);
 		exit(126);
 	}
@@ -110,7 +113,6 @@ void ft_launch_exec(t_data *data)
 	if (data->cmd_nb > 1)
 		ft_init_pipes(data);
 	ft_fork(data);
-	
 	// if (data->cmd_nb == 1)
 	// else if (data->cmd_nb > 1 && ft_init_pipes(data) == SUCCESS)
 	// 	ft_fork(data);

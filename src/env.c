@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/17 20:59:39 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 11:57:13 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	ft_print_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		printf("%s\n", env[i]);
+		ft_putstr_fd(env[i], 1);
 		i++;
 	}
 }

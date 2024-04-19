@@ -23,6 +23,12 @@ cd ----
 # on sait comment faire avec la fonction stat()
 "$HOMEdskjhfkdshfsd"
 
+#soucis avec exit a regler mais pour cela il faut pouvoir lancer minishell dans minishell
+
+#echo
+quand on lance echo il reste en pause sans reafficher le prompt "minispell"
+Je pense que c'est parce que les single commands on les a mises dans un fork et donc qu'il faut exit l'enfant
+pour que le prompt revienne mais j'ai essaye et ca marche pas
 
 # DONE
 echo $""HOME

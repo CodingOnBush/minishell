@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/18 12:01:56 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 12:28:02 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int ac, char **av, char **env)
 		add_history(data->line);
 		if (ft_lexer(data) == SUCCESS && ft_parser(data) == SUCCESS)
 			ft_launch_exec(data);
-		if (data->cmd_nb > 1 && is_exit_builtin(data) == YES)
+		if (is_exit_builtin(data) == YES)
 		{
 			status = data->exit_status;
 			ft_free_all(data);
@@ -40,5 +40,5 @@ int	main(int ac, char **av, char **env)
 	}
 	status = data->exit_status;
 	rl_clear_history();
-	return (ft_free_all(data), printf("exit\n"), status);
+	return (ft_free_all(data), ft_putstr_fd("exit\n", 1), status);
 }

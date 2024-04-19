@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 17:04:54 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 12:34:10 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,12 @@ int	ft_get_fd_out(t_data *data, t_cmd *cmd)
 void	ft_exec_single_cmd(t_data *data)
 {
 	t_cmd	*cmd_to_exec;
+	int		status;
 	int		fd_out;
 	int		fd_in;
 
 	cmd_to_exec = data->cmd_list;
+	status = 0;
 	if (cmd_to_exec == NULL || cmd_to_exec->arg_list == NULL)
 	{
 		ft_free_exec(data);
@@ -91,7 +93,11 @@ void	ft_exec_single_cmd(t_data *data)
 	if (fd_out != STDOUT_FILENO)
 		close(fd_out);
 	if (ft_isbuiltin(cmd_to_exec) == YES)
-		ft_exec_builtin(data, cmd_to_exec);
+	{
+		status = ft_exec_builtin(data, cmd_to_exec);
+		ft_free_all(data);
+		exit(status);
+	}
 	else
 		ft_exec(data, cmd_to_exec);
 }

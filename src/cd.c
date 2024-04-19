@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/18 14:19:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 11:55:49 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*ft_get_path(t_env *env_list, t_arg *lst)
 
 	(void)env_list;
 	if (lst && lst->next != NULL && lst->token_type == WORD)
-		return (printf("minishell: cd: too many arguments\n"), NULL);
+		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), NULL);
 	path = lst->value;
 	if (ft_strncmp(path, "~", 1) == 0)
 	{
@@ -35,7 +35,7 @@ static char	*ft_get_path(t_env *env_list, t_arg *lst)
 	{
 		path = ft_getenv(env_list, "OLDPWD");
 		if (!path)
-			return (printf("cd: OLDPWD not set\n"), NULL);
+			return (ft_putstr_fd("cd: OLDPWD not set\n", 2), NULL);
 	}
 	else if (path && path[0] == '.' && path[1] && path[1] == '.')
 	{

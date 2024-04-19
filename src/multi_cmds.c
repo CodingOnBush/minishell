@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 16:12:02 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 12:41:08 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 {
 	int	fd_out;
 	int	fd_in;
+	int status;
 
 	fd_in = ft_get_fd_in(data, cmd_to_exec);
 	fd_out = ft_get_fd_out(data, cmd_to_exec);
@@ -33,7 +34,11 @@ void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 		close(fd_out);
 	ft_close_pipes(data);
 	if (ft_isbuiltin(cmd_to_exec) == YES)
-		ft_exec_builtin(data, cmd_to_exec);
+	{
+		status = ft_exec_builtin(data, cmd_to_exec);
+		ft_free_all(data);
+		exit(status);
+	}
 	else
 		ft_exec(data, cmd_to_exec);
 }
@@ -42,6 +47,7 @@ void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 {
 	int	fd_out;
 	int	fd_in;
+	int status;
 
 	fd_in = ft_get_fd_in(data, cmd_to_exec);
 	fd_out = ft_get_fd_out(data, cmd_to_exec);
@@ -59,7 +65,11 @@ void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 	if (fd_out != STDOUT_FILENO)
 		close(fd_out);
 	if (ft_isbuiltin(cmd_to_exec) == YES)
-		ft_exec_builtin(data, cmd_to_exec);
+	{
+		status = ft_exec_builtin(data, cmd_to_exec);
+		ft_free_all(data);
+		exit(status);
+	}
 	else
 		ft_exec(data, cmd_to_exec);
 }
@@ -68,6 +78,7 @@ void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 {
 	int	fd_out;
 	int	fd_in;
+	int status;
 
 	close(data->pipe_ends[process - 1][1]);
 	fd_in = ft_get_fd_in(data, cmd_to_exec);
@@ -83,7 +94,11 @@ void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 	if (fd_out != STDOUT_FILENO)
 		close(fd_out);
 	if (ft_isbuiltin(cmd_to_exec) == YES)
-		ft_exec_builtin(data, cmd_to_exec);
+	{
+		status = ft_exec_builtin(data, cmd_to_exec);
+		ft_free_all(data);
+		exit(status);
+	}
 	else
 		ft_exec(data, cmd_to_exec);
 }
