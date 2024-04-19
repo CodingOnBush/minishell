@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/19 16:28:55 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:00:24 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void		ft_print_token_list(t_token *list);
 void		ft_print_arg_list(t_arg *list);
 void		ft_print_cmd_list(t_cmd *list);
+void		ft_print_env_list(t_env *env_list);
 
 /*		EXEC		*/
 int			ft_execve(t_data *data, t_cmd *cmd);

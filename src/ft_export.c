@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 15:33:48 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:25:37 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,6 @@ int	ft_update_var(t_env **env_list, char *key, char *value)
 	return (FAIL);
 }
 
-int	ft_add_new_env_var(t_env **env_list, char *key, char *value)
-{
-	t_env	*new;
-
-	new = ft_create_new_var(key, value);
-	if (!new)
-		return (FAIL);
-	ft_add_new_env(env_list, new);
-	return (SUCCESS);
-}
-
 char	*ft_strjoin_key_value(char *key, char *value)
 {
 	char	*res;
@@ -118,6 +107,8 @@ char	*ft_extract_key(char*str)
 	i = 0;
 	while (str[i] && str[i] != '=')
 		i++;
+	if (i == 0)
+		return (NULL);
 	res = (char *)malloc(sizeof(char) * (i + 1));
 	if (!res)
 		return (NULL);
@@ -167,11 +158,9 @@ void	ft_add_new_env_in_list(t_env **env_list, char *key, char *value)
 
 	new_var = ft_create_new_var(key, value);
 	if (!new_var)
-	{
-		ft_free_env_list(env_list);
-		*env_list = NULL;
 		return ;
-	}
+	printf("key : %s\n", new_var->key);
+	printf("value : %s\n", new_var->value);
 	ft_add_new_env(env_list, new_var);
 }
 
@@ -209,27 +198,40 @@ static int	ft_print_export(t_data *data, t_cmd *cmd)
 		ft_putstr_fd("\n", fd);
 		env_list = env_list->next;
 	}
+	if (fd != STDOUT_FILENO)
+		close(fd);
 	return (0);
 }
 
 int	ft_export(t_data *data, t_cmd *cmd)
 {
 	t_arg	*arg_list;
+	char	*var_name;
+	char	*var_content;
+	t_arg	*export_args;
 
 	arg_list = cmd->arg_list;
 	if (!data || !cmd || !arg_list || !arg_list->value)
 		return (FAIL);
 	if (arg_list->next == NULL)
 		return (ft_putstr_fd("minishell : unspecified behaviour\n", 2), 1);
-	
-	// printf("arg_list->value = %s\n", arg_list->value);
-	// printf("arg_list->next->value = %s\n", arg_list->next->value);
-	// si plusieurs arguments apres export que faire ?
-	// si un seul argument apres export recup key et value
-	// ajouter key et value dans env_list
-	// si key existe deja dans env_list update value
-	// si key n'existe pas dans env_list ajouter key et value
-	// si key est vide ou contient un = que faire ?
-	// un fois que c'est ajouté dans env_list mettre a jour env en freeant l'ancien env pour le remplacer par le nouveau
+	export_args = arg_list->next;
+	while (export_args)
+	{
+		var_name = ft_extract_key(export_args->value);
+		printf("var_name : %s\n", var_name);
+		if (ft_isvalid_varname(var_name) == NO)
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(export_args->value, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+		}
+		else
+		{
+			var_content = ft_extract_value(export_args->value);
+			ft_add_new_env_in_list(&data->env_list, var_name, var_content);
+		}
+		export_args = export_args->next;
+	}
 	return (0);
 }

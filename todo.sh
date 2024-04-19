@@ -23,3 +23,10 @@ cd ../../../../../../bin
 - refactor env functions
 - create a function that will return a char ** from t_env * (to be used in execve)
 - each time we unset PATH, we need to update the path_list variable in our t_data structure
+
+
+
+
+
+# Note for the future
+- single command not in a child process (for example, EXPORT)

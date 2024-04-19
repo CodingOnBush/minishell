@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/19 16:23:03 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:12:13 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,21 +108,13 @@ void	ft_launch_exec(t_data *data)
 {
 	if (ft_launch_heredoc(data) == FAIL || data->cmd_nb <= 0)
 		return;
-	// if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == YES)
-	// 	data->exit_status = ft_exec_builtin(data, data->cmd_list);
-	// else if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == NO)
-	// 	ft_fork(data);
-	if (data->cmd_nb > 1)
+	if (data->cmd_nb >= 1 && ft_isbuiltin(data->cmd_list) == NO)
 	{
 		data->pipe_ends = ft_create_pipe_ends(data->cmd_nb - 1);
 		if (!data->pipe_ends)
 			return ;
-		// if (ft_init_pipes(data) == FAIL)
-		// 	return;
+		ft_fork(data);
 	}
-	ft_fork(data);
-	// if (data->cmd_nb == 1)
-	// else if (data->cmd_nb > 1 && ft_init_pipes(data) == SUCCESS)
-	// 	ft_fork(data);
-	// ft_wait_for_children(data);
+	else if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == YES)
+		ft_exec_single_cmd(data);
 }

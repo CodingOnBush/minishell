@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/19 17:05:05 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:10:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,12 @@ void	ft_exec_single_cmd(t_data *data)
 	ft_dup_all(ft_get_fd_in(data, cmd), ft_get_fd_out(data, cmd));
 	if (ft_isbuiltin(cmd) == YES)
 	{
-		status = ft_exec_builtin(data, cmd);
-		ft_free_all(data);
-		exit(status);
+		data->exit_status = ft_exec_builtin(data, cmd);
+		return ;
+		// status = ft_exec_builtin(data, cmd);
+		// ft_free_all(data);
+		// exit(status);
 	}
-	ft_execve(data, cmd);
+	else
+		ft_execve(data, cmd);
 }

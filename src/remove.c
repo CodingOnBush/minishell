@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 16:49:33 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:00:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,19 @@ void	ft_print_cmd_list(t_cmd *list)
 		ft_print_infile_list(tmp->infile_list);
 		ft_print_outfile_list(tmp->outfile_list);
 		printf("===========================\n");
+		tmp = tmp->next;
+	}
+}
+
+void	ft_print_env_list(t_env *env_list)
+{
+	t_env	*tmp;
+
+	tmp = env_list;
+	while (tmp)
+	{
+		printf("key : %s | ", tmp->key);
+		printf("value : %s\n", tmp->value);
 		tmp = tmp->next;
 	}
 }

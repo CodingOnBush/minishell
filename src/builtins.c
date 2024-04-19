@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 14:48:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:01:59 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_pwd(t_data *data, t_cmd *cmd)
 	return (0);
 }
 
-static int	ft_print_env_list(t_data *data, t_cmd *cmd)
+static int	ft_env(t_data *data, t_cmd *cmd)
 {
 	t_env	*env_list;
 	int		fd;
@@ -48,6 +48,8 @@ static int	ft_print_env_list(t_data *data, t_cmd *cmd)
 		ft_putstr_fd("\n", fd);
 		env_list = env_list->next;
 	}
+	if (fd != STDOUT_FILENO)
+		close(fd);
 	return (0);
 }
 
@@ -80,7 +82,7 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_cmdcmp(cmd, "echo") == YES)
 		return (ft_echo(data, cmd));
 	if (ft_cmdcmp(cmd, "env") == YES)
-		return (ft_print_env_list(data, cmd));
+		return (ft_env(data, cmd));
 	if (ft_cmdcmp(cmd, ":") == YES || ft_cmdcmp(cmd, "!") == YES)
 		return (0);
 	if (ft_cmdcmp(cmd, "export") == YES)
