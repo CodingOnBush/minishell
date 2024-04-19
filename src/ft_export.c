@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 18:25:37 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:29:11 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,6 @@ void	ft_add_new_env_in_list(t_env **env_list, char *key, char *value)
 	new_var = ft_create_new_var(key, value);
 	if (!new_var)
 		return ;
-	printf("key : %s\n", new_var->key);
-	printf("value : %s\n", new_var->value);
 	ft_add_new_env(env_list, new_var);
 }
 
@@ -219,7 +217,7 @@ int	ft_export(t_data *data, t_cmd *cmd)
 	while (export_args)
 	{
 		var_name = ft_extract_key(export_args->value);
-		printf("var_name : %s\n", var_name);
+		// printf("var_name : %s\n", var_name);
 		if (ft_isvalid_varname(var_name) == NO)
 		{
 			ft_putstr_fd("minishell: export: `", 2);
