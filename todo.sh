@@ -53,3 +53,4 @@ cd $HOME $HOME
 
 # April 19th
 - in export.c, a function that print a list of sorted env variables
+- check ft_atol because it's not working properly
