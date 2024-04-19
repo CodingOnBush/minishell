@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 14:23:23 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 11:26:47 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,34 +45,6 @@ t_env	*ft_env_to_env_list(char **env)
 		ft_add_new_env(&res, new);
 		i++;
 	}
-	return (res);
-}
-
-char	**ft_env_list_to_env(t_env *env_list)
-{
-	char	**res;
-	t_env	*tmp;
-	int		i;
-
-	tmp = env_list;
-	i = 0;
-	while (tmp)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	res = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!res)
-		return (NULL);
-	i = 0;
-	tmp = env_list;
-	while (tmp)
-	{
-		res[i] = ft_strjoin_key_value(tmp->key, tmp->value);
-		i++;
-		tmp = tmp->next;
-	}
-	res[i] = NULL;
 	return (res);
 }
 
@@ -220,4 +192,63 @@ void	ft_add_new_env_in_list(t_env **env_list, char *key, char *value)
 		return ;
 	}
 	ft_add_new_env(env_list, new_var);
+}
+
+static int	ft_isvalid_varname(char *varname)
+{
+	int		i;
+
+	i = 0;
+	if (!varname || !varname[0] || ft_isdigit(varname[0]))
+		return (NO);
+	while (varname[i])
+	{
+		if (!ft_isalnum(varname[i]) && varname[i] != '_')
+			return (NO);
+		i++;
+	}
+	return (YES);
+}
+
+static int	ft_print_export(t_data *data, t_cmd *cmd)
+{
+	t_env	*env_list;
+	int		fd;
+
+	if (!data)
+		return (1);
+	env_list = data->env_list;
+	fd = ft_get_fd_out(data, cmd);
+	while (env_list)
+	{
+		ft_putstr_fd("export ", fd);
+		ft_putstr_fd(env_list->key, fd);
+		ft_putstr_fd("=", fd);
+		ft_putstr_fd(env_list->value, fd);
+		ft_putstr_fd("\n", fd);
+		env_list = env_list->next;
+	}
+	return (0);
+}
+
+int	ft_export(t_data *data, t_cmd *cmd)
+{
+	t_arg	*arg_list;
+
+	arg_list = cmd->arg_list;
+	if (!data || !cmd || !arg_list || !arg_list->value)
+		return (FAIL);
+	if (arg_list->next == NULL)
+		return (printf("heyyyy\n"));
+		// return (ft_print_export(data, cmd));
+	// printf("arg_list->value = %s\n", arg_list->value);
+	// printf("arg_list->next->value = %s\n", arg_list->next->value);
+	// si plusieurs arguments apres export que faire ?
+	// si un seul argument apres export recup key et value
+	// ajouter key et value dans env_list
+	// si key existe deja dans env_list update value
+	// si key n'existe pas dans env_list ajouter key et value
+	// si key est vide ou contient un = que faire ?
+	// un fois que c'est ajouté dans env_list mettre a jour env en freeant l'ancien env pour le remplacer par le nouveau
+	return (0);
 }
