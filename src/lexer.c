@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:47:50 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/16 16:14:28 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/19 15:18:40 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+static int	ft_check_quote_error(char *line)
+{
+	int	quote;
+
+	quote = 0;
+	if (!line)
+		return (FAIL);
+	while (*line)
+	{
+		if (ft_isquote(*line) && ft_strchr(line + 1, *line) != NULL)
+			line += ft_strchr(line + 1, *line) - line + 1;
+		else
+		{
+			if (ft_isquote(*line))
+				quote++;
+			line++;
+		}
+	}
+	if (quote % 2 != 0)
+		return (FAIL);
+	return (SUCCESS);
+}
 
 int	ft_lexer(t_data *data)
 {

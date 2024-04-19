@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/17 19:37:07 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:23:28 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ static	void	free_heredocs(t_data *data)
 	}
 }
 
-void	unlink_and_free(t_data *data)
+void	ft_unlink(t_data *data)
 {
 	int	i;
 
@@ -232,37 +232,11 @@ void	unlink_and_free(t_data *data)
 		if (data->hd_files[i])
 		{
 			if (unlink(data->hd_files[i]) == -1)
-				perror("perror unlink");
+				perror("minishelFl :");
 			free(data->hd_files[i]);
 			data->hd_files[i] = NULL;
 		}
 		i++;
-	}
-	// free_heredocs(data);
-}
-
-void	ft_free_exec(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	unlink_and_free(data);
-	free_heredocs(data);
-	if (data->ids)
-	{
-		free(data->ids);
-		data->ids = NULL;
-	}
-	if (data->pipe_ends)
-	{
-		while (i < data->cmd_nb - 1)
-		{
-			if (data->pipe_ends[i])
-				free(data->pipe_ends[i]);
-			i++;
-		}
-		free(data->pipe_ends);
-		data->pipe_ends = NULL;
 	}
 }
 
@@ -286,23 +260,33 @@ void	ft_free_pipe_ends(t_data *data)
 	}
 }
 
+void	ft_close_pipes(t_data *data)
+{
+	int	count;
+
+	count = 0;
+	while (count < data->cmd_nb - 1)
+	{
+		close(data->pipe_ends[count][0]);
+		close(data->pipe_ends[count][1]);
+		count++;
+	}
+}
+
 void	ft_free_all(t_data *data)
 {
 	if (data)
 	{
 		free_heredocs(data);
 		ft_free_lexing_and_parsing(data);
-		ft_free_exec(data);
-		if (data->path_list)
-			ft_free_path(data->path_list);
 		if (data->line)
 			free(data->line);
 		if (data->pipe_ends)
 			ft_free_pipe_ends(data);
 		if (data->env_list)
 			ft_free_env_list(&data->env_list);
-		if (data->env)
-			ft_free_env(data->env);
+		if (data->ids)
+			free(data->ids);
 		free(data);
 	}
 }
@@ -322,35 +306,6 @@ void	ft_free_hd_files(t_data *data)
 		}
 		free(data->hd_files);
 		data->hd_files = NULL;
-	}
-}
-
-void	ft_reset_data(t_data *data)
-{
-	if (data != NULL)
-	{
-		if (data->line != NULL)
-		{
-			free(data->line);
-			data->line = NULL;
-		}
-		unlink_and_free(data);
-		ft_free_cmd_list(&data->cmd_list);
-		ft_free_tokens(&data->token_list);
-		data->hdnum = 0;
-		if (data->fd_hd != NULL)
-		{
-			free(data->fd_hd);
-			data->fd_hd = NULL;
-		}
-		if (data->ids != NULL)
-		{
-			free(data->ids);
-			data->ids = NULL;
-		}
-		ft_free_pipe_ends(data);
-		data->cmd_nb = 0;
-		data->step = 0;
 	}
 }
 
@@ -382,4 +337,34 @@ void	ft_free_env(char **env)
 		i++;
 	}
 	free(env);
+}
+
+void	ft_reset_data(t_data *data)
+{
+	if (data != NULL)
+	{
+		ft_unlink(data);
+		free_heredocs(data);
+		ft_free_cmd_list(&data->cmd_list);
+		ft_free_tokens(&data->token_list);
+		data->hdnum = 0;
+		if (data->fd_hd != NULL)
+		{
+			free(data->fd_hd);
+			data->fd_hd = NULL;
+		}
+		if (data->ids != NULL)
+		{
+			free(data->ids);
+			data->ids = NULL;
+		}
+		ft_free_pipe_ends(data);
+		data->cmd_nb = 0;
+		data->step = 0;
+		if (data->line != NULL)
+		{
+			free(data->line);
+			data->line = NULL;
+		}
+	}
 }

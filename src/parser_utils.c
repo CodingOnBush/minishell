@@ -3,14 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/12 16:27:19 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:51:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+static t_arg	*ft_create_arg_list(t_token *token)
+{
+	t_arg	*new;
+	t_arg	*res;
+	char	*str;
+
+	res = NULL;
+	while (token != NULL && token->type != PIPE)
+	{
+		if (token->attributed == false && ft_isop(token->str) == NO)
+		{
+			str = ft_strdup(token->str);
+			if (!str)
+				return (ft_free_arg_list(&res), NULL);
+			new = ft_new_arg(str, token->type);
+			if (!new)
+				return (ft_free_arg_list(&res), NULL);
+			ft_add_new_arg(&res, new);
+		}
+		token = token->next;
+	}
+	return (res);
+}
+
+static int	ft_get_arg_nbr(t_arg *arg_list)
+{
+	int	count;
+
+	count = 0;
+	while (arg_list)
+	{
+		count++;
+		arg_list = arg_list->next;
+	}
+	return (count);
+}
+
+static char	**ft_create_args_array(t_arg *arg_list)
+{
+	char	**array;
+	int		len;
+	int		i;
+
+	if (!arg_list)
+		return (NULL);
+	len = ft_get_arg_nbr(arg_list);
+	array = malloc((len + 1) * sizeof(char *));
+	if (!array)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		array[i] = ft_strdup(arg_list->value);
+		i++;
+		arg_list = arg_list->next;
+	}
+	array[i] = NULL;
+	return (array);
+}
 
 static int	ft_init_new_cmd(t_data *data, t_cmd *new_cmd, t_token *cur_token)
 {

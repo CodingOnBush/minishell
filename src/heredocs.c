@@ -6,13 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 14:40:43 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:04:25 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*get_file_name(int i)
+static char	*get_file_name(int i)
 {
 	char	*file_num;
 	char	*file_name;
@@ -58,7 +58,7 @@ static char	**create_hd_files(int hdnum)
 	return (hd_files);
 }
 
-void	writing_loop(t_data *data, int fd_hd, char *delimiter, bool to_expand)
+static void	writing_loop(t_data *data, int fd_hd, char *delimiter, bool to_expand)
 {
 	char	*line;
 	size_t	len;
@@ -88,6 +88,33 @@ void	writing_loop(t_data *data, int fd_hd, char *delimiter, bool to_expand)
 	free(line);
 }
 
+static void	ft_set_hd_as_infiles(t_data *data)
+{
+	t_infile	*lst;
+	t_cmd		*cur;
+	int			i;
+	
+	i = 0;
+	cur = data->cmd_list;
+	if (!cur)
+		return ;
+	while (cur)
+	{
+		lst = cur->infile_list;
+		while (lst)
+		{
+			if (lst->delimiter != NULL && data->hd_files != NULL && data->hd_files[i] != NULL)
+			{
+				lst->filename = data->hd_files[i++];
+				if (!lst->filename)
+					return ;
+			}
+			lst = lst->next;
+		}
+		cur = cur->next;
+	}
+}
+
 static int	execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
 {
 	t_infile	*cur_inf;
@@ -113,7 +140,7 @@ static int	execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
 	return (count);
 }
 
-int	do_heredocs(t_data *data)
+static int	do_heredocs(t_data *data)
 {
 	t_cmd	*cur_cmd;
 	int		i;
@@ -150,7 +177,7 @@ static int	is_error_to_print(t_data *data, t_token *list)
 		if (cur_token->error == true)
 		{
 			ft_print_error(cur_token->err_type);
-			return (ft_free_exec(data), YES);
+			return (YES);
 		}
 		cur_token = cur_token->next;
 	}

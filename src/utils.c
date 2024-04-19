@@ -6,13 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 14:28:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 16:58:43 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_isappend(char *str)
+static int	ft_isappend(char *str)
 {
 	if (!str)
 		return (NO);
@@ -21,7 +21,7 @@ int	ft_isappend(char *str)
 	return (NO);
 }
 
-int	ft_isheredoc(char *str)
+static int	ft_isheredoc(char *str)
 {
 	if (!str)
 		return (NO);
@@ -72,22 +72,6 @@ int	ft_isoperator(char *str)
 	if (ft_strchr("|><", *str) != NULL)
 		return (1);
 	return (NO);
-}
-
-int	ft_get_pipe_count(t_token *token_list)
-{
-	int		count;
-	t_token	*tmp;
-
-	count = 0;
-	tmp = token_list;
-	while (tmp)
-	{
-		if (tmp->type == PIPE)
-			count++;
-		tmp = tmp->next;
-	}
-	return (count);
 }
 
 char	*ft_strndup(char *s, int n)
@@ -157,5 +141,21 @@ int	ft_is_in_var(char c)
 {
 	if (ft_isalnum(c) || c == '_')
 		return (YES);
+	return (NO);
+}
+
+int	is_exit_builtin(t_data *data)
+{
+	t_cmd	*cmd;
+
+	cmd = data->cmd_list;
+	if (!cmd->args)
+		return (NO);
+	while (cmd)
+	{
+		if (ft_strncmp(cmd->args[0], "exit", ft_strlen("exit")) == 0)
+			return (YES);
+		cmd = cmd->next;
+	}
 	return (NO);
 }

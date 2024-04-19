@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/17 15:16:17 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 15:32:54 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,62 +40,3 @@ void	ft_add_new_arg(t_arg **head, t_arg *new_arg)
 	}
 }
 
-t_arg	*ft_create_arg_list(t_token *token)
-{
-	t_arg	*new;
-	t_arg	*res;
-	char	*str;
-
-	res = NULL;
-	while (token != NULL && token->type != PIPE)
-	{
-		if (token->attributed == false && ft_isop(token->str) == NO)
-		{
-			str = ft_strdup(token->str);
-			if (!str)
-				return (ft_free_arg_list(&res), NULL);
-			new = ft_new_arg(str, token->type);
-			if (!new)
-				return (ft_free_arg_list(&res), NULL);
-			ft_add_new_arg(&res, new);
-		}
-		token = token->next;
-	}
-	return (res);
-}
-
-static int	ft_get_arg_nbr(t_arg *arg_list)
-{
-	int	count;
-
-	count = 0;
-	while (arg_list)
-	{
-		count++;
-		arg_list = arg_list->next;
-	}
-	return (count);
-}
-
-char	**ft_create_args_array(t_arg *arg_list)
-{
-	char	**array;
-	int		len;
-	int		i;
-
-	if (!arg_list)
-		return (NULL);
-	len = ft_get_arg_nbr(arg_list);
-	array = malloc((len + 1) * sizeof(char *));
-	if (!array)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		array[i] = ft_strdup(arg_list->value);
-		i++;
-		arg_list = arg_list->next;
-	}
-	array[i] = NULL;
-	return (array);
-}

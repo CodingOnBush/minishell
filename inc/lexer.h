@@ -6,16 +6,12 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:36:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/17 14:49:01 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 15:32:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
-
-/*		CHECK		*/
-int		ft_check_quote_error(char *line);
-int		ft_double_pipe_detected(t_token *token);
 
 /*		EXPAND		*/
 char	*ft_get_expanded_str(t_data *data, char *str);

@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/19 10:59:28 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/19 16:59:19 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,12 +37,13 @@ GREEN 		:= \033[0;92m
 CYAN 		:= \033[0;96m
 
 SRC_EXEC	:=	builtin_utils builtins exec exec_utils \
-				hd_count heredocs multi_cmds single_cmd echo \
-				cd export exit print
+				hd_count heredocs multi_cmds single_cmd ft_echo \
+				ft_cd ft_export ft_exit ft_env \
+				single_cmd_utils
 
-SRC_INIT	:=	data env env_utils free signals utils
+SRC_INIT	:=	data env_utils free signals utils
 
-SRC_LEXER	:=	check errors expand expand_utils lexer \
+SRC_LEXER	:=	errors expand expand_utils lexer \
 				token token_check token_utils
 
 SRC_PARSER	:=	args infile outfile parser parser_utils

@@ -6,13 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 16:41:43 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 16:50:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_outfile	*ft_new_outfile(char *filename, int type)
+static t_outfile	*ft_new_outfile(char *filename, int type)
 {
 	t_outfile	*new_outfile;
 	char		*new_str;
@@ -31,7 +31,7 @@ t_outfile	*ft_new_outfile(char *filename, int type)
 	return (new_outfile);
 }
 
-void	ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile)
+static void	ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile)
 {
 	t_outfile	*lst;
 

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:38:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 12:00:33 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:23:28 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 # define INIT_H
 
 /*		DATA		*/
-t_data	*ft_create_data(int ac, char **av, char **env);
+t_data *const	ft_create_data(int ac, char **av, char **env);
 
 /*		SIGNALS		*/
 void	ft_setup_signals(t_data *data);
 
 /*		UTILS		*/
-int 	ft_isappend(char *str);
-int 	ft_isheredoc(char *str);
+// int 	ft_isappend(char *str);
+// int 	ft_isheredoc(char *str);
 int 	ft_isop(char *str);
 int 	ft_get_type(char *str);
 int 	ft_isoperator(char *str);
-int 	ft_get_pipe_count(t_token *token_list);
 char	*ft_strndup(char *s, int n);
 char	*ft_super_strjoin(char *new_str, char *toadd);
 int 	ft_isspace(char c);
@@ -33,19 +32,12 @@ int 	ft_isquote(char c);
 int		ft_is_in_var(char c);
 
 /*		ENV			*/
-t_env	*ft_create_env_list(char **env);
 // char	*ft_getenv(t_env *env_list, char *key);
 // void	ft_remove_env(t_env **env_list, char *key);
 t_env	*ft_create_new_var(char *key, char *value);
 void	ft_update_env(t_env **env_list, char *key, char *new);
 // void	ft_add_new_env_var(t_data *data, char *var_name, char *var_value);
 void	ft_print_env(char **env);
-
-/*		ENV_UTILS	*/
-char	*ft_get_key(char *str);
-char	*ft_get_value(char *str);
-t_env	*ft_new_env(char *line);
-// void	ft_add_new_env(t_env **env_list, t_env *new_env);
 
 /*		FREE		*/
 void	ft_free_tokens(t_token **token_list);
@@ -59,7 +51,7 @@ void	ft_free_infile_list(t_infile **infile_list);
 void	ft_free_outfile_list(t_outfile **outfile_list);
 void	ft_free_cmd_list(t_cmd **cmd_list);
 void	ft_free_lexing_and_parsing(t_data *data);
-void	unlink_and_free(t_data *data);
+void	ft_unlink(t_data *data);
 void	ft_free_exec(t_data *data);
 void	ft_free_pipe_ends(t_data *data);
 void	ft_free_all(t_data *data);

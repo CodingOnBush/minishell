@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/19 11:57:13 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:37:22 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-t_env	*ft_create_env_list(char **env)
-{
-	t_env	*res;
-	t_env	*new;
-	int		i;
-
-	res = NULL;
-	i = 0;
-	while (env[i])
-	{
-		new = ft_new_env(env[i]);
-		if (!new)
-			return (NULL);
-		ft_add_new_env(&res, new);
-		i++;
-	}
-	return (res);
-}
 
 // char	*ft_getenv(t_env *env_list, char *key)
 // {

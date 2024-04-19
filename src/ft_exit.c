@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:40:03 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/04/19 11:59:14 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:50:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	is_exit_builtin(t_data *data)
-{
-	t_cmd	*cmd;
-
-	cmd = data->cmd_list;
-	while (cmd)
-	{
-		if (ft_strncmp(cmd->args[0], "exit", ft_strlen("exit")) == 0)
-			return (YES);
-		cmd = cmd->next;
-	}
-	return (NO);
-}
 
 static int	ft_isnumber(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 11:26:47 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 15:33:48 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,6 @@ void	ft_add_new_env(t_env **env_list, t_env *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
-}
-
-t_env	*ft_env_to_env_list(char **env)
-{
-	t_env	*res;
-	t_env	*new;
-	int		i;
-
-	res = NULL;
-	i = 0;
-	while (env[i])
-	{
-		new = ft_new_env(env[i]);
-		if (!new)
-			return (NULL);
-		ft_add_new_env(&res, new);
-		i++;
-	}
-	return (res);
 }
 
 char	*ft_getenv(t_env *env_list, char *key)
@@ -239,8 +220,8 @@ int	ft_export(t_data *data, t_cmd *cmd)
 	if (!data || !cmd || !arg_list || !arg_list->value)
 		return (FAIL);
 	if (arg_list->next == NULL)
-		return (printf("heyyyy\n"));
-		// return (ft_print_export(data, cmd));
+		return (ft_putstr_fd("minishell : unspecified behaviour\n", 2), 1);
+	
 	// printf("arg_list->value = %s\n", arg_list->value);
 	// printf("arg_list->next->value = %s\n", arg_list->next->value);
 	// si plusieurs arguments apres export que faire ?

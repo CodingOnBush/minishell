@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/19 12:41:08 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:49:02 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 		exit(status);
 	}
 	else
-		ft_exec(data, cmd_to_exec);
+		ft_execve(data, cmd_to_exec);
 }
 
 void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
@@ -71,7 +71,7 @@ void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 		exit(status);
 	}
 	else
-		ft_exec(data, cmd_to_exec);
+		ft_execve(data, cmd_to_exec);
 }
 
 void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
@@ -100,7 +100,7 @@ void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 		exit(status);
 	}
 	else
-		ft_exec(data, cmd_to_exec);
+		ft_execve(data, cmd_to_exec);
 }
 
 void	child_process(t_data *data, int process)
@@ -118,23 +118,4 @@ void	child_process(t_data *data, int process)
 		last_cmd(data, cmd_to_exec, process);
 	else
 		middle_cmd(data, cmd_to_exec, process);
-}
-
-int	ft_init_pipes(t_data *data)
-{
-	int	count;
-
-	count = 0;
-	alloc_pipes(data);
-	while (count < data->cmd_nb - 1)
-	{
-		if (pipe(data->pipe_ends[count]) == -1)
-		{
-			perror(NULL);
-			ft_free_exec(data);
-			return (FAIL);
-		}
-		count++;
-	}
-	return (SUCCESS);
 }

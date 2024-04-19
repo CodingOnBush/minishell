@@ -6,30 +6,16 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/19 14:50:05 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 16:23:03 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static int	ft_jump_util(char *str, char c)
+int ft_execve(t_data *data, t_cmd *cmd)
 {
-	int i;
+	char	**new_env;
 
-	i = 0;
-	if (!str)
-		return (-1);
-	while (str[i] && str[i] != c)
-	{
-		if (str[i] != '.')
-			return (-1);
-		i++;
-	}
-	return (i);
-}
-
-int ft_exec(t_data *data, t_cmd *cmd)
-{
 	if (!cmd->arg_list || !cmd->arg_list->value)
 		return (SUCCESS);
 	// if (access(cmd->arg_list->value, X_OK) == 0) //ici est-ce que c'est pas 1 plutot?
@@ -48,13 +34,16 @@ int ft_exec(t_data *data, t_cmd *cmd)
 		ft_free_all(data);
 		exit(127);
 	}
-	execve(cmd->cmd_path, cmd->args, data->env);
+	new_env = data->env;
+	execve(cmd->cmd_path, cmd->args, new_env);
+	// ft_free_env(new_env); // line to uncomment
+	ft_putstr_fd("minishell: ", 2);
 	perror(cmd->cmd_path);
 	ft_free_all(data);
 	exit(126);
 }
 
-int ft_fork(t_data *data)
+static int	ft_fork(t_data *data)
 {
 	int process;
 
@@ -64,7 +53,7 @@ int ft_fork(t_data *data)
 	{
 		data->ids[process] = fork();
 		if (data->ids[process] == -1)
-			return (perror("Forking failed"), FAIL);
+			return (perror("minishell :"), FAIL);
 		if (data->ids[process] == 0)
 		{
 			if (data->cmd_nb == 1)
@@ -80,29 +69,42 @@ int ft_fork(t_data *data)
 	return (SUCCESS);
 }
 
-void ft_wait_for_children(t_data *data)
+static void	ft_free_pipes(int **pipe_ends, int cursor)
 {
-	int status;
-	int i;
-
-	i = 0;
-	status = 0;
-	if (!data->ids)
-		return;
-	// if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list))
-	// 	return;
-	if (waitpid(data->ids[data->cmd_nb - 1], &status, 0) == data->ids[data->cmd_nb - 1])
+	while (cursor > 0)
 	{
-		if (WIFEXITED(status))
-			data->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status) != 0)
-			data->exit_status = g_signum + 128;
-		else
-			data->exit_status = 0;
+		close(pipe_ends[cursor][0]);
+		close(pipe_ends[cursor][1]);
+		if (pipe_ends[cursor])
+			free(pipe_ends[cursor]);
+		cursor--;
 	}
+	free(pipe_ends);
 }
 
-void ft_launch_exec(t_data *data)
+static int	**ft_create_pipe_ends(int pipe_nb)
+{
+	int	**pipe_ends;
+	int	i;
+
+	i = 0;
+	pipe_ends = malloc(sizeof(int *) * pipe_nb);
+	if (!pipe_ends)
+		return (perror("minishell: "), NULL);
+	while (i < pipe_nb)
+	{
+		pipe_ends[i] = malloc(sizeof(int) * 2);
+		if (!pipe_ends[i] || pipe(pipe_ends[i]) == -1)
+		{
+			ft_free_pipes(pipe_ends, i);
+			return (perror("minishell: "), NULL);
+		}
+		i++;
+	}
+	return (pipe_ends);
+}
+
+void	ft_launch_exec(t_data *data)
 {
 	if (ft_launch_heredoc(data) == FAIL || data->cmd_nb <= 0)
 		return;
@@ -111,7 +113,13 @@ void ft_launch_exec(t_data *data)
 	// else if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == NO)
 	// 	ft_fork(data);
 	if (data->cmd_nb > 1)
-		ft_init_pipes(data);
+	{
+		data->pipe_ends = ft_create_pipe_ends(data->cmd_nb - 1);
+		if (!data->pipe_ends)
+			return ;
+		// if (ft_init_pipes(data) == FAIL)
+		// 	return;
+	}
 	ft_fork(data);
 	// if (data->cmd_nb == 1)
 	// else if (data->cmd_nb > 1 && ft_init_pipes(data) == SUCCESS)

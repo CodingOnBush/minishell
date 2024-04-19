@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/17 14:17:37 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 16:49:33 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,65 +45,6 @@ t_token	*ft_get_last_redir(t_token *cur_token)
 		cur_token = cur_token->next;
 	}
 	return (NULL);
-}
-
-// int	parse_infiles(t_data *data, t_cmd *new_cmd, t_token *token)
-// {
-// 	t_infile	*new_infile;
-
-// 	new_infile = NULL;
-// 	while (token != NULL && token->type != PIPE)
-// 	{
-// 		if (token->type == LEFT_TRUNC || token->type == HERE_DOC)
-// 		{
-// 			if (token->next == NULL)
-// 				return (assign_error(token, NEWLINE_ERROR), FAIL);
-// 			// else if (token->next->type == PIPE)
-// 			// {
-// 			// 	printf("je suis heredoc\n");
-// 			// 	return (assign_error(token, PIPE), FAIL);
-// 			// }
-// 			// else if (ft_isop(token->next->str) == YES)
-// 			// 	return (assign_error(token->next, token->next->type), FAIL);
-// 			new_infile = ft_new_infile(token->next->str, token->type, data);
-// 			if (new_infile == NULL)
-// 				return (FAIL);
-// 			ft_add_infile(&new_cmd->infile_list, new_infile);
-// 			token->attributed = true;
-// 			token->next->attributed = true;
-// 			token = token->next->next;
-// 		}
-// 		else
-// 			token = token->next;
-// 	}
-// 	return (SUCCESS);
-// }
-
-int	parse_outfiles(t_cmd *new_cmd, t_token *token)
-{
-	t_outfile	*new_outfile;
-
-	new_outfile = NULL;
-	while (token != NULL && token->type != PIPE)
-	{
-		if (token->type == RIGHT_TRUNC || token->type == APPEND)
-		{
-			if (token->next == NULL)
-				return (assign_error(token, NEWLINE_ERROR), FAIL);
-			else if (token->next->type != WORD)
-				return (assign_error(token->next, token->next->type), FAIL);
-			new_outfile = ft_new_outfile(token->next->str, token->type);
-			if (new_outfile == NULL)
-				return (FAIL);
-			ft_add_outfile(&new_cmd->outfile_list, new_outfile);
-			token->attributed = true;
-			token->next->attributed = true;
-			token = token->next->next;
-		}
-		else
-			token = token->next;
-	}
-	return (SUCCESS);
 }
 
 int	parse_commands(t_cmd *new_cmd, t_token *token)

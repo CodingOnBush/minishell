@@ -6,13 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 18:14:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/12 14:40:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 16:27:41 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	get_err_pos(t_cmd *cmd)
+static int	get_err_pos(t_cmd *cmd)
 {
 	t_token	*cur_token;
 	int		err_pos;
@@ -33,7 +33,7 @@ int	get_err_pos(t_cmd *cmd)
 	return (err_pos);
 }
 
-int	count_hd_pre_error(t_cmd *cmd)
+static int	count_hd_pre_error(t_cmd *cmd)
 {
 	t_token	*cur;
 	int		err_pos;
@@ -59,7 +59,7 @@ int	count_hd_pre_error(t_cmd *cmd)
 	return (hd_count);
 }
 
-int	count_heredocs(t_infile *inf_list)
+static int	count_heredocs(t_infile *inf_list)
 {
 	t_infile	*cur_inf;
 	int			hd_count;

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:13:28 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/19 10:52:22 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 15:17:43 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	ft_cmdcmp(t_cmd *cmd, char *cmd_name)
 
 int	ft_isbuiltin(t_cmd *cmd)
 {
-	const char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit", ":", "!", NULL};
+	char	*builtins[] = {"echo", "cd", "pwd",
+		"export", "unset", "env", "exit", ":", "!", NULL};
 	char		*str;
 	int			len;
 	int			i;

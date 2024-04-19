@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/19 14:27:03 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/19 15:47:50 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,26 @@
 #include "../inc/minishell.h"
 
 int g_signum = 0;
+
+static void	ft_wait_for_children(t_data *data)
+{
+	int status;
+	int i;
+
+	i = 0;
+	status = 0;
+	if (!data->ids)
+		return;
+	if (waitpid(data->ids[data->cmd_nb - 1], &status, 0) == data->ids[data->cmd_nb - 1])
+	{
+		if (WIFEXITED(status))
+			data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status) != 0)
+			data->exit_status = g_signum + 128;
+		else
+			data->exit_status = 0;
+	}
+}
 
 int	main(int ac, char **av, char **env)
 {

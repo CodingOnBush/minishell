@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 15:27:38 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/07 14:49:14 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/19 15:19:18 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,17 @@ static t_token	*token_before_last(t_token *list)
 	return (cur_token);
 }
 
-// rename because it checks errors and set errors variables
+static int ft_double_pipe_detected(t_token *token)
+{
+	while (token)
+	{
+		if (token->type == PIPE && token->next && token->next->type == PIPE)
+			return (YES);
+		token = token->next;
+	}
+	return (NO);
+}
+
 int	check_token_list(t_token *list)
 {
 	t_token	*cur_token;
