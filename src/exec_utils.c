@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/19 17:09:10 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,21 @@ static char	*ft_create_cmd_path(char *path, char *cmd_name)
 		return (NULL);
 	free(tmp);
 	return (cmd_path);
+}
+
+static void	ft_free_path(char **path)
+{
+	int	i;
+
+	i = 0;
+	if (!path || !*path)
+		return ;
+	while (path[i] != NULL)
+	{
+		free(path[i]);
+		i++;
+	}
+	free(path);
 }
 
 char	*ft_get_cmd_path(t_data *data, char *cmd_name)
@@ -56,18 +71,8 @@ char	*ft_get_cmd_path(t_data *data, char *cmd_name)
 	return (ft_free_path(path_list), NULL);
 }
 
-void	cmd_not_found_error(char *cmd_name)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd_name, 2);
-	ft_putstr_fd(": command not found\n", 2);
-}
-
 int	alloc_ids(t_data *data)
 {
-	int	i;
-
-	i = 0;
 	data->ids = malloc(sizeof(int) * data->cmd_nb);
 	if (!data->ids)
 		return (perror("minishell: "), FAIL);

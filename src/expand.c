@@ -6,12 +6,11 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:13:46 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/20 01:41:47 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
 
 static char	*ft_get_next_str_in_double_quotes(t_data *data, char *str)
 {

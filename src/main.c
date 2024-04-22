@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/19 23:41:54 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:46:56 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int g_signum = 0;
 static void	ft_wait_for_children(t_data *data)
 {
 	int status;
-	int i;
 
-	i = 0;
 	status = 0;
 	if (!data->ids)
 		return;
@@ -37,9 +35,10 @@ static void	ft_wait_for_children(t_data *data)
 
 int	main(int ac, char **av, char **env)
 {
-	t_data *const	data = ft_create_data(ac, av, env);
-	int				status;
+	t_data	*data;
+	int		status;
 
+	data = ft_create_data(ac, av, env);
 	if (!data)
 		return (-1);
 	while (1)

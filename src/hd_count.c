@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hd_count.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 18:14:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/19 16:27:41 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ static int	count_hd_pre_error(t_cmd *cmd)
 	t_token	*cur;
 	int		err_pos;
 	int		hd_count;
-	int		i;
 
 	if (cmd == NULL)
 		return (0);
 	err_pos = 0;
 	hd_count = 0;
-	i = 0;
 	err_pos = get_err_pos(cmd);
 	cur = cmd->token_list;
 	while (cur != NULL && cur->pos < err_pos)

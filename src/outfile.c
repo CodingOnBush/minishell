@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outfile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 16:50:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ t_outfile	*ft_create_outfile_list(t_token *cur_token)
 	{
 		if ((cur_token->type == RIGHT_TRUNC || cur_token->type == APPEND) && cur_token->error == false)
 		{
-			if (cur_token->next && cur_token->next->str && ft_isop(cur_token->next->str) == NO)
-				new_outfile = ft_new_outfile(cur_token->next->str, cur_token->type);
+			if (cur_token->next && cur_token->next->value && ft_isop(cur_token->next->value) == NO)
+				new_outfile = ft_new_outfile(cur_token->next->value, cur_token->type);
 			if (!new_outfile)
 				return (ft_free_outfiles(&outfile_list), NULL);
 			ft_add_outfile(&outfile_list, new_outfile);
@@ -70,4 +70,24 @@ t_outfile	*ft_create_outfile_list(t_token *cur_token)
 			cur_token = cur_token->next;
 	}
 	return (outfile_list);
+}
+
+void	ft_free_outfiles(t_outfile **outfile_list)
+{
+	t_outfile	*cur;
+	t_outfile	*next;
+
+	if (!outfile_list && !*outfile_list)
+		return ;
+	cur = *outfile_list;
+	if (!cur)
+		return ;
+	while (cur != NULL)
+	{
+		next = cur->next;
+		free(cur->filename);
+		free(cur);
+		cur = next;
+	}
+	*outfile_list = NULL;
 }

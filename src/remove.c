@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/20 00:52:03 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_print_token_list(t_token *list)
 		printf("nil");
 	while (tmp)
 	{
-		printf("%s\t\t%s\t\t%d\t%d\t%d\t%s\n", tmp->str, ft_type_to_str(tmp->type), tmp->attributed, tmp->pos, tmp->error, ft_type_to_str(tmp->err_type));
+		printf("%s\t\t%s\t\t%d\t%d\t%d\t%s\n", tmp->value, ft_type_to_str(tmp->type), tmp->attributed, tmp->pos, tmp->error, ft_type_to_str(tmp->err_type));
 		tmp = tmp->next;
 	}
 }

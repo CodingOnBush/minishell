@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/19 17:04:25 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ static int	do_heredocs(t_data *data)
 	return (FAIL);
 }
 
-static int	is_error_to_print(t_data *data, t_token *list)
+static int	is_error_to_print(t_token *list)
 {
 	t_token	*cur_token;
 
@@ -188,13 +188,13 @@ int	ft_launch_heredoc(t_data *data)
 {
 	if (do_heredocs(data) == FAIL)
 	{
-		if (is_error_to_print(data, data->token_list) == NO)
-			pipe_at_end_error_check(data, data->token_list);
+		if (is_error_to_print(data->token_list) == NO)
+			ft_pipe_at_end_error_check(data->token_list);
 		return (FAIL);
 	}
-	if (is_error_to_print(data, data->token_list) == YES)
+	if (is_error_to_print(data->token_list) == YES)
 		return (FAIL);
-	if (pipe_at_end_error_check(data, data->token_list) == FAIL)
+	if (ft_pipe_at_end_error_check(data->token_list) == FAIL)
 		return (FAIL);
 	return (SUCCESS);
 }

@@ -13,6 +13,7 @@
 		"type_traits": "c",
 		"utility": "c",
 		"lexer.h": "c",
-		"init.h": "c"
+		"init.h": "c",
+		"sstream": "c"
 	}
 }

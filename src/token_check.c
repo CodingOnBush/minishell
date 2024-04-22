@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:14:13 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/20 01:41:47 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ static int	is_error(t_token *list, t_token *token)
 		return (NO);
 	if (ft_isop(token->value) == YES && !token->next)
 		return (assign_error(token, NEWLINE_ERROR), YES);
-	if (ft_isop(token->value) == YES && token->next && ft_isop(token->next->str) == YES)
+	if (ft_isop(token->value) == YES && token->next && ft_isop(token->next->value) == YES)
 		return (assign_error(token, token->next->type), YES);
 	// if (ft_isop(token->value) == YES && token->next == NULL)
 	// 	return (assign_error(token, NEWLINE_ERROR), YES);
 	if (token->type == PIPE)
 	{
-		if (token->next && ft_isop(token->next->str) == YES)
+		if (token->next && ft_isop(token->next->value) == YES)
 		{
 			if (token->next->next && token->next->next->type == PIPE)
 				return (assign_error(token->next, token->next->next->type), YES);
-			else if (ft_isop(token->next->str) == YES && token->next->next == NULL)
+			else if (ft_isop(token->next->value) == YES && token->next->next == NULL)
 				return (assign_error(token->next, NEWLINE_ERROR), YES);
 		}
 		return (NO);
@@ -83,7 +83,7 @@ int	ft_check_token_list(t_token *list)
 	last_token = ft_findlast_token(list);
 	if (ft_double_pipe_detected(cur_token) == YES)
 		return (ft_print_error(DOUBLE_PIPE_ERROR), FAIL);
-	if (cur_token->str && cur_token->str[0] == '|')
+	if (cur_token->value && cur_token->value[0] == '|')
 		return (ft_print_error(PIPE), FAIL);
 	while (cur_token != NULL)
 	{

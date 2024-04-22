@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/20 00:04:15 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 	char	*cur_pwd;
 
 	lst = cmd->arg_list;
-	if (!lst || !lst->value || ft_cmdcmp(cmd, "cd") == NO)
+	if (!lst || !lst->value || ft_cmd_is_builtin(cmd, "cd") == NO)
 		return (printf("ft_cd: error"), 1);
 	path = ft_get_path(env_list, lst->next);
 	if (!path)
@@ -93,19 +93,11 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 		cur_pwd = path;
 	if (chdir(path) == -1)
 		return (perror("minishell : "), perror(path), 1);
-	// printf("cur OLDPWD: %s\n", ft_getenv(env_list, "OLDPWD"));
-	// printf("cur PWD: %s\n", ft_getenv(env_list, "PWD"));
-	// if (ft_update_var(&env_list, "OLDPWD", cur_pwd) == FAIL)
-	// 	ft_add_new_env_in_list(&env_list, "OLDPWD", cur_pwd);
-	ft_set_env(env_list, "OLDPWD", cur_pwd);
+	ft_setenv(&env_list, "OLDPWD", cur_pwd);
 	free(cur_pwd);
 	cur_pwd = getcwd(NULL, 0);
-	// if (ft_update_var(&env_list, "PWD", cur_pwd) == FAIL)
-	// 	ft_add_new_env_in_list(&env_list, "PWD", cur_pwd);
-	ft_set_env(env_list, "PWD", cur_pwd);
+	ft_setenv(&env_list, "PWD", cur_pwd);
 	free(cur_pwd);
-	// printf("new OLDPWD: %s\n", ft_getenv(env_list, "OLDPWD"));
-	// printf("new PWD: %s\n", ft_getenv(env_list, "PWD"));
 	free(path);
 	return (0);
 }

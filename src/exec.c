@@ -6,11 +6,18 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/19 23:42:13 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+static void	cmd_not_found_error(char *cmd_name)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd_name, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
 
 int ft_execve(t_data *data, t_cmd *cmd)
 {
@@ -69,52 +76,21 @@ static int	ft_fork(t_data *data)
 	return (SUCCESS);
 }
 
-static void	ft_free_pipes(int **pipe_ends, int cursor)
-{
-	while (cursor > 0)
-	{
-		close(pipe_ends[cursor][0]);
-		close(pipe_ends[cursor][1]);
-		if (pipe_ends[cursor])
-			free(pipe_ends[cursor]);
-		cursor--;
-	}
-	free(pipe_ends);
-}
-
-static int	**ft_create_pipe_ends(int pipe_nb)
-{
-	int	**pipe_ends;
-	int	i;
-
-	i = 0;
-	pipe_ends = malloc(sizeof(int *) * pipe_nb);
-	if (!pipe_ends)
-		return (perror("minishell: "), NULL);
-	while (i < pipe_nb)
-	{
-		pipe_ends[i] = malloc(sizeof(int) * 2);
-		if (!pipe_ends[i] || pipe(pipe_ends[i]) == -1)
-		{
-			ft_free_pipes(pipe_ends, i);
-			return (perror("minishell: "), NULL);
-		}
-		i++;
-	}
-	return (pipe_ends);
-}
-
 void	ft_launch_exec(t_data *data)
 {
-	if (ft_launch_heredoc(data) == FAIL || data->cmd_nb <= 0)
+	if (data->cmd_nb <= 0)
 		return;
-	if (data->cmd_nb >= 1 && ft_isbuiltin(data->cmd_list) == NO)
+	if (ft_launch_heredoc(data) == FAIL)
+		return;	
+	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == YES)
+	{
+		ft_exec_single_cmd(data);
+	}
+	else if (data->cmd_nb >= 1 && ft_isbuiltin(data->cmd_list) == NO)
 	{
 		data->pipe_ends = ft_create_pipe_ends(data->cmd_nb - 1);
 		if (!data->pipe_ends)
 			return ;
 		ft_fork(data);
 	}
-	else if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == YES)
-		ft_exec_single_cmd(data);
 }

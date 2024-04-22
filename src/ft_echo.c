@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:24:42 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/19 15:03:07 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,14 @@ static int	ft_is_n(char *str)
 	return (NO);
 }
 
-static t_arg	*ft_get_first_arg_to_print(t_arg *lst)
+static int	ft_should_i_add_nl(t_arg *lst)
+{
+	if (lst->next && ft_is_n(lst->next->value) == YES)
+		return (YES);
+	return (NO);
+}
+
+static t_arg	*ft_skip_options(t_arg *lst)
 {
 	t_arg	*cur;
 
@@ -34,31 +41,32 @@ static t_arg	*ft_get_first_arg_to_print(t_arg *lst)
 	return (cur);
 }
 
+static void	ft_print_value(t_arg *cur, int fd)
+{
+	if (cur->value == NULL)
+		ft_putstr_fd(" ", fd);
+	else
+		ft_putstr_fd(cur->value, fd);
+	if (cur->next)
+		ft_putstr_fd(" ", fd);
+}
+
 int	ft_echo(t_data *data, t_cmd *cmd)
 {
-	bool	n_flag;
-	t_arg	*lst;
+	t_arg	*cur;
 	int		fd;
 
-	lst = cmd->arg_list;
-	if (!lst || !lst->value)
+	cur = cmd->arg_list;
+	if (!cur || !cur->value)
 		return (FAIL);
 	fd = ft_get_fd_out(data, cmd);
-	n_flag = false;
-	if (lst->next && ft_is_n(lst->next->value) == YES)
-		n_flag = true;
-	lst = ft_get_first_arg_to_print(lst->next);
-	while (lst)
+	cur = ft_skip_options(cur->next);
+	while (cur)
 	{
-		if (lst->value)
-			ft_putstr_fd(lst->value, fd);
-		else
-			ft_putstr_fd(" ", fd);
-		lst = lst->next;
-		if (lst)
-			ft_putstr_fd(" ", fd);
+		ft_print_value(cur, fd);
+		cur = cur->next;
 	}
-	if (!n_flag)
+	if (ft_should_i_add_nl(cur) == YES)
 		ft_putstr_fd("\n", fd);
 	if (fd != STDOUT_FILENO)
 		close(fd);

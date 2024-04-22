@@ -3,31 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:40:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 16:25:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*get_last_infile(t_infile *inf_list)
-{
-	t_infile	*cur_inf;
-	t_infile	*last_infile;
-
-	cur_inf = inf_list;
-	while (cur_inf != NULL)
-	{
-		if (cur_inf->filename != NULL)
-			last_infile = cur_inf;
-		cur_inf = cur_inf->next;
-	}
-	return (last_infile->filename);
-}
-
-t_outfile	*get_last_outfile(t_outfile *out_list)
+static t_outfile	*get_last_outfile(t_outfile *out_list)
 {
 	t_outfile	*cur;
 	int			fd;
@@ -48,4 +33,26 @@ t_outfile	*get_last_outfile(t_outfile *out_list)
 		cur = cur->next;
 	}
 	return (cur);
+}
+
+int	ft_get_fd_out(t_data *data, t_cmd *cmd)
+{
+	t_outfile	*outfile;
+	int			fd_out;
+
+	fd_out = STDOUT_FILENO;
+	outfile = get_last_outfile(cmd->outfile_list);
+	if (!outfile)
+		return (fd_out);
+	if (outfile != NULL && outfile->append == YES)
+		fd_out = open(outfile->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else if (outfile != NULL && outfile->append == NO)
+		fd_out = open(outfile->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd_out == -1)
+	{
+		perror(outfile->filename);
+		ft_free_all(data);
+		exit(1);
+	}
+	return (fd_out);
 }

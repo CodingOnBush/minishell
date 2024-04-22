@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data.c                                             :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/20 01:08:01 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:58 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,55 +30,15 @@ static void	ft_setup_signals(t_data *data)
 	data->act_quit.sa_handler = SIG_IGN;
 	sigemptyset(&data->act_interupt.sa_mask);
 	sigemptyset(&data->act_quit.sa_mask);
-	data->act_interupt.sa_flags = 0;//to have a ft_handler with only one arg (signum)
+	data->act_interupt.sa_flags = 0;
 	data->act_quit.sa_flags = 0;
 	sigaction(SIGINT, &data->act_interupt, NULL);
-	sigaction(SIGact_quit, &data->act_quit, NULL);
+	sigaction(SIGQUIT, &data->act_quit, NULL);
 }
 
-static t_env	*ft_line_to_env(char *line)
+t_data	*ft_create_data(int ac, char **av, char **env)
 {
-	t_env	*new_env;
-	char	*equal;
-
-	equal = ft_strchr(line, '=');
-	if (!equal)
-		return (NULL);
-	new_env = malloc(sizeof(t_env));
-	if (!new_env)
-		return (NULL);
-	new_env->key = ft_substr(line, 0, equal - line);
-	if (!new_env->key)
-		return (free(new_env), NULL);
-	new_env->value = ft_strdup(equal + 1);
-	if (!new_env->value)
-		return (free(new_env->key), free(new_env), NULL);
-	new_env->next = NULL;
-	return (new_env);
-}
-
-static t_env	*ft_create_envlist(char **env)
-{
-	t_env	*res;
-	t_env	*new;
-	int		i;
-
-	res = NULL;
-	i = 0;
-	while (env[i])
-	{
-		new = ft_line_to_env(env[i]);
-		if (!new)
-			return (NULL);
-		ft_add_new_env(&res, new);
-		i++;
-	}
-	return (res);
-}
-
-t_data *const	ft_create_data(int ac, char **av, char **env)
-{
-	t_data *const	data = malloc(sizeof(t_data));
+	t_data	*data = malloc(sizeof(t_data));
 
 	(void)ac;
 	(void)av;

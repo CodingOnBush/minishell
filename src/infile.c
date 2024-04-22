@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   infile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/19 16:53:01 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_infile	*ft_create_infile_list(t_data *data, t_token *cur)
 		{
 			if (cur->next && (cur->next->type == WORD || cur->next->type == LIM) && cur->next->error == false)
 			{
-				new = ft_new_infile(cur->next->str, cur->type, data);
+				new = ft_new_infile(cur->next->value, cur->type, data);
 				if (!new)
 					return (ft_free_infiles(&res), NULL);
 				cur->attributed = true;
@@ -83,4 +83,25 @@ t_infile	*ft_create_infile_list(t_data *data, t_token *cur)
 			cur = cur->next;
 	}
 	return (res);
+}
+
+void	ft_free_infiles(t_infile **infile_list)
+{
+	t_infile	*cur;
+	t_infile	*next;
+
+	cur = *infile_list;
+	if (!cur)
+		return ;
+	while (cur != NULL)
+	{
+		next = cur->next;
+		if (cur->filename && cur->delimiter)
+			free(cur->delimiter);
+		if (cur->delimiter == NULL && cur->filename)
+			free(cur->filename);
+		free(cur);
+		cur = next;
+	}
+	*infile_list = NULL;
 }

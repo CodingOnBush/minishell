@@ -6,7 +6,7 @@
 /*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/20 01:43:34 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,20 @@ t_arg	*ft_create_arg_list(t_token *token)
 		token = token->next;
 	}
 	return (res);
+}
+
+void	ft_free_arg_list(t_arg **arg_list)
+{
+	t_arg	*cur;
+	t_arg	*next;
+
+	cur = *arg_list;
+	while (cur != NULL)
+	{
+		next = cur->next;
+		free(cur->value);
+		free(cur);
+		cur = next;
+	}
+	*arg_list = NULL;
 }

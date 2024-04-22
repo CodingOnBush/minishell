@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 13:41:43 by momrane           #+#    #+#             */
-/*   Updated: 2024/03/12 15:43:41 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/20 22:28:19 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ static int	ft_get_wlen(const char *str, char sep)
 	else
 		return (ft_strchr(str, sep) - str);
 }
-
-
 
 char	**ft_split(char const *s, char c)
 {
