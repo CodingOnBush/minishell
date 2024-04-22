@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/22 12:06:25 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/22 18:36:53 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_free_env_list(t_env **env_list);
 
 /*		EXEC_UTILS	*/
 char	*ft_get_cmd_path(t_data *data, char *cmd_name);
-int		alloc_ids(t_data *data);
+char	**ft_create_env(t_data *data);
 
 /*		EXEC		*/
 int		ft_execve(t_data *data, t_cmd *cmd);

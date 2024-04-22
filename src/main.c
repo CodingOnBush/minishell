@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/22 09:56:13 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/22 17:45:59 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,10 @@ static void	ft_wait_for_children(t_data *data)
 
 int	main(int ac, char **av, char **env)
 {
-	t_data	*data;
-	int		status;
+	t_data *const	data = ft_create_data(ac, av, env);
+	int				status;
 
-	data = ft_create_data(ac, av, env);
-	if (!data)
+	if (!data || ac != 1)
 		return (-1);
 	while (1)
 	{

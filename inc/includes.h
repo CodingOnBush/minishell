@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   includes.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:32:27 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/18 10:58:10 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:47:09 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
 #endif
