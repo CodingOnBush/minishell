@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:17:49 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ int	is_exit_builtin(t_data *data)
 {
 	t_cmd	*cmd;
 
+	if (!data || !data->cmd_list)
+		return (NO);
 	cmd = data->cmd_list;
 	if (!cmd->args)
 		return (NO);
@@ -158,4 +160,22 @@ int	is_exit_builtin(t_data *data)
 		cmd = cmd->next;
 	}
 	return (NO);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	unsigned char	*str1;
+	unsigned char	*str2;
+	int				i;
+
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	i = 0;
+	while (str1[i] != '\0' && str2[i] != '\0')
+	{
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
+		i++;
+	}
+	return (str1[i] - str2[i]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:38:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/21 18:54:40 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/22 11:35:12 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int 	ft_isspace(char c);
 int 	ft_isquote(char c);
 int		ft_is_in_var(char c);
 int		is_exit_builtin(t_data *data);
+int		ft_strcmp(char *s1, char *s2);
 
 /*		ENV			*/
 // char	*ft_getenv(t_env *env_list, char *key);

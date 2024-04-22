@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/22 10:08:25 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ char	*ft_get_expand(t_data *data, char *var_name, char *str)
 	var_content = ft_getenv(data->env_list, var_name);
 	if (!var_content)
 		return (NULL);
-	return (ft_strdup(var_content));
+	return (var_content);
 }

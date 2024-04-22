@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/21 12:30:38 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:06:25 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 
 /*		BUILTINS	*/
 int		ft_isbuiltin(t_cmd *cmd);
-int		ft_cmd_is_builtin(t_cmd *cmd, char *cmd_name);
 int		ft_exec_builtin(t_data *data, t_cmd *cmd);
 
 /*		ENV_UTILS	*/
-void	ft_setenv(t_env **env_list, char *key, char *value);
+int		ft_setenv(t_env **env_list, char *key, char *value);
 void	ft_remove_env(t_env **env_list, char *key);
 char	*ft_getenv(t_env *env_list, char *key);
 
@@ -47,9 +46,6 @@ int		ft_exit(t_data *data, t_arg *arg_list);
 
 /*		FT_EXPORT		*/
 int		ft_export(t_data *data, t_cmd *cmd);
-
-/*		FT_UNSET		*/
-int		ft_unset(t_data *data, t_arg *arg_list);
 
 /*		HD_COUNT		*/
 int		get_hd_number(t_cmd *list);

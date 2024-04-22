@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 22:46:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:15:13 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ static int	ft_update_var(t_env **env_list, char *key, char *value)
 	{
 		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
 		{
+			free(tmp->key);
+			tmp->key = key;
 			free(tmp->value);
-			tmp->value = ft_strdup(value);
+			tmp->value = value;
 			return (SUCCESS);
 		}
 		tmp = tmp->next;
@@ -30,16 +32,16 @@ static int	ft_update_var(t_env **env_list, char *key, char *value)
 	return (FAIL);
 }
 
-void	ft_setenv(t_env **env_list, char *key, char *value)
+int	ft_setenv(t_env **env_list, char *key, char *value)
 {
 	t_env	*new;
 	t_env	*tmp;
 
 	if (ft_update_var(env_list, key, value) == SUCCESS)
-		return ;
+		return (SUCCESS);
 	new = ft_new_env(key, value);
 	if (!new)
-		return ;
+		return (FAIL);
 	if (!*env_list)
 		*env_list = new;
 	else
@@ -49,6 +51,7 @@ void	ft_setenv(t_env **env_list, char *key, char *value)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
+	return (SUCCESS);
 }
 
 void	ft_remove_env(t_env **env_list, char *key)

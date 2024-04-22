@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:08:17 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 t_env	*ft_new_env(char *key, char *value)
 {
-	t_env	*new_var;
+	t_env	*new;
 
-	new_var = malloc(sizeof(t_env));
-	if (!new_var)
+	if (!key || !value)
 		return (NULL);
-	new_var->key = ft_strdup(key);
-	if (!new_var->key)
-		return (free(new_var), NULL);
-	new_var->value = ft_strdup(value);
-	if (!new_var->value)
-		return (free(new_var->key), free(new_var), NULL);
-	new_var->next = NULL;
-	return (new_var);
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
+	new->key = key;
+	new->value = value;
+	new->next = NULL;
+	return (new);
 }
 
 static t_env	*ft_str_to_env(char *line)
@@ -78,7 +76,7 @@ t_env	*ft_create_envlist(char **env)
 	{
 		new = ft_str_to_env(env[i]);
 		if (!new)
-			return (NULL);
+			return (ft_free_env_list(&res), NULL);
 		ft_add_new_env(&res, new);
 		i++;
 	}

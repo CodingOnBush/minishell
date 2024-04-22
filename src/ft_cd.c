@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/22 11:39:03 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static char	*ft_get_path(t_env *env_list, t_arg *lst)
 	char	*path;
 	char	*tmp;
 
-	(void)env_list;
+	// if (!lst)
+	// 	return (NULL);
 	if (lst && lst->next != NULL && lst->token_type == WORD)
 		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), NULL);
 	path = lst->value;
@@ -83,11 +84,20 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 	char	*cur_pwd;
 
 	lst = cmd->arg_list;
-	if (!lst || !lst->value || ft_cmd_is_builtin(cmd, "cd") == NO)
+	if (!lst || !lst->value || ft_strcmp(lst->value, "cd") != 0)
 		return (printf("ft_cd: error"), 1);
-	path = ft_get_path(env_list, lst->next);
-	if (!path)
-		return (1);
+	if (lst && lst->next == NULL)
+	{
+		path = ft_getenv(env_list, "HOME");
+		if (!path)
+			return (ft_putstr_fd("cd: HOME not set\n", 2), 1);
+	}
+	else
+	{
+		path = ft_get_path(env_list, lst->next);
+		if (!path)
+			return (1);
+	}
 	cur_pwd = getcwd(NULL, 0);
 	if (!cur_pwd)
 		cur_pwd = path;

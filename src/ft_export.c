@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:14:50 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,6 @@ static char	*ft_extract_key(char*str)
 	if (!res)
 		return (NULL);
 	ft_strlcpy(res, str, i + 1);
-	// i = 0;
-	// while (str[i] && str[i] != '=')
-	// {
-	// 	res[i] = str[i];
-	// 	i++;
-	// }
-	// res[i] = '\0';
 	return (res);
 }
 
@@ -82,13 +75,6 @@ static char	*ft_extract_value(char *str)
 	if (!res)
 		return (NULL);
 	ft_strlcpy(res, str + i, j + 1);
-	// j = 0;
-	// while (str[i + j])
-	// {
-	// 	res[j] = str[i + j];
-	// 	j++;
-	// }
-	// res[j] = '\0';
 	return (res);
 }
 
@@ -107,11 +93,17 @@ int	ft_export(t_data *data, t_cmd *cmd)
 	{
 		var_name = ft_extract_key(args->value);
 		if (ft_isvalid_varname(var_name) == NO)
+		{
+			free(var_name);
 			ft_print_export_error(args->value);
+		}
 		else
 		{
 			var_content = ft_extract_value(args->value);
-			ft_setenv(&data->env_list, var_name, var_content);
+			if (!var_content)
+				var_content = ft_strdup("");
+			if (ft_setenv(&data->env_list, var_name, var_content) == FAIL)
+				return (free(var_name), free(var_content), 1);
 		}
 		args = args->next;
 	}

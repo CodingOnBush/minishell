@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:24:42 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/21 18:54:29 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/22 10:04:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static int	ft_is_n(char *str)
 
 static int	ft_should_i_add_nl(t_arg *lst)
 {
-	if (lst->next && ft_is_n(lst->next->value) == YES)
-		return (YES);
-	return (NO);
+	if (lst && lst->next && ft_is_n(lst->next->value) == YES)
+		return (NO);
+	return (YES);
 }
 
 static t_arg	*ft_skip_options(t_arg *lst)
@@ -66,7 +66,7 @@ int	ft_echo(t_data *data, t_cmd *cmd)
 		ft_print_value(cur, fd);
 		cur = cur->next;
 	}
-	if (ft_should_i_add_nl(cur) == YES)
+	if (ft_should_i_add_nl(cmd->arg_list) == YES)
 		ft_putstr_fd("\n", fd);
 	if (fd != STDOUT_FILENO)
 		close(fd);

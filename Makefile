@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: allblue <allblue@student.42.fr>            +#+  +:+       +#+         #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/21 18:59:58 by allblue          ###   ########.fr        #
+#    Updated: 2024/04/22 12:12:34 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Setup
 NAME 		:= minishell
 CC			:= gcc
-CFLAGS		:= #-Wall -Wextra -Werror -g3
+CFLAGS		:= -g3#-Wall -Wextra -Werror -g3
 
 # Valgrind
 VAL_SUPP	:= readline.supp
@@ -43,13 +43,13 @@ SRC_FILES	:=	args \
 				exec_utils \
 				exec \
 				expand_utils \
+				expand \
 				free_utils \
 				free \
 				ft_cd \
 				ft_echo \
 				ft_exit \
 				ft_export \
-				ft_unset \
 				hd_count \
 				heredocs \
 				infile \
@@ -64,6 +64,7 @@ SRC_FILES	:=	args \
 				remove \
 				single_cmd_utils \
 				single_cmd \
+				token_check \
 				token \
 				utils
 
@@ -79,7 +80,7 @@ val: $(NAME)
 	
 # Compilation
 $(NAME): $(LIBFT) $(OBJ)
-	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline -v
+	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
 
 # Linking

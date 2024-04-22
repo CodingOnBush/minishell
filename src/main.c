@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/21 18:46:56 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/22 09:56:13 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ int	main(int ac, char **av, char **env)
 		ft_reset_data(data);
 	}
 	status = data->exit_status;
-	// rl_clear_history();
+	rl_clear_history();
 	return (ft_free_all(data), ft_putstr_fd("exit\n", 1), status);
 }
