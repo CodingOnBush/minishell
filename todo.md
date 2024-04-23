@@ -16,5 +16,8 @@
 - cat < miss > ./5455/outfile01 MOS
 - 135 MOS
 
+- repenser la partie ou on checke les infs et oufs puis ou on recupere fd_in et fd_out --> parcourir la token list de la conmande et si erreur free et exit (a adapter que l'on ait une cmd built in ou non ou plusieurs cmd)
+
+
 #Note for the future
 - single command not in a child process (for example, EXPORT)
