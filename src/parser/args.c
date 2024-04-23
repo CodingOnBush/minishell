@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/22 19:58:15 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 15:54:16 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ t_arg	*ft_create_arg_list(t_token *token)
 	res = NULL;
 	while (token != NULL && token->type != PIPE)
 	{
-		if (token->attributed == false && ft_isop(token->value) == NO)
+		printf("token->value: %s\n", token->value);
+		if (token->value == NULL)
+			printf("wow\n");
+		if (token->attributed == false && ft_isop(token->value) == NO && !(token->value == NULL))
 		{
 			new = ft_new_arg(token->value, token->type);
 			if (!new)

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/23 12:22:07 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 14:54:40 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ int ft_execve(t_data *data, t_cmd *cmd)
 	cmd->cmd_path = ft_get_cmd_path(data, cmd->arg_list->value);
 	if (!cmd->cmd_path || (cmd->cmd_path && cmd->cmd_path[0] == '\0'))
 	{
-		if (cmd->arg_list->value && cmd->arg_list->value[0] == '\0')
-		{
-			ft_free_all(data);
-			exit(0);
-		}
 		cmd_not_found_error(cmd->arg_list->value);
 		ft_free_all(data);
 		exit(127);
