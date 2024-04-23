@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:40:03 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/04/22 17:47:21 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 10:19:03 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_exit(t_data *data, t_arg *arg_list)
 		str = arg_list->next->value;
 		if (ft_isnumber(str) == NO || (ft_isnumber(str) == YES && ft_atoll(str) > LLONG_MAX))
 		{
-			ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("exit\nminishell: exit: ", 2);
 			ft_putstr_fd(str, 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			ft_free_all(data);

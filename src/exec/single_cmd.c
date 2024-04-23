@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 11:26:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ static char	*ft_get_last_infile(t_infile *inf_list)
 	return (last_infile->filename);
 }
 
+/*
+est-ce qu'on devrait pas return 1 au lieu de exit(1) ?
+parce que echo < file_does_not_exist ca doit pas quitter
+le shell
+*/
+
 static char	*ft_get_valid_infile(t_data *data, t_cmd *cmd)
 {
 	char	*infile;
@@ -65,6 +71,7 @@ static char	*ft_get_valid_infile(t_data *data, t_cmd *cmd)
 	infile = ft_get_missing_file(cmd->infile_list);
 	if (infile != NULL)
 	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		perror(infile);
 		ft_free_all(data);
 		exit(1);
@@ -113,3 +120,4 @@ void	ft_exec_single_cmd(t_data *data)
 	else
 		ft_execve(data, cmd);
 }
+

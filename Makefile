@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/22 18:43:35 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/23 11:03:21 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,11 @@ VAL_FLAGS	:=	--leak-check=full --show-leak-kinds=all \
 				--suppressions=readline.supp #--trace-children=yes
 
 # Directories
-SRC_DIR		:=	./src
 BIN_DIR 	:=	./bin
 INC_DIR 	:=	./inc
 LIBFT_DIR	:=	./libft
+
+SRC_DIR		:=	./src
 INIT_DIR	:=	$(SRC_DIR)/init
 LEXER_DIR	:=	$(SRC_DIR)/lexer
 PARSER_DIR	:=	$(SRC_DIR)/parser
@@ -42,17 +43,20 @@ CYAN 		:=	\033[0;96m
 
 INIT		:=	$(INIT_DIR)/init.c \
 				$(INIT_DIR)/env.c
+
 LEXER		:=	$(LEXER_DIR)/errors.c \
 				$(LEXER_DIR)/expand_utils.c \
 				$(LEXER_DIR)/expand.c \
 				$(LEXER_DIR)/lexer.c \
 				$(LEXER_DIR)/token_check.c \
 				$(LEXER_DIR)/token.c
+
 PARSER		:=	$(PARSER_DIR)/args.c \
 				$(PARSER_DIR)/infile.c \
 				$(PARSER_DIR)/outfile.c \
 				$(PARSER_DIR)/parser_utils.c \
 				$(PARSER_DIR)/parser.c
+
 EXEC		:=	$(EXEC_DIR)/builtins.c \
 				$(EXEC_DIR)/env_utils.c \
 				$(EXEC_DIR)/exec_utils.c \
@@ -65,8 +69,10 @@ EXEC		:=	$(EXEC_DIR)/builtins.c \
 				$(EXEC_DIR)/heredocs.c \
 				$(EXEC_DIR)/multi_cmds.c \
 				$(EXEC_DIR)/pipe.c \
+				$(EXEC_DIR)/single_cmd_builtin.c \
 				$(EXEC_DIR)/single_cmd_utils.c \
 				$(EXEC_DIR)/single_cmd.c
+
 UTILS		:=	$(UTILS_DIR)/free_utils.c \
 				$(UTILS_DIR)/free.c \
 				$(UTILS_DIR)/remove.c \
@@ -82,6 +88,10 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(OBJ)
 	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
+
+print:
+	@echo $(SRC)
+	@echo $(OBJ)
 
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)

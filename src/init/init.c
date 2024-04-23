@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 10:27:34 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 	if (!data)
 		return (NULL);
 	ft_memset(data, 0, sizeof(t_data));
-	data->env = env;// to remove
 	data->line = NULL;
 	data->cmd_list = NULL;
 	data->token_list = NULL;

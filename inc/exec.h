@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/22 18:36:53 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 11:57:38 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		ft_launch_heredoc(t_data *data);
 void	first_cmd(t_data *data, t_cmd *cmd_to_exec);
 void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process);
 void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process);
-void	child_process(t_data *data, int process);
+void	ft_child_process(t_data *data, int process);
 
 /*		PIPE			*/
 void	ft_close_pipes(t_data *data);
@@ -69,5 +69,8 @@ int		ft_get_fd_out(t_data *data, t_cmd *cmd);
 /*		SINGLE_CMD		*/
 int		ft_get_fd_in(t_data *data, t_cmd *cmd);
 void	ft_exec_single_cmd(t_data *data);
+
+/*		SINGLE_CMD_BUILTIN	*/
+int		ft_exec_single_builtin(t_data *data);
 
 #endif

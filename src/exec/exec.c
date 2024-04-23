@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/22 19:53:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 12:22:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,21 @@ int ft_execve(t_data *data, t_cmd *cmd)
 		ft_free_all(data);
 		exit(127);
 	}
-	env = ft_create_env(data);
-	if (!env)
+	if (access(cmd->cmd_path, X_OK) == -1)
 	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->arg_list->value, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 		ft_free_all(data);
-		exit(1);
+		exit(126);
 	}
+	env = ft_create_env(data);
 	execve(cmd->cmd_path, cmd->args, env);
 	ft_free_env(env);
 	ft_putstr_fd("minishell: ", 2);
 	perror(cmd->cmd_path);
 	ft_free_all(data);
-	exit(127);
+	exit(126);
 }
 
 static int	ft_fork(t_data *data)
@@ -76,6 +79,9 @@ static int	ft_fork(t_data *data)
 	int process;
 
 	process = 0;
+	data->ids = malloc(sizeof(int) * data->cmd_nb);
+	if (!data->ids)
+		return (1);
 	while (process < data->cmd_nb)
 	{
 		data->ids[process] = fork();
@@ -86,7 +92,7 @@ static int	ft_fork(t_data *data)
 			if (data->cmd_nb == 1)
 				ft_exec_single_cmd(data);
 			else
-				child_process(data, process);
+				ft_child_process(data, process);
 			ft_free_all(data);
 			exit(0);
 		}
@@ -103,18 +109,18 @@ void	ft_launch_exec(t_data *data)
 	if (ft_launch_heredoc(data) == FAIL)
 		return;	
 	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == YES)
-		ft_exec_single_cmd(data);
-	else if (data->cmd_nb >= 1 && ft_isbuiltin(data->cmd_list) == NO)
+	{
+		data->exit_status = ft_exec_single_builtin(data);
+	}
+	else if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == NO)
+	{
+		ft_fork(data);
+	}
+	else if (data->cmd_nb > 1)
 	{
 		data->pipe_ends = ft_create_pipe_ends(data->cmd_nb - 1);
 		if (!data->pipe_ends)
 			return ;
-		data->ids = malloc(sizeof(int) * data->cmd_nb);
-		if (!data->ids)
-		{
-			perror("minishell: ");
-			return ;
-		}
 		ft_fork(data);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 11:57:38 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 		ft_execve(data, cmd_to_exec);
 }
 
-void	child_process(t_data *data, int process)
+void	ft_child_process(t_data *data, int process)
 {
 	t_cmd	*cmd_to_exec;
 

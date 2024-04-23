@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/20 01:42:05 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/23 10:27:00 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ typedef struct s_env
 typedef struct s_data
 {
 	char				*line;
-	char				**env;
 	t_cmd				*cmd_list;
 	t_token				*token_list;
 	int					cmd_nb;

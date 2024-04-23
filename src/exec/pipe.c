@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 22:44:12 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 11:59:53 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	ft_close_pipes(t_data *data)
 	int	count;
 
 	count = 0;
+	if (!data->pipe_ends)
+		return ;
 	while (count < data->cmd_nb - 1)
 	{
 		close(data->pipe_ends[count][0]);
