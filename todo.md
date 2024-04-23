@@ -1,11 +1,20 @@
 # April 23
 - "$HOMEdskjhfkdshfsd" MOSTAFA/MOS
 - cd ../../../../../../bin check discord
-- check ft_atol because it's not working properly VIC
-- check if exit has more than 1 argument (it should not) VIC
 - check if we need to protect the dup2 functions (if we need, do it)
 - replace printf in builtins by ft_putstr_fd
-- cat <./inc/minishell.h|ls --> tokenization error VIC
+- check for permission errors VIC
+- check if there are unusual exit status errors
+	- 26 OK
+	- 30 OK
+	- 31 OK
+	- 32 OK
+
+- cat >./outfiles/outfile01 <missing MOS
+	- should print bash: ./outfiles/outfile01: No such file or directory
+	- instead we print minishell: missing: No such file or directory because we check infiles before outfiles and not in the order it comes
+- cat < miss > ./5455/outfile01 MOS
+- 135 MOS
 
 #Note for the future
 - single command not in a child process (for example, EXPORT)
