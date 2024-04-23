@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/22 17:47:24 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 15:22:48 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	ft_get_token_size(char *line)
 	if (type == PIPE || type == RIGHT_TRUNC || type == LEFT_TRUNC)
 		return (1);
 	len = 0;
-	while (line[len] && !ft_is_space(line[len]) && !ft_isop(&line[len]))
+	while (line[len] && !ft_is_space(line[len]) && !ft_isop(&line[len]) && line[len] != '|')
 	{
 		if (ft_isquote(line[len]))
 			len += ft_strchr(&line[len + 1], line[len]) - &line[len] + 1;

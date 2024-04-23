@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd_builtin.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:47:59 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/23 12:22:29 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/23 15:54:04 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ int	ft_exec_single_builtin(t_data *data)
 		close(fdin);
 	if (fdout != STDOUT_FILENO)
 		close(fdout);
-	ft_exec_builtin(data, cmd);
+	data->exit_status = ft_exec_builtin(data, cmd);
 	dup2(fdin_save, STDIN_FILENO);
 	dup2(fdout_save, STDOUT_FILENO);
 	close(fdin_save);
