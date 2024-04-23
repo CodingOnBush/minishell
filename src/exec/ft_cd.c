@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/23 13:52:00 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:08:48 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 	if (!path)
 		return (1);
 	wd = getcwd(NULL, 0);
-	printf("%s\n", path);
 	if (chdir(path) == -1)
 		return (free(path), free(wd), ft_putstr_fd("minishell : ", 2), perror(path), 1);
 	free(path);
