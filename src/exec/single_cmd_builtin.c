@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:47:59 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 12:52:21 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:28:19 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,6 @@
 int	ft_exec_single_builtin(t_data *data)
 {
 	t_cmd	*cmd;
-	// int		fdin;
-	// int		fdout;
 	t_redir	*redir;
 	int		fdin_save;
 	int		fdout_save;
@@ -160,13 +158,10 @@ int	ft_exec_single_builtin(t_data *data)
 	if (redir == NULL)
 	{
 		ft_reset_data(data);
-		free(redir);
 		return(data->exit_status);
 	}
-	// fdin = ft_get_fdin(data, cmd);
 	if (redir->fd_in == -1)
 		return (1);
-	// fdout = ft_get_fdout(data, cmd);
 	if (redir->fd_out == -1)
 	{
 		if (redir->fd_in != STDIN_FILENO)

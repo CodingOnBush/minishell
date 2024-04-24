@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/23 11:57:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 14:28:15 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,35 @@
 
 void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 {
-	int	fd_out;
-	int	fd_in;
-	int status;
+	t_redir	*redir;
+	int 	status;
+	int		exit_status;
 
-	fd_in = ft_get_fd_in(data, cmd_to_exec);
-	fd_out = ft_get_fd_out(data, cmd_to_exec);
-	dup2(fd_in, STDIN_FILENO);
-	if (fd_out == STDOUT_FILENO)
+	redir = ft_get_redirs(data, cmd_to_exec);
+	if (redir == NULL)
+	{
+		exit_status = data->exit_status;
+		ft_free_all(data);
+		exit(1);
+	}
+	dup2(redir->fd_in, STDIN_FILENO);
+	if (redir->fd_out == STDOUT_FILENO)
 	{
 		if (dup2(data->pipe_ends[0][1], STDOUT_FILENO) == -1)
 			perror(NULL);
 	}
 	else
-		dup2(fd_out, STDOUT_FILENO);
-	if (fd_in != STDIN_FILENO)
-		close(fd_in);
-	if (fd_out != STDOUT_FILENO)
-		close(fd_out);
+		dup2(redir->fd_out, STDOUT_FILENO);
+	if (redir->fd_in != STDIN_FILENO)
+		close(redir->fd_in);
+	if (redir->fd_out != STDOUT_FILENO)
+		close(redir->fd_out);
 	ft_close_pipes(data);
 	if (ft_isbuiltin(cmd_to_exec) == YES)
 	{
 		status = ft_exec_builtin(data, cmd_to_exec);
 		ft_free_all(data);
+		free(redir);
 		exit(status);
 	}
 	else
@@ -45,29 +51,34 @@ void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 
 void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 {
-	int	fd_out;
-	int	fd_in;
+	t_redir	*redir;
 	int status;
 
-	fd_in = ft_get_fd_in(data, cmd_to_exec);
-	fd_out = ft_get_fd_out(data, cmd_to_exec);
-	if (fd_in == STDIN_FILENO)
+	redir = ft_get_redirs(data, cmd_to_exec);
+	if (redir == NULL)
+	{
+		status = data->exit_status;
+		ft_free_all(data);
+		exit(status);
+	}
+	if (redir->fd_in == STDIN_FILENO)
 		dup2(data->pipe_ends[process - 1][0], STDIN_FILENO);
 	else
-		dup2(fd_in, STDIN_FILENO);
-	if (fd_out == STDOUT_FILENO)
+		dup2(redir->fd_in, STDIN_FILENO);
+	if (redir->fd_out == STDOUT_FILENO)
 		dup2(data->pipe_ends[process][1], STDOUT_FILENO);
 	else
-		dup2(fd_out, STDOUT_FILENO);
+		dup2(redir->fd_out, STDOUT_FILENO);
 	ft_close_pipes(data);
-	if (fd_in != STDIN_FILENO)
-		close(fd_in);
-	if (fd_out != STDOUT_FILENO)
-		close(fd_out);
+	if (redir->fd_in != STDIN_FILENO)
+		close(redir->fd_in);
+	if (redir->fd_out != STDOUT_FILENO)
+		close(redir->fd_out);
 	if (ft_isbuiltin(cmd_to_exec) == YES)
 	{
 		status = ft_exec_builtin(data, cmd_to_exec);
 		ft_free_all(data);
+		free(redir);
 		exit(status);
 	}
 	else
@@ -76,27 +87,32 @@ void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 
 void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 {
-	int	fd_out;
-	int	fd_in;
+	t_redir	*redir;
 	int status;
 
 	close(data->pipe_ends[process - 1][1]);
-	fd_in = ft_get_fd_in(data, cmd_to_exec);
-	fd_out = ft_get_fd_out(data, cmd_to_exec);
-	if (fd_in == STDIN_FILENO)
+	redir = ft_get_redirs(data, cmd_to_exec);
+	if (redir == NULL)
+	{
+		status = data->exit_status;
+		ft_free_all(data);
+		exit(status);
+	}
+	if (redir->fd_in == STDIN_FILENO)
 		dup2(data->pipe_ends[process - 1][0], STDIN_FILENO);
 	else
-		dup2(fd_in, STDIN_FILENO);
-	dup2(fd_out, STDOUT_FILENO);
+		dup2(redir->fd_in, STDIN_FILENO);
+	dup2(redir->fd_out, STDOUT_FILENO);
 	ft_close_pipes(data);
-	if (fd_in != STDIN_FILENO)
-		close(fd_in);
-	if (fd_out != STDOUT_FILENO)
-		close(fd_out);
+	if (redir->fd_in != STDIN_FILENO)
+		close(redir->fd_in);
+	if (redir->fd_out != STDOUT_FILENO)
+		close(redir->fd_out);
 	if (ft_isbuiltin(cmd_to_exec) == YES)
 	{
 		status = ft_exec_builtin(data, cmd_to_exec);
 		ft_free_all(data);
+		free(redir);
 		exit(status);
 	}
 	else
