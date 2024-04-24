@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/24 12:30:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:50:47 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,12 @@ void	ft_exec_single_cmd(t_data *data)
 	cmd = data->cmd_list;
 	if (cmd == NULL || cmd->arg_list == NULL)
 		return ;
-	redir = ft_get_redirs(cmd);
+	redir = ft_get_redirs(data, cmd);
 	if (redir == NULL)
 	{
 		exit_status = data->exit_status;
 		ft_free_all(data);
+		free(redir);
 		exit(exit_status);
 	}
 	// fd_in = ft_get_fd_in(data, cmd);
@@ -124,35 +125,9 @@ void	ft_exec_single_cmd(t_data *data)
 		close(redir->fd_in);
 	if (redir->fd_out != STDOUT_FILENO)
 		close(redir->fd_out);
-	if (ft_isbuiltin(cmd) == YES)
-		data->exit_status = ft_exec_builtin(data, cmd);
-	else
-		ft_execve(data, cmd);
+	// if (ft_isbuiltin(cmd) == YES)
+	// 	data->exit_status = ft_exec_builtin(data, cmd);
+	// else
+	free(redir);
+	ft_execve(data, cmd);
 }
-
-
-// void	ft_exec_single_cmd(t_data *data)
-// {
-// 	t_cmd	*cmd;
-// 	int		fd_in;
-// 	int		fd_out;
-// 	// t_redir	*redir;
-
-// 	cmd = data->cmd_list;
-// 	if (cmd == NULL || cmd->arg_list == NULL)
-// 		return ;
-// 	// redir = ft_get_redirs(cmd);
-// 	fd_in = ft_get_fd_in(data, cmd);
-// 	fd_out = ft_get_fd_out(data, cmd);
-// 	dup2(fd_in, STDIN_FILENO);
-// 	dup2(fd_out, STDOUT_FILENO);
-// 	if (fd_in != STDIN_FILENO)
-// 		close(fd_in);
-// 	if (fd_out != STDOUT_FILENO)
-// 		close(fd_out);
-// 	if (ft_isbuiltin(cmd) == YES)
-// 		data->exit_status = ft_exec_builtin(data, cmd);
-// 	else
-// 		ft_execve(data, cmd);
-// }
-
