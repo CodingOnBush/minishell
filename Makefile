@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/24 11:40:47 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/04/24 14:07:08 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,6 +89,7 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(OBJ)
 	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
+	./$(NAME)
 
 print:
 	@echo $(SRC)
