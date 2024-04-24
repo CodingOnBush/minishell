@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/23 10:00:02 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 14:28:00 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,41 +39,35 @@ int	ft_isbuiltin(t_cmd *cmd)
 static int	ft_print_env(t_data *data, t_cmd *cmd)
 {
 	t_env	*env_list;
-	int		fd;
 
 	if (!data)
 		return (1);
+	(void)cmd;
 	env_list = data->env_list;
-	fd = ft_get_fd_out(data, cmd);
 	while (env_list)
 	{
-		ft_putstr_fd(env_list->key, fd);
-		ft_putstr_fd("=", fd);
-		ft_putstr_fd(env_list->value, fd);
-		ft_putstr_fd("\n", fd);
+		ft_putstr_fd(env_list->key, 1);
+		ft_putstr_fd("=", 1);
+		ft_putstr_fd(env_list->value, 1);
+		ft_putstr_fd("\n", 1);
 		env_list = env_list->next;
 	}
-	if (fd != STDOUT_FILENO)
-		close(fd);
 	return (0);
 }
 
 static int	ft_pwd(t_data *data, t_cmd *cmd)
 {
 	char	*cwd;
-	int		fd;
 
 	if (!cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (1);
+	(void)data;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (perror(cmd->arg_list->value), 1);
-	fd = ft_get_fd_out(data, cmd);
-	ft_putstr_fd(cwd, fd);
-	ft_putstr_fd("\n", fd);
+	ft_putstr_fd(cwd, 1);
+	ft_putstr_fd("\n", 1);
 	free(cwd);
-	if (fd != STDOUT_FILENO)
-		close(fd);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/24 13:39:00 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 14:38:12 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ int	ft_get_fd_in(t_data *data, t_cmd *cmd)
 void	ft_exec_single_cmd(t_data *data)
 {
 	t_cmd	*cmd;
-	// int		fd_in;
-	// int		fd_out;
 	t_redir	*redir;
 	int		exit_status;
 
@@ -114,20 +112,14 @@ void	ft_exec_single_cmd(t_data *data)
 	{
 		exit_status = data->exit_status;
 		ft_free_all(data);
-		free(redir);
 		exit(exit_status);
 	}
-	// fd_in = ft_get_fd_in(data, cmd);
-	// fd_out = ft_get_fd_out(data, cmd);
 	dup2(redir->fd_in, STDIN_FILENO);
 	dup2(redir->fd_out, STDOUT_FILENO);
 	if (redir->fd_in != STDIN_FILENO)
 		close(redir->fd_in);
 	if (redir->fd_out != STDOUT_FILENO)
 		close(redir->fd_out);
-	// if (ft_isbuiltin(cmd) == YES)
-	// 	data->exit_status = ft_exec_builtin(data, cmd);
-	// else
 	free(redir);
 	ft_execve(data, cmd);
 }

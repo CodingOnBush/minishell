@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:24:42 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/23 11:17:47 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 14:28:43 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,34 +41,31 @@ static t_arg	*ft_skip_options(t_arg *lst)
 	return (cur);
 }
 
-static void	ft_print_value(t_arg *cur, int fd)
+static void	ft_print_value(t_arg *cur)
 {
 	if (cur->value == NULL)
-		ft_putstr_fd(" ", fd);
+		ft_putstr_fd(" ", 1);
 	else
-		ft_putstr_fd(cur->value, fd);
+		ft_putstr_fd(cur->value, 1);
 	if (cur->next)
-		ft_putstr_fd(" ", fd);
+		ft_putstr_fd(" ", 1);
 }
 
 int	ft_echo(t_data *data, t_cmd *cmd)
 {
 	t_arg	*cur;
-	int		fd;
 
+	(void)data;
 	cur = cmd->arg_list;
 	if (!cur || !cur->value)
 		return (FAIL);
-	fd = ft_get_fd_out(data, cmd);
 	cur = ft_skip_options(cur->next);
 	while (cur)
 	{
-		ft_print_value(cur, fd);
+		ft_print_value(cur);
 		cur = cur->next;
 	}
 	if (ft_should_i_add_nl(cmd->arg_list) == YES)
-		ft_putstr_fd("\n", fd);
-	if (fd != STDOUT_FILENO)
-		close(fd);
+		ft_putstr_fd("\n", 1);
 	return (0);
 }

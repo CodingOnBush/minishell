@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:57:23 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/24 12:29:58 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:00:46 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_redir	*ft_get_redirs(t_data *data, t_cmd *cmd)
 				// permission denied or file does not exist
 				perror(redir->infile);
 				data->exit_status = 1;
+				free(redir);
 				return (NULL);
 			}
 		}
@@ -90,6 +91,7 @@ t_redir	*ft_get_redirs(t_data *data, t_cmd *cmd)
 					// open error
 					data->exit_status = 1;
 					perror(cur->value);
+					free(redir);
 					return (NULL);
 				}
 				if (redir->fd_out != -1 && redir->fd_out != STDOUT_FILENO)
@@ -100,6 +102,7 @@ t_redir	*ft_get_redirs(t_data *data, t_cmd *cmd)
 				// permission denied
 				data->exit_status = 1;
 				perror(cur->value);
+				free(redir);
 				return (NULL);
 			}
 			redir->outfile = cur->value;
@@ -113,6 +116,7 @@ t_redir	*ft_get_redirs(t_data *data, t_cmd *cmd)
 		{
 			data->exit_status = 1;
 			// open error
+			free(redir);
 			perror(redir->infile);
 			return (NULL);
 		}
@@ -129,6 +133,7 @@ t_redir	*ft_get_redirs(t_data *data, t_cmd *cmd)
 			data->exit_status = 1;
 			close(redir->fd_in);
 			perror(redir->outfile);
+			free(redir);
 			return (NULL);
 		}
 	}
