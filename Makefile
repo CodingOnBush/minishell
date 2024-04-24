@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
+#    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/24 14:07:08 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/24 16:03:55 by vvaudain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ EXEC		:=	$(EXEC_DIR)/builtins.c \
 				$(EXEC_DIR)/ft_exit.c \
 				$(EXEC_DIR)/ft_export.c \
 				$(EXEC_DIR)/hd_count.c \
+				$(EXEC_DIR)/heredocs_utils.c \
 				$(EXEC_DIR)/heredocs.c \
 				$(EXEC_DIR)/multi_cmds.c \
 				$(EXEC_DIR)/pipe.c \

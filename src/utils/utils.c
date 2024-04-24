@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/22 17:47:25 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 15:53:09 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,4 +178,32 @@ int	ft_strcmp(char *s1, char *s2)
 		i++;
 	}
 	return (str1[i] - str2[i]);
+}
+
+int	ft_get_env_list_size(t_env *env)
+{
+	int		i;
+	t_env	*cur;
+
+	i = 0;
+	cur = env;
+	while (cur)
+	{
+		i++;
+		cur = cur->next;
+	}
+	return (i);
+}
+
+int	ft_get_arg_list_size(t_arg *arg_list)
+{
+	int	i;
+
+	i = 0;
+	while (arg_list != NULL)
+	{
+		i++;
+		arg_list = arg_list->next;
+	}
+	return (i);
 }

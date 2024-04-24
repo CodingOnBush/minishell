@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:37:36 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/22 17:47:18 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 15:53:18 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ int		ft_isquote(char c);
 int		ft_is_in_var(char c);
 int		is_exit_builtin(t_data *data);
 int		ft_strcmp(char *s1, char *s2);
+int		ft_get_env_list_size(t_env *env);
+int		ft_get_arg_list_size(t_arg *arg_list);
 
 #endif

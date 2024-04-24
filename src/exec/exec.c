@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/24 13:41:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 14:57:18 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static int	ft_isdirectory(char *path)
 	{
 		if (S_ISDIR(file_stat.st_mode))
 			return (YES);
+		else
+			return (NO);
 	}
 	return (NO);
 }
@@ -37,7 +39,8 @@ int ft_execve(t_data *data, t_cmd *cmd)
 
 	if (!cmd->arg_list || !cmd->arg_list->value)
 		return (SUCCESS);
-	if (ft_isdirectory(cmd->arg_list->value) == YES)
+	cmd->cmd_path = ft_get_cmd_path(data, cmd->arg_list->value);
+	if (ft_isdirectory(cmd->cmd_path) == YES)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->arg_list->value, 2);
@@ -45,10 +48,17 @@ int ft_execve(t_data *data, t_cmd *cmd)
 		ft_free_all(data);
 		exit(126);
 	}
-	cmd->cmd_path = ft_get_cmd_path(data, cmd->arg_list->value);
 	if (!cmd->cmd_path || (cmd->cmd_path && cmd->cmd_path[0] == '\0'))
 	{
 		cmd_not_found_error(cmd->arg_list->value);
+		ft_free_all(data);
+		exit(127);
+	}
+	if (access(cmd->cmd_path, F_OK) == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->arg_list->value, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		ft_free_all(data);
 		exit(127);
 	}

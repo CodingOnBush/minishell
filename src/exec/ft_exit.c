@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:40:03 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/04/23 16:19:22 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:53:36 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static long long	ft_atoll(char *str)
 	return (result * sign);
 }
 
-static int ft_is_too_big(char *str)
+static int	ft_is_too_big(char *str)
 {
 	if (ft_strlen(str) > 19)
 		return (YES);
@@ -60,20 +60,7 @@ static int ft_is_too_big(char *str)
 	return (NO);
 }
 
-static int	ft_arg_number(t_arg *arg_list)
-{
-	int	i;
-
-	i = 0;
-	while (arg_list != NULL)
-	{
-		i++;
-		arg_list = arg_list->next;
-	}
-	return (i);
-}
-
-static void ft_error(t_data *data, char *arg, char *str, int status)
+static void	ft_error(t_data *data, char *arg, char *str, int status)
 {
 	ft_putstr_fd("exit\nminishell: exit: ", 2);
 	ft_putstr_fd(arg, 2);
@@ -93,7 +80,7 @@ int	ft_exit(t_data *data, t_arg *arg_list)
 		str = arg_list->next->value;
 		if (ft_isnumber(str) == NO || ft_is_too_big(str) == YES)
 			ft_error(data, str, ": numeric argument required\n", 2);
-		else if (ft_arg_number(arg_list) > 2)
+		else if (ft_get_arg_list_size(arg_list) > 2)
 			ft_error(data, str, ": too many arguments\n", 1);
 		status = ft_atoll(str) % 256;
 	}

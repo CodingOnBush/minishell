@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/22 18:36:32 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 15:48:25 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_get_cmd_path(t_data *data, char *cmd_name)
 	{
 		str = ft_create_cmd_path(path_list[i], cmd_name);
 		if (!str)
-			return (ft_free_path(path_list), NULL); //ici il ne faut pas free sinon pas de path pour dire à l'exec que la cmd n'existe pas (booleen?)
+			return (ft_free_path(path_list), NULL);
 		if (access(str, F_OK) == 0)
 			return (ft_free_path(path_list), str);
 		free(str);
@@ -94,12 +94,7 @@ char	**ft_create_env(t_data *data)
 	cur = data->env_list;
 	if (!cur)
 		return (NULL);
-	i = 0;
-	while (cur)
-	{
-		i++;
-		cur = cur->next;
-	}
+	i = ft_get_env_list_size(data->env_list);
 	res = (char **)malloc(sizeof(char *) * (i + 1));
 	if (!res)
 		return (NULL);

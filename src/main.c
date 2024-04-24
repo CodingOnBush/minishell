@@ -5,24 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/24 12:01:55 by vvaudain         ###   ########.fr       */
+/*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
+/*   Updated: 2024/04/24 15:45:29 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../inc/minishell.h"
 
-int g_signum = 0;
+int	g_signum;
 
 static void	ft_wait_for_children(t_data *data)
 {
-	int status;
+	int	status;
 
 	status = 0;
 	if (!data->ids)
-		return;
-	if (waitpid(data->ids[data->cmd_nb - 1], &status, 0) == data->ids[data->cmd_nb - 1])
+		return ;
+	if (waitpid(data->ids[data->cmd_nb - 1], &status,
+			0) == data->ids[data->cmd_nb - 1])
 	{
 		if (WIFEXITED(status))
 			data->exit_status = WEXITSTATUS(status);
