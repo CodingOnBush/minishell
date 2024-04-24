@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
+#    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/23 14:23:48 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/24 11:40:47 by vvaudain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,8 @@ EXEC		:=	$(EXEC_DIR)/builtins.c \
 				$(EXEC_DIR)/pipe.c \
 				$(EXEC_DIR)/single_cmd_builtin.c \
 				$(EXEC_DIR)/single_cmd_utils.c \
-				$(EXEC_DIR)/single_cmd.c
+				$(EXEC_DIR)/single_cmd.c \
+				$(EXEC_DIR)/get_redirs.c
 
 UTILS		:=	$(UTILS_DIR)/free_utils.c \
 				$(UTILS_DIR)/free.c \

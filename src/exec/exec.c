@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/04/23 14:54:40 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:17:36 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ static int	ft_fork(t_data *data)
 {
 	int process;
 
-	process = 0;
 	data->ids = malloc(sizeof(int) * data->cmd_nb);
 	if (!data->ids)
 		return (1);
+	process = 0;
 	while (process < data->cmd_nb)
 	{
 		data->ids[process] = fork();

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/23 16:28:33 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/24 11:17:15 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ typedef struct s_arg
 	int					token_type;
 	struct s_arg		*next;
 }						t_arg;
+
+typedef struct s_redir
+{
+	int					fd_in;
+	int					fd_out;
+	char				*infile;
+	char				*outfile;
+}						t_redir;
 
 typedef struct s_token
 {

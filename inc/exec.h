@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/23 11:57:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 11:37:48 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ int		ft_exit(t_data *data, t_arg *arg_list);
 
 /*		FT_EXPORT		*/
 int		ft_export(t_data *data, t_cmd *cmd);
+
+/*		GET_REDIRS		*/
+t_redir	*ft_get_redirs(t_cmd *cmd);
 
 /*		HD_COUNT		*/
 int		get_hd_number(t_cmd *list);
