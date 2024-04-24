@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/24 16:03:55 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/04/24 17:32:29 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,9 @@ EXEC		:=	$(EXEC_DIR)/builtins.c \
 UTILS		:=	$(UTILS_DIR)/free_utils.c \
 				$(UTILS_DIR)/free.c \
 				$(UTILS_DIR)/remove.c \
-				$(UTILS_DIR)/utils.c
+				$(UTILS_DIR)/utils.c \
+				$(UTILS_DIR)/utils2.c \
+				$(UTILS_DIR)/utils3.c
 
 SRC			:=	$(SRC_DIR)/main.c $(INIT) $(LEXER) \
 				$(PARSER) $(EXEC) $(UTILS)
@@ -90,7 +92,6 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(OBJ)
 	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
-	./$(NAME)
 
 print:
 	@echo $(SRC)

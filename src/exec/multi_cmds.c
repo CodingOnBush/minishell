@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/24 14:28:15 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:26:19 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 {
 	t_redir	*redir;
-	int 	status;
+	int		status;
 	int		exit_status;
 
 	redir = ft_get_redirs(data, cmd_to_exec);
@@ -45,14 +45,13 @@ void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 		free(redir);
 		exit(status);
 	}
-	else
-		ft_execve(data, cmd_to_exec);
+	ft_execve(data, cmd_to_exec);
 }
 
 void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 {
 	t_redir	*redir;
-	int status;
+	int		status;
 
 	redir = ft_get_redirs(data, cmd_to_exec);
 	if (redir == NULL)
@@ -81,14 +80,13 @@ void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 		free(redir);
 		exit(status);
 	}
-	else
-		ft_execve(data, cmd_to_exec);
+	ft_execve(data, cmd_to_exec);
 }
 
 void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 {
 	t_redir	*redir;
-	int status;
+	int		status;
 
 	close(data->pipe_ends[process - 1][1]);
 	redir = ft_get_redirs(data, cmd_to_exec);
@@ -115,8 +113,7 @@ void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 		free(redir);
 		exit(status);
 	}
-	else
-		ft_execve(data, cmd_to_exec);
+	ft_execve(data, cmd_to_exec);
 }
 
 void	ft_child_process(t_data *data, int process)

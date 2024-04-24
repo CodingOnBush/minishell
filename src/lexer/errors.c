@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:36:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 17:26:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	ft_pipe_at_end_error_check(t_token *list)
 	cur_token = list;
 	while (cur_token->next != NULL)
 	{
-		if (cur_token->pipe_at_end == true && cur_token->next->type == PIPE && cur_token->next->next == NULL)
+		if (cur_token->pipe_at_end == true && cur_token->next->type == PIPE
+			&& cur_token->next->next == NULL)
 		{
 			ft_print_error(PIPE);
 			return (FAIL);
@@ -53,7 +54,8 @@ void	ft_print_error(int errno)
 	else if (errno == PIPE)
 		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
 	else if (errno == NEWLINE_ERROR)
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
+			2);
 	else if (errno == QUOTES_ERROR)
 		ft_putstr_fd("minishell: unclosed single or double quote\n", 2);
 	else if (errno == DOUBLE_PIPE_ERROR)

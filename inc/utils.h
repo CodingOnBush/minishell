@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:37:36 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 15:53:18 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:14:32 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ int		is_exit_builtin(t_data *data);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_get_env_list_size(t_env *env);
 int		ft_get_arg_list_size(t_arg *arg_list);
+bool	ft_file_is_append(t_cmd *cmd, char *filename);
 
 #endif

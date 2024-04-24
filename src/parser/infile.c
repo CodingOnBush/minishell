@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   infile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 12:23:13 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:28:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ static t_infile	*ft_new_infile(char *str, int type, t_data *data)
 		new_infile->hd_num = data->hd_pos;
 		data->hd_pos++;
 		new_infile->delimiter = new_str;
-		// new_infile->to_expand = true;
-		if (ft_strchr(new_str, '\'') != NULL || ft_strchr(new_str, '\"') != NULL)
+		if (ft_strchr(new_str, '\'') != NULL || ft_strchr(new_str,
+				'\"') != NULL)
 			new_infile->to_expand = false;
 	}
 	new_infile->next = NULL;
@@ -66,9 +66,11 @@ t_infile	*ft_create_infile_list(t_data *data, t_token *cur)
 	new = NULL;
 	while (cur)
 	{
-		if ((cur->type == LEFT_TRUNC || cur->type == HERE_DOC) && cur->error == false)
+		if ((cur->type == LEFT_TRUNC || cur->type == HERE_DOC)
+			&& cur->error == false)
 		{
-			if (cur->next && (cur->next->type == WORD || cur->next->type == LIM) && cur->next->error == false)
+			if (cur->next && (cur->next->type == WORD || cur->next->type == LIM)
+				&& cur->next->error == false)
 			{
 				new = ft_new_infile(cur->next->value, cur->type, data);
 				if (!new)

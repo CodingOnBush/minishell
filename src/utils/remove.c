@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 17:27:38 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	ft_print_token_list(t_token *list)
 		printf("nil");
 	while (tmp)
 	{
-		printf("%s\t\t%s\t\t%d\t%d\t%d\t%s\n", tmp->value, ft_type_to_str(tmp->type), tmp->attributed, tmp->pos, tmp->error, ft_type_to_str(tmp->err_type));
+		printf("%s\t\t%s\t\t%d\t%d\t%d\t%s\n", tmp->value,
+			ft_type_to_str(tmp->type), tmp->attributed, tmp->pos, tmp->error,
+			ft_type_to_str(tmp->err_type));
 		tmp = tmp->next;
 	}
 }

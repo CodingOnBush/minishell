@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:14:13 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/24 17:27:52 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,29 @@ static int	is_error(t_token *list, t_token *token)
 {
 	if (!list || !token)
 		return (NO);
-	if (token->next == NULL && ft_isop(token->value) == NO && token->type != PIPE)
+	if (token->next == NULL && ft_isop(token->value) == NO
+		&& token->type != PIPE)
 		return (NO);
 	if (ft_isop(token->value) == YES && !token->next)
 		return (assign_error(token, NEWLINE_ERROR), YES);
-	if (ft_isop(token->value) == YES && token->next && ft_isop(token->next->value) == YES)
+	if (ft_isop(token->value) == YES && token->next
+		&& ft_isop(token->next->value) == YES)
 		return (assign_error(token, token->next->type), YES);
-	// if (ft_isop(token->value) == YES && token->next == NULL)
-	// 	return (assign_error(token, NEWLINE_ERROR), YES);
 	if (token->type == PIPE)
 	{
 		if (token->next && ft_isop(token->next->value) == YES)
 		{
 			if (token->next->next && token->next->next->type == PIPE)
-				return (assign_error(token->next, token->next->next->type), YES);
-			else if (ft_isop(token->next->value) == YES && token->next->next == NULL)
+				return (assign_error(token->next, token->next->next->type),
+					YES);
+			else if (ft_isop(token->next->value) == YES
+				&& token->next->next == NULL)
 				return (assign_error(token->next, NEWLINE_ERROR), YES);
 		}
 		return (NO);
 	}
-	if (ft_isop(token->value) == YES && token->next != NULL && token->next->type == PIPE)
+	if (ft_isop(token->value) == YES && token->next != NULL
+		&& token->next->type == PIPE)
 		return (assign_error(token, token->next->type), YES);
 	if (ft_isoperator(token->value) >= 1 && token->next == NULL)
 		return (assign_error(token, NEWLINE_ERROR), YES);
@@ -61,7 +64,7 @@ static t_token	*token_before_last(t_token *list)
 	return (cur_token);
 }
 
-static int ft_double_pipe_detected(t_token *token)
+static int	ft_double_pipe_detected(t_token *token)
 {
 	while (token)
 	{
@@ -94,7 +97,8 @@ int	ft_check_token_list(t_token *list)
 	if (cur_token == NULL)
 	{
 		if (last_token->type == PIPE)
-			return (assign_error(token_before_last(list), PIPE_AT_END), SUCCESS);
+			return (assign_error(token_before_last(list), PIPE_AT_END),
+				SUCCESS);
 	}
 	return (SUCCESS);
 }

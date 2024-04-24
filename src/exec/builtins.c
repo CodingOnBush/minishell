@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 22:46:05 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 14:28:00 by vvaudain         ###   ########.fr       */
+/*   Created: 2024/04/24 16:11:17 by momrane           #+#    #+#             */
+/*   Updated: 2024/04/24 17:22:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	ft_isbuiltin(t_cmd *cmd)
 {
-	char	*builtins[] = {"echo", "cd", "pwd",
-		"export", "unset", "env", "exit", ":", "!", NULL};
 	char		*str;
 	int			len;
 	int			i;
+	char *const	builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
+		"exit", ":", "!", NULL};
 
 	if (!cmd || !(cmd->arg_list) || !(cmd->arg_list->value))
 		return (NO);
@@ -90,12 +90,9 @@ static int	ft_unset(t_data *data, t_arg *arg_list)
 
 int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 {
-	int	len;
-
 	if (!data || !cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (1);
-	len = ft_strlen(cmd->arg_list->value);
-	if (len == 0)
+	if (ft_strlen(cmd->arg_list->value) == 0)
 		return (1);
 	if (ft_strcmp(cmd->arg_list->value, "pwd") == 0)
 		return (ft_pwd(data, cmd));

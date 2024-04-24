@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 15:45:21 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:26:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_handler(int signum)
 	{
 		g_signum = signum;
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		rl_replace_line("", STDIN_FILENO);// "ls |\n>"
+		rl_replace_line("", STDIN_FILENO);
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -38,8 +38,9 @@ static void	ft_setup_signals(t_data *data)
 
 t_data	*ft_create_data(int ac, char **av, char **env)
 {
-	t_data	*data = malloc(sizeof(t_data));
+	t_data	*data;
 
+	data = malloc(sizeof(t_data));
 	(void)ac;
 	(void)av;
 	if (!data)

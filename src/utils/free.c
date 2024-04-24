@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/24 12:46:58 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:28:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	ft_free_pipe_ends(t_data *data)
 		ft_close_pipes(data);
 		while (i < data->cmd_nb - 1)
 		{
-			
 			if (data->pipe_ends[i])
 				free(data->pipe_ends[i]);
 			i++;
