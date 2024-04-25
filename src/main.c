@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/24 15:45:29 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:46:00 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int ac, char **av, char **env)
 		if (ft_lexer(data) == SUCCESS && ft_parser(data) == SUCCESS)
 			ft_launch_exec(data);
 		ft_wait_for_children(data);
-		if (is_exit_builtin(data) == YES)
+		if (is_exit_builtin(data) == YES && data->exit_status != 1)
 		{
 			status = data->exit_status;
 			ft_free_all(data);
