@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 17:27:12 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/25 16:38:00 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	ft_get_token_size(char *line)
 		return (1);
 	len = 0;
 	while (line[len] && !ft_is_space(line[len]) && !ft_isop(&line[len])
-		&& line[len] != '|')
+		&& line[len] != '|' && line[len] != '<' && line[len] != '>')
 	{
 		if (ft_isquote(line[len]))
 			len += ft_strchr(&line[len + 1], line[len]) - &line[len] + 1;

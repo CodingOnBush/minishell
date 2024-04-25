@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:11:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 17:22:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/25 15:22:44 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,12 @@ static int	ft_print_env(t_data *data, t_cmd *cmd)
 	return (0);
 }
 
-static int	ft_pwd(t_data *data, t_cmd *cmd)
+static int	ft_pwd(t_cmd *cmd)
 {
 	char	*cwd;
 
 	if (!cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (1);
-	(void)data;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (perror(cmd->arg_list->value), 1);
@@ -95,7 +94,7 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_strlen(cmd->arg_list->value) == 0)
 		return (1);
 	if (ft_strcmp(cmd->arg_list->value, "pwd") == 0)
-		return (ft_pwd(data, cmd));
+		return (ft_pwd(cmd));
 	if (ft_strcmp(cmd->arg_list->value, "env") == 0)
 		return (ft_print_env(data, cmd));
 	if (ft_strcmp(cmd->arg_list->value, "cd") == 0)

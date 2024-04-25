@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/25 11:46:00 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:34:39 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	ft_wait_for_children(t_data *data)
 int	main(int ac, char **av, char **env)
 {
 	t_data *const	data = ft_create_data(ac, av, env);
-	int				status;
+	int				s;
 
 	if (!data || ac != 1)
 		return (-1);
@@ -51,13 +51,13 @@ int	main(int ac, char **av, char **env)
 		ft_wait_for_children(data);
 		if (is_exit_builtin(data) == YES && data->exit_status != 1)
 		{
-			status = data->exit_status;
+			s = data->exit_status;
 			ft_free_all(data);
-			exit(status);
+			exit(s);
 		}
 		ft_reset_data(data);
 	}
-	status = data->exit_status;
-	rl_clear_history();
-	return (ft_free_all(data), ft_putstr_fd("exit\n", 1), status);
+	if (isatty(STDIN_FILENO))
+		write(2, "exit\n", 6);
+	return (s = data->exit_status, rl_clear_history(), ft_free_all(data), s);
 }

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:57:23 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/24 17:22:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:29:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static int	ft_open_files(t_data *data, t_redir *redir, int is_append)
 		if (redir->fd_in == -1)
 		{
 			data->exit_status = 1;
-			return (perror(redir->infile), free(redir), FAIL);
+			return (ft_putstr_fd("minishell : ", 2), perror(redir->infile),
+				free(redir), FAIL);
 		}
 	}
 	if (redir->outfile)
@@ -48,39 +49,56 @@ static int	ft_open_files(t_data *data, t_redir *redir, int is_append)
 		if (redir->fd_out == -1)
 		{
 			data->exit_status = 1;
-			return (close(redir->fd_in), perror(redir->outfile), free(redir),
-				FAIL);
+			close(redir->fd_in);
+			return (perror(redir->outfile), free(redir), FAIL);
 		}
 	}
 	return (SUCCESS);
 }
 
+// static int	ft_handle_outfiles(t_data *data, t_redir *redir, t_token *cur,
+// 		int is_append)
+// {
+// 	if (access(cur->value, F_OK) == -1)
+// 	{
+// 		if (is_append == YES)
+// 			redir->fd_out = open(cur->value, O_CREAT | O_WRONLY | O_APPEND,
+// 					0644);
+// 		else
+// 			redir->fd_out = open(cur->value, O_CREAT | O_WRONLY | O_TRUNC,
+// 					0644);
+// 		if (redir->fd_out == -1)
+// 		{
+// 			data->exit_status = 1;
+// 			return (ft_putstr_fd("minishell : ", 2), perror(cur->value), free(redir), FAIL);
+// 		}
+// 		if (redir->fd_out != -1 && redir->fd_out != STDOUT_FILENO)
+// 			close(redir->fd_out);
+// 	}
+// 	else if (access(cur->value, W_OK) == -1)
+// 	{
+// 		data->exit_status = 1;
+// 		return (ft_putstr_fd("minishell : ", 2), perror(cur->value), free(redir), FAIL);
+// 	}
+// 	redir->outfile = cur->value;
+// 	return (SUCCESS);
+// }
+
 static int	ft_handle_outfiles(t_data *data, t_redir *redir, t_token *cur,
 		int is_append)
 {
-	if (access(cur->value, F_OK) == -1)
-	{
-		if (is_append == YES)
-			redir->fd_out = open(cur->value, O_CREAT | O_WRONLY | O_APPEND,
-					0644);
-		else
-			redir->fd_out = open(cur->value, O_CREAT | O_WRONLY | O_TRUNC,
-					0644);
-		if (redir->fd_out == -1)
-		{
-			data->exit_status = 1;
-			perror(cur->value);
-			free(redir);
-			return (FAIL);
-		}
-		if (redir->fd_out != -1 && redir->fd_out != STDOUT_FILENO)
-			close(redir->fd_out);
-	}
-	else if (access(cur->value, W_OK) == -1)
+	if (is_append == YES)
+		redir->fd_out = open(cur->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else
+		redir->fd_out = open(cur->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (redir->fd_out == -1)
 	{
 		data->exit_status = 1;
-		return (perror(cur->value), free(redir), FAIL);
+		return (ft_putstr_fd("minishell : ", 2), perror(cur->value),
+			free(redir), FAIL);
 	}
+	if (redir->fd_out != STDOUT_FILENO)
+		close(redir->fd_out);
 	redir->outfile = cur->value;
 	return (SUCCESS);
 }
@@ -97,16 +115,21 @@ static int	ft_handle_token(t_data *data, t_token *cur, t_redir *redir,
 		if (access(cur->value, F_OK | R_OK) == -1)
 		{
 			data->exit_status = 1;
-			return (perror(redir->infile), free(redir), FAIL);
+			return (ft_putstr_fd("minishell : ", 2), perror(redir->infile),
+				free(redir), FAIL);
 		}
 	}
 	if (cur->is_outf == YES)
 	{
 		is_append = ft_file_is_append(cmd, cur->value);
+		if (is_append == FAIL)
+			return (FAIL);
 		if (ft_handle_outfiles(data, redir, cur, is_append) == FAIL)
 			return (FAIL);
+		else
+			return (is_append);
 	}
-	return (YES);
+	return (NO);
 }
 
 t_redir	*ft_get_redirs(t_data *data, t_cmd *cmd)
@@ -115,7 +138,7 @@ t_redir	*ft_get_redirs(t_data *data, t_cmd *cmd)
 	t_redir	*redir;
 	int		is_append;
 
-	is_append = false;
+	is_append = NO;
 	cur = cmd->token_list;
 	redir = ft_create_redir();
 	if (!redir || !cur)

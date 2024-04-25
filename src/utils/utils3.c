@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:31:42 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 17:31:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/25 14:40:54 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	ft_get_arg_list_size(t_arg *arg_list)
 	return (i);
 }
 
-bool	ft_file_is_append(t_cmd *cmd, char *filename)
+int	ft_file_is_append(t_cmd *cmd, char *filename)
 {
 	t_outfile	*cur_outf;
 
@@ -84,8 +84,13 @@ bool	ft_file_is_append(t_cmd *cmd, char *filename)
 	while (cur_outf != NULL)
 	{
 		if (ft_strcmp(cur_outf->filename, filename) == 0)
-			return (cur_outf->append);
+		{
+			if (cur_outf->append == true)
+				return (YES);
+			else
+				return (NO);
+		}
 		cur_outf = cur_outf->next;
 	}
-	return (true);
+	return (FAIL);
 }
