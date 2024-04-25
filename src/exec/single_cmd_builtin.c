@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:47:59 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 10:49:23 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:28:59 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ static void	ft_handle_dups_parent(t_data *data, t_redir *redir, t_cmd *cmd)
 		close(redir->fd_in);
 	if (redir->fd_out != STDOUT_FILENO)
 		close(redir->fd_out);
+	free(redir);
+	if (ft_strcmp(cmd->arg_list->value, "exit") == 0)
+	{
+		dup2(fdin_save, STDIN_FILENO);
+		dup2(fdout_save, STDOUT_FILENO);
+		close(fdin_save);
+		close(fdout_save);
+	}
 	data->exit_status = ft_exec_builtin(data, cmd);
 	dup2(fdin_save, STDIN_FILENO);
 	dup2(fdout_save, STDOUT_FILENO);
@@ -55,6 +63,6 @@ int	ft_exec_single_builtin(t_data *data)
 		return (1);
 	}
 	ft_handle_dups_parent(data, redir, cmd);
-	free(redir);
+	// free(redir);
 	return (data->exit_status);
 }
