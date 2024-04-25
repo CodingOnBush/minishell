@@ -3,28 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:14:13 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/24 17:27:52 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:07:37 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static t_token	*ft_findlast_token(t_token *lst)
+static int	ft_first_checks(t_token *token)
 {
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
-static int	is_error(t_token *list, t_token *token)
-{
-	if (!list || !token)
-		return (NO);
 	if (token->next == NULL && ft_isop(token->value) == NO
 		&& token->type != PIPE)
 		return (NO);
@@ -33,35 +22,36 @@ static int	is_error(t_token *list, t_token *token)
 	if (ft_isop(token->value) == YES && token->next
 		&& ft_isop(token->next->value) == YES)
 		return (assign_error(token, token->next->type), YES);
-	if (token->type == PIPE)
+	return (SKIP);
+}
+
+static int	is_error(t_token *list, t_token *tok)
+{
+	int		return_value;
+
+	if (!list || !tok)
+		return (NO);
+	return_value = ft_first_checks(tok);
+	if (return_value != SKIP)
+		return (return_value);
+	if (tok->type == PIPE)
 	{
-		if (token->next && ft_isop(token->next->value) == YES)
+		if (tok->next && ft_isop(tok->next->value) == YES)
 		{
-			if (token->next->next && token->next->next->type == PIPE)
-				return (assign_error(token->next, token->next->next->type),
-					YES);
-			else if (ft_isop(token->next->value) == YES
-				&& token->next->next == NULL)
-				return (assign_error(token->next, NEWLINE_ERROR), YES);
+			if (tok->next->next && tok->next->next->type == PIPE)
+				return (assign_error(tok->next, tok->next->next->type), YES);
+			else if (ft_isop(tok->next->value) == YES
+				&& tok->next->next == NULL)
+				return (assign_error(tok->next, NEWLINE_ERROR), YES);
 		}
 		return (NO);
 	}
-	if (ft_isop(token->value) == YES && token->next != NULL
-		&& token->next->type == PIPE)
-		return (assign_error(token, token->next->type), YES);
-	if (ft_isoperator(token->value) >= 1 && token->next == NULL)
-		return (assign_error(token, NEWLINE_ERROR), YES);
+	if (ft_isop(tok->value) == YES && tok->next != NULL
+		&& tok->next->type == PIPE)
+		return (assign_error(tok, tok->next->type), YES);
+	if (ft_isoperator(tok->value) >= 1 && tok->next == NULL)
+		return (assign_error(tok, NEWLINE_ERROR), YES);
 	return (NO);
-}
-
-static t_token	*token_before_last(t_token *list)
-{
-	t_token	*cur_token;
-
-	cur_token = list;
-	while (cur_token->next->next != NULL)
-		cur_token = cur_token->next;
-	return (cur_token);
 }
 
 static int	ft_double_pipe_detected(t_token *token)

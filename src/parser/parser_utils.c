@@ -3,37 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:14:06 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-t_token	*ft_extract_token(t_token *cur_token)
+t_token	*ft_extract_token(t_token *cur)
 {
 	t_token	*res;
 	t_token	*new;
 	char	*str;
 
 	res = NULL;
-	while (cur_token != NULL && cur_token->type != PIPE)
+	while (cur != NULL && cur->type != PIPE)
 	{
-		if (cur_token->value == NULL)
+		if (cur->value == NULL)
 			str = NULL;
 		else
 		{
-			str = ft_strdup(cur_token->value);
+			str = ft_strdup(cur->value);
 			if (!str)
 				return (ft_free_tokens(&res), NULL);
 		}
-		new = ft_new_token(str, cur_token->type, cur_token->pos, cur_token->error);
+		new = ft_new_token(str, cur->type, cur->pos, cur->error);
 		if (!new)
 			return (free(str), ft_free_tokens(&res), NULL);
 		ft_addlast_token(&res, new);
-		cur_token = cur_token->next;
+		cur = cur->next;
 	}
 	return (res);
 }

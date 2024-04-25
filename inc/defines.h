@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:33:06 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/17 14:16:37 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:00:15 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # define YES 1
 # define NO 0
+# define SKIP 2
 
 # define SUCCESS 1
 # define FAIL -1

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:36:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/21 18:56:36 by allblue          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:08:32 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void	ft_expand(t_data *data, t_token **token_list);
 
 /*		LEXER		*/
 int		ft_lexer(t_data *data);
+
+/*	TOKEN CHECK UTILS	*/
+t_token	*ft_findlast_token(t_token *lst);
+t_token	*token_before_last(t_token *list);
 
 /*	TOKEN_CHECK		*/
 int		ft_check_token_list(t_token *list);

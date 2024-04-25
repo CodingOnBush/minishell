@@ -6,7 +6,7 @@
 #    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/25 10:44:23 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/04/25 11:08:52 by vvaudain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ LEXER		:=	$(LEXER_DIR)/errors.c \
 				$(LEXER_DIR)/expand_utils.c \
 				$(LEXER_DIR)/expand.c \
 				$(LEXER_DIR)/lexer.c \
+				$(LEXER_DIR)/token_check_utils.c \
 				$(LEXER_DIR)/token_check.c \
 				$(LEXER_DIR)/token.c
 

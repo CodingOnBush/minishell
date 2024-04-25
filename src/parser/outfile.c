@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 12:22:59 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:20:17 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,31 @@ static void	ft_add_outfile(t_outfile **outfile_list, t_outfile *new_outfile)
 	}
 }
 
-t_outfile	*ft_create_outfile_list(t_token *cur_token)
+t_outfile	*ft_create_outfile_list(t_token *cur)
 {
 	t_outfile	*outfile_list;
 	t_outfile	*new_outfile;
 
 	outfile_list = NULL;
 	new_outfile = NULL;
-	while (cur_token)
+	while (cur)
 	{
-		if ((cur_token->type == RIGHT_TRUNC || cur_token->type == APPEND) && cur_token->error == false)
+		if ((cur->type == RIGHT_TRUNC || cur->type == APPEND)
+			&& cur->error == false)
 		{
-			if (cur_token->next && cur_token->next->value && ft_isop(cur_token->next->value) == NO)
-				new_outfile = ft_new_outfile(cur_token->next->value, cur_token->type);
+			if (cur->next && cur->next->value
+				&& ft_isop(cur->next->value) == NO)
+				new_outfile = ft_new_outfile(cur->next->value, cur->type);
 			if (!new_outfile)
 				return (ft_free_outfiles(&outfile_list), NULL);
+			cur->attributed = true;
+			cur->next->attributed = true;
+			cur->next->is_outf = true;
 			ft_add_outfile(&outfile_list, new_outfile);
-			cur_token->attributed = true;
-			cur_token->next->attributed = true;
-			cur_token->next->is_inf = false;
-			cur_token->next->is_outf = true;
-			cur_token = cur_token->next;
+			cur = cur->next;
 		}
 		else
-			cur_token = cur_token->next;
+			cur = cur->next;
 	}
 	return (outfile_list);
 }
