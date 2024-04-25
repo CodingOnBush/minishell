@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+         #
+#    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/25 11:08:52 by vvaudain         ###   ########.fr        #
+#    Updated: 2024/04/25 19:07:35 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,6 +90,9 @@ OBJ			:=	$(SRC:$(SRC_DIR)/%.c=$(BIN_DIR)/%.o)
 
 # Default make
 all: $(NAME)
+
+m: $(NAME)
+	./$(NAME)
 	
 $(NAME): $(LIBFT) $(OBJ)
 	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline

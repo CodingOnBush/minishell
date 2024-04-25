@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/25 10:26:15 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:06:50 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_exec_single_cmd(t_data *data)
 	int		exit_status;
 
 	cmd = data->cmd_list;
-	if (cmd == NULL || cmd->arg_list == NULL)
+	if (cmd == NULL)
 		return ;
 	redir = ft_get_redirs(data, cmd);
 	if (redir == NULL)

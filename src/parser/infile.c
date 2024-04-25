@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   infile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 11:19:59 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:41:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,27 +60,25 @@ t_infile	*ft_create_infile_list(t_data *data, t_token *cur)
 {
 	t_infile	*res;
 	t_infile	*new;
+	t_token		*nxt;
 
 	res = NULL;
 	new = NULL;
 	while (cur)
 	{
-		if ((cur->type == LEFT_TRUNC || cur->type == HERE_DOC)
-			&& cur->error == false)
+		nxt = cur->next;
+		if (cur->type == LEFT_TRUNC && cur->error == false)
 		{
-			if (cur->next && (cur->next->type == WORD || cur->next->type == LIM)
-				&& cur->next->error == false)
-				new = ft_new_infile(cur->next->value, cur->type, data);
+			if (nxt && nxt->type == WORD && nxt->error == false)
+				new = ft_new_infile(nxt->value, cur->type, data);
 			if (!new)
 				return (ft_free_infiles(&res), NULL);
 			cur->attributed = true;
-			cur->next->attributed = true;
-			cur->next->is_inf = true;
+			nxt->attributed = true;
+			nxt->is_inf = true;
 			ft_add_infile(&res, new);
-			cur = cur->next;
 		}
-		else
-			cur = cur->next;
+		cur = nxt;
 	}
 	return (res);
 }
