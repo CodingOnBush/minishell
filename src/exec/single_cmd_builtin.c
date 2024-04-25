@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:47:59 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 11:28:59 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:55:46 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,5 @@ int	ft_exec_single_builtin(t_data *data)
 		return (1);
 	}
 	ft_handle_dups_parent(data, redir, cmd);
-	// free(redir);
 	return (data->exit_status);
 }

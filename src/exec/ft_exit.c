@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:40:03 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/04/25 11:44:33 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:55:32 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static void	ft_error(char *arg, char *str, int error_code)
 	ft_putstr_fd("exit\nminishell: exit: ", 2);
 	if (error_code == 1)
 		ft_putstr_fd(arg, 2);
-	// ft_putstr_fd(arg, 2);
 	ft_putstr_fd(str, 2);
 }
 
