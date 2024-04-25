@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/24 16:01:59 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:43:51 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,11 @@ int		is_error_to_print(t_token *list);
 /*		HEREDOCS		*/
 int		ft_launch_heredoc(t_data *data);
 
-/*		MULTI_CMDS		*/
+/*		MULTI CMDS UTILS	*/
+void	ft_close_fd_pipes(t_data *data, t_redir *redir);
+void	ft_exit_if_null(t_data *data, t_redir *redir);
+
+/*		MULTI_CMDS			*/
 void	first_cmd(t_data *data, t_cmd *cmd_to_exec);
 void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process);
 void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process);

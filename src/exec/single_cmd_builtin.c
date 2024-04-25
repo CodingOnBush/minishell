@@ -3,21 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd_builtin.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 10:47:59 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 17:26:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/25 10:49:23 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+static void	ft_handle_dups_parent(t_data *data, t_redir *redir, t_cmd *cmd)
+{
+	int	fdin_save;
+	int	fdout_save;
+
+	fdin_save = dup(STDIN_FILENO);
+	fdout_save = dup(STDOUT_FILENO);
+	dup2(redir->fd_in, STDIN_FILENO);
+	dup2(redir->fd_out, STDOUT_FILENO);
+	if (redir->fd_in != STDIN_FILENO)
+		close(redir->fd_in);
+	if (redir->fd_out != STDOUT_FILENO)
+		close(redir->fd_out);
+	data->exit_status = ft_exec_builtin(data, cmd);
+	dup2(fdin_save, STDIN_FILENO);
+	dup2(fdout_save, STDOUT_FILENO);
+	close(fdin_save);
+	close(fdout_save);
+}
+
 int	ft_exec_single_builtin(t_data *data)
 {
 	t_cmd	*cmd;
 	t_redir	*redir;
-	int		fdin_save;
-	int		fdout_save;
 
 	cmd = data->cmd_list;
 	if (cmd == NULL || cmd->arg_list == NULL)
@@ -36,19 +54,7 @@ int	ft_exec_single_builtin(t_data *data)
 			close(redir->fd_in);
 		return (1);
 	}
-	fdin_save = dup(STDIN_FILENO);
-	fdout_save = dup(STDOUT_FILENO);
-	dup2(redir->fd_in, STDIN_FILENO);
-	dup2(redir->fd_out, STDOUT_FILENO);
-	if (redir->fd_in != STDIN_FILENO)
-		close(redir->fd_in);
-	if (redir->fd_out != STDOUT_FILENO)
-		close(redir->fd_out);
-	data->exit_status = ft_exec_builtin(data, cmd);
-	dup2(fdin_save, STDIN_FILENO);
-	dup2(fdout_save, STDOUT_FILENO);
-	close(fdin_save);
-	close(fdout_save);
+	ft_handle_dups_parent(data, redir, cmd);
 	free(redir);
 	return (data->exit_status);
 }
