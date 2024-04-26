@@ -6,32 +6,42 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:14:13 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/25 11:07:37 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:44:18 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	ft_first_checks(t_token *token)
+static void	ft_status(t_data *data)
+{
+	data->exit_status = 2;
+}
+
+static int	ft_first_checks(t_data *data, t_token *token)
 {
 	if (token->next == NULL && ft_isop(token->value) == NO
 		&& token->type != PIPE)
 		return (NO);
 	if (ft_isop(token->value) == YES && !token->next)
-		return (assign_error(token, NEWLINE_ERROR), YES);
+		return (ft_err(token, NEWLINE_ERROR), ft_status(data), YES);
 	if (ft_isop(token->value) == YES && token->next
 		&& ft_isop(token->next->value) == YES)
-		return (assign_error(token, token->next->type), YES);
+	{
+		if (token->type != LEFT_TRUNC && token->next->type != RIGHT_TRUNC)
+			return (ft_err(token, token->next->type), ft_status(data), YES);
+		else
+			return (ft_err(token, NEWLINE_ERROR), ft_status(data), YES);
+	}
 	return (SKIP);
 }
 
-static int	is_error(t_token *list, t_token *tok)
+static int	is_error(t_data *data, t_token *list, t_token *tok)
 {
 	int		return_value;
 
 	if (!list || !tok)
 		return (NO);
-	return_value = ft_first_checks(tok);
+	return_value = ft_first_checks(data, tok);
 	if (return_value != SKIP)
 		return (return_value);
 	if (tok->type == PIPE)
@@ -39,33 +49,33 @@ static int	is_error(t_token *list, t_token *tok)
 		if (tok->next && ft_isop(tok->next->value) == YES)
 		{
 			if (tok->next->next && tok->next->next->type == PIPE)
-				return (assign_error(tok->next, tok->next->next->type), YES);
+				return (ft_err(tok->next, tok->next->next->type),
+					ft_status(data), YES);
 			else if (ft_isop(tok->next->value) == YES
 				&& tok->next->next == NULL)
-				return (assign_error(tok->next, NEWLINE_ERROR), YES);
+				return (ft_err(tok->next, NEWLINE_ERROR), ft_status(data), YES);
 		}
-		return (NO);
 	}
 	if (ft_isop(tok->value) == YES && tok->next != NULL
 		&& tok->next->type == PIPE)
-		return (assign_error(tok, tok->next->type), YES);
+		return (ft_err(tok, tok->next->type), ft_status(data), YES);
 	if (ft_isoperator(tok->value) >= 1 && tok->next == NULL)
-		return (assign_error(tok, NEWLINE_ERROR), YES);
+		return (ft_err(tok, NEWLINE_ERROR), ft_status(data), YES);
 	return (NO);
 }
 
-static int	ft_double_pipe_detected(t_token *token)
+static int	ft_double_pipe_detected(t_data *data, t_token *token)
 {
 	while (token)
 	{
 		if (token->type == PIPE && token->next && token->next->type == PIPE)
-			return (YES);
+			return (ft_status(data), YES);
 		token = token->next;
 	}
 	return (NO);
 }
 
-int	ft_check_token_list(t_token *list)
+int	ft_check_token_list(t_data *data, t_token *list)
 {
 	t_token	*cur_token;
 	t_token	*last_token;
@@ -74,20 +84,20 @@ int	ft_check_token_list(t_token *list)
 	if (!cur_token)
 		return (SUCCESS);
 	last_token = ft_findlast_token(list);
-	if (ft_double_pipe_detected(cur_token) == YES)
+	if (ft_double_pipe_detected(data, cur_token) == YES)
 		return (ft_print_error(DOUBLE_PIPE_ERROR), FAIL);
 	if (cur_token->value && cur_token->value[0] == '|')
-		return (ft_print_error(PIPE), FAIL);
+		return (ft_print_error(PIPE), ft_status(data), FAIL);
 	while (cur_token != NULL)
 	{
-		if (is_error(list, cur_token) == YES)
+		if (is_error(data, list, cur_token) == YES)
 			break ;
 		cur_token = cur_token->next;
 	}
 	if (cur_token == NULL)
 	{
 		if (last_token->type == PIPE)
-			return (assign_error(token_before_last(list), PIPE_AT_END),
+			return (ft_err(token_before_last(list), PIPE_AT_END),
 				SUCCESS);
 	}
 	return (SUCCESS);

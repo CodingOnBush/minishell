@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:36:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 11:08:32 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:15:45 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /*		ERRORS		*/
 int		ft_pipe_at_end_error_check(t_token *list);
-void	assign_error(t_token *token, int err_type);
+void	ft_err(t_token *token, int err_type);
 void	ft_print_error(int errno);
 
 /*	EXPAND_UTILS	*/
@@ -36,7 +36,7 @@ t_token	*ft_findlast_token(t_token *lst);
 t_token	*token_before_last(t_token *list);
 
 /*	TOKEN_CHECK		*/
-int		ft_check_token_list(t_token *list);
+int		ft_check_token_list(t_data *data, t_token *list);
 
 /*		TOKEN		*/
 t_token	*ft_new_token(char *new_str, int type, int pos, bool error);
