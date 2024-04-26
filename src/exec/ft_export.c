@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 12:33:08 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 13:12:05 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static int	ft_handle_line(t_data *data, char *line)
 		if (!var_name)
 			return (1);
 		var_content = ft_get_var_content(line);
-		printf("var_name: %s\n", var_name);
 		if (var_content != NULL)
 		{
 			if (ft_setenv(&data->env_list, var_name, var_content) == FAIL)

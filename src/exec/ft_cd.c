@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/26 12:56:01 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 13:57:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static char	*ft_get_path(t_arg *lst, t_env *env_list)
 	{
 		key = ft_getkey(env_list, "HOME");
 		if (!key)
-			return (ft_strdup("."));
+			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), NULL);
 		path = ft_getenv(env_list, "HOME");
 		printf("path: %s\n", path);
 		if (!path)
-			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), NULL);
+			return (ft_strdup("."));
 	}
 	else if (lst && lst->next && ft_strcmp(lst->next->value, "-") == 0)
 	{
