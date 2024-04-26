@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:13:46 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/24 14:05:45 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 11:45:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ static char	*ft_grab_next_str(t_data *data, char *str)
 	char	*res;
 
 	if (str && *str == SINGLE_QUOTE && (str + 1))
-		return (ft_grab_str(str + 1, "\'"));
+	{
+		grab = ft_grab_str(str + 1, "\'");
+		if (!grab)
+			return (ft_strdup("\0"));
+		return (grab);
+	}
 	if (str && *str == DOUBLE_QUOTES && (str + 1))
 	{
 		grab = ft_grab_str(str + 1, "\"");

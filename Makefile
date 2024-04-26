@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/25 19:07:35 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/26 11:00:29 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ CFLAGS		:=	-Wall -Wextra -Werror -g3
 
 # Valgrind
 VAL_FLAGS	:=	--leak-check=full --show-leak-kinds=all \
-				--track-fds=yes --track-origins=yes \
-				--suppressions=readline.supp #--trace-children=yes
+				--track-origins=yes \
+				--suppressions=readline.supp #--trace-children=yes --track-fds=yes
 
 # Directories
 BIN_DIR 	:=	./bin

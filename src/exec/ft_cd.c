@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/24 15:51:37 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:47:04 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 static char	*ft_get_path(t_arg *lst, t_env *env_list)
 {
 	char	*path;
+	char	*key;
 
 	path = NULL;
 	if (lst && (lst->next == NULL || ft_strcmp(lst->next->value, "~") == 0))
 	{
+		key = ft_getkey(env_list, "HOME");
+		if (!key)
+			return (ft_strdup("."));
 		path = ft_getenv(env_list, "HOME");
+		printf("path: %s\n", path);
 		if (!path)
 			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), NULL);
 	}
@@ -49,12 +54,6 @@ static int	ft_count_args(t_arg *lst)
 	return (count);
 }
 
-static void	ft_triple_dash_error(void)
-{
-	ft_putstr_fd("minishell: cd: --: invalid option\n", 2);
-	ft_putstr_fd("cd: usage: cd <path>\n", 2);
-}
-
 int	ft_cd(t_env *env_list, t_cmd *cmd)
 {
 	t_arg	*lst;
@@ -67,7 +66,7 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 	if (ft_count_args(lst) > 2)
 		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
 	if (lst && lst->next && ft_strncmp(lst->next->value, "---", 3) == 0)
-		return (ft_triple_dash_error(), 2);
+		return (ft_putstr_fd("minishell: cd: --: invalid option\n", 2), 2);
 	path = ft_get_path(lst, env_list);
 	if (!path)
 		return (1);
@@ -76,10 +75,10 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 		return (ft_putstr_fd("minishell : ", 2), perror(path), free(path),
 			free(wd), 1);
 	free(path);
-	ft_setenv(&env_list, "OLDPWD", ft_strdup(wd));
+	ft_setenv(&env_list, ft_strdup("OLDPWD"), ft_strdup(wd));
 	free(wd);
 	wd = getcwd(NULL, 0);
-	ft_setenv(&env_list, "PWD", ft_strdup(wd));
+	ft_setenv(&env_list, ft_strdup("PWD"), ft_strdup(wd));
 	free(wd);
 	return (0);
 }

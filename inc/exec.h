@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/25 10:43:51 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:35:28 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int		ft_exec_builtin(t_data *data, t_cmd *cmd);
 int		ft_setenv(t_env **env_list, char *key, char *value);
 void	ft_remove_env(t_env **env_list, char *key);
 char	*ft_getenv(t_env *env_list, char *key);
+char	*ft_getkey(t_env *env_list, char *value);
 
 /*		ENV			*/
 t_env	*ft_new_env(char *key, char *value);

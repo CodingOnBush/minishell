@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:11:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 15:22:44 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 11:49:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,23 @@ static int	ft_print_env(t_data *data, t_cmd *cmd)
 	return (0);
 }
 
+static int	ft_is_op(char *str)
+{
+	if (!str)
+		return (NO);
+	if (*str == '-')
+		return (YES);
+	return (NO);
+}
+
 static int	ft_pwd(t_cmd *cmd)
 {
 	char	*cwd;
 
 	if (!cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (1);
+	if (cmd->arg_list->next && ft_is_op(cmd->arg_list->next->value))
+		return (ft_putstr_fd("minishell: pwd: options are not allowed\n", 2), 1);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (perror(cmd->arg_list->value), 1);
@@ -104,7 +115,7 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_strcmp(cmd->arg_list->value, ":") == 0)
 		return (0);
 	if (ft_strcmp(cmd->arg_list->value, "!") == 0)
-		return (0);
+		return (1);
 	if (ft_strcmp(cmd->arg_list->value, "export") == 0)
 		return (ft_export(data, cmd));
 	if (ft_strcmp(cmd->arg_list->value, "unset") == 0)

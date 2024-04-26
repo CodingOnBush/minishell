@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 22:46:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/22 17:52:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 12:47:11 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	ft_update_var(t_env **env_list, char *key, char *value)
 		{
 			free(tmp->value);
 			tmp->value = value;
+			free(key);
 			return (SUCCESS);
 		}
 		tmp = tmp->next;
@@ -92,3 +93,18 @@ char	*ft_getenv(t_env *env_list, char *key)
 	}
 	return (NULL);
 }
+
+char	*ft_getkey(t_env *env_list, char *value)
+{
+	t_env	*tmp;
+
+	tmp = env_list;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->value, value) == 0)
+			return (ft_strdup(tmp->key));
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+

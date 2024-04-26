@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 17:28:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 11:26:03 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	*ft_grab_var_name(char *str)
 	str++;
 	if (str && *str == '?')
 		return (ft_strdup("?"));
+	if (ft_isdigit(*str))
+		return (ft_substr(str, 0, 1));
 	i = 0;
 	while (str[i] && ft_is_in_var(str[i]))
 		i++;
