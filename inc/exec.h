@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/25 10:43:51 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:41:06 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		ft_export(t_data *data, t_cmd *cmd);
 t_redir	*ft_get_redirs(t_data *data, t_cmd *cmd);
 
 /*		HD_COUNT		*/
-int		get_hd_number(t_cmd *list);
+int		ft_get_hd_nb(t_cmd *list);
 
 /*		HEREDOCS_UTILS	*/
 char	**create_hd_files(int hdnum);

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/24 16:02:58 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:47:37 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static int	execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
 			fd_hd[i + count] = open(data->hd_files[i + count],
 					O_WRONLY | O_CREAT, 0644);
 			if (fd_hd[i + count] == -1)
-				return (ft_print_error(HDEXEC), ft_free_all(data), FAIL);
+				return (ft_print_err(HDEXEC), ft_free_all(data), FAIL);
 			writing_loop(data, fd_hd[i + count], cur_inf->delimiter,
 				cur_inf->to_expand);
 			close(fd_hd[i + count]);
@@ -96,12 +96,12 @@ static int	execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
 	return (count);
 }
 
-static int	do_heredocs(t_data *data)
+static int	ft_do_hd(t_data *data)
 {
 	t_cmd	*cur_cmd;
 	int		i;
 
-	data->hdnum = get_hd_number(data->cmd_list);
+	data->hdnum = ft_get_hd_nb(data->cmd_list);
 	if (data->hdnum == 0)
 		return (SUCCESS);
 	i = 0;
@@ -125,7 +125,7 @@ static int	do_heredocs(t_data *data)
 
 int	ft_launch_heredoc(t_data *data)
 {
-	if (do_heredocs(data) == FAIL)
+	if (ft_do_hd(data) == FAIL)
 	{
 		if (is_error_to_print(data->token_list) == NO)
 			ft_pipe_at_end_error_check(data->token_list);

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:36:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 11:08:53 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:33:26 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_pipe_at_end_error_check(t_token *list)
 		if (cur_token->pipe_at_end == true && cur_token->next->type == PIPE
 			&& cur_token->next->next == NULL)
 		{
-			ft_print_error(PIPE);
+			ft_print_err(PIPE);
 			return (FAIL);
 		}
 		cur_token = cur_token->next;
@@ -41,7 +41,7 @@ void	ft_err(t_token *token, int err_type)
 	}
 }
 
-void	ft_print_error(int errno)
+void	ft_print_err(int errno)
 {
 	if (errno == APPEND)
 		ft_putstr_fd("minishell: syntax error near unexpected token `>>'\n", 2);

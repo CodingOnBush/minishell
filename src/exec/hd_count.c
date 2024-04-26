@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hd_count.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 18:14:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 12:41:06 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	get_err_pos(t_cmd *cmd)
 	return (err_pos);
 }
 
-static int	count_hd_pre_error(t_cmd *cmd)
+static int	ft_hd_count_pre_err(t_cmd *cmd)
 {
 	t_token	*cur;
 	int		err_pos;
@@ -57,28 +57,49 @@ static int	count_hd_pre_error(t_cmd *cmd)
 	return (hd_count);
 }
 
-static int	count_heredocs(t_infile *inf_list)
-{
-	t_infile	*cur_inf;
-	int			hd_count;
+/*On va compter les HD dans la token list et pas l'infile list*/
 
-	if (inf_list == NULL)
+// static int	count_heredocs(t_infile *inf_list)
+// {
+// 	t_infile	*cur_inf;
+// 	int			hd_count;
+
+// 	if (inf_list == NULL)
+// 		return (0);
+// 	cur_inf = inf_list;
+// 	hd_count = 0;
+// 	while (cur_inf != NULL)
+// 	{
+// 		if (cur_inf->delimiter != NULL)
+// 		{
+// 			cur_inf->hd_num = hd_count;
+// 			hd_count++;
+// 		}
+// 		cur_inf = cur_inf->next;
+// 	}
+// 	return (hd_count);
+// }
+
+static int	ft_count_hd(t_token *list)
+{
+	t_token	*cur;
+	int		hd_count;
+
+	if (list == NULL)
 		return (0);
-	cur_inf = inf_list;
+	cur = list;
 	hd_count = 0;
-	while (cur_inf != NULL)
+	while (cur != NULL)
 	{
-		if (cur_inf->delimiter != NULL)
-		{
-			cur_inf->hd_num = hd_count;
+		if (cur->type == HERE_DOC && cur->next != NULL && cur->next->type == LIM
+			&& cur->error == false && cur->next->error == false)
 			hd_count++;
-		}
-		cur_inf = cur_inf->next;
+		cur = cur->next;
 	}
 	return (hd_count);
 }
 
-int	get_hd_number(t_cmd *list)
+int	ft_get_hd_nb(t_cmd *list)
 {
 	int		hdnum;
 	t_cmd	*cur_cmd;
@@ -98,11 +119,11 @@ int	get_hd_number(t_cmd *list)
 		if (cur_tk != NULL && (cur_tk->error == true
 				|| cur_tk->pipe_at_end == true))
 			break ;
-		hdnum += count_heredocs(cur_cmd->infile_list);
+		hdnum += ft_count_hd(cur_cmd->token_list);
 		cur_cmd = cur_cmd->next;
 	}
 	if (cur_cmd != NULL && (cur_tk->error == true
 			|| cur_tk->pipe_at_end == true))
-		hdnum += count_hd_pre_error(cur_cmd);
+		hdnum += ft_hd_count_pre_err(cur_cmd);
 	return (hdnum);
 }

@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:36:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 11:15:45 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:33:26 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /*		ERRORS		*/
 int		ft_pipe_at_end_error_check(t_token *list);
 void	ft_err(t_token *token, int err_type);
-void	ft_print_error(int errno);
+void	ft_print_err(int errno);
 
 /*	EXPAND_UTILS	*/
 char	*ft_remove_quotes(char *str);

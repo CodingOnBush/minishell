@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:14:13 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/26 11:44:18 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:33:26 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static int	ft_first_checks(t_data *data, t_token *token)
 	if (ft_isop(token->value) == YES && token->next
 		&& ft_isop(token->next->value) == YES)
 	{
-		if (token->type != LEFT_TRUNC && token->next->type != RIGHT_TRUNC)
-			return (ft_err(token, token->next->type), ft_status(data), YES);
-		else
+		if (token->type == LEFT_TRUNC && token->next->type == RIGHT_TRUNC)
 			return (ft_err(token, NEWLINE_ERROR), ft_status(data), YES);
+		else
+			return (ft_err(token, token->next->type), ft_status(data), YES);
 	}
 	return (SKIP);
 }
@@ -85,9 +85,9 @@ int	ft_check_token_list(t_data *data, t_token *list)
 		return (SUCCESS);
 	last_token = ft_findlast_token(list);
 	if (ft_double_pipe_detected(data, cur_token) == YES)
-		return (ft_print_error(DOUBLE_PIPE_ERROR), FAIL);
+		return (ft_print_err(DOUBLE_PIPE_ERROR), FAIL);
 	if (cur_token->value && cur_token->value[0] == '|')
-		return (ft_print_error(PIPE), ft_status(data), FAIL);
+		return (ft_print_err(PIPE), ft_status(data), FAIL);
 	while (cur_token != NULL)
 	{
 		if (is_error(data, list, cur_token) == YES)

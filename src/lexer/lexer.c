@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:47:50 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 11:15:33 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:33:26 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_lexer(t_data *data)
 	if (ft_check_quote_error(data->line) == NO)
 	{
 		data->exit_status = 2;
-		return (ft_print_error(QUOTES_ERROR), FAIL);
+		return (ft_print_err(QUOTES_ERROR), FAIL);
 	}
 	data->token_list = ft_create_token_list(data->line);
 	if (!data->token_list)
