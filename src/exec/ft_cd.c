@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/26 12:47:04 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 12:56:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,14 @@ static char	*ft_get_path(t_arg *lst, t_env *env_list)
 	char	*key;
 
 	path = NULL;
-	if (lst && (lst->next == NULL || ft_strcmp(lst->next->value, "~") == 0))
+	if (lst && lst->next && ft_strcmp(lst->next->value, "~") == 0)
+	{
+		path = getenv("HOME");
+		if (!path)
+			return (NULL);
+		return (ft_strdup(path));
+	}
+	else if (lst && lst->next == NULL)
 	{
 		key = ft_getkey(env_list, "HOME");
 		if (!key)
