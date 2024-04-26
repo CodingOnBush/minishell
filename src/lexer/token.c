@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 16:38:00 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 15:59:44 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_token	*ft_new_token(char *new_str, int type, int pos, bool error)
 	new_token->next = NULL;
 	new_token->is_inf = false;
 	new_token->is_outf = false;
+	new_token->heredoc_file = NULL;
 	return (new_token);
 }
 

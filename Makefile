@@ -6,14 +6,14 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/25 19:07:35 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/26 18:57:01 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Setup
 NAME 		:=	minishell
 CC			:=	cc
-CFLAGS		:=	-Wall -Wextra -Werror -g3
+CFLAGS		:=	-g3#-Wall -Wextra -Werror -g3
 
 # Valgrind
 VAL_FLAGS	:=	--leak-check=full --show-leak-kinds=all \

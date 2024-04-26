@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/26 12:41:06 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:04:43 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_redir	*ft_get_redirs(t_data *data, t_cmd *cmd);
 int		ft_get_hd_nb(t_cmd *list);
 
 /*		HEREDOCS_UTILS	*/
-char	**create_hd_files(int hdnum);
+char	**ft_create_hd_filenames(int hdnum);
 char	*get_file_name(int i);
 int		is_error_to_print(t_token *list);
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:59:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 12:33:26 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:04:43 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	**create_hd_files(int hdnum)
+char	**ft_create_hd_filenames(int hdnum)
 {
 	char	**hd_files;
 	int		i;

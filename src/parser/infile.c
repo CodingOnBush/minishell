@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 19:41:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 19:07:50 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_infile	*ft_new_infile(char *str, int type, t_data *data)
 	if (!new)
 		return (free(new_infile), NULL);
 	new_infile->to_expand = true;
+	new_infile->filename = NULL;
 	if (type == LEFT_TRUNC)
 	{
 		new_infile->filename = new;
@@ -35,7 +36,10 @@ static t_infile	*ft_new_infile(char *str, int type, t_data *data)
 		data->hd_pos++;
 		new_infile->delimiter = new;
 		if (ft_strchr(new, '\'') != NULL || ft_strchr(new, '\"') != NULL)
+		{
+			// on verra bien (fix les expand)
 			new_infile->to_expand = false;
+		}
 	}
 	new_infile->next = NULL;
 	return (new_infile);
@@ -67,15 +71,18 @@ t_infile	*ft_create_infile_list(t_data *data, t_token *cur)
 	while (cur)
 	{
 		nxt = cur->next;
-		if (cur->type == LEFT_TRUNC && cur->error == false)
+		if ((cur->type == LEFT_TRUNC || cur->type == HERE_DOC) && cur->error == false)
 		{
-			if (nxt && nxt->type == WORD && nxt->error == false)
+			if (nxt && (nxt->type == WORD || nxt->type == LIM) && nxt->error == false)
+			{
 				new = ft_new_infile(nxt->value, cur->type, data);
-			if (!new)
-				return (ft_free_infiles(&res), NULL);
+				if (!new)
+					return (ft_free_infiles(&res), NULL);
+				nxt->attributed = true;
+				if (nxt->type == WORD)
+					nxt->is_inf = true;
+			}
 			cur->attributed = true;
-			nxt->attributed = true;
-			nxt->is_inf = true;
 			ft_add_infile(&res, new);
 		}
 		cur = nxt;

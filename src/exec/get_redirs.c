@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:57:23 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/25 19:40:57 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 19:05:06 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,12 @@ static int	ft_handle_token(t_data *data, t_token *cur, t_redir *redir,
 	int	is_append;
 
 	is_append = NO;
-	if (cur->is_inf == YES)
+	if (cur->is_inf == YES || cur->type == LIM)
 	{
 		redir->infile = cur->value;
-		if (access(cur->value, F_OK | R_OK) == -1)
+		if (cur->heredoc_file != NULL)
+			redir->infile = cur->heredoc_file;
+		if (access(redir->infile, F_OK | R_OK) == -1)
 		{
 			data->exit_status = 1;
 			return (ft_putstr_fd("minishell : ", 2), perror(redir->infile),

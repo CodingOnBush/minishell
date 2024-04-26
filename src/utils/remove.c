@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 17:27:38 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 18:07:49 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,15 @@ static char	*ft_type_to_str(int type)
 	return ("UNKNOWN");
 }
 
+void	ft_print_tok(t_token *tok)
+{
+	if (!tok)
+		return ;
+	printf("tok->value: %s\n", tok->value);
+	printf("tok->type: %s\n", ft_type_to_str(tok->type));
+	printf("tok->heredoc_file: %s\n", tok->heredoc_file);
+}
+
 void	ft_print_token_list(t_token *list)
 {
 	t_token	*tmp;
@@ -51,11 +60,12 @@ void	ft_print_token_list(t_token *list)
 	printf("TOKEN LIST\n");
 	if (!tmp)
 		printf("nil");
+	printf("value\t\ttype\t\tattributed\tpos\terror\terr_type\theredoc_file\n");
 	while (tmp)
 	{
-		printf("%s\t\t%s\t\t%d\t%d\t%d\t%s\n", tmp->value,
+		printf("%s\t\t%s\t\t%d\t%d\t%d\t%s\t%s\n", tmp->value,
 			ft_type_to_str(tmp->type), tmp->attributed, tmp->pos, tmp->error,
-			ft_type_to_str(tmp->err_type));
+			ft_type_to_str(tmp->err_type), tmp->heredoc_file);
 		tmp = tmp->next;
 	}
 }

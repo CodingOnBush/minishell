@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:37:36 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 14:39:32 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/26 16:31:42 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_print_token_list(t_token *list);
 void	ft_print_arg_list(t_arg *list);
 void	ft_print_cmd_list(t_cmd *list);
 void	ft_print_env_list(t_env *env_list);
+void	ft_print_tok(t_token *tok);
 
 /*		UTILS			*/
 int		ft_isop(char *str);

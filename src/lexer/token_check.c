@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:14:13 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/26 12:33:26 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:26:08 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@ static void	ft_status(t_data *data)
 
 static int	ft_first_checks(t_data *data, t_token *token)
 {
-	if (token->next == NULL && ft_isop(token->value) == NO
-		&& token->type != PIPE)
+	if (token->next == NULL && ft_isop(token->value) == NO && token->type != PIPE)
 		return (NO);
-	if (ft_isop(token->value) == YES && !token->next)
+	if (ft_isop(token->value) == YES && token->next == NULL)
 		return (ft_err(token, NEWLINE_ERROR), ft_status(data), YES);
-	if (ft_isop(token->value) == YES && token->next
-		&& ft_isop(token->next->value) == YES)
+	if (ft_isop(token->value) == YES && token->next && ft_isop(token->next->value) == YES)
 	{
 		if (token->type == LEFT_TRUNC && token->next->type == RIGHT_TRUNC)
 			return (ft_err(token, NEWLINE_ERROR), ft_status(data), YES);
