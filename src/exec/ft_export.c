@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 13:12:05 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:00:13 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_export(t_data *data, t_cmd *cmd)
 	if (!data || !cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (FAIL);
 	if (cmd->arg_list->next == NULL)
-		return (ft_putstr_fd("minishell : unspecified behaviour\n", 2), 1);
+		return (ft_print_exports_var(data), 0);
 	args = cmd->arg_list->next;
 	while (args)
 	{

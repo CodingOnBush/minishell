@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 15:47:39 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:12:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_data
 	char				*join_path;
 	int					step;
 	t_env				*env_list;
+	t_env				*exp_list;
 	struct sigaction	act_interupt;
 	struct sigaction	act_quit;
 	int					exit_status;

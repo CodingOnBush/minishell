@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 14:00:14 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:23:02 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,7 @@ void	ft_free_all(t_data *data)
 	ft_reset_data(data);
 	if (data->env_list)
 		ft_free_env_list(&data->env_list);
+	if (data->exp_list)
+		ft_free_env_list(&data->exp_list);
 	free(data);
 }

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/27 11:00:13 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:00:47 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ char	**ft_create_env(t_data *data);
 /*		EXEC		*/
 int		ft_execve(t_data *data, t_cmd *cmd);
 void	ft_launch_exec(t_data *data);
+
+/*		EXPORT		*/
+void	ft_print_exports_var(t_data *data);
 
 /*		FT_CD			*/
 int		ft_cd(t_env *env_list, t_cmd *cmd);

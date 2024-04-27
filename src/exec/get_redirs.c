@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:57:23 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/27 10:21:57 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 11:59:00 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,7 @@ static int	ft_handle_token(t_data *data, t_token *cur, t_redir *redir,
 		if (access(redir->infile, F_OK | R_OK) == -1)
 		{
 			data->exit_status = 1;
-			return (ft_putstr_fd("minishell : ", 2), perror(redir->infile),
-				free(redir), FAIL);
+			return (ft_putstr_fd("minishell : ", 2), perror(redir->infile), FAIL);
 		}
 	}
 	if (cur->is_outf == YES)

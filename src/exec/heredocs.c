@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 19:04:48 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 12:33:26 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ static int	execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
 		}
 		cur_inf = cur_inf->next;
 	}
-	// ft_print_all_fds(fd_hd, data->hdnum);
 	return (count);
 }
 
@@ -162,21 +161,6 @@ static int	ft_do_hd(t_data *data)
 	}
 	return (FAIL);
 }
-
-// int	ft_launch_heredoc(t_data *data)
-// {
-// 	if (ft_do_hd(data) == FAIL)
-// 	{
-// 		if (is_error_to_print(data->token_list) == NO)
-// 			ft_pipe_at_end_error_check(data->token_list);
-// 		return (FAIL);
-// 	}
-// 	if (is_error_to_print(data->token_list) == YES)
-// 		return (FAIL);
-// 	if (ft_pipe_at_end_error_check(data->token_list) == FAIL)
-// 		return (FAIL);
-// 	return (SUCCESS);
-// }
 
 static t_infile	*ft_get_next_infile(t_infile *infile, char *name)
 {
