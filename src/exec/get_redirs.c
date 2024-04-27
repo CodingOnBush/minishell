@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:57:23 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 19:05:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 10:21:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,10 +149,10 @@ t_redir	*ft_get_redirs(t_data *data, t_cmd *cmd)
 	{
 		is_append = ft_handle_token(data, cur, redir, cmd);
 		if (is_append == FAIL)
-			return (NULL);
+			return (free(redir), NULL);
 		cur = cur->next;
 	}
 	if (ft_open_files(data, redir, is_append) == FAIL)
-		return (NULL);
+		return (free(redir), NULL);
 	return (redir);
 }

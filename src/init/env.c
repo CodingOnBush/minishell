@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/26 12:23:13 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 10:16:19 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,27 @@ static void	ft_add_new_env(t_env **env_list, t_env *new)
 	cur->next = new;
 }
 
+static t_env	*ft_create_default_env(void)
+{
+	t_env	*new;
+	t_env	*res;
+
+	res = NULL;
+	new = ft_new_env(ft_strdup("PWD"), getcwd(NULL, 0));
+	if (!new)
+		return (NULL);
+	ft_add_new_env(&res, new);
+	new = ft_new_env(ft_strdup("SHLVL"), ft_strdup("1"));
+	if (!new)
+		return (ft_free_env_list(&res), NULL);
+	ft_add_new_env(&res, new);
+	new = ft_new_env(ft_strdup("_"), ft_strdup("/usr/bin/env"));
+	if (!new)
+		return (ft_free_env_list(&res), NULL);
+	ft_add_new_env(&res, new);
+	return (res);
+}
+
 t_env	*ft_create_envlist(char **env)
 {
 	t_env	*res;
@@ -80,6 +101,8 @@ t_env	*ft_create_envlist(char **env)
 		ft_add_new_env(&res, new);
 		i++;
 	}
+	if (res == NULL)
+		res = ft_create_default_env();
 	return (res);
 }
 

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:47:50 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 19:03:17 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 09:45:42 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	ft_check_quote_error(char *line)
 
 int	ft_lexer(t_data *data)
 {
-	if (ft_check_quote_error(data->line) == NO)
+	if (ft_check_quote_error(data->line) == FAIL)
 	{
 		data->exit_status = 2;
 		return (ft_print_err(QUOTES_ERROR), FAIL);

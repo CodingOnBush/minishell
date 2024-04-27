@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/25 10:42:52 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/27 10:22:48 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 		free(redir);
 		exit(status);
 	}
+	free(redir);
 	ft_execve(data, cmd_to_exec);
 }
 
@@ -61,6 +62,7 @@ void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 		free(redir);
 		exit(status);
 	}
+	free(redir);
 	ft_execve(data, cmd_to_exec);
 }
 
@@ -85,6 +87,7 @@ void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 		free(redir);
 		exit(status);
 	}
+	free(redir);
 	ft_execve(data, cmd_to_exec);
 }
 
