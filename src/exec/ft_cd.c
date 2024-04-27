@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/27 11:40:29 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:26:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static char	*ft_get_path(t_arg *lst, t_env *env_list)
 	else if (lst && lst->next && ft_strcmp(lst->next->value, "-") == 0)
 	{
 		path = ft_getenv(env_list, "OLDPWD");
-		printf("%s\n", path);
+		ft_putstr_fd(path, 1);
+		ft_putstr_fd("\n", 1);
 		return (path);
 	}
 	else if (lst && lst->next && ft_strcmp(lst->next->value, "--") == 0)

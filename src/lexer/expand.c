@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:13:46 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/26 11:45:10 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 15:00:07 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,13 @@ char	*ft_get_expanded_str(t_data *data, char *str)
 
 	res = NULL;
 	next_str = NULL;
+	if (ft_strncmp(str, "~/", 2) == 0 || ft_strcmp(str, "~") == 0)
+	{
+		next_str = ft_getenv(data->env_list, "HOME");
+		str ++;
+		tmp = ft_super_strjoin(res, next_str);
+		res = tmp;
+	}
 	while (*str != '\0')
 	{
 		next_str = ft_grab_next_str(data, str);

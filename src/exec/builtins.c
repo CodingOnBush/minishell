@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:11:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 13:11:00 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/27 14:43:51 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	ft_print_env(t_data *data, t_cmd *cmd)
 	return (0);
 }
 
-static int	ft_is_op(char *str)
+static int	ft_is_option(char *str)
 {
 	if (!str || ft_strcmp(str, "--") == 0 || ft_strcmp(str, "-") == 0)
 		return (NO);
@@ -70,7 +70,7 @@ static int	ft_pwd(t_cmd *cmd)
 
 	if (!cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (1);
-	if (cmd->arg_list->next && ft_is_op(cmd->arg_list->next->value))
+	if (cmd->arg_list->next && ft_is_option(cmd->arg_list->next->value))
 		return (ft_putstr_fd("minishell: pwd: options are not allowed\n", 2), 2);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
@@ -90,6 +90,13 @@ static int	ft_unset(t_data *data, t_arg *arg_list)
 	if (arg_list->next == NULL)
 		return (0);
 	cur = arg_list->next;
+	if (cur && ft_is_option(cur->value) == YES)
+	{
+		ft_putstr_fd("minishell: unset: `", 2);
+		ft_putstr_fd(cur->value, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (2);
+	}
 	while (cur != NULL)
 	{
 		ft_remove_env(&data->env_list, cur->value);
