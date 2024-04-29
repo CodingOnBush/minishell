@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:59:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 18:04:43 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 13:46:23 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	is_error_to_print(t_token *list)
 	{
 		if (cur_token->error == true)
 		{
+			printf("err_type: %d\n", cur_token->err_type);
 			ft_print_err(cur_token->err_type);
 			return (YES);
 		}

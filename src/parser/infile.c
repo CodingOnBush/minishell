@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   infile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/29 11:23:26 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 13:57:33 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ t_infile	*ft_create_infile_list(t_data *data, t_token *cur)
 			cur->attributed = true;
 			ft_add_infile(&res, new);
 		}
+		if (cur->error == true)
+			break;
 		cur = nxt;
 	}
 	return (res);
