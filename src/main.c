@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/27 13:49:20 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 10:31:33 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,6 @@ int main(int argc, char **argv, char **env)
 		}
 		return (s = data->exit_status, rl_clear_history(), ft_free_all(data), s);
 	}
-	// Above this is the function that normally launch your minishell, instead 
-	// of reading line with a get_next_line or a read() on fd 0, you just have to get
-	// the argv[2] (which contains the content) and execute it.
-	// Your function should return the good exit status otherwise the tests may be considered as false.
-	// Your code ...
 	while (1)
 	{
 		data->line = readline(MINISPELL);

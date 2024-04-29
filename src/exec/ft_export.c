@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/27 15:07:44 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 10:35:36 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,7 @@ static int	ft_handle_line(t_data *data, char *line)
 	char	*var_name;
 	char	*var_content;
 
-	if (ft_isvalid_varname(line) == NO)
-	{
-		ft_putstr_fd("minishell: export: `", 2);
-		ft_putstr_fd(line, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		return (1);
-	}
-	else if (ft_strchr(line, '=') != NULL)
+	if (ft_strchr(line, '=') != NULL)
 	{
 		var_name = ft_get_var_name(line);
 		if (!var_name)
@@ -85,6 +78,13 @@ static int	ft_handle_line(t_data *data, char *line)
 			if (ft_setenv(&data->env_list, var_name, var_content) == FAIL)
 				return (free(var_name), free(var_content), 1);
 		}
+	}
+	else if (ft_isvalid_varname(line) == NO)
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(line, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (1);
 	}
 	return (0);
 }

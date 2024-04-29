@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:57:23 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/27 11:59:00 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 10:34:24 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ static int	ft_handle_outfiles(t_data *data, t_redir *redir, t_token *cur,
 	if (redir->fd_out == -1)
 	{
 		data->exit_status = 1;
-		return (ft_putstr_fd("minishell : ", 2), perror(cur->value),
-			free(redir), FAIL);
+		return (ft_putstr_fd("minishell : ", 2), perror(cur->value), FAIL);
 	}
 	if (redir->fd_out != STDOUT_FILENO)
 		close(redir->fd_out);

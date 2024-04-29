@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 15:46:13 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 17:24:06 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 10:33:48 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_exec_single_cmd(t_data *data)
 	{
 		exit_status = data->exit_status;
 		ft_free_all(data);
+		free(redir);
 		exit(exit_status);
 	}
 	dup2(redir->fd_in, STDIN_FILENO);
