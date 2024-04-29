@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/29 11:23:13 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 12:02:28 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,8 +216,8 @@ int	ft_launch_heredoc(t_data *data)
 {
 	t_token	*cur_token;
 	t_cmd	*cur_cmd;
-	int		count;
 
+	
 	data->hdnum = ft_get_hd_nb(data->cmd_list);
 	if (data->hdnum == 0)
 		return (SUCCESS);
