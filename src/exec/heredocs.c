@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/29 12:02:28 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 12:36:53 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ static void	ft_set_heredoc_files(t_data *data)
 	}
 }
 
-int	ft_launch_heredoc(t_data *data)
+static int	ft_exec_heredocs(t_data *data)
 {
 	t_token	*cur_token;
 	t_cmd	*cur_cmd;
@@ -235,5 +235,43 @@ int	ft_launch_heredoc(t_data *data)
 	ft_do_hd(data);
 
 	
+	return (SUCCESS);
+}
+
+int	ft_launch_heredoc(t_data *data)
+{
+	// t_token	*cur_token;
+	// t_cmd	*cur_cmd;
+
+	
+	// data->hdnum = ft_get_hd_nb(data->cmd_list);
+	// if (data->hdnum == 0)
+	// 	return (SUCCESS);
+	
+	// data->fd_hd = malloc(sizeof(int) * data->hdnum);
+	// if (!data->fd_hd)
+	// 	return (FAIL);
+
+	// data->hd_files = ft_create_hd_filenames(data->hdnum);
+	// if (!data->hd_files)
+	// 	return (FAIL);
+
+	// ft_set_heredoc_files(data);
+
+	// ft_do_hd(data);
+
+	
+	// return (SUCCESS);
+
+	if (ft_exec_heredocs(data) == FAIL)
+	{
+		if (is_error_to_print(data->token_list) == NO)
+			ft_pipe_at_end_error_check(data->token_list);
+		return (FAIL);
+	}
+	if (is_error_to_print(data->token_list) == YES)
+		return (FAIL);
+	if (ft_pipe_at_end_error_check(data->token_list) == FAIL)
+		return (FAIL);
 	return (SUCCESS);
 }

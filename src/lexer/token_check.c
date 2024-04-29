@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:14:13 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/26 16:26:08 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 12:39:13 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static int	ft_first_checks(t_data *data, t_token *token)
 {
 	if (token->next == NULL && ft_isop(token->value) == NO && token->type != PIPE)
 		return (NO);
-	if (ft_isop(token->value) == YES && token->next == NULL)
-		return (ft_err(token, NEWLINE_ERROR), ft_status(data), YES);
 	if (ft_isop(token->value) == YES && token->next && ft_isop(token->next->value) == YES)
 	{
 		if (token->type == LEFT_TRUNC && token->next->type == RIGHT_TRUNC)
@@ -30,6 +28,8 @@ static int	ft_first_checks(t_data *data, t_token *token)
 		else
 			return (ft_err(token, token->next->type), ft_status(data), YES);
 	}
+	if (ft_isop(token->value) == YES && token->next == NULL)
+		return (ft_err(token, NEWLINE_ERROR), ft_status(data), YES);
 	return (SKIP);
 }
 

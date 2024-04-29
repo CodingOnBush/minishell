@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:14:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/27 10:26:27 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 12:31:56 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	ft_launch_exec(t_data *data)
 		return ;
 	if (ft_launch_heredoc(data) == FAIL)
 		return ;
+	//afficher les erreurs de syntaxe apres lancement hd
 	if (data->cmd_nb == 1 && ft_isbuiltin(data->cmd_list) == YES)
 	{
 		data->exit_status = ft_exec_single_builtin(data);
