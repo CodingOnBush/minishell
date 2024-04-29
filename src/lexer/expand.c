@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:13:46 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/27 15:00:07 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:27:23 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void	ft_expand(t_data *data, t_token **token_list)
 		}
 		else if (token->type == LIM)
 		{
+			if (ft_strchr(token->value, '\'') != NULL || ft_strchr(token->value, '\"') != NULL)
+				token->to_expand = false;
 			new_str = ft_remove_quotes(token->value);
 			free(token->value);
 			token->value = new_str;

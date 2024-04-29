@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/25 11:14:06 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:54:08 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*ft_extract_token(t_token *cur)
 			if (!str)
 				return (ft_free_tokens(&res), NULL);
 		}
-		new = ft_new_token(str, cur->type, cur->pos, cur->error);
+		new = ft_new_token(str, cur->type, cur->pos, cur->error, cur->to_expand);
 		if (!new)
 			return (free(str), ft_free_tokens(&res), NULL);
 		ft_addlast_token(&res, new);

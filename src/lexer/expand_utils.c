@@ -6,12 +6,15 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 11:26:03 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:26:45 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+/*
+il faudrait que cette fonction marche aussi avec ho"la"
+*/
 char	*ft_remove_quotes(char *str)
 {
 	char	*new_str;

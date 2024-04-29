@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:36:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 12:33:26 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:55:00 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_token	*token_before_last(t_token *list);
 int		ft_check_token_list(t_data *data, t_token *list);
 
 /*		TOKEN		*/
-t_token	*ft_new_token(char *new_str, int type, int pos, bool error);
+t_token	*ft_new_token(char *new_str, int type, int pos, bool error, bool to_expand);
 void	ft_addlast_token(t_token **token_list, t_token *new_token);
 t_token	*ft_create_token_list(char *line);
 

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/27 13:12:57 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 10:47:14 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_token
 	int					err_type;
 	bool				is_inf;
 	bool				is_outf;
+	bool				to_expand;
 	char				*heredoc_file;
 	struct s_token		*next;
 }						t_token;

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/29 10:31:33 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 10:45:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int main(int argc, char **argv, char **env)
 		}
 		add_history(data->line);
 		if (ft_lexer(data) == SUCCESS && ft_parser(data) == SUCCESS)
-		ft_launch_exec(data);
+			ft_launch_exec(data);
 		ft_wait_for_children(data);
 		if (is_exit_builtin(data) == YES && data->exit_status != 1)
 		{

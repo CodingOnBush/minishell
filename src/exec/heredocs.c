@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/27 12:33:26 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:23:13 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ static void	writing_loop(t_data *data, int fd_hd, char *delimiter,
 		// printf("line = [%s]\n", line);
 		// if (line[0] == '\n')
 		// 	printf("JE SAUTE\n");
-		if (to_expand == true && ft_strchr(line, '$') != NULL)
+		if (to_expand == true && ft_strchr(line, '$') != NULL && ft_strcmp(line, delimiter) != 0)
+		{
 			line = ft_get_expanded_str(data, line);
+		}
 		// len = ft_strlen((const char *)line);
 		// printf("line =      [%s]\n", line);
-		// printf("delimiter = [%s]\n", delimiter);
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		else
@@ -211,13 +212,6 @@ static void	ft_set_heredoc_files(t_data *data)
 	}
 }
 
-static int	ft_open_fds_for_heredocs(t_data *data)
-{
-	(void)data;
-	// ft_print_cmd_list(data->cmd_list);
-	return (SUCCESS);
-}
-
 int	ft_launch_heredoc(t_data *data)
 {
 	t_token	*cur_token;
@@ -231,16 +225,12 @@ int	ft_launch_heredoc(t_data *data)
 	data->fd_hd = malloc(sizeof(int) * data->hdnum);
 	if (!data->fd_hd)
 		return (FAIL);
-	
+
 	data->hd_files = ft_create_hd_filenames(data->hdnum);
 	if (!data->hd_files)
 		return (FAIL);
 
-	// printf("jusquici ca marche\n");
 	ft_set_heredoc_files(data);
-	
-	if (ft_open_fds_for_heredocs(data) == FAIL)
-		return (FAIL);
 
 	ft_do_hd(data);
 

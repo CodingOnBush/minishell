@@ -6,13 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 19:07:50 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:23:26 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static t_infile	*ft_new_infile(char *str, int type, t_data *data)
+static t_infile	*ft_new_infile(char *str, int type, t_data *data, bool to_exp)
 {
 	t_infile	*new_infile;
 	char		*new;
@@ -35,11 +35,6 @@ static t_infile	*ft_new_infile(char *str, int type, t_data *data)
 		new_infile->hd_num = data->hd_pos;
 		data->hd_pos++;
 		new_infile->delimiter = new;
-		if (ft_strchr(new, '\'') != NULL || ft_strchr(new, '\"') != NULL)
-		{
-			// on verra bien (fix les expand)
-			new_infile->to_expand = false;
-		}
 	}
 	new_infile->next = NULL;
 	return (new_infile);
@@ -75,10 +70,12 @@ t_infile	*ft_create_infile_list(t_data *data, t_token *cur)
 		{
 			if (nxt && (nxt->type == WORD || nxt->type == LIM) && nxt->error == false)
 			{
-				new = ft_new_infile(nxt->value, cur->type, data);
+				new = ft_new_infile(nxt->value, cur->type, data, nxt->to_expand);
 				if (!new)
 					return (ft_free_infiles(&res), NULL);
 				nxt->attributed = true;
+				if (nxt->type == LIM && nxt->to_expand == false)
+					new->to_expand = false;
 				if (nxt->type == WORD)
 					nxt->is_inf = true;
 			}

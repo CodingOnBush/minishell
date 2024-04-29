@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/27 13:23:02 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:49:52 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ static void	ft_unlink(t_data *data)
 	{
 		if (data->hd_files[i])
 		{
-			if (unlink(data->hd_files[i]) == -1)
-				perror("minishelFl :");
+			unlink(data->hd_files[i]);
 			free(data->hd_files[i]);
 			data->hd_files[i] = NULL;
 		}
