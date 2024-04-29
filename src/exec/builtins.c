@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:11:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/27 14:43:51 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 16:53:24 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_isbuiltin(t_cmd *cmd)
 	i = 0;
 	while (builtins[i])
 	{
-		if (ft_strncmp(cmd->arg_list->value, builtins[i], len) == 0)
+		if (ft_strcmp(cmd->arg_list->value, builtins[i]) == 0)
 			return (YES);
 		i++;
 	}

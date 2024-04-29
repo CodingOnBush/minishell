@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/29 14:38:44 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:45:18 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int main(int argc, char **argv, char **env)
 		break ;
 		add_history(data->line);
 		if (ft_lexer(data) == SUCCESS && ft_parser(data) == SUCCESS)
-		ft_launch_exec(data);
+			ft_launch_exec(data);
 		ft_wait_for_children(data);
 		if (is_exit_builtin(data) == YES && data->exit_status != 1)
 		{
