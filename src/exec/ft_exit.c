@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:40:03 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/04/25 11:55:32 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:17:38 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static int	ft_isnumber(char *str)
 
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i] == 0)
 		i++;
 	while (str[i] != '\0')
 	{
@@ -53,9 +55,19 @@ static long long	ft_atoll(char *str)
 
 static int	ft_is_too_big(char *str)
 {
-	if (ft_strlen(str) > 19)
+	char	*tmp;
+
+	tmp = str;
+	if (*tmp == '-' || *tmp == '+')
+		tmp++;
+	if (ft_isnumber(str) == YES && ft_strlen(tmp) < 19)
+			return (NO);
+	if (ft_strlen(tmp) > 19)
 		return (YES);
-	if (ft_isnumber(str) == YES && ft_atoll(str) > LLONG_MAX)
+	if (ft_isnumber(str) == YES && ft_strcmp(str, "9223372036854775807") > 0)
+		return (YES);
+	if (ft_isnumber(str) == YES && str[0] && str[0] == '-'
+		&& ft_strcmp(str, "-9223372036854775808") > 0)
 		return (YES);
 	return (NO);
 }

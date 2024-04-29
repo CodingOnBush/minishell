@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/29 10:38:54 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/29 14:39:12 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	ft_handler(int signum)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_replace_line("", STDIN_FILENO);
 		rl_on_new_line();
+		rl_redisplay();
 	}
 }
 

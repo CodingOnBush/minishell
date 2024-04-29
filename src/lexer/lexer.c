@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:47:50 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/29 12:24:32 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:07:49 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,5 @@ int	ft_lexer(t_data *data)
 	if (ft_check_token_list(data, data->token_list) == FAIL)
 		return (FAIL);
 	ft_expand(data, &data->token_list);
-	ft_print_token_list(data->token_list);
 	return (SUCCESS);
 }
