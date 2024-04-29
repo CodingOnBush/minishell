@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/29 16:45:18 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:19:36 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,9 @@ int main(int argc, char **argv, char **env)
 		ft_wait_for_children(data);
 		if (is_exit_builtin(data) == YES && data->exit_status != 1)
 		{
-		s = data->exit_status;
-		ft_free_all(data);
-		exit(s);
+			s = data->exit_status;
+			ft_free_all(data);
+			exit(s);
 		}
 		ft_reset_data(data);
 	}
