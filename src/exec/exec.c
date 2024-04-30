@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:14:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 12:46:55 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:29:39 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ static int	ft_fork(t_data *data)
 		{
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
-			ft_reset_signals(data);
 			if (data->cmd_nb == 1)
 				ft_exec_single_cmd(data);
 			else

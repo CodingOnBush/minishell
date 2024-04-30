@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:24:42 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/30 12:33:33 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:00:53 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	ft_echo(t_data *data, t_cmd *cmd)
 	if (!cur || !cur->value)
 		return (FAIL);
 	cur = ft_skip_options(cur->next);
-	printf("ex = %d\n", data->exit_status);
 	while (cur)
 	{
 		ft_print_value(cur);

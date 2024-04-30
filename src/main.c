@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/30 12:47:25 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:28:30 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,11 @@ static void	ft_wait_for_children(t_data *data)
 {
 	int	status;
 	int	i;
+	int	pid;
 
-	printf("dans wait_for_children\n");
 	status = 0;
-	printf("MON SIGNUM = %d\n", g_signum);
 	if (!data->ids)
 	{
-		printf("je suis ucu\n");
-		printf("g_signum = %d\n", g_signum);
 		if (g_signum != 0)
 		{
 			data->exit_status = g_signum + 128;
@@ -36,7 +33,8 @@ static void	ft_wait_for_children(t_data *data)
 	i = 0;
 	while (i < data->cmd_nb)
 	{
-		if (wait(&status) == data->ids[data->cmd_nb - 1])
+		pid = wait(&status);
+		if (pid == data->ids[data->cmd_nb - 1])
 		{
 			if (WIFEXITED(status))
 				data->exit_status = WEXITSTATUS(status);
@@ -44,12 +42,11 @@ static void	ft_wait_for_children(t_data *data)
 				data->exit_status = g_signum + 128;
 			else
 				data->exit_status = 0;
+			// printf("EXIT STATUSSS: %d\n", data->exit_status);
 		}
-		else
-			wait(NULL);
 		i++;
 	}
-	// printf("g_signum = %d\n", g_signum);
+	// printf("exit status after wait: %d\n", data->exit_status);
 	if (g_signum != 0)
 	{
 		data->exit_status = g_signum + 128;
@@ -84,17 +81,16 @@ int	main(int ac, char **av, char **env)
 		data->line = readline(MINISPELL);
 		if (!data->line)
 			break ;
+		// printf("signal: %d\n", g_signum);
 		if (g_signum != 0)
 		{
 			data->exit_status = g_signum + 128;
 			g_signum = 0;
 		}
-		
 		add_history(data->line);
 		if (ft_lexer(data) == SUCCESS && ft_parser(data) == SUCCESS)
 			ft_launch_exec(data);
 		ft_wait_for_children(data);
-		// printf("exit_status = %d\n", data->exit_status);
 		ft_reset_data(data);
 	}
 	if (isatty(STDIN_FILENO))
