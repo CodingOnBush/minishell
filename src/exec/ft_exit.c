@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:40:03 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/04/29 16:17:38 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 10:30:54 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	ft_exit(t_data *data, t_arg *arg_list)
 {
 	int		status;
 	char	*str;
+	int		cmd_nb;
 
 	status = data->exit_status;
 	if (arg_list->next != NULL)
@@ -102,9 +103,14 @@ int	ft_exit(t_data *data, t_arg *arg_list)
 		}
 		status = ft_atoll(str) % 256;
 	}
-	ft_putstr_fd("exit\n", 1);
-	data->exit_builtin = YES;
-	ft_free_all(data);
-	exit(status);
+	cmd_nb = data->cmd_nb;	
+	if (cmd_nb == 1)
+	{
+		ft_free_all(data);
+		ft_putstr_fd("exit\n", 1);
+		exit(status);
+	}
+	else
+		ft_reset_data(data);
 	return (status);
 }
