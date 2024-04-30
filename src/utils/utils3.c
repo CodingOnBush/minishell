@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:31:42 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 14:40:54 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 16:57:51 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	is_exit_builtin(t_data *data)
-{
-	t_cmd	*cmd;
-
-	if (!data || !data->cmd_list)
-		return (NO);
-	cmd = data->cmd_list;
-	if (!cmd->args)
-		return (NO);
-	while (cmd)
-	{
-		if (ft_strncmp(cmd->args[0], "exit", ft_strlen("exit")) == 0)
-			return (YES);
-		cmd = cmd->next;
-	}
-	return (NO);
-}
 
 int	ft_strcmp(char *s1, char *s2)
 {

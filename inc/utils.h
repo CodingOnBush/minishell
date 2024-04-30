@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:37:36 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 16:31:42 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 16:57:34 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*ft_super_strjoin(char *new_str, char *toadd);
 int		ft_is_space(char c);
 int		ft_isquote(char c);
 int		ft_is_in_var(char c);
-int		is_exit_builtin(t_data *data);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_get_env_list_size(t_env *env);
 int		ft_get_arg_list_size(t_arg *arg_list);
