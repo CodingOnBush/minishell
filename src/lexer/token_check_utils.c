@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 11:06:51 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/25 11:09:11 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:50:39 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token	*ft_findlast_token(t_token *lst)
 	return (lst);
 }
 
-t_token	*token_before_last(t_token *list)
+t_token	*ft_token_before_last(t_token *list)
 {
 	t_token	*cur_token;
 

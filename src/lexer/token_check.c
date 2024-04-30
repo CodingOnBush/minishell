@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:14:13 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/29 14:03:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:51:49 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	ft_first_checks(t_data *data, t_token *token)
 	return (SKIP);
 }
 
-static int	is_error(t_data *data, t_token *list, t_token *tok)
+static int	ft_is_error(t_data *data, t_token *list, t_token *tok)
 {
 	int		return_value;
 
@@ -83,14 +83,14 @@ int	ft_check_token_list(t_data *data, t_token *list)
 		return (ft_print_err(PIPE), ft_status(data), FAIL);
 	while (cur_token != NULL)
 	{
-		if (is_error(data, list, cur_token) == YES)
+		if (ft_is_error(data, list, cur_token) == YES)
 			break ;
 		cur_token = cur_token->next;
 	}
 	if (cur_token == NULL)
 	{
 		if (last_token->type == PIPE)
-			return (ft_err(token_before_last(list), PIPE_AT_END),
+			return (ft_err(ft_token_before_last(list), PIPE_AT_END),
 				SUCCESS);
 	}
 	return (SUCCESS);
