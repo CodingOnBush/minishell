@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/29 10:38:54 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 18:01:02 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 	data->join_path = NULL;
 	data->step = 0;
 	data->env_list = ft_create_envlist(env);
-	data->exp_list = ft_create_envlist(env);
+	data->exp_list = ft_create_explist(env);
 	data->hd_pos = -1;
 	data->exit_status = 0;
 	data->exit_builtin = NO;

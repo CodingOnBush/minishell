@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/29 14:07:05 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 18:03:55 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_env	*ft_new_env(char *key, char *value)
 	return (new);
 }
 
-static t_env	*ft_str_to_env(char *line)
+t_env	*ft_str_to_env(char *line)
 {
 	t_env	*new_env;
 	char	*value;
