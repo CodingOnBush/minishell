@@ -6,14 +6,28 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/29 14:39:12 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 12:22:08 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	ft_handler(int signum)
+// static void	ft_handler(int signum)
+// {
+// 	// printf("FTHANDLER\n");
+// 	if (signum == SIGINT)
+// 	{
+// 		g_signum = signum;
+// 		ft_putstr_fd("\n", STDOUT_FILENO);
+// 		rl_replace_line("", STDIN_FILENO);
+// 		rl_on_new_line();
+// 		rl_redisplay();
+// 	}
+// }
+
+static void	ft_handler2(int signum)
 {
+	// printf("FTHANDLER 2\n");
 	if (signum == SIGINT)
 	{
 		g_signum = signum;
@@ -24,16 +38,32 @@ static void	ft_handler(int signum)
 	}
 }
 
-static void	ft_setup_signals(t_data *data)
+// static void	ft_setup_signals(t_data *data)
+// {
+// 	// data->act_interupt.sa_handler = ft_handler;
+// 	// data->act_quit.sa_handler = SIG_IGN;
+// 	// sigemptyset(&data->act_interupt.sa_mask);
+// 	// sigemptyset(&data->act_quit.sa_mask);
+// 	// data->act_interupt.sa_flags = 0;
+// 	// data->act_quit.sa_flags = 0;
+// 	// sigaction(SIGINT, &data->act_interupt, NULL);
+// 	// sigaction(SIGQUIT, &data->act_quit, NULL);
+// 	signal(SIGINT, ft_handler);
+// 	signal(SIGQUIT, SIG_IGN);
+// }
+
+void	ft_reset_signals(t_data *data)
 {
-	data->act_interupt.sa_handler = ft_handler;
-	data->act_quit.sa_handler = SIG_IGN;
-	sigemptyset(&data->act_interupt.sa_mask);
-	sigemptyset(&data->act_quit.sa_mask);
-	data->act_interupt.sa_flags = 0;
-	data->act_quit.sa_flags = 0;
-	sigaction(SIGINT, &data->act_interupt, NULL);
-	sigaction(SIGQUIT, &data->act_quit, NULL);
+	// data->act_interupt.sa_handler = SIG_DFL;
+	// data->act_quit.sa_handler = SIG_DFL;
+	// sigemptyset(&data->act_interupt.sa_mask);
+	// sigemptyset(&data->act_quit.sa_mask);
+	// data->act_interupt.sa_flags = 0;
+	// data->act_quit.sa_flags = 0;
+	// sigaction(SIGINT, &data->act_interupt, NULL);
+	// sigaction(SIGQUIT, &data->act_quit, NULL);
+	signal(SIGINT, ft_handler2);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 t_data	*ft_create_data(int ac, char **av, char **env)
@@ -62,6 +92,6 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 	data->hd_pos = -1;
 	data->exit_status = 0;
 	data->exit_builtin = NO;
-	ft_setup_signals(data);
+	// ft_setup_signals(data);
 	return (data);
 }

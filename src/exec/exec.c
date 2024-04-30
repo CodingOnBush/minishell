@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:14:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/29 14:34:04 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 12:46:55 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ static int	ft_fork(t_data *data)
 			return (perror("minishell :"), FAIL);
 		if (data->ids[process] == 0)
 		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			ft_reset_signals(data);
 			if (data->cmd_nb == 1)
 				ft_exec_single_cmd(data);
 			else
@@ -107,8 +110,21 @@ static int	ft_fork(t_data *data)
 	return (SUCCESS);
 }
 
+static void	ft_handle_no_double_prompt(int signum)
+{
+	if (signum == SIGINT)
+	{
+		g_signum = signum;
+		rl_on_new_line();
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_replace_line("", STDIN_FILENO);
+	}
+}
+
 void	ft_launch_exec(t_data *data)
 {
+	signal(SIGINT, ft_handle_no_double_prompt);
+	signal(SIGQUIT, SIG_IGN);
 	if (data->cmd_nb <= 0)
 		return ;
 	if (ft_launch_heredoc(data) == FAIL)

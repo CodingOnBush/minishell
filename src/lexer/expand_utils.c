@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/29 11:26:45 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 12:34:16 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ char	*ft_get_expand(t_data *data, char *var_name, char *str)
 		return (NULL);
 	}
 	if (*var_name == '?')
+	{
+		printf("exit_status = %d\n", data->exit_status);
 		return (ft_itoa(data->exit_status));
+	}
 	var_content = ft_getenv(data->env_list, var_name);
 	if (!var_content)
 		return (NULL);
