@@ -6,12 +6,11 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:01:55 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 18:06:53 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 21:36:32 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 void	ft_add_new_exp(t_env **exp_list, t_env *new)
 {
@@ -62,18 +61,28 @@ t_env	*ft_create_explist(char **env)
 
 void	ft_print_exports_var(t_data *data)
 {
-	t_env	*exp_list;
+	t_env	*cur;
 
 	if (!data)
 		return ;
-	exp_list = data->exp_list;
-	while (exp_list)
+	cur = data->exp_list;
+	while (cur)
 	{
 		ft_putstr_fd("export ", 1);
-		ft_putstr_fd(exp_list->key, 1);
-		ft_putstr_fd("=", 1);
-		ft_putstr_fd(exp_list->value, 1);
-		ft_putstr_fd("\n", 1);
-		exp_list = exp_list->next;
+		ft_putstr_fd(cur->key, 1);
+		// if (ft_strchr(cur->base, '='))
+		// {
+		// 	ft_putstr_fd("=\"", 1);
+		// 	if (cur->value)
+		// 		ft_putstr_fd(cur->value, 1);
+		// 	ft_putstr_fd("\"\n", 1);
+		// }
+		// else
+		// 	ft_putstr_fd("\n", 1);
+		ft_putstr_fd("=\"", 1);
+		if (cur->value)
+			ft_putstr_fd(cur->value, 1);
+		ft_putstr_fd("\"\n", 1);
+		cur = cur->next;
 	}
 }

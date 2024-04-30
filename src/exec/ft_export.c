@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 18:59:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 21:20:32 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static int	ft_isvalid_varname(char *varname)
 
 	i = 0;
 	if (!varname || !varname[0] || ft_isdigit(varname[0]))
-		return (NO);
+		return (printf("invalid varname [%s]\n", varname), NO);
 	while (varname[i])
 	{
 		if (!ft_isalnum(varname[i]) && varname[i] != '_')
-			return (NO);
+			return (printf("invalid varname [%s]\n", varname), NO);
 		i++;
 	}
 	return (YES);
@@ -62,31 +62,135 @@ static char	*ft_get_var_content(char *str)
 	return (var_content);
 }
 
+static void	ft_not_a_valid_identifier(char *str)
+{
+	ft_putstr_fd("minishell: export: `", 2);
+	if (str)
+		ft_putstr_fd(str, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
+
+// static void	ft_add_env(t_env **env_list, t_env *new)
+// {
+// 	t_env	*cur;
+// 	t_env	*prev;
+
+// 	if (!*env_list)
+// 	{
+// 		*env_list = new;
+// 		return ;
+// 	}
+// 	cur = *env_list;
+// 	while (cur)
+// 	{
+// 		if (ft_strcmp(cur->key, new->key) == 0)
+// 		{
+// 			free(cur->value);
+// 			cur->value = new->value;
+// 			free(new->key);
+// 			free(new);
+// 			return ;
+// 		}
+// 		prev = cur;
+// 		cur = cur->next;
+// 	}
+// 	prev->next = new;
+// }
+
+static void	ft_add_env(t_env **env_list, char *key, char *value)
+{
+	t_env	*cur;
+	t_env	*prev;
+	t_env	*new;
+
+	new = ft_new_env(NULL, key, value);
+	if (!new)
+		return(free(key), free(value));
+	if (!*env_list)
+	{
+		*env_list = new;
+		return ;
+	}
+	cur = *env_list;
+	while (cur)
+	{
+		if (ft_strcmp(cur->key, new->key) == 0)
+		{
+			free(cur->value);
+			cur->value = new->value;
+			free(new->key);
+			free(new);
+			return ;
+		}
+		prev = cur;
+		cur = cur->next;
+	}
+	prev->next = new;
+}
+
+static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
+{
+	t_env	*cur;
+	t_env	*prev;
+	t_env	*new;
+
+	new = ft_new_env(base, key, value);
+	if (!new)
+		return(free(key), free(value));
+	if (!*exp_list)
+	{
+		*exp_list = new;
+		return ;
+	}
+	cur = *exp_list;
+	prev = NULL;
+	while (cur && ft_strcmp(cur->key, new->key) < 0)
+	{
+		prev = cur;
+		cur = cur->next;
+	}
+	if (!prev)
+	{
+		new->next = *exp_list;
+		*exp_list = new;
+	}
+	else
+	{
+		prev->next = new;
+		new->next = cur;
+	}
+}
+
 static int	ft_handle_line(t_data *data, char *line)
 {
-	char	*var_name;
-	char	*var_content;
+	char	*key;
+	char	*value;
+	// t_env	*new;
+
+	printf("line: [%s]\n", line);
+	key = ft_substr(line, 0, ft_strchr(line, '=') - line);
+	printf("key: [%s]\n", key);
+
+	if (ft_isvalid_varname(key) == NO)
+		return (free(key), ft_not_a_valid_identifier(line), 1);
+
+	value = ft_substr(line, ft_strchr(line, '=') - line + 1, ft_strlen(line));
+	printf("value: [%s]\n", value);
 
 	if (ft_strchr(line, '=') != NULL)
-	{
-		var_name = ft_get_var_name(line);
-		if (!var_name)
-			return (1);
-		var_content = ft_get_var_content(line);
-		if (var_content != NULL)
-		{
-			if (ft_setenv(&data->env_list, var_name, var_content) == FAIL)
-				return (free(var_name), free(var_content), 1);
-		}
-	}
-	else if (ft_isvalid_varname(line) == NO)
-	{
-		ft_putstr_fd("minishell: export: `", 2);
-		ft_putstr_fd(line, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		return (1);
-	}
-	return (0);
+		ft_add_env(&data->env_list, key, value);
+	
+	ft_add_exp(&data->exp_list, line, key, value);
+	
+	
+	return (SUCCESS);
+}
+
+static void	ft_print(char *msg, int fd)
+{
+	ft_putstr_fd("minishell: ", fd);
+	ft_putstr_fd(msg, fd);
+	ft_putstr_fd("\n", fd);
 }
 
 static int	ft_is_an_option(char *str)
@@ -96,15 +200,9 @@ static int	ft_is_an_option(char *str)
 	if (ft_strcmp(str, "--") == 0 || ft_strcmp(str, "-") == 0)
 		return (NO);
 	if (ft_strncmp(str, "--", 2) == 0 && str[2] != '\0')
-	{
-		ft_putstr_fd("minishell: export: options are not allowed\n", 2);
 		return (YES);
-	}
 	if (ft_strncmp(str, "-", 1) == 0 && str[1] != '\0')
-	{
-		ft_putstr_fd("minishell: export: options are not allowed\n", 2);
 		return (YES);
-	}
 	return (NO);
 }
 
@@ -125,12 +223,12 @@ int	ft_export(t_data *data, t_cmd *cmd)
 	if (ft_strcmp(args->value, "--") == 0 && args->next != NULL)
 		args = args->next;
 	if (ft_is_an_option(args->value) == YES)
-		return (2);
+		return (ft_print("export: options are not allowed", 2), 2);
 	while (args)
 	{
-		printf("let's handle: [%s]\n", args->value);
-		// if (ft_handle_line(data, args->value) == 1)
-			// exit_status = 1;
+		// printf("let's handle: [%s]\n", args->value);
+		if (ft_handle_line(data, args->value) == FAIL)
+			exit_status = 1;
 		args = args->next;
 	}
 	return (exit_status);

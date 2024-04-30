@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 22:46:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/27 11:00:09 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 21:19:41 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_setenv(t_env **env_list, char *key, char *value)
 		return (SUCCESS);
 	if (ft_update_var(env_list, key, value) == SUCCESS)
 		return (SUCCESS);
-	new = ft_new_env(key, value);
+	new = ft_new_env(NULL, key, value);
 	if (!new)
 		return (FAIL);
 	if (!*env_list)

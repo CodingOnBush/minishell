@@ -6,13 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:55 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 21:31:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-t_env	*ft_new_env(char *key, char *value)
+t_env	*ft_new_env(char *str, char *key, char *value)
 {
 	t_env	*new;
 
@@ -21,6 +21,7 @@ t_env	*ft_new_env(char *key, char *value)
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
+	new->base = str;
 	new->key = key;
 	new->value = value;
 	new->next = NULL;
@@ -36,16 +37,16 @@ t_env	*ft_str_to_env(char *line)
 
 	equal = ft_strchr(line, '=');
 	if (!equal)
-		return (NULL);
+		return (free(line), NULL);
 	key = ft_substr(line, 0, equal - line);
 	if (!key)
-		return (NULL);
+		return (free(line), NULL);
 	value = ft_strdup(equal + 1);
 	if (!value)
-		return (free(key), NULL);
-	new_env = ft_new_env(key, value);
+		return (free(line), free(key), NULL);
+	new_env = ft_new_env(line, key, value);
 	if (!new_env)
-		return (free(key), free(value), NULL);
+		return (free(line), free(key), free(value), NULL);
 	return (new_env);
 }
 
@@ -70,15 +71,15 @@ static t_env	*ft_create_default_env(void)
 	t_env	*res;
 
 	res = NULL;
-	new = ft_new_env(ft_strdup("PWD"), getcwd(NULL, 0));
+	new = ft_new_env(NULL, ft_strdup("PWD"), getcwd(NULL, 0));
 	if (!new)
 		return (NULL);
 	ft_add_new_env(&res, new);
-	new = ft_new_env(ft_strdup("SHLVL"), ft_strdup("1"));
+	new = ft_new_env(NULL, ft_strdup("SHLVL"), ft_strdup("1"));
 	if (!new)
 		return (ft_free_env_list(&res), NULL);
 	ft_add_new_env(&res, new);
-	new = ft_new_env(ft_strdup("_"), ft_strdup("/usr/bin/env"));
+	new = ft_new_env(NULL, ft_strdup("_"), ft_strdup("/usr/bin/env"));
 	if (!new)
 		return (ft_free_env_list(&res), NULL);
 	ft_add_new_env(&res, new);

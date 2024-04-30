@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/29 10:47:14 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 21:15:41 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_cmd
 
 typedef struct s_env
 {
+	char				*base;
 	char				*key;
 	char				*value;
 	struct s_env		*next;

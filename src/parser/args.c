@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 11:19:30 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 11:33:05 by momrane          ###   ########.fr       */
+/*   Updated: 2024/04/30 21:35:16 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_arg	*ft_new_arg(char *value, int token_type)
 	new_arg = malloc(sizeof(t_arg));
 	if (!new_arg)
 		return (NULL);
-	new_arg->value = ft_strdup(value);
+	new_arg->value = value;
 	new_arg->token_type = token_type;
 	new_arg->next = NULL;
 	return (new_arg);
@@ -51,7 +51,7 @@ t_arg	*ft_create_arg_list(t_token *token)
 		if (token->attributed == false && ft_isop(token->value)
 			&& *token->value == '\0')
 		{
-			new = ft_new_arg(token->value, token->type);
+			new = ft_new_arg(ft_strdup(token->value), token->type);
 			if (!new)
 				return (ft_free_arg_list(&res), NULL);
 			ft_add_new_arg(&res, new);
@@ -59,7 +59,7 @@ t_arg	*ft_create_arg_list(t_token *token)
 		else if ((token->attributed == false && ft_isop(token->value) == NO
 				&& token->value != NULL))
 		{
-			new = ft_new_arg(token->value, token->type);
+			new = ft_new_arg(ft_strdup(token->value), token->type);
 			if (!new)
 				return (ft_free_arg_list(&res), NULL);
 			ft_add_new_arg(&res, new);
@@ -78,7 +78,8 @@ void	ft_free_arg_list(t_arg **arg_list)
 	while (cur != NULL)
 	{
 		next = cur->next;
-		free(cur->value);
+		if (cur->value)
+			free(cur->value);
 		free(cur);
 		cur = next;
 	}
