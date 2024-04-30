@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:14:12 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 14:29:39 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:09:00 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,25 +105,13 @@ static int	ft_fork(t_data *data)
 		}
 		process++;
 	}
-	ft_close_pipes(data);
-	return (SUCCESS);
-}
-
-static void	ft_handle_no_double_prompt(int signum)
-{
-	if (signum == SIGINT)
-	{
-		g_signum = signum;
-		rl_on_new_line();
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		rl_replace_line("", STDIN_FILENO);
-	}
+	return (ft_close_pipes(data), SUCCESS);
 }
 
 void	ft_launch_exec(t_data *data)
 {
 	signal(SIGINT, ft_handle_no_double_prompt);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, ft_handle_no_double_prompt);
 	if (data->cmd_nb <= 0)
 		return ;
 	if (ft_launch_heredoc(data) == FAIL)

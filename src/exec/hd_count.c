@@ -6,13 +6,13 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 18:14:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 12:41:06 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:22:10 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	get_err_pos(t_cmd *cmd)
+static int	ft_get_err_pos(t_cmd *cmd)
 {
 	t_token	*cur_token;
 	int		err_pos;
@@ -43,7 +43,7 @@ static int	ft_hd_count_pre_err(t_cmd *cmd)
 		return (0);
 	err_pos = 0;
 	hd_count = 0;
-	err_pos = get_err_pos(cmd);
+	err_pos = ft_get_err_pos(cmd);
 	cur = cmd->token_list;
 	while (cur != NULL && cur->pos < err_pos)
 	{
@@ -56,29 +56,6 @@ static int	ft_hd_count_pre_err(t_cmd *cmd)
 		hd_count++;
 	return (hd_count);
 }
-
-/*On va compter les HD dans la token list et pas l'infile list*/
-
-// static int	count_heredocs(t_infile *inf_list)
-// {
-// 	t_infile	*cur_inf;
-// 	int			hd_count;
-
-// 	if (inf_list == NULL)
-// 		return (0);
-// 	cur_inf = inf_list;
-// 	hd_count = 0;
-// 	while (cur_inf != NULL)
-// 	{
-// 		if (cur_inf->delimiter != NULL)
-// 		{
-// 			cur_inf->hd_num = hd_count;
-// 			hd_count++;
-// 		}
-// 		cur_inf = cur_inf->next;
-// 	}
-// 	return (hd_count);
-// }
 
 static int	ft_count_hd(t_token *list)
 {

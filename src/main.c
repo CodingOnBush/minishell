@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/30 14:28:30 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:54:10 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	main(int ac, char **av, char **env)
 		data->line = readline(MINISPELL);
 		if (!data->line)
 			break ;
-		// printf("signal: %d\n", g_signum);
 		if (g_signum != 0)
 		{
 			data->exit_status = g_signum + 128;

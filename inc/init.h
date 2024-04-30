@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:38:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 10:44:52 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:07:44 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define INIT_H
 
 /*		DATA		*/
-void	ft_reset_signals(t_data *data);
+void	ft_handle_no_double_prompt(int signum);
 t_data	*ft_create_data(int ac, char **av, char **env);
 
 /*		ENV			*/

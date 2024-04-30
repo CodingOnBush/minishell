@@ -6,26 +6,49 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 13:59:25 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:08:17 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/*
-il faudrait que cette fonction marche aussi avec ho"la"
-*/
-char	*ft_remove_quotes(char *str)
+static int ft_count_quotes(char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTES)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+char *ft_remove_quotes(char *str)
 {
 	char	*new_str;
 	int		i;
+	int		quotes;
 
-	if (!str)
-		return (NULL);
 	i = 0;
-	if (*str == SINGLE_QUOTE || *str == DOUBLE_QUOTES)
-		i++;
-	new_str = ft_substr(str, i, ft_strlen(str) - 2 * i);
+	quotes = ft_count_quotes(str);
+	new_str = (char *)malloc(sizeof(char) * (ft_strlen(str) - quotes + 1));
+	if (!new_str)
+		return (NULL); //faut exit ici?
+	while (str && *str)
+	{
+		if (*str != SINGLE_QUOTE && *str != DOUBLE_QUOTES)
+		{
+			new_str[i] = *str;
+			i++;
+		}
+		str++;
+	}
+	new_str[i] = '\0';
 	return (new_str);
 }
 

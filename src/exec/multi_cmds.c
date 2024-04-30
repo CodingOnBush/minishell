@@ -6,13 +6,13 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/30 14:28:36 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:35:25 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
+static void	ft_first_cmd(t_data *data, t_cmd *cmd_to_exec)
 {
 	t_redir	*redir;
 	int		status;
@@ -39,7 +39,7 @@ void	first_cmd(t_data *data, t_cmd *cmd_to_exec)
 	ft_execve(data, cmd_to_exec);
 }
 
-void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
+static void	ft_middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 {
 	t_redir	*redir;
 	int		status;
@@ -66,7 +66,7 @@ void	middle_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 	ft_execve(data, cmd_to_exec);
 }
 
-void	last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
+static void	ft_last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 {
 	t_redir	*redir;
 	int		status;
@@ -101,9 +101,9 @@ void	ft_child_process(t_data *data, int process)
 	if (cmd_to_exec == NULL || cmd_to_exec->arg_list == NULL)
 		return ;
 	if (process == 0)
-		first_cmd(data, cmd_to_exec);
+		ft_first_cmd(data, cmd_to_exec);
 	else if (process == data->cmd_nb - 1)
-		last_cmd(data, cmd_to_exec, process);
+		ft_last_cmd(data, cmd_to_exec, process);
 	else
-		middle_cmd(data, cmd_to_exec, process);
+		ft_middle_cmd(data, cmd_to_exec, process);
 }
