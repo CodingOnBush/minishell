@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:30:56 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 16:41:16 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:36:38 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_data	*ft_create_data(int ac, char **av, char **env)
 	data->join_path = NULL;
 	data->step = 0;
 	data->env_list = ft_create_envlist(env);
-	data->exp_list = ft_create_envlist(env);
+	data->exp_list = ft_create_explist(env);
 	data->hd_pos = -1;
 	data->exit_status = 0;
 	data->exit_builtin = NO;

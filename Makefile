@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/27 13:20:37 by momrane          ###   ########.fr        #
+#    Updated: 2024/04/30 18:04:52 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,10 +62,10 @@ EXEC		:=	$(EXEC_DIR)/builtins.c \
 				$(EXEC_DIR)/env_utils.c \
 				$(EXEC_DIR)/exec_utils.c \
 				$(EXEC_DIR)/exec.c \
-				$(EXEC_DIR)/export.c \
 				$(EXEC_DIR)/ft_cd.c \
 				$(EXEC_DIR)/ft_echo.c \
 				$(EXEC_DIR)/ft_exit.c \
+				$(EXEC_DIR)/ft_export_utils.c \
 				$(EXEC_DIR)/ft_export.c \
 				$(EXEC_DIR)/hd_count.c \
 				$(EXEC_DIR)/heredocs_utils.c \

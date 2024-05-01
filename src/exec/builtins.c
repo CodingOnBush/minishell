@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:11:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 16:04:12 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:35:49 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ static int	ft_unset(t_data *data, t_arg *arg_list)
 	while (cur != NULL)
 	{
 		ft_remove_env(&data->env_list, cur->value);
+		ft_remove_exp(&data->exp_list, cur->value);
 		cur = cur->next;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/29 10:35:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 11:59:36 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,31 +62,281 @@ static char	*ft_get_var_content(char *str)
 	return (var_content);
 }
 
+static void	ft_not_a_valid_identifier(char *str)
+{
+	ft_putstr_fd("minishell: export: `", 2);
+	if (str)
+		ft_putstr_fd(str, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
+
+// static void	ft_add_env(t_env **env_list, t_env *new)
+// {
+// 	t_env	*cur;
+// 	t_env	*prev;
+
+// 	if (!*env_list)
+// 	{
+// 		*env_list = new;
+// 		return ;
+// 	}
+// 	cur = *env_list;
+// 	while (cur)
+// 	{
+// 		if (ft_strcmp(cur->key, new->key) == 0)
+// 		{
+// 			free(cur->value);
+// 			cur->value = new->value;
+// 			free(new->key);
+// 			free(new);
+// 			return ;
+// 		}
+// 		prev = cur;
+// 		cur = cur->next;
+// 	}
+// 	prev->next = new;
+// }
+
+static void	ft_add_env(t_env **env_list, char *key, char *value)
+{
+	t_env	*cur;
+	t_env	*prev;
+	t_env	*new;
+	char	*newkey;
+	char	*newvalue;
+
+	newkey = ft_strdup(key);
+	if (!newkey)
+		return ;
+	
+	newvalue = ft_strdup(value);
+	if (!newvalue)
+		return (free(newkey));
+	
+	new = ft_new_env(NULL, newkey, newvalue);
+	if (!new)
+		return (free(newkey), free(newvalue));
+	
+	if (!*env_list)
+	{
+		*env_list = new;
+		return ;
+	}
+	
+	cur = *env_list;
+	while (cur)
+	{
+		if (ft_strcmp(cur->key, new->key) == 0)
+		{
+			free(cur->value);
+			cur->value = newvalue;
+			free(newkey);
+			free(new);
+			return ;
+		}
+		prev = cur;
+		cur = cur->next;
+	}
+	prev->next = new;
+}
+
+static t_env	*ft_get_right_exp(t_env *exp_list, char *key)
+{
+	t_env	*cur;
+	t_env	*prev;
+
+	prev = NULL;
+	cur = exp_list;
+	while (cur && ft_strcmp(cur->key, key) < 0)
+	{
+		prev = cur;
+		cur = cur->next;
+	}
+	return (prev);
+}
+
+static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
+{
+	t_env	*cur;
+	t_env	*prev;
+	t_env	*new;
+	char	*newkey;
+	char	*newvalue;
+	char	*line;
+
+	newkey = ft_strdup(key);
+	if (!newkey)
+		return ;
+	newvalue = ft_strdup(value);
+	if (!newvalue)
+		return (free(newkey));
+
+	line = ft_strdup(base);
+	if (!line)
+		return (free(newkey), free(newvalue));
+		
+	new = ft_new_env(line, newkey, newvalue);
+	if (!new)
+		return (free(newkey), free(newvalue), free(line));
+	
+
+	cur = *exp_list;
+	if (!cur)
+	{
+		cur = new;
+		return ;
+	}
+	
+	prev = ft_get_right_exp(*exp_list, newkey);
+	// if (!prev)
+	// 	printf("prev: [NULL]\n");
+	// else
+	// {
+	// 	printf("KEY: [%s]\n", prev->key);
+	// 	printf("VALUE: [%s]\n", prev->value);
+	// }
+
+	// if (prev->next)
+	// {
+	// 	printf("prev->next->key: [%s]\n", prev->next->key);
+	// 	printf("prev->next->value: [%s]\n", prev->next->value);
+	// }
+	if (prev && prev->next && ft_strcmp(prev->next->key, newkey) == 0)
+	{
+		if (ft_strchr(line, '=') == NULL)
+		{
+			// printf("do not update !!!\n");
+			free(newkey);
+			free(newvalue);
+			free(line);
+			free(new);
+			return ;
+		}
+		
+		// printf("TO UPDATE\n");
+		if (prev->next->value)
+		{
+			free(prev->next->value);
+			prev->next->value = newvalue;
+		}
+		if (prev->next->base)
+		{
+			free(prev->next->base);
+			prev->next->base = line;
+		}
+		free(newkey);
+		free(new);
+		return ;
+	}
+
+	if (prev == NULL)
+	{
+		new->next = *exp_list;
+		*exp_list = new;
+	}
+	else
+	{
+		prev->next = new;
+		new->next = NULL;
+	}
+	
+	// if (cur)
+	// 	printf("cur->key: [%s]\n", cur->key);
+	// else
+	// 	printf("cur->key: [NULL]\n");
+	// printf("newkey: [%s]\n", newkey);
+	
+	// if (cur && ft_strcmp(cur->key, newkey) == 0)
+	// {
+	// 	printf("cur->key: [%s]\n", cur->key);
+	// 	printf("newkey: [%s]\n", newkey);
+	// 	return ;
+	// }
+	
+	// if (prev == NULL)
+	// {
+	// 	new->next = *exp_list;
+	// 	*exp_list = new;
+	// }
+	// else
+	// {
+	// 	prev->next = new;
+	// 	new->next = cur;
+	// }
+	
+}
+
+void	ft_remove_exp(t_env **exp_list, char *key)
+{
+	t_env	*cur;
+	t_env	*prev;
+
+	if (!*exp_list)
+		return ;
+	cur = *exp_list;
+	prev = NULL;
+	while (cur && ft_strcmp(cur->key, key) != 0)
+	{
+		prev = cur;
+		cur = cur->next;
+	}
+	if (!cur)
+		return ;
+	if (prev == NULL)
+		*exp_list = cur->next;
+	else
+		prev->next = cur->next;
+	free(cur->key);
+	free(cur->value);
+	free(cur->base);
+	free(cur);
+}
+
 static int	ft_handle_line(t_data *data, char *line)
 {
-	char	*var_name;
-	char	*var_content;
+	char	*key;
+	char	*value;
+
+	// printf("line: [%s]\n", line);
+	key = ft_substr(line, 0, ft_strchr(line, '=') - line);
+	// printf("key: [%s]\n", key);
+	if (ft_isvalid_varname(key) == NO)
+		return (free(key), ft_not_a_valid_identifier(line), FAIL);
+	value = ft_substr(line, ft_strchr(line, '=') - line + 1, ft_strlen(line));
+	// printf("value: [%s]\n", value);
+
 
 	if (ft_strchr(line, '=') != NULL)
-	{
-		var_name = ft_get_var_name(line);
-		if (!var_name)
-			return (1);
-		var_content = ft_get_var_content(line);
-		if (var_content != NULL)
-		{
-			if (ft_setenv(&data->env_list, var_name, var_content) == FAIL)
-				return (free(var_name), free(var_content), 1);
-		}
-	}
-	else if (ft_isvalid_varname(line) == NO)
-	{
-		ft_putstr_fd("minishell: export: `", 2);
-		ft_putstr_fd(line, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		return (1);
-	}
-	return (0);
+		ft_add_env(&data->env_list, key, value);
+	
+	if (key && key[0] == '_' && key[1] == '\0')
+		return (free(key), free(value), SUCCESS);
+	
+	ft_add_exp(&data->exp_list, line, key, value);
+	
+	free(key);
+	free(value);
+	return (SUCCESS);
+}
+
+static void	ft_print(char *msg, int fd)
+{
+	ft_putstr_fd("minishell: ", fd);
+	ft_putstr_fd(msg, fd);
+	ft_putstr_fd("\n", fd);
+}
+
+static int	ft_is_an_option(char *str)
+{
+	if (!str || str[0] != '-')
+		return (NO);
+	if (ft_strcmp(str, "--") == 0 || ft_strcmp(str, "-") == 0)
+		return (NO);
+	if (ft_strncmp(str, "--", 2) == 0 && str[2] != '\0')
+		return (YES);
+	if (ft_strncmp(str, "-", 1) == 0 && str[1] != '\0')
+		return (YES);
+	return (NO);
 }
 
 int	ft_export(t_data *data, t_cmd *cmd)
@@ -97,12 +347,21 @@ int	ft_export(t_data *data, t_cmd *cmd)
 	exit_status = 0;
 	if (!data || !cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (FAIL);
-	if (cmd->arg_list->next == NULL)
+	args = cmd->arg_list;
+	if (args->next == NULL)
 		return (ft_print_exports_var(data), 0);
-	args = cmd->arg_list->next;
+	args = args->next;
+	if (ft_strcmp(args->value, "--") == 0 && args->next == NULL)
+		return (ft_print_exports_var(data), 0);
+	if (ft_strcmp(args->value, "--") == 0 && args->next != NULL)
+		args = args->next;
+	if (ft_is_an_option(args->value) == YES)
+		return (ft_print("export: options are not allowed", 2), 2);
 	while (args)
 	{
-		exit_status = ft_handle_line(data, args->value);
+		// printf("let's handle: [%s]\n", args->value);
+		if (ft_handle_line(data, args->value) == FAIL)
+			exit_status = 1;
 		args = args->next;
 	}
 	return (exit_status);

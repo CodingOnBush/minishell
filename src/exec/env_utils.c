@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 22:46:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/30 16:04:47 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:36:28 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_setenv(t_env **env_list, char *key, char *value)
 		return (SUCCESS);
 	if (ft_update_var(env_list, key, value) == SUCCESS)
 		return (SUCCESS);
-	new = ft_new_env(key, value);
+	new = ft_new_env(NULL, key, value);
 	if (!new)
 		return (FAIL);
 	if (!*env_list)
