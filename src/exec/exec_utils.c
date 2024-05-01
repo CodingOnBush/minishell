@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 16:11:01 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 11:45:16 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 17:08:21 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	ft_free_path(char **path)
 	int	i;
 
 	i = 0;
-	if (!path || !*path)
+	if (!path)
 		return ;
 	while (path[i] != NULL)
 	{

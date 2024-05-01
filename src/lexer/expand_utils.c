@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 13:29:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 16:08:17 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:19:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int ft_count_quotes(char *str)
+static int	ft_count_quotes(char *str)
 {
 	int	i;
 	int	count;
@@ -28,7 +28,7 @@ static int ft_count_quotes(char *str)
 	return (count);
 }
 
-char *ft_remove_quotes(char *str)
+char	*ft_remove_quotes(char *str)
 {
 	char	*new_str;
 	int		i;
@@ -38,7 +38,7 @@ char *ft_remove_quotes(char *str)
 	quotes = ft_count_quotes(str);
 	new_str = (char *)malloc(sizeof(char) * (ft_strlen(str) - quotes + 1));
 	if (!new_str)
-		return (NULL); //faut exit ici?
+		return (NULL);
 	while (str && *str)
 	{
 		if (*str != SINGLE_QUOTE && *str != DOUBLE_QUOTES)

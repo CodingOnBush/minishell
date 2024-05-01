@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 12:25:00 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 17:19:23 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_env	*ft_create_default_env(void)
 	new = ft_create_new_env(NULL, "PWD", getcwd(NULL, 0));
 	if (!new)
 		return (ft_free_env_list(&res), NULL);
-	ft_add_new_env(&res, new);	
+	ft_add_new_env(&res, new);
 	new = ft_create_new_env(NULL, "SHLVL", "1");
 	if (!new)
 		return (ft_free_env_list(&res), NULL);

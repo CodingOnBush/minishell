@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:14:13 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/30 16:51:49 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:45:28 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ static void	ft_status(t_data *data)
 
 static int	ft_first_checks(t_data *data, t_token *token)
 {
-	if (token->next == NULL && ft_isop(token->value) == NO && token->type != PIPE)
+	if (token->next == NULL && ft_isop(token->value) == NO
+		&& token->type != PIPE)
 		return (NO);
-	if (ft_isop(token->value) == YES && token->next && ft_isop(token->next->value) == YES)
+	if (ft_isop(token->value) == YES && token->next
+		&& ft_isop(token->next->value) == YES)
 		return (ft_err(token, token->next->type), ft_status(data), YES);
 	if (ft_isop(token->value) == YES && token->next == NULL)
 		return (ft_err(token, NEWLINE_ERROR), ft_status(data), YES);
@@ -30,7 +32,7 @@ static int	ft_first_checks(t_data *data, t_token *token)
 
 static int	ft_is_error(t_data *data, t_token *list, t_token *tok)
 {
-	int		return_value;
+	int	return_value;
 
 	if (!list || !tok)
 		return (NO);
@@ -90,8 +92,7 @@ int	ft_check_token_list(t_data *data, t_token *list)
 	if (cur_token == NULL)
 	{
 		if (last_token->type == PIPE)
-			return (ft_err(ft_token_before_last(list), PIPE_AT_END),
-				SUCCESS);
+			return (ft_err(ft_token_before_last(list), PIPE_AT_END), SUCCESS);
 	}
 	return (SUCCESS);
 }

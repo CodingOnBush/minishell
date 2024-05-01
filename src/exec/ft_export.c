@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 11:59:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 17:23:03 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,6 @@ static int	ft_isvalid_varname(char *varname)
 	return (YES);
 }
 
-static char	*ft_get_var_name(char *str)
-{
-	char	*var_name;
-	char	*equal;
-
-	equal = ft_strchr(str, '=');
-	var_name = ft_substr(str, 0, equal - str);
-	if (!var_name)
-		return (NULL);
-	if (ft_isvalid_varname(var_name) == NO)
-	{
-		ft_putstr_fd("minishell: export: `", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		free(var_name);
-		return (NULL);
-	}
-	return (var_name);
-}
-
-static char	*ft_get_var_content(char *str)
-{
-	char	*var_content;
-	char	*equal;
-
-	equal = ft_strchr(str, '=');
-	if (!equal)
-		return (NULL);
-	var_content = ft_strdup(equal + 1);
-	if (!var_content)
-		return (ft_strdup(""));
-	return (var_content);
-}
-
 static void	ft_not_a_valid_identifier(char *str)
 {
 	ft_putstr_fd("minishell: export: `", 2);
@@ -69,33 +35,6 @@ static void	ft_not_a_valid_identifier(char *str)
 		ft_putstr_fd(str, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
-
-// static void	ft_add_env(t_env **env_list, t_env *new)
-// {
-// 	t_env	*cur;
-// 	t_env	*prev;
-
-// 	if (!*env_list)
-// 	{
-// 		*env_list = new;
-// 		return ;
-// 	}
-// 	cur = *env_list;
-// 	while (cur)
-// 	{
-// 		if (ft_strcmp(cur->key, new->key) == 0)
-// 		{
-// 			free(cur->value);
-// 			cur->value = new->value;
-// 			free(new->key);
-// 			free(new);
-// 			return ;
-// 		}
-// 		prev = cur;
-// 		cur = cur->next;
-// 	}
-// 	prev->next = new;
-// }
 
 static void	ft_add_env(t_env **env_list, char *key, char *value)
 {
@@ -108,29 +47,27 @@ static void	ft_add_env(t_env **env_list, char *key, char *value)
 	newkey = ft_strdup(key);
 	if (!newkey)
 		return ;
-	
 	newvalue = ft_strdup(value);
 	if (!newvalue)
 		return (free(newkey));
-	
 	new = ft_new_env(NULL, newkey, newvalue);
 	if (!new)
 		return (free(newkey), free(newvalue));
-	
 	if (!*env_list)
 	{
 		*env_list = new;
 		return ;
 	}
-	
 	cur = *env_list;
 	while (cur)
 	{
 		if (ft_strcmp(cur->key, new->key) == 0)
 		{
-			free(cur->value);
+			if (cur->value)
+				free(cur->value);
 			cur->value = newvalue;
-			free(newkey);
+			if (newkey)
+				free(newkey);
 			free(new);
 			return ;
 		}
@@ -170,50 +107,29 @@ static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
 	newvalue = ft_strdup(value);
 	if (!newvalue)
 		return (free(newkey));
-
 	line = ft_strdup(base);
 	if (!line)
 		return (free(newkey), free(newvalue));
-		
 	new = ft_new_env(line, newkey, newvalue);
 	if (!new)
 		return (free(newkey), free(newvalue), free(line));
-	
-
 	cur = *exp_list;
 	if (!cur)
 	{
 		cur = new;
 		return ;
 	}
-	
 	prev = ft_get_right_exp(*exp_list, newkey);
-	// if (!prev)
-	// 	printf("prev: [NULL]\n");
-	// else
-	// {
-	// 	printf("KEY: [%s]\n", prev->key);
-	// 	printf("VALUE: [%s]\n", prev->value);
-	// }
-
-	// if (prev->next)
-	// {
-	// 	printf("prev->next->key: [%s]\n", prev->next->key);
-	// 	printf("prev->next->value: [%s]\n", prev->next->value);
-	// }
 	if (prev && prev->next && ft_strcmp(prev->next->key, newkey) == 0)
 	{
 		if (ft_strchr(line, '=') == NULL)
 		{
-			// printf("do not update !!!\n");
 			free(newkey);
 			free(newvalue);
 			free(line);
 			free(new);
 			return ;
 		}
-		
-		// printf("TO UPDATE\n");
 		if (prev->next->value)
 		{
 			free(prev->next->value);
@@ -228,42 +144,16 @@ static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
 		free(new);
 		return ;
 	}
-
-	if (prev == NULL)
+	if (prev != NULL)
+	{
+		new->next = prev->next;
+		prev->next = new;
+	}
+	else
 	{
 		new->next = *exp_list;
 		*exp_list = new;
 	}
-	else
-	{
-		prev->next = new;
-		new->next = NULL;
-	}
-	
-	// if (cur)
-	// 	printf("cur->key: [%s]\n", cur->key);
-	// else
-	// 	printf("cur->key: [NULL]\n");
-	// printf("newkey: [%s]\n", newkey);
-	
-	// if (cur && ft_strcmp(cur->key, newkey) == 0)
-	// {
-	// 	printf("cur->key: [%s]\n", cur->key);
-	// 	printf("newkey: [%s]\n", newkey);
-	// 	return ;
-	// }
-	
-	// if (prev == NULL)
-	// {
-	// 	new->next = *exp_list;
-	// 	*exp_list = new;
-	// }
-	// else
-	// {
-	// 	prev->next = new;
-	// 	new->next = cur;
-	// }
-	
 }
 
 void	ft_remove_exp(t_env **exp_list, char *key)
@@ -297,23 +187,15 @@ static int	ft_handle_line(t_data *data, char *line)
 	char	*key;
 	char	*value;
 
-	// printf("line: [%s]\n", line);
 	key = ft_substr(line, 0, ft_strchr(line, '=') - line);
-	// printf("key: [%s]\n", key);
 	if (ft_isvalid_varname(key) == NO)
 		return (free(key), ft_not_a_valid_identifier(line), FAIL);
 	value = ft_substr(line, ft_strchr(line, '=') - line + 1, ft_strlen(line));
-	// printf("value: [%s]\n", value);
-
-
 	if (ft_strchr(line, '=') != NULL)
 		ft_add_env(&data->env_list, key, value);
-	
 	if (key && key[0] == '_' && key[1] == '\0')
 		return (free(key), free(value), SUCCESS);
-	
 	ft_add_exp(&data->exp_list, line, key, value);
-	
 	free(key);
 	free(value);
 	return (SUCCESS);
@@ -359,7 +241,6 @@ int	ft_export(t_data *data, t_cmd *cmd)
 		return (ft_print("export: options are not allowed", 2), 2);
 	while (args)
 	{
-		// printf("let's handle: [%s]\n", args->value);
 		if (ft_handle_line(data, args->value) == FAIL)
 			exit_status = 1;
 		args = args->next;

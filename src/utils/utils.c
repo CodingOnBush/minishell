@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/24 17:31:34 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 16:43:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ int	ft_get_type(char *str)
 	if (*str == '|')
 		return (PIPE);
 	if (ft_isheredoc(str) == YES)
-		return (HERE_DOC);
+		return (HD);
 	if (ft_isappend(str) == YES)
 		return (APPEND);
 	if (*str == '<')
-		return (LEFT_TRUNC);
+		return (LT);
 	if (*str == '>')
 		return (RIGHT_TRUNC);
 	return (WORD);

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/29 10:54:08 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 17:06:04 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,14 @@ t_token	*ft_extract_token(t_token *cur)
 			if (!str)
 				return (ft_free_tokens(&res), NULL);
 		}
-		new = ft_new_token(str, cur->type, cur->pos, cur->error, cur->to_expand);
+		new = ft_new_token(str, cur->type, cur->pos, cur->error,
+				cur->to_expand);
 		if (!new)
-			return (free(str), ft_free_tokens(&res), NULL);
+		{
+			if (str)
+				free(str);
+			return (ft_free_tokens(&res), NULL);
+		}
 		ft_addlast_token(&res, new);
 		cur = cur->next;
 	}
@@ -40,7 +45,7 @@ t_token	*ft_extract_token(t_token *cur)
 
 static int	ft_count_args(t_arg *lst)
 {
-	int		count;
+	int	count;
 
 	count = 0;
 	while (lst)
@@ -55,6 +60,8 @@ static void	ft_free_array(char **array)
 {
 	int	i;
 
+	if (!array)
+		return ;
 	i = 0;
 	while (array[i] != NULL)
 	{
@@ -62,7 +69,8 @@ static void	ft_free_array(char **array)
 			free(array[i]);
 		i++;
 	}
-	free(array);
+	if (array)
+		free(array);
 }
 
 char	**ft_create_args_array(t_arg *arg_list)

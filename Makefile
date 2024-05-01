@@ -6,19 +6,18 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/04/30 18:04:52 by momrane          ###   ########.fr        #
+#    Updated: 2024/05/01 15:53:26 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Setup
 NAME 		:=	minishell
 CC			:=	cc
-CFLAGS		:=	-g3#-Wall -Wextra -Werror -g3
+CFLAGS		:=	-Wall -Wextra -Werror -g3
 
 # Valgrind
-VAL_FLAGS	:=	--leak-check=full --show-leak-kinds=all \
-				--track-origins=yes \
-				--suppressions=readline.supp #--trace-children=yes --track-fds=yes
+VAL_FLAGS	:=	--leak-check=full --show-leak-kinds=all --track-origins=yes \
+				--suppressions=readline.supp
 
 # Directories
 BIN_DIR 	:=	./bin
@@ -34,17 +33,16 @@ UTILS_DIR	:=	$(SRC_DIR)/utils
 
 # Lib
 LIBFT		:=	$(LIBFT_DIR)/libft.a
-HEADER		:=	-I $(INC_DIR)
 
 # Colors
 DEF_COLOR	:=	\033[0;39m
 GREEN 		:=	\033[0;92m
 CYAN 		:=	\033[0;96m
 
-INIT		:=	$(INIT_DIR)/init.c \
+INITS		:=	$(INIT_DIR)/init.c \
 				$(INIT_DIR)/env.c
 
-LEXER		:=	$(LEXER_DIR)/errors.c \
+LEXERS		:=	$(LEXER_DIR)/errors.c \
 				$(LEXER_DIR)/expand_utils.c \
 				$(LEXER_DIR)/expand.c \
 				$(LEXER_DIR)/lexer.c \
@@ -52,13 +50,13 @@ LEXER		:=	$(LEXER_DIR)/errors.c \
 				$(LEXER_DIR)/token_check.c \
 				$(LEXER_DIR)/token.c
 
-PARSER		:=	$(PARSER_DIR)/args.c \
+PARSERS		:=	$(PARSER_DIR)/args.c \
 				$(PARSER_DIR)/infile.c \
 				$(PARSER_DIR)/outfile.c \
 				$(PARSER_DIR)/parser_utils.c \
 				$(PARSER_DIR)/parser.c
 
-EXEC		:=	$(EXEC_DIR)/builtins.c \
+EXECS		:=	$(EXEC_DIR)/builtins.c \
 				$(EXEC_DIR)/env_utils.c \
 				$(EXEC_DIR)/exec_utils.c \
 				$(EXEC_DIR)/exec.c \
@@ -74,7 +72,6 @@ EXEC		:=	$(EXEC_DIR)/builtins.c \
 				$(EXEC_DIR)/multi_cmds_utils.c \
 				$(EXEC_DIR)/pipe.c \
 				$(EXEC_DIR)/single_cmd_builtin.c \
-				$(EXEC_DIR)/single_cmd_utils.c \
 				$(EXEC_DIR)/single_cmd.c \
 				$(EXEC_DIR)/get_redirs.c
 
@@ -85,27 +82,20 @@ UTILS		:=	$(UTILS_DIR)/free_utils.c \
 				$(UTILS_DIR)/utils2.c \
 				$(UTILS_DIR)/utils3.c
 
-SRC			:=	$(SRC_DIR)/main.c $(INIT) $(LEXER) \
-				$(PARSER) $(EXEC) $(UTILS)
+SRC			:=	$(SRC_DIR)/main.c $(INITS) $(LEXERS) \
+				$(PARSERS) $(EXECS) $(UTILS)
 OBJ			:=	$(SRC:$(SRC_DIR)/%.c=$(BIN_DIR)/%.o)
 
 # Default make
 all: $(NAME)
-
-m: $(NAME)
-	./$(NAME)
 	
 $(NAME): $(LIBFT) $(OBJ)
-	@$(CC) $(HEADER) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
+	@$(CC) -I $(INC_DIR) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"
-
-print:
-	@echo $(SRC)
-	@echo $(OBJ)
 
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
+	$(CC) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
 # libft
 $(LIBFT):

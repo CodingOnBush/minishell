@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hd_count.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 18:14:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/30 16:22:10 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:43:16 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	ft_hd_count_pre_err(t_cmd *cmd)
 	cur = cmd->token_list;
 	while (cur != NULL && cur->pos < err_pos)
 	{
-		if (cur->type == HERE_DOC && cur->next != NULL && cur->next->type == LIM
+		if (cur->type == HD && cur->next != NULL && cur->next->type == LIM
 			&& cur->error == false && cur->next->error == false)
 			hd_count++;
 		cur = cur->next;
@@ -68,7 +68,7 @@ static int	ft_count_hd(t_token *list)
 	hd_count = 0;
 	while (cur != NULL)
 	{
-		if (cur->type == HERE_DOC && cur->next != NULL && cur->next->type == LIM
+		if (cur->type == HD && cur->next != NULL && cur->next->type == LIM
 			&& cur->error == false && cur->next->error == false)
 			hd_count++;
 		cur = cur->next;

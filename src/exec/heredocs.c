@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:48:50 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/30 16:32:07 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:20:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ static void	writing_loop(t_data *data, int fd_hd, char *delimiter,
 		line = readline("> ");
 		if (!line)
 		{
-			ft_putstr_fd("warning: here-document delimited by end of file\n", 2);
+			ft_putstr_fd("warning: here-document delimited by end of file\n",
+				2);
 			break ;
 		}
-		if (to_expand == true && ft_strchr(line, '$') != NULL && ft_strcmp(line, delimiter) != 0)
+		if (to_expand == true && ft_strchr(line, '$') != NULL && ft_strcmp(line,
+				delimiter) != 0)
 			line = ft_get_expanded_str(data, line);
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
@@ -52,7 +54,7 @@ static int	ft_execute_hd(t_data *data, t_cmd *cmd, int *fd_hd, int i)
 		{
 			fd_hd[i + count] = open(data->hd_files[i + count],
 					O_WRONLY | O_RDONLY | O_CREAT, 0644);
-			if (fd_hd[i + count] == -1)
+			if (fd_hd[i + count] == -1 || fd_hd[i + count] > FDMAX)
 				return (ft_print_err(HDEXEC), ft_free_all(data), FAIL);
 			writing_loop(data, fd_hd[i + count], cur_inf->delimiter,
 				cur_inf->to_expand);
@@ -84,17 +86,12 @@ static int	ft_do_hd(t_data *data)
 
 static int	ft_exec_heredocs(t_data *data)
 {
-	t_token	*cur_token;
-	t_cmd	*cur_cmd;
-
-	
 	data->hdnum = ft_get_hd_nb(data->cmd_list);
 	if (data->hdnum == 0)
 		return (SUCCESS);
 	data->fd_hd = malloc(sizeof(int) * data->hdnum);
 	if (!data->fd_hd)
 		return (FAIL);
-
 	data->hd_files = ft_create_hd_filenames(data->hdnum);
 	if (!data->hd_files)
 		return (FAIL);

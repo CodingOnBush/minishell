@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 09:40:03 by ubuntu            #+#    #+#             */
-/*   Updated: 2024/04/30 10:30:54 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:19:43 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ static int	ft_is_too_big(char *str)
 	if (*tmp == '-' || *tmp == '+')
 		tmp++;
 	if (ft_isnumber(str) == YES && ft_strlen(tmp) < 19)
-			return (NO);
+		return (NO);
 	if (ft_strlen(tmp) > 19)
 		return (YES);
 	if (ft_isnumber(str) == YES && ft_strcmp(str, "9223372036854775807") > 0)
 		return (YES);
-	if (ft_isnumber(str) == YES && str[0] && str[0] == '-'
-		&& ft_strcmp(str, "-9223372036854775808") > 0)
+	if (ft_isnumber(str) == YES && str[0] && str[0] == '-' && ft_strcmp(str,
+			"-9223372036854775808") > 0)
 		return (YES);
 	return (NO);
 }
@@ -103,7 +103,7 @@ int	ft_exit(t_data *data, t_arg *arg_list)
 		}
 		status = ft_atoll(str) % 256;
 	}
-	cmd_nb = data->cmd_nb;	
+	cmd_nb = data->cmd_nb;
 	if (cmd_nb == 1)
 	{
 		ft_free_all(data);

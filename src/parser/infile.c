@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   infile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/29 13:57:33 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:44:59 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static t_infile	*ft_new_infile(char *str, int type, t_data *data, bool to_exp)
+static t_infile	*ft_new_infile(char *str, int type, t_data *data)
 {
 	t_infile	*new_infile;
 	char		*new;
@@ -25,12 +25,12 @@ static t_infile	*ft_new_infile(char *str, int type, t_data *data, bool to_exp)
 		return (free(new_infile), NULL);
 	new_infile->to_expand = true;
 	new_infile->filename = NULL;
-	if (type == LEFT_TRUNC)
+	if (type == LT)
 	{
 		new_infile->filename = new;
 		new_infile->delimiter = NULL;
 	}
-	else if (type == HERE_DOC)
+	else if (type == HD)
 	{
 		new_infile->hd_num = data->hd_pos;
 		data->hd_pos++;
@@ -66,11 +66,12 @@ t_infile	*ft_create_infile_list(t_data *data, t_token *cur)
 	while (cur)
 	{
 		nxt = cur->next;
-		if ((cur->type == LEFT_TRUNC || cur->type == HERE_DOC) && cur->error == false)
+		if ((cur->type == LT || cur->type == HD) && cur->error == false)
 		{
-			if (nxt && (nxt->type == WORD || nxt->type == LIM) && nxt->error == false)
+			if (nxt && (nxt->type == WORD || nxt->type == LIM)
+				&& nxt->error == false)
 			{
-				new = ft_new_infile(nxt->value, cur->type, data, nxt->to_expand);
+				new = ft_new_infile(nxt->value, cur->type, data);
 				if (!new)
 					return (ft_free_infiles(&res), NULL);
 				nxt->attributed = true;
@@ -83,7 +84,7 @@ t_infile	*ft_create_infile_list(t_data *data, t_token *cur)
 			ft_add_infile(&res, new);
 		}
 		if (cur->error == true)
-			break;
+			break ;
 		cur = nxt;
 	}
 	return (res);

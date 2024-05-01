@@ -52,3 +52,4 @@ export sudo
 export TES^T=123
 export TES!T=123
 export TES\~T=123
+export =

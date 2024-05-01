@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:32:27 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/22 18:47:09 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 14:35:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <sys/types.h>
+# include <dirent.h>
 # include <sys/stat.h>
 
 #endif

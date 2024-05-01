@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 22:46:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 12:36:28 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 17:07:48 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ static int	ft_update_var(t_env **env_list, char *key, char *value)
 	{
 		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
 		{
-			free(tmp->value);
+			if (tmp->value)
+				free(tmp->value);
 			tmp->value = value;
-			free(key);
+			if (key)
+				free(key);
 			return (SUCCESS);
 		}
 		tmp = tmp->next;
@@ -70,8 +72,10 @@ void	ft_remove_env(t_env **env_list, char *key)
 				prev->next = tmp->next;
 			else
 				*env_list = tmp->next;
-			free(tmp->key);
-			free(tmp->value);
+			if (tmp->key)
+				free(tmp->key);
+			if (tmp->value)
+				free(tmp->value);
 			free(tmp);
 			return ;
 		}

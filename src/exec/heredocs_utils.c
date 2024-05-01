@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:59:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/30 16:29:17 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:19:36 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ t_infile	*ft_get_next_infile(t_infile *infile, char *name)
 	cur_inf = infile;
 	while (cur_inf)
 	{
-		if (cur_inf->filename == NULL && ft_strcmp(cur_inf->delimiter, name) == 0)
+		if (cur_inf->filename == NULL && ft_strcmp(cur_inf->delimiter,
+				name) == 0)
 			return (cur_inf);
 		cur_inf = cur_inf->next;
 	}
@@ -91,10 +92,10 @@ t_infile	*ft_get_next_infile(t_infile *infile, char *name)
 
 void	ft_set_heredoc_files(t_data *data)
 {
-	t_token		*cur_token;
-	t_cmd		*cur_cmd;
-	t_infile	*infile;
-	int			count;
+	t_token *cur_token;
+	t_cmd *cur_cmd;
+	t_infile *infile;
+	int count;
 
 	count = 0;
 	cur_cmd = data->cmd_list;
@@ -106,7 +107,7 @@ void	ft_set_heredoc_files(t_data *data)
 		cur_token = cur_cmd->token_list;
 		while (cur_token)
 		{
-			if (cur_token->type == HERE_DOC)
+			if (cur_token->type == HD)
 			{
 				if (cur_token->next && cur_token->next->type == LIM)
 				{
@@ -119,7 +120,7 @@ void	ft_set_heredoc_files(t_data *data)
 				}
 			}
 			cur_token = cur_token->next;
-		}	
+		}
 		cur_cmd = cur_cmd->next;
 	}
 }

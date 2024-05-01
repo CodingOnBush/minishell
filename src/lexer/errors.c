@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 13:36:56 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/26 18:49:59 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 16:43:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ void	ft_print_err(int errno)
 {
 	if (errno == APPEND)
 		ft_putstr_fd("minishell: syntax error near unexpected token `>>'\n", 2);
-	else if (errno == HERE_DOC)
+	else if (errno == HD)
 		ft_putstr_fd("minishell: syntax error near unexpected token `<<'\n", 2);
 	else if (errno == RIGHT_TRUNC)
 		ft_putstr_fd("minishell: syntax error near unexpected token `>'\n", 2);
-	else if (errno == LEFT_TRUNC)
+	else if (errno == LT)
 		ft_putstr_fd("minishell: syntax error near unexpected token `<'\n", 2);
 	else if (errno == PIPE)
 		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);

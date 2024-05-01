@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:01:55 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 12:25:14 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 17:20:14 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_env	*ft_create_default_exp(void)
 	new = ft_create_new_env("PWD=", "PWD", getcwd(NULL, 0));
 	if (!new)
 		return (ft_free_env_list(&res), NULL);
-	ft_add_new_exp(&res, new);	
+	ft_add_new_exp(&res, new);
 	new = ft_create_new_env("SHLVL=", "SHLVL", "1");
 	if (!new)
 		return (ft_free_env_list(&res), NULL);
@@ -76,7 +76,6 @@ t_env	*ft_create_explist(char **env)
 		if (!new)
 			return (ft_free_env_list(&res), NULL);
 		ft_add_new_exp(&res, new);
-		// printf("new key added: %s\n", new->key);
 		i++;
 	}
 	if (res == NULL)
@@ -96,7 +95,6 @@ void	ft_print_exports_var(t_data *data)
 		ft_putstr_fd("export ", 1);
 		if (cur->key)
 			ft_putstr_fd(cur->key, 1);
-
 		if (ft_strchr(cur->base, '='))
 		{
 			ft_putstr_fd("=\"", 1);
@@ -106,13 +104,6 @@ void	ft_print_exports_var(t_data *data)
 		}
 		else
 			ft_putstr_fd("\n", 1);
-
-		// printf("BASE: %s\n", cur->base);
-		// ft_putstr_fd("=\"", 1);
-		// if (cur->value)
-		// 	ft_putstr_fd(cur->value, 1);
-		// ft_putstr_fd("\"\n", 1);
-
 		cur = cur->next;
 	}
 }

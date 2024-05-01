@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:13:46 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/30 15:57:59 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:19:16 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*ft_get_expanded_str(t_data *data, char *str)
 	if (ft_strncmp(str, "~/", 2) == 0 || ft_strcmp(str, "~") == 0)
 	{
 		next_str = ft_getenv(data->env_list, "HOME");
-		str ++;
+		str++;
 		tmp = ft_super_strjoin(res, next_str);
 		res = tmp;
 	}
@@ -134,7 +134,8 @@ void	ft_expand(t_data *data, t_token **token_list)
 		}
 		else if (token->type == LIM)
 		{
-			if (ft_strchr(token->value, '\'') != NULL || ft_strchr(token->value, '\"') != NULL)
+			if (ft_strchr(token->value, '\'') != NULL || ft_strchr(token->value,
+					'\"') != NULL)
 				token->to_expand = false;
 			new_str = ft_remove_quotes(token->value);
 			free(token->value);

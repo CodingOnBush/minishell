@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 15:24:42 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/30 14:00:53 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:26:18 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 static int	ft_is_n(char *str)
 {
+	while (*str && ft_is_space(*str) == YES)
+		str++;
 	if (!str || *str != '-')
 		return (NO);
 	str++;
 	while (*str && *str == 'n')
+		str++;
+	while (*str && ft_is_space(*str) == YES)
 		str++;
 	if (*str == '\0')
 		return (YES);
@@ -53,17 +57,17 @@ static void	ft_print_value(t_arg *cur)
 
 int	ft_echo(t_data *data, t_cmd *cmd)
 {
-	t_arg	*cur;
+	t_arg	*cur_arg;
 
 	(void)data;
-	cur = cmd->arg_list;
-	if (!cur || !cur->value)
+	cur_arg = cmd->arg_list;
+	if (!cur_arg || !cur_arg->value)
 		return (FAIL);
-	cur = ft_skip_options(cur->next);
-	while (cur)
+	cur_arg = ft_skip_options(cur_arg->next);
+	while (cur_arg)
 	{
-		ft_print_value(cur);
-		cur = cur->next;
+		ft_print_value(cur_arg);
+		cur_arg = cur_arg->next;
 	}
 	if (ft_should_i_add_nl(cmd->arg_list) == YES)
 		ft_putstr_fd("\n", 1);

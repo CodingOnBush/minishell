@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outfile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 11:20:17 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:03:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	ft_free_outfiles(t_outfile **outfile_list)
 	while (cur != NULL)
 	{
 		next = cur->next;
-		free(cur->filename);
+		if (cur->filename)
+			free(cur->filename);
 		free(cur);
 		cur = next;
 	}

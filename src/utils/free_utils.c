@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 22:37:42 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/22 17:34:36 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 17:06:41 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,16 @@ static void	ft_free_args(char ***args)
 
 	i = 0;
 	tmp = *args;
+	if (tmp == NULL)
+		return ;
 	while (tmp[i] != NULL)
-		free(tmp[i++]);
-	free(tmp);
+	{
+		if (tmp[i])
+			free(tmp[i]);
+		i++;
+	}
+	if (tmp)
+		free(tmp);
 	*args = NULL;
 }
 
@@ -84,10 +91,13 @@ void	ft_free_env(char **env)
 	int	i;
 
 	i = 0;
+	if (!env)
+		return ;
 	while (env[i])
 	{
 		free(env[i]);
 		i++;
 	}
-	free(env);
+	if (env)
+		free(env);
 }

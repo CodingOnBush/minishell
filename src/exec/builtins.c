@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:11:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 12:35:49 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 17:19:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	ft_isbuiltin(t_cmd *cmd)
 {
-	char		*str;
-	int			len;
-	int			i;
-	char *const	builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
-		"exit", ":", "!", NULL};
+	char	*str;
+	int		len;
+	int		i;
 
+	char *const builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
+		"exit", ":", "!", NULL};
 	if (!cmd || !(cmd->arg_list) || !(cmd->arg_list->value))
 		return (NO);
 	str = cmd->arg_list->value;
@@ -71,10 +71,12 @@ static int	ft_pwd(t_cmd *cmd)
 	if (!cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (1);
 	if (cmd->arg_list->next && ft_is_option(cmd->arg_list->next->value))
-		return (ft_putstr_fd("minishell: pwd: options are not allowed\n", 2), 2);
+		return (ft_putstr_fd("minishell: pwd: options are not allowed\n", 2),
+			2);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (perror(cmd->arg_list->value), 1);
+		return (ft_putstr_fd("minishell: ", 2), perror(cmd->arg_list->value),
+			1);
 	ft_putstr_fd(cwd, 1);
 	ft_putstr_fd("\n", 1);
 	free(cwd);

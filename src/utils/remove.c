@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:23:11 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/26 18:07:49 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 16:43:31 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static char	*ft_type_to_str(int type)
 		return ("PIPE");
 	if (type == PIPE_AT_END)
 		return ("PIPE_AT_END");
-	if (type == HERE_DOC)
+	if (type == HD)
 		return ("HEREDOC");
 	if (type == APPEND)
 		return ("APPEND");
-	if (type == LEFT_TRUNC)
+	if (type == LT)
 		return ("LTRUNC");
 	if (type == RIGHT_TRUNC)
 		return ("RTRUNC");

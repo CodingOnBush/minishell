@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_redirs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:57:23 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/30 16:20:37 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:16:10 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_open_files(t_data *data, t_redir *redir, int is_append)
 	if (redir->infile)
 	{
 		redir->fd_in = open(redir->infile, O_RDONLY);
-		if (redir->fd_in == -1)
+		if (redir->fd_in == -1 || redir->fd_in > FDMAX)
 		{
 			data->exit_status = 1;
 			return (ft_putstr_fd("minishell : ", 2), perror(redir->infile),
@@ -46,7 +46,7 @@ static int	ft_open_files(t_data *data, t_redir *redir, int is_append)
 		else
 			redir->fd_out = open(redir->outfile, O_CREAT | O_WRONLY | O_TRUNC,
 					0644);
-		if (redir->fd_out == -1)
+		if (redir->fd_out == -1 || redir->fd_out > FDMAX)
 		{
 			data->exit_status = 1;
 			return (close(redir->fd_in), perror(redir->outfile), free(redir), FAIL);
@@ -62,7 +62,7 @@ static int	ft_handle_outfiles(t_data *data, t_redir *redir, t_token *cur,
 		redir->fd_out = open(cur->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else
 		redir->fd_out = open(cur->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (redir->fd_out == -1)
+	if (redir->fd_out == -1 || redir->fd_out > FDMAX)
 	{
 		data->exit_status = 1;
 		return (ft_putstr_fd("minishell : ", 2), perror(cur->value), FAIL);

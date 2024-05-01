@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:33:06 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/25 11:00:15 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:15:46 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 # define DOUBLE_QUOTES '\"'
 # define SINGLE_QUOTE '\''
 
-# define HERE_DOC 1
+# define HD 1
 # define APPEND 2
 # define PIPE 3
-# define LEFT_TRUNC 4
+# define LT 4
 # define RIGHT_TRUNC 5
 # define WORD 6
 # define NEWLINE_ERROR 7
@@ -41,5 +41,7 @@
 # define LIM 13
 # define PIPE_AT_END 14
 # define HDEXEC 15
+
+# define FDMAX 1024
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/27 13:26:57 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 14:50:19 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,10 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 	if (!path)
 		return (1);
 	wd = getcwd(NULL, 0);
+	if (!wd)
+		return (ft_putstr_fd("minishell: cd: ", 2), perror(wd), free(path), 1);
 	if (chdir(path) == -1)
-		return (ft_putstr_fd("minishell : ", 2), perror(path), free(path),
+		return (ft_putstr_fd("minishell: cd:", 2), perror(path), free(path),
 			free(wd), 1);
 	free(path);
 	ft_setenv(&env_list, ft_strdup("OLDPWD"), ft_strdup(wd));
@@ -87,6 +89,5 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 	wd = getcwd(NULL, 0);
 	ft_setenv(&env_list, ft_strdup("PWD"), ft_strdup(wd));
 	free(wd);
-	
 	return (0);
 }

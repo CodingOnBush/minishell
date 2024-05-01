@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:47:50 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 12:37:31 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 16:45:33 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	ft_set_delimiters(t_token **token_list)
 	token = *token_list;
 	while (token)
 	{
-		if (token->type == HERE_DOC && token->next && token->next->type == WORD)
+		if (token->type == HD && token->next && token->next->type == WORD)
 			token->next->type = LIM;
 		token = token->next;
 	}
@@ -27,23 +27,28 @@ static void	ft_set_delimiters(t_token **token_list)
 
 static int	ft_check_quote_error(char *line)
 {
-	int	quote;
+	int	squote;
+	int	dquote;
 
-	quote = 0;
+	squote = 0;
+	dquote = 0;
 	if (!line)
 		return (FAIL);
 	while (*line)
 	{
-		if (ft_isquote(*line) && ft_strchr(line + 1, *line) != NULL)
+		if (ft_isquote(*line) && (line + 1) && ft_strchr(line + 1,
+				*line) != NULL)
 			line += ft_strchr(line + 1, *line) - line + 1;
 		else
 		{
-			if (ft_isquote(*line))
-				quote++;
+			if (*line == '"')
+				squote++;
+			if (*line == '\'')
+				dquote++;
 			line++;
 		}
 	}
-	if (quote % 2 != 0)
+	if (squote % 2 != 0 || dquote % 2 != 0)
 		return (FAIL);
 	return (SUCCESS);
 }
