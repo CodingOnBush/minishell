@@ -6,14 +6,13 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 11:43:18 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 17:18:57 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:18:48 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-t_token	*ft_new_token(char *new_str, int type, int pos, bool error,
-		bool to_expand)
+t_token	*ft_new_token(char *new_str, int type, int pos, bool to_expand)
 {
 	t_token	*new_token;
 
@@ -24,7 +23,7 @@ t_token	*ft_new_token(char *new_str, int type, int pos, bool error,
 	new_token->type = type;
 	new_token->attributed = false;
 	new_token->pos = pos;
-	new_token->error = error;
+	new_token->error = false;
 	new_token->err_type = -1;
 	new_token->pipe_at_end = false;
 	new_token->next = NULL;
@@ -42,7 +41,7 @@ static int	ft_get_token_size(char *line)
 
 	if (!line)
 		return (FAIL);
-	type = ft_get_type(line);
+	type = ft_gettype(line);
 	if (type == HD || type == APPEND)
 		return (2);
 	if (type == PIPE || type == RIGHT_TRUNC || type == LT)
@@ -94,7 +93,7 @@ t_token	*ft_create_token_list(char *line)
 {
 	t_token	*token_list;
 	t_token	*new_token;
-	char	*new_str;
+	char	*str;
 	int		pos;
 
 	pos = 0;
@@ -105,15 +104,14 @@ t_token	*ft_create_token_list(char *line)
 			line++;
 		else
 		{
-			new_str = ft_get_next_str(line);
-			if (!new_str)
+			str = ft_get_next_str(line);
+			if (!str)
 				return (ft_free_tokens(&token_list), NULL);
-			new_token = ft_new_token(new_str, ft_get_type(new_str), pos, false,
-					true);
+			new_token = ft_new_token(str, ft_gettype(str), pos, true);
 			if (!new_token)
-				return (free(new_str), ft_free_tokens(&token_list), NULL);
+				return (free(str), ft_free_tokens(&token_list), NULL);
 			ft_addlast_token(&token_list, new_token);
-			line += ft_strlen(new_str);
+			line += ft_strlen(str);
 			pos++;
 		}
 	}

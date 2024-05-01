@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/05/01 15:53:26 by momrane          ###   ########.fr        #
+#    Updated: 2024/05/01 20:11:13 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ GREEN 		:=	\033[0;92m
 CYAN 		:=	\033[0;96m
 
 INITS		:=	$(INIT_DIR)/init.c \
+				$(INIT_DIR)/env_utils2.c \
 				$(INIT_DIR)/env.c
 
 LEXERS		:=	$(LEXER_DIR)/errors.c \
@@ -88,7 +89,7 @@ OBJ			:=	$(SRC:$(SRC_DIR)/%.c=$(BIN_DIR)/%.o)
 
 # Default make
 all: $(NAME)
-	
+
 $(NAME): $(LIBFT) $(OBJ)
 	@$(CC) -I $(INC_DIR) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 	@echo "$(GREEN)minishell compiled !$(DEF_COLOR)"

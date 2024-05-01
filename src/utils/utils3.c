@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:31:42 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 16:57:51 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 20:45:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,11 @@ int	ft_file_is_append(t_cmd *cmd, char *filename)
 		cur_outf = cur_outf->next;
 	}
 	return (FAIL);
+}
+
+void	ft_print_and_exit(t_data *data, int status)
+{
+	ft_putstr_fd("exit\n", 1);
+	ft_free_all(data);
+	exit(status);
 }

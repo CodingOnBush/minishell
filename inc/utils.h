@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:37:36 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 16:57:34 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 20:45:35 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_print_tok(t_token *tok);
 
 /*		UTILS			*/
 int		ft_isop(char *str);
-int		ft_get_type(char *str);
+int		ft_gettype(char *str);
 int		ft_isoperator(char *str);
 char	*ft_strndup(char *s, int n);
 char	*ft_super_strjoin(char *new_str, char *toadd);
@@ -42,5 +42,6 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_get_env_list_size(t_env *env);
 int		ft_get_arg_list_size(t_arg *arg_list);
 int		ft_file_is_append(t_cmd *cmd, char *filename);
+void	ft_print_and_exit(t_data *data, int status);
 
 #endif

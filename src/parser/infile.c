@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 16:44:59 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:29:23 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,37 +55,45 @@ static void	ft_add_infile(t_infile **infile_list, t_infile *new_infile)
 	}
 }
 
+static t_infile	*ft_create_this_infile(t_token *nxt, t_token *cur, t_data *data)
+{
+	t_infile	*res;
+
+	res = ft_new_infile(nxt->value, cur->type, data);
+	if (!res)
+		return (NULL);
+	nxt->attributed = true;
+	if (nxt->type == LIM && nxt->to_expand == false)
+		res->to_expand = false;
+	if (nxt->type == WORD)
+		nxt->is_inf = true;
+	return (res);
+}
+
 t_infile	*ft_create_infile_list(t_data *data, t_token *cur)
 {
 	t_infile	*res;
 	t_infile	*new;
-	t_token		*nxt;
 
 	res = NULL;
 	new = NULL;
 	while (cur)
 	{
-		nxt = cur->next;
 		if ((cur->type == LT || cur->type == HD) && cur->error == false)
 		{
-			if (nxt && (nxt->type == WORD || nxt->type == LIM)
-				&& nxt->error == false)
+			if (cur->next && (cur->next->type == WORD || cur->next->type == LIM)
+				&& cur->next->error == false)
 			{
-				new = ft_new_infile(nxt->value, cur->type, data);
+				new = ft_create_this_infile(cur->next, cur, data);
 				if (!new)
 					return (ft_free_infiles(&res), NULL);
-				nxt->attributed = true;
-				if (nxt->type == LIM && nxt->to_expand == false)
-					new->to_expand = false;
-				if (nxt->type == WORD)
-					nxt->is_inf = true;
 			}
 			cur->attributed = true;
 			ft_add_infile(&res, new);
 		}
 		if (cur->error == true)
 			break ;
-		cur = nxt;
+		cur = cur->next;
 	}
 	return (res);
 }

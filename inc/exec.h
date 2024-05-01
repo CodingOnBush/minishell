@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 20:00:30 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:48:01 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			ft_exec_builtin(t_data *data, t_cmd *cmd);
 int			ft_setenv(t_env **env_list, char *key, char *value);
 void		ft_remove_env(t_env **env_list, char *key);
 char		*ft_getenv(t_env *env_list, char *key);
-int			ft_key_exist(t_env *env_list, char *key);
+int			ft_print_env(t_data *data);
 
 /*			EXEC_UTILS	*/
 char		*ft_get_cmd_path(t_data *data, char *cmd_name);
@@ -45,6 +45,9 @@ int			ft_exit(t_data *data, t_arg *arg_list);
 void		ft_add_new_exp(t_env **exp_list, t_env *new);
 t_env		*ft_create_explist(char **env);
 void		ft_print_exports_var(t_data *data);
+
+/*		FT_EXPORT_UTILS2	*/
+
 
 /*		FT_EXPORT		*/
 void		ft_remove_exp(t_env **exp_list, char *key);

@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 22:46:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 17:07:48 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:41:08 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,20 @@ char	*ft_getenv(t_env *env_list, char *key)
 	return (NULL);
 }
 
-int	ft_key_exist(t_env *env_list, char *key)
+int	ft_print_env(t_data *data)
 {
-	t_env	*tmp;
+	t_env	*env_list;
 
-	tmp = env_list;
-	while (tmp)
+	if (!data)
+		return (1);
+	env_list = data->env_list;
+	while (env_list)
 	{
-		if (ft_strcmp(tmp->key, key) == 0)
-			return (YES);
-		tmp = tmp->next;
+		ft_putstr_fd(env_list->key, 1);
+		ft_putstr_fd("=", 1);
+		ft_putstr_fd(env_list->value, 1);
+		ft_putstr_fd("\n", 1);
+		env_list = env_list->next;
 	}
-	return (NO);
+	return (0);
 }
-

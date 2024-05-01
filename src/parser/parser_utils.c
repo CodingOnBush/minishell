@@ -6,11 +6,19 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 17:06:04 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:29:41 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static void	ft_free_tokens_and_str(t_token *token, char *str)
+{
+	if (str)
+		free(str);
+	if (token)
+		ft_free_tokens(&token);
+}
 
 t_token	*ft_extract_token(t_token *cur)
 {
@@ -21,22 +29,17 @@ t_token	*ft_extract_token(t_token *cur)
 	res = NULL;
 	while (cur != NULL && cur->type != PIPE)
 	{
-		if (cur->value == NULL)
-			str = NULL;
-		else
+		str = NULL;
+		if (cur->value != NULL)
 		{
 			str = ft_strdup(cur->value);
 			if (!str)
 				return (ft_free_tokens(&res), NULL);
 		}
-		new = ft_new_token(str, cur->type, cur->pos, cur->error,
-				cur->to_expand);
+		new = ft_new_token(str, cur->type, cur->pos, cur->to_expand);
 		if (!new)
-		{
-			if (str)
-				free(str);
-			return (ft_free_tokens(&res), NULL);
-		}
+			return (ft_free_tokens_and_str(res, str), NULL);
+		new->err_type = cur->err_type;
 		ft_addlast_token(&res, new);
 		cur = cur->next;
 	}

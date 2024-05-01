@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 17:23:03 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 21:13:03 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,35 @@ static void	ft_not_a_valid_identifier(char *str)
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
-static void	ft_add_env(t_env **env_list, char *key, char *value)
+static int	ft_add_it(t_env **env_list, t_env *new, char *newkey, char *newvalue)
 {
 	t_env	*cur;
 	t_env	*prev;
+
+	cur = *env_list;
+	if (!cur)
+		return (*env_list = new, SUCCESS);
+	prev = cur;
+	while (cur)
+	{
+		if (ft_strcmp(cur->key, newkey) == 0)
+		{
+			if (cur->value)
+				free(cur->value);
+			cur->value = newvalue;
+			if (newkey)
+				free(newkey);
+			return (free(new), SUCCESS);
+		}
+		prev = cur;
+		cur = cur->next;
+	}
+	prev->next = new;
+	return (SUCCESS);
+}
+
+static void	ft_add_env(t_env **env_list, char *key, char *value)
+{
 	t_env	*new;
 	char	*newkey;
 	char	*newvalue;
@@ -53,28 +78,7 @@ static void	ft_add_env(t_env **env_list, char *key, char *value)
 	new = ft_new_env(NULL, newkey, newvalue);
 	if (!new)
 		return (free(newkey), free(newvalue));
-	if (!*env_list)
-	{
-		*env_list = new;
-		return ;
-	}
-	cur = *env_list;
-	while (cur)
-	{
-		if (ft_strcmp(cur->key, new->key) == 0)
-		{
-			if (cur->value)
-				free(cur->value);
-			cur->value = newvalue;
-			if (newkey)
-				free(newkey);
-			free(new);
-			return ;
-		}
-		prev = cur;
-		cur = cur->next;
-	}
-	prev->next = new;
+	ft_add_it(env_list, new, newkey, newvalue);
 }
 
 static t_env	*ft_get_right_exp(t_env *exp_list, char *key)
@@ -92,10 +96,85 @@ static t_env	*ft_get_right_exp(t_env *exp_list, char *key)
 	return (prev);
 }
 
-static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
+static int	ft_update_exp(t_env *prev, char *line, char *newvalue)
+{
+	if (prev->next->value)
+	{
+		free(prev->next->value);
+		prev->next->value = newvalue;
+	}
+	if (prev->next->base)
+	{
+		free(prev->next->base);
+		prev->next->base = line;
+	}
+	return (SUCCESS);
+}
+
+static int	ft_add_this_exp(t_env **exp_list, t_env *new, char *line, char *newkey, char *newvalue)
 {
 	t_env	*cur;
 	t_env	*prev;
+
+	cur = *exp_list;
+	if (!cur)
+	{
+		cur = new;
+		return (SUCCESS);
+	}
+	prev = ft_get_right_exp(*exp_list, newkey);
+	if (prev && prev->next && ft_strcmp(prev->next->key, newkey) == 0)
+	{
+		if (ft_strchr(line, '=') == NULL)
+		{
+			free(newkey);
+			free(newvalue);
+			free(line);
+			free(new);
+			return (SUCCESS);
+		}
+		ft_update_exp(prev, line, newvalue);
+		free(newkey);
+		free(new);
+		// if (ft_strchr(line, '=') == NULL)
+		// {
+		// 	free(newkey);
+		// 	free(newvalue);
+		// 	free(line);
+		// 	free(new);
+		// 	return ;
+		// }
+		// if (prev->next->value)
+		// {
+		// 	free(prev->next->value);
+		// 	prev->next->value = newvalue;
+		// }
+		// if (prev->next->base)
+		// {
+		// 	free(prev->next->base);
+		// 	prev->next->base = line;
+		// }
+		// free(newkey);
+		// free(new);
+		return (SUCCESS);
+	}
+	if (prev != NULL)
+	{
+		new->next = prev->next;
+		prev->next = new;
+	}
+	else
+	{
+		new->next = *exp_list;
+		*exp_list = new;
+	}
+	return (SUCCESS);
+}
+
+static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
+{
+	// t_env	*cur;
+	// t_env	*prev;
 	t_env	*new;
 	char	*newkey;
 	char	*newvalue;
@@ -113,47 +192,48 @@ static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
 	new = ft_new_env(line, newkey, newvalue);
 	if (!new)
 		return (free(newkey), free(newvalue), free(line));
-	cur = *exp_list;
-	if (!cur)
-	{
-		cur = new;
-		return ;
-	}
-	prev = ft_get_right_exp(*exp_list, newkey);
-	if (prev && prev->next && ft_strcmp(prev->next->key, newkey) == 0)
-	{
-		if (ft_strchr(line, '=') == NULL)
-		{
-			free(newkey);
-			free(newvalue);
-			free(line);
-			free(new);
-			return ;
-		}
-		if (prev->next->value)
-		{
-			free(prev->next->value);
-			prev->next->value = newvalue;
-		}
-		if (prev->next->base)
-		{
-			free(prev->next->base);
-			prev->next->base = line;
-		}
-		free(newkey);
-		free(new);
-		return ;
-	}
-	if (prev != NULL)
-	{
-		new->next = prev->next;
-		prev->next = new;
-	}
-	else
-	{
-		new->next = *exp_list;
-		*exp_list = new;
-	}
+	ft_add_this_exp(exp_list, new, line, newkey, newvalue);
+	// cur = *exp_list;
+	// if (!cur)
+	// {
+	// 	cur = new;
+	// 	return ;
+	// }
+	// prev = ft_get_right_exp(*exp_list, newkey);
+	// if (prev && prev->next && ft_strcmp(prev->next->key, newkey) == 0)
+	// {
+	// 	if (ft_strchr(line, '=') == NULL)
+	// 	{
+	// 		free(newkey);
+	// 		free(newvalue);
+	// 		free(line);
+	// 		free(new);
+	// 		return ;
+	// 	}
+	// 	if (prev->next->value)
+	// 	{
+	// 		free(prev->next->value);
+	// 		prev->next->value = newvalue;
+	// 	}
+	// 	if (prev->next->base)
+	// 	{
+	// 		free(prev->next->base);
+	// 		prev->next->base = line;
+	// 	}
+	// 	free(newkey);
+	// 	free(new);
+	// 	return ;
+	// }
+	// if (prev != NULL)
+	// {
+	// 	new->next = prev->next;
+	// 	prev->next = new;
+	// }
+	// else
+	// {
+	// 	new->next = *exp_list;
+	// 	*exp_list = new;
+	// }
 }
 
 void	ft_remove_exp(t_env **exp_list, char *key)

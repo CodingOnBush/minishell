@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 16:29:20 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 16:43:31 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:17:29 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_isop(char *str)
 	return (NO);
 }
 
-int	ft_get_type(char *str)
+int	ft_gettype(char *str)
 {
 	if (*str == '|')
 		return (PIPE);

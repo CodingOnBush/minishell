@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:13:46 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 17:19:16 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:16:27 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,31 +65,27 @@ static char	*ft_grab_next_str(t_data *data, char *str)
 	char	*grab;
 	char	*res;
 
+	grab = NULL;
+	res = NULL;
 	if (str && *str == SINGLE_QUOTE && (str + 1))
 	{
-		grab = ft_grab_str(str + 1, "\'");
-		if (!grab)
+		res = ft_grab_str(str + 1, "\'");
+		if (!res)
 			return (ft_strdup("\0"));
-		return (grab);
 	}
-	if (str && *str == DOUBLE_QUOTES && (str + 1))
+	else if (str && *str == DOUBLE_QUOTES && (str + 1))
 	{
 		grab = ft_grab_str(str + 1, "\"");
 		res = ft_get_next_str_in_double_quotes(data, grab);
 		free(grab);
 		if (!res)
 			return (ft_strdup("\0"));
-		return (res);
 	}
-	if (str && *str == '$' && (str + 1))
-	{
-		grab = ft_grab_var_name(str);
-		res = ft_get_expand(data, grab, str);
-		free(grab);
-		return (res);
-	}
-	grab = ft_grab_str(str, " \t\n\r\v\f$\'\"");
-	return (grab);
+	else if (str && *str == '$' && (str + 1))
+		res = ft_get_expand(data, ft_grab_var_name(str), str);
+	else
+		res = ft_grab_str(str, " \t\n\r\v\f$\'\"");
+	return (res);
 }
 
 char	*ft_get_expanded_str(t_data *data, char *str)

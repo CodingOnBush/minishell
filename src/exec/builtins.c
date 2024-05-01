@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:11:17 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 17:19:31 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:38:11 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,17 @@
 int	ft_isbuiltin(t_cmd *cmd)
 {
 	char	*str;
-	int		len;
-	int		i;
 
-	char *const builtins[] = {"echo", "cd", "pwd", "export", "unset", "env",
-		"exit", ":", "!", NULL};
-	if (!cmd || !(cmd->arg_list) || !(cmd->arg_list->value))
+	if (!cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (NO);
 	str = cmd->arg_list->value;
-	len = ft_strlen(str);
-	if (len == 0)
-		return (NO);
-	i = 0;
-	while (builtins[i])
-	{
-		if (ft_strcmp(cmd->arg_list->value, builtins[i]) == 0)
-			return (YES);
-		i++;
-	}
+	if (ft_strcmp(str, "echo") == 0 || ft_strcmp(str, "cd") == 0
+		|| ft_strcmp(str, "pwd") == 0 || ft_strcmp(str, "export") == 0
+		|| ft_strcmp(str, "unset") == 0 || ft_strcmp(str, "env") == 0
+		|| ft_strcmp(str, "exit") == 0 || ft_strcmp(str, ":") == 0
+		|| ft_strcmp(str, "!") == 0)
+		return (YES);
 	return (NO);
-}
-
-static int	ft_print_env(t_data *data, t_cmd *cmd)
-{
-	t_env	*env_list;
-
-	if (!data)
-		return (1);
-	(void)cmd;
-	env_list = data->env_list;
-	while (env_list)
-	{
-		ft_putstr_fd(env_list->key, 1);
-		ft_putstr_fd("=", 1);
-		ft_putstr_fd(env_list->value, 1);
-		ft_putstr_fd("\n", 1);
-		env_list = env_list->next;
-	}
-	return (0);
 }
 
 static int	ft_is_option(char *str)
@@ -67,16 +40,17 @@ static int	ft_is_option(char *str)
 static int	ft_pwd(t_cmd *cmd)
 {
 	char	*cwd;
+	t_arg	*arg;
 
 	if (!cmd || !cmd->arg_list || !cmd->arg_list->value)
 		return (1);
-	if (cmd->arg_list->next && ft_is_option(cmd->arg_list->next->value))
+	arg = cmd->arg_list;
+	if (arg->next && ft_is_option(arg->next->value))
 		return (ft_putstr_fd("minishell: pwd: options are not allowed\n", 2),
 			2);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (ft_putstr_fd("minishell: ", 2), perror(cmd->arg_list->value),
-			1);
+		return (ft_putstr_fd("minishell: ", 2), perror(arg->value), 1);
 	ft_putstr_fd(cwd, 1);
 	ft_putstr_fd("\n", 1);
 	free(cwd);
@@ -117,7 +91,7 @@ int	ft_exec_builtin(t_data *data, t_cmd *cmd)
 	if (ft_strcmp(cmd->arg_list->value, "pwd") == 0)
 		return (ft_pwd(cmd));
 	if (ft_strcmp(cmd->arg_list->value, "env") == 0)
-		return (ft_print_env(data, cmd));
+		return (ft_print_env(data));
 	if (ft_strcmp(cmd->arg_list->value, "cd") == 0)
 		return (ft_cd(data->env_list, cmd));
 	if (ft_strcmp(cmd->arg_list->value, "echo") == 0)

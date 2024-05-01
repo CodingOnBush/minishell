@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 19:38:23 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 20:41:16 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static int	ft_key_exist(t_env *env_list, char *key)
+{
+	t_env	*tmp;
+
+	tmp = env_list;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, key) == 0)
+			return (YES);
+		tmp = tmp->next;
+	}
+	return (NO);
+}
 
 static char	*ft_get_path(t_arg *lst, t_env *env_list)
 {
