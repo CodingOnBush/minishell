@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:49:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/04/30 21:31:29 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 12:25:00 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*ft_new_env(char *str, char *key, char *value)
 {
 	t_env	*new;
 
-	if (!key || !value)
+	if (!key)
 		return (NULL);
 	new = malloc(sizeof(t_env));
 	if (!new)
@@ -34,19 +34,23 @@ t_env	*ft_str_to_env(char *line)
 	char	*value;
 	char	*equal;
 	char	*key;
+	char	*base;
 
 	equal = ft_strchr(line, '=');
 	if (!equal)
-		return (free(line), NULL);
+		return (NULL);
 	key = ft_substr(line, 0, equal - line);
 	if (!key)
-		return (free(line), NULL);
+		return (NULL);
 	value = ft_strdup(equal + 1);
 	if (!value)
-		return (free(line), free(key), NULL);
-	new_env = ft_new_env(line, key, value);
+		return (free(key), NULL);
+	base = ft_strdup(line);
+	if (!base)
+		return (free(key), free(value), NULL);
+	new_env = ft_new_env(base, key, value);
 	if (!new_env)
-		return (free(line), free(key), free(value), NULL);
+		return (free(key), free(value), free(base), NULL);
 	return (new_env);
 }
 
@@ -65,21 +69,43 @@ static void	ft_add_new_env(t_env **env_list, t_env *new)
 	cur->next = new;
 }
 
-static t_env	*ft_create_default_env(void)
+t_env	*ft_create_new_env(char *base, char *key, char *value)
+{
+	t_env	*new;
+	char	*newkey;
+	char	*newvalue;
+	char	*newbase;
+
+	newkey = ft_strdup(key);
+	if (!newkey)
+		return (NULL);
+	newvalue = ft_strdup(value);
+	if (!newvalue)
+		return (free(newkey), NULL);
+	newbase = ft_strdup(base);
+	if (!newbase)
+		return (free(newkey), free(newvalue), NULL);
+	new = ft_new_env(newbase, newkey, newvalue);
+	if (!new)
+		return (free(newkey), free(newvalue), free(newbase), NULL);
+	return (new);
+}
+
+t_env	*ft_create_default_env(void)
 {
 	t_env	*new;
 	t_env	*res;
 
 	res = NULL;
-	new = ft_new_env(NULL, ft_strdup("PWD"), getcwd(NULL, 0));
+	new = ft_create_new_env(NULL, "PWD", getcwd(NULL, 0));
 	if (!new)
-		return (NULL);
-	ft_add_new_env(&res, new);
-	new = ft_new_env(NULL, ft_strdup("SHLVL"), ft_strdup("1"));
+		return (ft_free_env_list(&res), NULL);
+	ft_add_new_env(&res, new);	
+	new = ft_create_new_env(NULL, "SHLVL", "1");
 	if (!new)
 		return (ft_free_env_list(&res), NULL);
 	ft_add_new_env(&res, new);
-	new = ft_new_env(NULL, ft_strdup("_"), ft_strdup("/usr/bin/env"));
+	new = ft_create_new_env(NULL, "_", "/usr/bin/env");
 	if (!new)
 		return (ft_free_env_list(&res), NULL);
 	ft_add_new_env(&res, new);
@@ -120,6 +146,8 @@ void	ft_free_env_list(t_env **env_list)
 			free(cur->key);
 		if (cur->value)
 			free(cur->value);
+		if (cur->base)
+			free(cur->base);
 		free(cur);
 		cur = next;
 	}

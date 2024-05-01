@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:01:55 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 21:36:32 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 12:25:14 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,47 @@ void	ft_add_new_exp(t_env **exp_list, t_env *new)
 	}
 }
 
+t_env	*ft_create_default_exp(void)
+{
+	t_env	*new;
+	t_env	*res;
+
+	res = NULL;
+	new = ft_create_new_env("PWD=", "PWD", getcwd(NULL, 0));
+	if (!new)
+		return (ft_free_env_list(&res), NULL);
+	ft_add_new_exp(&res, new);	
+	new = ft_create_new_env("SHLVL=", "SHLVL", "1");
+	if (!new)
+		return (ft_free_env_list(&res), NULL);
+	ft_add_new_exp(&res, new);
+	new = ft_create_new_env(NULL, "OLDPWD", NULL);
+	if (!new)
+		return (ft_free_env_list(&res), NULL);
+	ft_add_new_exp(&res, new);
+	return (res);
+}
+
 t_env	*ft_create_explist(char **env)
 {
-	t_env	*exp_list;
+	t_env	*res;
 	t_env	*new;
 	int		i;
 
-	exp_list = NULL;
+	res = NULL;
 	i = 0;
 	while (env[i])
 	{
 		new = ft_str_to_env(env[i]);
-		if (new)
-			ft_add_new_exp(&exp_list, new);
+		if (!new)
+			return (ft_free_env_list(&res), NULL);
+		ft_add_new_exp(&res, new);
+		// printf("new key added: %s\n", new->key);
 		i++;
 	}
-	return (exp_list);
+	if (res == NULL)
+		res = ft_create_default_exp();
+	return (res);
 }
 
 void	ft_print_exports_var(t_data *data)
@@ -69,20 +94,25 @@ void	ft_print_exports_var(t_data *data)
 	while (cur)
 	{
 		ft_putstr_fd("export ", 1);
-		ft_putstr_fd(cur->key, 1);
-		// if (ft_strchr(cur->base, '='))
-		// {
-		// 	ft_putstr_fd("=\"", 1);
-		// 	if (cur->value)
-		// 		ft_putstr_fd(cur->value, 1);
-		// 	ft_putstr_fd("\"\n", 1);
-		// }
-		// else
-		// 	ft_putstr_fd("\n", 1);
-		ft_putstr_fd("=\"", 1);
-		if (cur->value)
-			ft_putstr_fd(cur->value, 1);
-		ft_putstr_fd("\"\n", 1);
+		if (cur->key)
+			ft_putstr_fd(cur->key, 1);
+
+		if (ft_strchr(cur->base, '='))
+		{
+			ft_putstr_fd("=\"", 1);
+			if (cur->value)
+				ft_putstr_fd(cur->value, 1);
+			ft_putstr_fd("\"\n", 1);
+		}
+		else
+			ft_putstr_fd("\n", 1);
+
+		// printf("BASE: %s\n", cur->base);
+		// ft_putstr_fd("=\"", 1);
+		// if (cur->value)
+		// 	ft_putstr_fd(cur->value, 1);
+		// ft_putstr_fd("\"\n", 1);
+
 		cur = cur->next;
 	}
 }

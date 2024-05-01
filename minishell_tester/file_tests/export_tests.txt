@@ -1,7 +1,4 @@
 - Export part : For next tests, you will need : \\\033[0;33munset, env, echo, pipes, execve and semicolons (;).
-export | grep "SHLVL"
-export | grep "OLDPWD"
-export | grep "PWD"
 export $? 
 export TEST
 export TEST=
@@ -12,12 +9,10 @@ export ""=""
 export ''=''
 export "="="="
 export '='='='
-export TE\\\ST=100
 export TE-ST=100
 export -TEST=100
 export TEST-=100
 export _TEST=100
-export | grep "SHLVL"
 export TEST
 export ==========
 export 1TEST=

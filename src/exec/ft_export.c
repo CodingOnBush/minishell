@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/04/30 21:20:32 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 11:59:36 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static int	ft_isvalid_varname(char *varname)
 
 	i = 0;
 	if (!varname || !varname[0] || ft_isdigit(varname[0]))
-		return (printf("invalid varname [%s]\n", varname), NO);
+		return (NO);
 	while (varname[i])
 	{
 		if (!ft_isalnum(varname[i]) && varname[i] != '_')
-			return (printf("invalid varname [%s]\n", varname), NO);
+			return (NO);
 		i++;
 	}
 	return (YES);
@@ -102,23 +102,35 @@ static void	ft_add_env(t_env **env_list, char *key, char *value)
 	t_env	*cur;
 	t_env	*prev;
 	t_env	*new;
+	char	*newkey;
+	char	*newvalue;
 
-	new = ft_new_env(NULL, key, value);
+	newkey = ft_strdup(key);
+	if (!newkey)
+		return ;
+	
+	newvalue = ft_strdup(value);
+	if (!newvalue)
+		return (free(newkey));
+	
+	new = ft_new_env(NULL, newkey, newvalue);
 	if (!new)
-		return(free(key), free(value));
+		return (free(newkey), free(newvalue));
+	
 	if (!*env_list)
 	{
 		*env_list = new;
 		return ;
 	}
+	
 	cur = *env_list;
 	while (cur)
 	{
 		if (ft_strcmp(cur->key, new->key) == 0)
 		{
 			free(cur->value);
-			cur->value = new->value;
-			free(new->key);
+			cur->value = newvalue;
+			free(newkey);
 			free(new);
 			return ;
 		}
@@ -128,28 +140,96 @@ static void	ft_add_env(t_env **env_list, char *key, char *value)
 	prev->next = new;
 }
 
+static t_env	*ft_get_right_exp(t_env *exp_list, char *key)
+{
+	t_env	*cur;
+	t_env	*prev;
+
+	prev = NULL;
+	cur = exp_list;
+	while (cur && ft_strcmp(cur->key, key) < 0)
+	{
+		prev = cur;
+		cur = cur->next;
+	}
+	return (prev);
+}
+
 static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
 {
 	t_env	*cur;
 	t_env	*prev;
 	t_env	*new;
+	char	*newkey;
+	char	*newvalue;
+	char	*line;
 
-	new = ft_new_env(base, key, value);
+	newkey = ft_strdup(key);
+	if (!newkey)
+		return ;
+	newvalue = ft_strdup(value);
+	if (!newvalue)
+		return (free(newkey));
+
+	line = ft_strdup(base);
+	if (!line)
+		return (free(newkey), free(newvalue));
+		
+	new = ft_new_env(line, newkey, newvalue);
 	if (!new)
-		return(free(key), free(value));
-	if (!*exp_list)
+		return (free(newkey), free(newvalue), free(line));
+	
+
+	cur = *exp_list;
+	if (!cur)
 	{
-		*exp_list = new;
+		cur = new;
 		return ;
 	}
-	cur = *exp_list;
-	prev = NULL;
-	while (cur && ft_strcmp(cur->key, new->key) < 0)
+	
+	prev = ft_get_right_exp(*exp_list, newkey);
+	// if (!prev)
+	// 	printf("prev: [NULL]\n");
+	// else
+	// {
+	// 	printf("KEY: [%s]\n", prev->key);
+	// 	printf("VALUE: [%s]\n", prev->value);
+	// }
+
+	// if (prev->next)
+	// {
+	// 	printf("prev->next->key: [%s]\n", prev->next->key);
+	// 	printf("prev->next->value: [%s]\n", prev->next->value);
+	// }
+	if (prev && prev->next && ft_strcmp(prev->next->key, newkey) == 0)
 	{
-		prev = cur;
-		cur = cur->next;
+		if (ft_strchr(line, '=') == NULL)
+		{
+			// printf("do not update !!!\n");
+			free(newkey);
+			free(newvalue);
+			free(line);
+			free(new);
+			return ;
+		}
+		
+		// printf("TO UPDATE\n");
+		if (prev->next->value)
+		{
+			free(prev->next->value);
+			prev->next->value = newvalue;
+		}
+		if (prev->next->base)
+		{
+			free(prev->next->base);
+			prev->next->base = line;
+		}
+		free(newkey);
+		free(new);
+		return ;
 	}
-	if (!prev)
+
+	if (prev == NULL)
 	{
 		new->next = *exp_list;
 		*exp_list = new;
@@ -157,32 +237,85 @@ static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
 	else
 	{
 		prev->next = new;
-		new->next = cur;
+		new->next = NULL;
 	}
+	
+	// if (cur)
+	// 	printf("cur->key: [%s]\n", cur->key);
+	// else
+	// 	printf("cur->key: [NULL]\n");
+	// printf("newkey: [%s]\n", newkey);
+	
+	// if (cur && ft_strcmp(cur->key, newkey) == 0)
+	// {
+	// 	printf("cur->key: [%s]\n", cur->key);
+	// 	printf("newkey: [%s]\n", newkey);
+	// 	return ;
+	// }
+	
+	// if (prev == NULL)
+	// {
+	// 	new->next = *exp_list;
+	// 	*exp_list = new;
+	// }
+	// else
+	// {
+	// 	prev->next = new;
+	// 	new->next = cur;
+	// }
+	
+}
+
+void	ft_remove_exp(t_env **exp_list, char *key)
+{
+	t_env	*cur;
+	t_env	*prev;
+
+	if (!*exp_list)
+		return ;
+	cur = *exp_list;
+	prev = NULL;
+	while (cur && ft_strcmp(cur->key, key) != 0)
+	{
+		prev = cur;
+		cur = cur->next;
+	}
+	if (!cur)
+		return ;
+	if (prev == NULL)
+		*exp_list = cur->next;
+	else
+		prev->next = cur->next;
+	free(cur->key);
+	free(cur->value);
+	free(cur->base);
+	free(cur);
 }
 
 static int	ft_handle_line(t_data *data, char *line)
 {
 	char	*key;
 	char	*value;
-	// t_env	*new;
 
-	printf("line: [%s]\n", line);
+	// printf("line: [%s]\n", line);
 	key = ft_substr(line, 0, ft_strchr(line, '=') - line);
-	printf("key: [%s]\n", key);
-
+	// printf("key: [%s]\n", key);
 	if (ft_isvalid_varname(key) == NO)
-		return (free(key), ft_not_a_valid_identifier(line), 1);
-
+		return (free(key), ft_not_a_valid_identifier(line), FAIL);
 	value = ft_substr(line, ft_strchr(line, '=') - line + 1, ft_strlen(line));
-	printf("value: [%s]\n", value);
+	// printf("value: [%s]\n", value);
+
 
 	if (ft_strchr(line, '=') != NULL)
 		ft_add_env(&data->env_list, key, value);
 	
+	if (key && key[0] == '_' && key[1] == '\0')
+		return (free(key), free(value), SUCCESS);
+	
 	ft_add_exp(&data->exp_list, line, key, value);
 	
-	
+	free(key);
+	free(value);
 	return (SUCCESS);
 }
 
