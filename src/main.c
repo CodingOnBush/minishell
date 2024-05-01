@@ -6,7 +6,7 @@
 /*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/05/01 17:49:23 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/01 19:01:10 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,11 @@ static void	ft_wait_for_children(t_data *data)
 		{
 			if (WIFEXITED(status))
 				data->exit_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status) != 0)
-				data->exit_status = g_signum + 128;
 			else
 				data->exit_status = 0;
 		}
-		i++;
-	}
-	if (g_signum != 0)
-	{
-		data->exit_status = g_signum + 128;
 		g_signum = 0;
+		i++;
 	}
 }
 
@@ -80,6 +74,7 @@ int	main(int ac, char **av, char **env)
 			break ;
 		if (g_signum != 0)
 		{
+			ft_putstr_fd("stop\n", 2);
 			data->exit_status = g_signum + 128;
 			g_signum = 0;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 14:50:19 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 19:38:23 by vvaudain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*ft_get_path(t_arg *lst, t_env *env_list)
 	{
 		if (ft_key_exist(env_list, "HOME") == NO)
 			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), NULL);
-		path = getenv("HOME");
+		path = ft_getenv(env_list, "HOME");
 		if (!path)
 			return (NULL);
 		return (ft_strdup(path));
@@ -78,7 +78,7 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 	if (!path)
 		return (1);
 	wd = getcwd(NULL, 0);
-	if (!wd)
+	if (!wd && path && path[0] != '/')
 		return (ft_putstr_fd("minishell: cd: ", 2), perror(wd), free(path), 1);
 	if (chdir(path) == -1)
 		return (ft_putstr_fd("minishell: cd:", 2), perror(path), free(path),
