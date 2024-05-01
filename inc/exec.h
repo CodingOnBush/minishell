@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 01:28:47 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 14:20:45 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:00:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ char		*ft_get_cmd_path(t_data *data, char *cmd_name);
 char		**ft_create_env(t_data *data);
 
 /*		EXEC		*/
-int	ft_isdirectory(char *path);
-int		ft_execve(t_data *data, t_cmd *cmd);
-void	ft_launch_exec(t_data *data);
+int			ft_isdirectory(char *path);
+int			ft_execve(t_data *data, t_cmd *cmd);
+void		ft_launch_exec(t_data *data);
 
 /*			FT_CD			*/
 int			ft_cd(t_env *env_list, t_cmd *cmd);
@@ -39,16 +39,16 @@ int			ft_cd(t_env *env_list, t_cmd *cmd);
 int			ft_echo(t_data *data, t_cmd *cmd);
 
 /*		FT_EXIT			*/
-int		ft_exit(t_data *data, t_arg *arg_list);
+int			ft_exit(t_data *data, t_arg *arg_list);
 
 /*		FT_EXPORT_UTILS	*/
-void	ft_add_new_exp(t_env **exp_list, t_env *new);
-t_env	*ft_create_explist(char **env);
-void	ft_print_exports_var(t_data *data);
+void		ft_add_new_exp(t_env **exp_list, t_env *new);
+t_env		*ft_create_explist(char **env);
+void		ft_print_exports_var(t_data *data);
 
 /*		FT_EXPORT		*/
-void	ft_remove_exp(t_env **exp_list, char *key);
-int		ft_export(t_data *data, t_cmd *cmd);
+void		ft_remove_exp(t_env **exp_list, char *key);
+int			ft_export(t_data *data, t_cmd *cmd);
 
 /*			GET_REDIRS		*/
 t_redir		*ft_get_redirs(t_data *data, t_cmd *cmd);

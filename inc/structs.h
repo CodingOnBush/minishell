@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:34:23 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 16:38:44 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/01 20:00:48 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 typedef struct s_infile
 {
 	char				*filename;
-	char 				*delimiter;
+	char				*delimiter;
 	int					hd_num;
 	bool				to_expand;
 	struct s_infile		*next;
