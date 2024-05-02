@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:48:28 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 21:13:03 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/02 09:39:53 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static void	ft_not_a_valid_identifier(char *str)
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
-static int	ft_add_it(t_env **env_list, t_env *new, char *newkey, char *newvalue)
+static int	ft_add_it(t_env **env_list, t_env *new, char *newkey,
+		char *newvalue)
 {
 	t_env	*cur;
 	t_env	*prev;
@@ -111,18 +112,32 @@ static int	ft_update_exp(t_env *prev, char *line, char *newvalue)
 	return (SUCCESS);
 }
 
-static int	ft_add_this_exp(t_env **exp_list, t_env *new, char *line, char *newkey, char *newvalue)
+static void	ft_exp_link(t_env *prev, t_env *new, t_env **exp_list)
 {
-	t_env	*cur;
-	t_env	*prev;
-
-	cur = *exp_list;
-	if (!cur)
+	if (prev != NULL)
 	{
-		cur = new;
-		return (SUCCESS);
+		if (new)
+			new->next = prev->next;
+		prev->next = new;
 	}
-	prev = ft_get_right_exp(*exp_list, newkey);
+	else
+	{
+		if (new)
+			new->next = *exp_list;
+		*exp_list = new;
+	}
+}
+
+static int	ft_add_this_exp(t_env *prev, char *line, char *newkey,
+		char *newvalue)
+{
+	// t_env	*cur;
+
+	// t_env	*prev;
+	// cur = *exp_list;
+	// if (!cur)
+	// 	return (*exp_list = new, SUCCESS);
+	// prev = ft_get_right_exp(*exp_list, newkey);
 	if (prev && prev->next && ft_strcmp(prev->next->key, newkey) == 0)
 	{
 		if (ft_strchr(line, '=') == NULL)
@@ -130,51 +145,18 @@ static int	ft_add_this_exp(t_env **exp_list, t_env *new, char *line, char *newke
 			free(newkey);
 			free(newvalue);
 			free(line);
-			free(new);
-			return (SUCCESS);
+			return (FAIL);
 		}
 		ft_update_exp(prev, line, newvalue);
 		free(newkey);
-		free(new);
-		// if (ft_strchr(line, '=') == NULL)
-		// {
-		// 	free(newkey);
-		// 	free(newvalue);
-		// 	free(line);
-		// 	free(new);
-		// 	return ;
-		// }
-		// if (prev->next->value)
-		// {
-		// 	free(prev->next->value);
-		// 	prev->next->value = newvalue;
-		// }
-		// if (prev->next->base)
-		// {
-		// 	free(prev->next->base);
-		// 	prev->next->base = line;
-		// }
-		// free(newkey);
-		// free(new);
-		return (SUCCESS);
+		return (FAIL);
 	}
-	if (prev != NULL)
-	{
-		new->next = prev->next;
-		prev->next = new;
-	}
-	else
-	{
-		new->next = *exp_list;
-		*exp_list = new;
-	}
+	//
 	return (SUCCESS);
 }
 
 static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
 {
-	// t_env	*cur;
-	// t_env	*prev;
 	t_env	*new;
 	char	*newkey;
 	char	*newvalue;
@@ -192,48 +174,15 @@ static void	ft_add_exp(t_env **exp_list, char *base, char *key, char *value)
 	new = ft_new_env(line, newkey, newvalue);
 	if (!new)
 		return (free(newkey), free(newvalue), free(line));
-	ft_add_this_exp(exp_list, new, line, newkey, newvalue);
-	// cur = *exp_list;
-	// if (!cur)
-	// {
-	// 	cur = new;
-	// 	return ;
-	// }
+	if (!*exp_list)
+	{
+		*exp_list = new;
+		return ;
+	}
 	// prev = ft_get_right_exp(*exp_list, newkey);
-	// if (prev && prev->next && ft_strcmp(prev->next->key, newkey) == 0)
-	// {
-	// 	if (ft_strchr(line, '=') == NULL)
-	// 	{
-	// 		free(newkey);
-	// 		free(newvalue);
-	// 		free(line);
-	// 		free(new);
-	// 		return ;
-	// 	}
-	// 	if (prev->next->value)
-	// 	{
-	// 		free(prev->next->value);
-	// 		prev->next->value = newvalue;
-	// 	}
-	// 	if (prev->next->base)
-	// 	{
-	// 		free(prev->next->base);
-	// 		prev->next->base = line;
-	// 	}
-	// 	free(newkey);
-	// 	free(new);
-	// 	return ;
-	// }
-	// if (prev != NULL)
-	// {
-	// 	new->next = prev->next;
-	// 	prev->next = new;
-	// }
-	// else
-	// {
-	// 	new->next = *exp_list;
-	// 	*exp_list = new;
-	// }
+	if (ft_add_this_exp(ft_get_right_exp(*exp_list, newkey), line, newkey, newvalue) == FAIL)
+		free(new);
+	ft_exp_link(ft_get_right_exp(*exp_list, newkey), new, exp_list);
 }
 
 void	ft_remove_exp(t_env **exp_list, char *key)

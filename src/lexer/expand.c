@@ -6,40 +6,11 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 01:13:46 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 20:16:27 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/02 09:27:18 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static char	*ft_get_next_str_in_double_quotes(t_data *data, char *str)
-{
-	char	*var_name;
-	char	*new_str;
-	char	*toadd;
-	char	*tmp;
-
-	new_str = NULL;
-	toadd = NULL;
-	while (str != NULL && *str != '\0')
-	{
-		if (str && *str == '$')
-		{
-			var_name = ft_grab_var_name(str);
-			toadd = ft_get_expand(data, var_name, str);
-			str += ft_strlen(var_name) + 1;
-			free(var_name);
-		}
-		else
-		{
-			toadd = ft_grab_str(str, "$\"");
-			str += ft_strlen(toadd);
-		}
-		tmp = ft_super_strjoin(new_str, toadd);
-		new_str = tmp;
-	}
-	return (new_str);
-}
 
 static int	ft_get_next_step(char *str, char *new_str)
 {
@@ -67,22 +38,18 @@ static char	*ft_grab_next_str(t_data *data, char *str)
 
 	grab = NULL;
 	res = NULL;
-	if (str && *str == SINGLE_QUOTE && (str + 1))
+	if (str && ft_isquote(*str) && (str + 1))
 	{
-		res = ft_grab_str(str + 1, "\'");
-		if (!res)
-			return (ft_strdup("\0"));
-	}
-	else if (str && *str == DOUBLE_QUOTES && (str + 1))
-	{
-		grab = ft_grab_str(str + 1, "\"");
-		res = ft_get_next_str_in_double_quotes(data, grab);
-		free(grab);
+		res = ft_grab_next_quotes(data, str);
 		if (!res)
 			return (ft_strdup("\0"));
 	}
 	else if (str && *str == '$' && (str + 1))
-		res = ft_get_expand(data, ft_grab_var_name(str), str);
+	{
+		grab = ft_grab_var_name(str);
+		res = ft_get_expand(data, grab, str);
+		free(grab);
+	}
 	else
 		res = ft_grab_str(str, " \t\n\r\v\f$\'\"");
 	return (res);

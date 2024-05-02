@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:32:05 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/05/01 19:01:10 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/02 09:34:13 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,45 @@
 
 int	g_signum;
 
+static void	ft_exitstatus_signal(t_data *data)
+{
+	if (g_signum != 0)
+	{
+		data->exit_status = g_signum + 128;
+		g_signum = 0;
+	}
+}
+
 static void	ft_wait_for_children(t_data *data)
 {
 	int	status;
 	int	i;
 	int	pid;
 
-	status = 0;
 	if (!data->ids)
+		ft_exitstatus_signal(data);
+	else
 	{
-		if (g_signum != 0)
+		status = 0;
+		i = 0;
+		while (i < data->cmd_nb)
 		{
-			data->exit_status = g_signum + 128;
-			g_signum = 0;
-		}
-		return ;
-	}
-	i = 0;
-	while (i < data->cmd_nb)
-	{
-		pid = wait(&status);
-		if (pid == data->ids[data->cmd_nb - 1])
-		{
-			if (WIFEXITED(status))
-				data->exit_status = WEXITSTATUS(status);
-			else
+			pid = wait(&status);
+			if (pid == data->ids[data->cmd_nb - 1])
+			{
 				data->exit_status = 0;
-		}
-		g_signum = 0;
-		i++;
+				if (WIFEXITED(status))
+					data->exit_status = WEXITSTATUS(status);
+				if (WIFSIGNALED(status))
+					data->exit_status = WTERMSIG(status) + 128;
+			}
+			g_signum = 0;
+			i++;
+		}		
 	}
 }
 
-static void	ft_handler(int signum)
+static void	ft_standard_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -67,17 +73,12 @@ int	main(int ac, char **av, char **env)
 		return (-1);
 	while (1)
 	{
-		signal(SIGINT, &ft_handler);
+		signal(SIGINT, &ft_standard_handler);
 		signal(SIGQUIT, SIG_IGN);
 		data->line = readline(MINISPELL);
 		if (!data->line)
 			break ;
-		if (g_signum != 0)
-		{
-			ft_putstr_fd("stop\n", 2);
-			data->exit_status = g_signum + 128;
-			g_signum = 0;
-		}
+		ft_exitstatus_signal(data);
 		if (data->line[0] != '\0')
 			add_history(data->line);
 		if (ft_lexer(data) == SUCCESS && ft_parser(data) == SUCCESS)

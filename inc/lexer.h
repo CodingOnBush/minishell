@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 14:36:46 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 20:20:12 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/02 09:25:42 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ char	*ft_remove_quotes(char *str);
 char	*ft_grab_str(char *str, char *limset);
 char	*ft_grab_var_name(char *str);
 char	*ft_get_expand(t_data *data, char *var_name, char *str);
+
+/*	EXPAND_UTILS2	*/
+char	*ft_grab_next_quotes(t_data *data, char *str);
 
 /*		EXPAND		*/
 char	*ft_get_expanded_str(t_data *data, char *str);

@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/05/01 20:11:13 by momrane          ###   ########.fr        #
+#    Updated: 2024/05/02 09:26:39 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ INITS		:=	$(INIT_DIR)/init.c \
 				$(INIT_DIR)/env.c
 
 LEXERS		:=	$(LEXER_DIR)/errors.c \
+				$(LEXER_DIR)/expand_utils2.c \
 				$(LEXER_DIR)/expand_utils.c \
 				$(LEXER_DIR)/expand.c \
 				$(LEXER_DIR)/lexer.c \
