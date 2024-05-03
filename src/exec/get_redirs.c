@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:57:23 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/05/01 17:16:10 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/02 09:53:58 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ static int	ft_open_files(t_data *data, t_redir *redir, int is_append)
 			redir->fd_out = open(redir->outfile, O_CREAT | O_WRONLY | O_TRUNC,
 					0644);
 		if (redir->fd_out == -1 || redir->fd_out > FDMAX)
-		{
-			data->exit_status = 1;
-			return (close(redir->fd_in), perror(redir->outfile), free(redir), FAIL);
-		}
+			return (data->exit_status = 1, close(redir->fd_in),
+				perror(redir->outfile), free(redir), FAIL);
 	}
 	return (SUCCESS);
 }
@@ -87,7 +85,8 @@ static int	ft_handle_token(t_data *data, t_token *cur, t_redir *redir,
 		if (access(redir->infile, F_OK | R_OK) == -1)
 		{
 			data->exit_status = 1;
-			return (ft_putstr_fd("minishell : ", 2), perror(redir->infile), FAIL);
+			return (ft_putstr_fd("minishell : ", 2), perror(redir->infile),
+				FAIL);
 		}
 	}
 	if (cur->is_outf == YES)
@@ -97,8 +96,7 @@ static int	ft_handle_token(t_data *data, t_token *cur, t_redir *redir,
 			return (FAIL);
 		if (ft_handle_outfiles(data, redir, cur, is_append) == FAIL)
 			return (FAIL);
-		else
-			return (is_append);
+		return (is_append);
 	}
 	return (NO);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvaudain <vvaudain@student.42.fr>          +#+  +:+       +#+        */
+/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 13:57:26 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/04/30 16:35:25 by vvaudain         ###   ########.fr       */
+/*   Updated: 2024/05/02 11:18:16 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static void	ft_last_cmd(t_data *data, t_cmd *cmd_to_exec, int process)
 	}
 	free(redir);
 	ft_execve(data, cmd_to_exec);
+	printf("COUCOU\n");
 }
 
 void	ft_child_process(t_data *data, int process)

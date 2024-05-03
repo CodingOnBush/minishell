@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:19:03 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 20:29:23 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/02 12:43:36 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,27 @@
 static t_infile	*ft_new_infile(char *str, int type, t_data *data)
 {
 	t_infile	*new_infile;
-	char		*new;
 
 	new_infile = malloc(sizeof(t_infile));
 	if (!new_infile)
 		return (NULL);
-	new = ft_strdup(str);
-	if (!new)
-		return (free(new_infile), NULL);
 	new_infile->to_expand = true;
-	new_infile->filename = NULL;
+	new_infile->hd_num = 0;
 	if (type == LT)
 	{
-		new_infile->filename = new;
+		new_infile->filename = ft_strdup(str);
+		if (!new_infile->filename)
+			new_infile->filename = NULL;
 		new_infile->delimiter = NULL;
 	}
 	else if (type == HD)
 	{
+		new_infile->filename = NULL;
 		new_infile->hd_num = data->hd_pos;
 		data->hd_pos++;
-		new_infile->delimiter = new;
+		new_infile->delimiter = ft_strdup(str);
+		if (!new_infile->delimiter)
+			new_infile->delimiter = NULL;
 	}
 	new_infile->next = NULL;
 	return (new_infile);
@@ -109,10 +110,10 @@ void	ft_free_infiles(t_infile **infile_list)
 	while (cur != NULL)
 	{
 		next = cur->next;
-		if (cur->filename && cur->delimiter)
-			free(cur->delimiter);
-		if (cur->delimiter == NULL && cur->filename)
+		if (cur->filename)
 			free(cur->filename);
+		if (cur->delimiter)
+			free(cur->delimiter);
 		free(cur);
 		cur = next;
 	}

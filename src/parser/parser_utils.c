@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/07 00:39:05 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 20:29:41 by momrane          ###   ########.fr       */
+/*   Created: 2024/05/02 12:32:29 by momrane           #+#    #+#             */
+/*   Updated: 2024/05/02 12:32:30 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_token	*ft_extract_token(t_token *cur)
 		if (!new)
 			return (ft_free_tokens_and_str(res, str), NULL);
 		new->err_type = cur->err_type;
+		new->error = cur->error;
 		ft_addlast_token(&res, new);
 		cur = cur->next;
 	}

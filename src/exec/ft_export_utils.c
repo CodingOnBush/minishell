@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:01:55 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 17:20:14 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/02 11:00:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,31 @@ void	ft_print_exports_var(t_data *data)
 			ft_putstr_fd("\n", 1);
 		cur = cur->next;
 	}
+}
+
+void	ft_remove_exp(t_env **exp_list, char *key)
+{
+	t_env	*cur;
+	t_env	*prev;
+
+	if (!*exp_list)
+		return ;
+	cur = *exp_list;
+	prev = NULL;
+	while (cur && ft_strcmp(cur->key, key) != 0)
+	{
+		prev = cur;
+		cur = cur->next;
+	}
+	if (!cur)
+		return ;
+	if (prev == NULL)
+		*exp_list = cur->next;
+	else
+		prev->next = cur->next;
+	free(cur->key);
+	free(cur->value);
+	if (cur->base)
+		free(cur->base);
+	free(cur);
 }

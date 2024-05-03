@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:18:48 by vvaudain          #+#    #+#             */
-/*   Updated: 2024/05/01 17:04:29 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/02 12:21:56 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,7 @@ static void	ft_unlink(t_data *data)
 	while (i < data->hdnum && data->hd_files[i] != NULL)
 	{
 		if (data->hd_files[i])
-		{
 			unlink(data->hd_files[i]);
-			free(data->hd_files[i]);
-			data->hd_files[i] = NULL;
-		}
 		i++;
 	}
 }

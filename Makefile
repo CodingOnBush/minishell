@@ -6,7 +6,7 @@
 #    By: momrane <momrane@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/08 14:34:28 by momrane           #+#    #+#              #
-#    Updated: 2024/05/02 09:26:39 by momrane          ###   ########.fr        #
+#    Updated: 2024/05/03 19:04:39 by momrane          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,14 +61,18 @@ PARSERS		:=	$(PARSER_DIR)/args.c \
 EXECS		:=	$(EXEC_DIR)/builtins.c \
 				$(EXEC_DIR)/env_utils.c \
 				$(EXEC_DIR)/exec_utils.c \
+				$(EXEC_DIR)/exec_utils2.c \
 				$(EXEC_DIR)/exec.c \
 				$(EXEC_DIR)/ft_cd.c \
 				$(EXEC_DIR)/ft_echo.c \
 				$(EXEC_DIR)/ft_exit.c \
 				$(EXEC_DIR)/ft_export_utils.c \
+				$(EXEC_DIR)/ft_export_utils2.c \
+				$(EXEC_DIR)/ft_export_utils3.c \
 				$(EXEC_DIR)/ft_export.c \
 				$(EXEC_DIR)/hd_count.c \
 				$(EXEC_DIR)/heredocs_utils.c \
+				$(EXEC_DIR)/heredocs_utils2.c \
 				$(EXEC_DIR)/heredocs.c \
 				$(EXEC_DIR)/multi_cmds.c \
 				$(EXEC_DIR)/multi_cmds_utils.c \
@@ -79,7 +83,6 @@ EXECS		:=	$(EXEC_DIR)/builtins.c \
 
 UTILS		:=	$(UTILS_DIR)/free_utils.c \
 				$(UTILS_DIR)/free.c \
-				$(UTILS_DIR)/remove.c \
 				$(UTILS_DIR)/utils.c \
 				$(UTILS_DIR)/utils2.c \
 				$(UTILS_DIR)/utils3.c

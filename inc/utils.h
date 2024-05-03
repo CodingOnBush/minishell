@@ -6,7 +6,7 @@
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 17:37:36 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/01 20:45:35 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/02 12:42:38 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,6 @@ void	ft_free_env(char **env);
 /*		FREE			*/
 void	ft_reset_data(t_data *data);
 void	ft_free_all(t_data *data);
-
-/*		REMOVE			*/
-void	ft_print_token_list(t_token *list);
-void	ft_print_arg_list(t_arg *list);
-void	ft_print_cmd_list(t_cmd *list);
-void	ft_print_env_list(t_env *env_list);
-void	ft_print_tok(t_token *tok);
 
 /*		UTILS			*/
 int		ft_isop(char *str);

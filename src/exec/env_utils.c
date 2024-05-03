@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 22:46:21 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 20:41:08 by momrane          ###   ########.fr       */
+/*   Created: 2024/05/02 12:31:56 by momrane           #+#    #+#             */
+/*   Updated: 2024/05/02 12:31:57 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	ft_remove_env(t_env **env_list, char *key)
 				free(tmp->key);
 			if (tmp->value)
 				free(tmp->value);
+			if (tmp->base)
+				free(tmp->base);
 			free(tmp);
 			return ;
 		}

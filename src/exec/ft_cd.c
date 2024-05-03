@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 07:10:20 by allblue           #+#    #+#             */
-/*   Updated: 2024/05/01 20:41:16 by momrane          ###   ########.fr       */
+/*   Created: 2024/05/02 12:32:01 by momrane           #+#    #+#             */
+/*   Updated: 2024/05/02 12:32:03 by momrane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	ft_key_exist(t_env *env_list, char *key)
 	return (NO);
 }
 
-static char	*ft_get_path(t_arg *lst, t_env *env_list)
+static char	*ft_give_me_path(t_arg *lst, t_env *env_list)
 {
 	char	*path;
 
@@ -40,6 +40,27 @@ static char	*ft_get_path(t_arg *lst, t_env *env_list)
 			return (NULL);
 		return (ft_strdup(path));
 	}
+	else if (lst && lst->next && ft_strcmp(lst->next->value, "-") == 0)
+	{
+		path = ft_getenv(env_list, "OLDPWD");
+		ft_putstr_fd(path, 1);
+		ft_putstr_fd("\n", 1);
+		return (path);
+	}
+	return (path);
+}
+
+static char	*ft_get_path(t_arg *lst, t_env *env_list)
+{
+	char	*path;
+
+	path = NULL;
+	if (lst && lst->next && (ft_strcmp(lst->next->value, "~") == 0
+			|| ft_strcmp(lst->next->value, "-") == 0))
+	{
+		path = ft_give_me_path(lst, env_list);
+		return (path);
+	}
 	else if (lst && lst->next == NULL)
 	{
 		if (ft_key_exist(env_list, "HOME") == NO)
@@ -47,13 +68,6 @@ static char	*ft_get_path(t_arg *lst, t_env *env_list)
 		path = ft_getenv(env_list, "HOME");
 		if (!path)
 			return (ft_strdup("."));
-	}
-	else if (lst && lst->next && ft_strcmp(lst->next->value, "-") == 0)
-	{
-		path = ft_getenv(env_list, "OLDPWD");
-		ft_putstr_fd(path, 1);
-		ft_putstr_fd("\n", 1);
-		return (path);
 	}
 	else if (lst && lst->next && ft_strcmp(lst->next->value, "--") == 0)
 		path = ft_getenv(env_list, "OLDPWD");
@@ -101,7 +115,5 @@ int	ft_cd(t_env *env_list, t_cmd *cmd)
 	ft_setenv(&env_list, ft_strdup("OLDPWD"), ft_strdup(wd));
 	free(wd);
 	wd = getcwd(NULL, 0);
-	ft_setenv(&env_list, ft_strdup("PWD"), ft_strdup(wd));
-	free(wd);
-	return (0);
+	return (ft_setenv(&env_list, ft_strdup("PWD"), ft_strdup(wd)), free(wd), 0);
 }
