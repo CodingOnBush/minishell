@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   microshell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momrane <momrane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allblue <allblue@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 13:09:30 by momrane           #+#    #+#             */
-/*   Updated: 2024/05/05 14:02:11 by momrane          ###   ########.fr       */
+/*   Updated: 2024/05/05 15:32:25 by allblue          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@
 #define ERR 1
 #define OK 0
 
-#define WD 0
-#define RD 1
-
-#define WRITE_END 0
-#define READ_END 1
+#define READ_END 0
+#define WRITE_END 1
 
 #define STDIN 0
 #define STDOUT 1
@@ -85,9 +82,9 @@ int	ft_exec(char **av, int i, char **env)
 		av[i] = NULL;
 		if (in_pipe == 1)
 		{
-			dup2(fd[READ_END], STDOUT);
-			close(fd[READ_END]);
+			dup2(fd[WRITE_END], STDOUT);
 			close(fd[WRITE_END]);
+			close(fd[READ_END]);
 		}
 		if (strcmp(av[0], "cd") == 0)
 			return (ft_cd(av, i));
@@ -97,9 +94,9 @@ int	ft_exec(char **av, int i, char **env)
 	waitpid(pid, &status, 0);
 	if (in_pipe == 1)
 	{
-		dup2(fd[WRITE_END], STDIN);
-		close(fd[READ_END]);
+		dup2(fd[READ_END], STDIN);
 		close(fd[WRITE_END]);
+		close(fd[READ_END]);
 	}
 	return (WIFEXITED(status) && WEXITSTATUS(status));
 }
